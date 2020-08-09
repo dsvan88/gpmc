@@ -1,0 +1,1 @@
+<div id='MainFooter'><?=$settings['txt']['footer']['value']?></div>

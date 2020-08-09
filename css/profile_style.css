@@ -1,0 +1,152 @@
+body{
+    background-size: 100%;
+	background-color:#F0E68C;
+	font-family: Arial, cursive;
+    font-size: 14px;
+}
+#Profile_MainDiv
+{
+	width:100%;
+	margin: 10px 0px 0px 50px;
+}
+#Profile_CaptionDiv
+{
+	display:block;
+	width:90%;
+	padding:5px 0px 3px 8px;
+}
+#Profile_PlayerData div
+{
+	border: 1px #000 solid;
+}
+#Profile_PlayerData
+{
+	position:relative;
+	width:90%;
+	overflow:hidden;
+}
+#Profile_PhotoDiv
+{
+	display: inline-block;
+	width:158px;
+	height:180px;
+	float:left;
+}
+/* Когда ширина окна до 600 пикселей, размеры Profile_PhotoDiv уменьшаются */
+@media screen and (max-width: 600px){
+	#Profile_PhotoDiv
+	{
+		width:70px;
+		height:80px;
+	}
+}
+#Profile_PhotoDiv div
+{
+	margin: 5px 10px;	
+}
+#Profile_PhotoPlace
+{
+	cursor:pointer;
+	background-color:#87CEFA
+}
+#Profile_PhotoDiv img
+{
+	width: 60%;
+    margin: 25% auto 25% 20%;
+}
+#Profile_PhotoDiv img.my_avatar,#Profile_PhotoDiv img.user_avatar
+{
+	width: 100%;
+	margin:0px 0px -3px 0px;
+}
+#Profile_InfoDiv
+{
+	display: inline-block;
+	top:0px;
+	width:80%;
+	float:left;
+	padding: 10px 5px;
+	margin-left: 5px
+}
+#Profile_PlayerPhrases
+{
+	display: inline-block;
+	border: 1px #000 solid;
+	width: 86.8%;
+	padding: 5px 5px;
+	margin: 5px 0px
+}
+#Profile_OthersPhrases
+{
+	display: inline-block;
+	border: 1px #000 solid;
+	width: 86.8%;
+	padding: 5px 5px;
+	margin: 5px 0px
+}
+a.EditPencil,.EditPencilTA,.ApplyTA,.span_button{cursor:pointer}
+a.EditPencil img, .EditPencilTA img, .ApplyTA img, .span_button img
+{
+	height:15px;
+}
+.ApplyTA{
+	display:none;
+}
+.Profile_tabs {
+	cursor:pointer;
+	font-size: 12px;
+	display: inline-block;
+	border-radius: 5px 5px 0px 0px;
+	padding: 0px 3px 0px 3px;
+	border: 1px #000 solid;
+	margin:0px -2px;
+}
+.Profile_tabs.active {
+	margin:0px -2px 0px 0px;
+	font-size: 16px;
+	background-color:#7FFFD4;
+}
+.Profile_tabs:hover {
+	font-size: 16px;
+	background-color:#FFA07A;
+}
+.InfoRow {
+	font-size: 15px;
+	padding-left: 5px;
+}
+.InfoCaption {
+	display:inline-block;
+	width:35%;
+}
+.InfoValue {
+	display:inline-block;
+	width:60%;
+	text-align:center;
+}
+.span_vote{
+	cursor: pointer;
+	display:inline-block;
+	width:20px;
+	margin:0px 10px;
+	font-size: 16px;
+	font-weight: 900;
+	border-radius: 5px;
+}
+.span_vote.plus{
+	border: 1px #00FA9A solid;
+	color:#00FA9A;
+}
+.span_vote.minus{
+	border: 1px #FF6347 solid;
+	color:#FF6347;
+}
+.span_vote.plus:hover{
+	background-color:#98FB98;
+	border: 1px #228B22 solid;
+	color:#228B22;
+}
+.span_vote.minus:hover{
+	background-color:#FFB6C1;
+	border: 1px #DC143C solid;
+	color:#DC143C;
+}

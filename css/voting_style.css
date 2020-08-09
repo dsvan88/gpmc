@@ -1,0 +1,118 @@
+.VotingHeaderDiv{
+	font-size:20px;
+	font-family: 'Lobster', cursive;
+	padding: 5px 10px 5px 10px;
+	text-align: center;
+	background-color: #ffdbcc;
+	cursor:pointer;
+	border:1px solid #f44e4e;
+	margin-top:3px;
+}
+.VotingHeaderDiv:nth-child(even){
+	background-color: #c6ffc5;
+}
+.VotingInfo{
+	font-family: 'Lobster';
+	font-size:18px;
+}
+.VotingStatus,.VotingMyStatus{
+	float: left;
+}
+.VotingName{
+	color:#2c3864;
+}
+.VotingStart{
+	float: right;
+}
+.VotingInfo .modal_vote_caption
+{
+	width:100%;
+	font-size: 16pt;
+	text-align:center;
+}
+.VotingInfo .modal_vote_txt
+{
+	width:100%;
+	font-size: 14px;
+}
+.VotingInfo .vote_txt_row{
+	width:100%;
+	overflow:hidden;
+	margin: 5px 2px 5px 0px;
+}
+.VotingInfo .vote_button_row{
+	width:100%;
+	padding: 0px 2px 5px 10%;
+	margin-top:5px;
+}
+.VotingInfo .vote_button_row .span_button{
+	display:inline-block;
+	text-align:center;
+	width:30%;
+	margin-right:10%;
+}
+.VotingInfo .modal_vote_txt .left_part{
+	text-align:left;
+	width:40%;
+	float:left;
+}
+.VotingInfo .modal_vote_txt .right_part{
+	text-align:right;
+	width:55%;
+	float:right;
+}
+.VotingInfo .VotingInfoCaption{
+	text-align:center;
+	font-size:18px;
+}
+.VotingInfo img{
+	width:20px;
+	height: 20px;
+}
+.VotingInfo b{
+	color:#4B2AF2;
+}
+.VotingInfo textarea{
+	resize: none;
+	width:100%;
+}
+.VotingInfo #PrevVotes{
+	width:100%;
+	max-height:300px;
+	overflow: auto;
+}
+#PrevVotes .vote_lists{
+	width:49%;
+	overflow: auto; /* Полоса прокрутки при необходимости */ 
+	max-height: 150px; /* Максимальная высота */
+}
+#PrevVotes .positive_list{
+	background-color: #27ff96;
+	float:left;
+ }
+#PrevVotes .negative_list{
+	background-color: #ff4141;
+	float:right;
+}
+.span_tabs{
+	cursor:pointer;
+	display: inline-block;
+	width: 180px;
+	font-size: 20px;
+	background-color: #ffbf9f;
+	color: #4f1b1b;
+	text-align: center;
+	border-radius: 10px 0px;
+	border: 1px solid #5784d5;
+	margin-left:20%;
+}
+.span_tabs:hover{
+	background-color:#9fffd0;
+	color: #db2b00;
+	border-color: #ff4141;
+}
+.span_tabs.active{
+	background-color: #eac1f2;
+	color: #032d3c;
+	border-color: #ff25e7;
+}

@@ -1,0 +1,163 @@
+nav{
+	margin: 3px;
+	border: 1px solid;
+	font-style: italic;
+	padding: 5px 0px 5px 25px;
+}
+#APMainBody{
+	background-color:#daf2ff;
+	position: relative;
+	left: 7%;
+	width: 85%;
+	overflow: hidden;
+	border: 1px solid;
+}
+#APMainBody div{
+	margin: 3px;
+}
+#AP_Caption{
+	border: 1px solid;
+	padding: 5px 0px 5px 25px;
+	font-weight: 600;
+	font-size:18px;
+}
+#AP_Menu{
+	border: 1px solid;
+	width: 240px;
+	float:left;
+	max-height: 500px;
+	overflow-y: auto;
+}
+#AP_Body{
+	width: 76.5%;
+	border: 1px solid;
+	float:right;
+	max-height: 700px;
+	overflow-y: auto
+}
+#AP_Footer
+{
+	border: 1px solid;
+	width:100%;
+	clear:both;
+	margin-left:-1px !important;
+	margin-bottom:-1px !important;
+    text-align: center;
+}
+#AP_Menu ul{
+	cursor:pointer;
+	border:2px groove #a8a8ff;
+	margin:0px 0px 3px 0px;
+	padding:0px;
+	font-size:15px;
+	text-align:center;
+}
+#AP_Menu ul li{
+	border: 1px solid #55f;
+	background-color: #d1def4;
+	font-size:15px;
+	text-align:left;
+	display:none;
+}
+#AP_Menu ul:hover{
+	background-color:#a1c3ff;
+}
+#AP_Menu ul.active{
+	background-color:#9bffb7;
+}
+#AP_Menu ul.active li{
+	display:block;
+}
+#AP_Menu ul li:hover{
+	background-color:#a1c3ff;
+}
+#AP_Menu ul li.active{
+	font-weight:600;
+	background-color:#ebffc3;
+}
+.ImgTableCell{
+	position:relative;
+	width:130px;
+	height:180px;
+	float:left;
+	padding-left:5px;
+	border:1px solid black;
+}
+.ImgTableCell div.ImgPlace{
+	margin-top: 20px;
+	cursor:pointer;
+	width:90%;
+	height:120px;
+}
+.ImgTableCell div.ImgPlace img{
+	width:100%;
+	max-height:120px;
+}
+.ImgTableCell div.ImgPlace:hover img{
+	border:1px solid purple;
+}
+.ImgTableCell span.ImgCellBot{
+	position:absolute;
+	bottom:0px;
+	left:5%;
+}
+.ImgTableCell div.ImgCellTop{
+	text-align:center;
+}
+#EditSettingImg input{
+	font-size:16px;
+	font-weight:600;
+	text-align:center
+}
+#EditSettingImg span{
+	font-size:16px;
+	font-weight:600;
+}
+#EditSettingImg span.info_span{
+	font-size:12px;
+	font-weight:200;
+}
+#EditSettingImg div.ImgPlace{
+	clear:both;
+	cursor:pointer;
+	border:1px solid black;
+	padding:15px;
+	margin-bottom:10px;
+	background-color: #eee;
+	background-size: 60px 60px;
+	background-position: 0 0, 30px 30px;
+	background-image: -webkit-linear-gradient(45deg, grey 25%, transparent 25%, transparent 75%, grey 75%, grey),
+					  -webkit-linear-gradient(45deg, grey 25%, transparent 25%, transparent 75%, grey 75%, grey);
+	background-image: -moz-linear-gradient(45deg, grey 25%, transparent 25%, transparent 75%, grey 75%, grey),
+					  -moz-linear-gradient(45deg, grey 25%, transparent 25%, transparent 75%, grey 75%, grey);
+	background-image: linear-gradient(45deg, grey 25%, transparent 25%, transparent 75%, grey 75%, grey),
+					  linear-gradient(45deg, grey 25%, transparent 25%, transparent 75%, grey 75%, grey);
+}
+.TxtTableCell div.TxtCellTop{
+	font-size:20px;
+}
+.TxtCellContent
+{
+	border: 1px solid grey
+}
+a.EditPencil img, .ApplyTA img{
+	cursor:pointer;
+	width:18px;
+}
+.PntTableCell:hover{
+	background-color:#b7d9fb
+}
+.PntTableCell span input{
+	width: 230px;
+	font-size: 18px;
+	text-align:center;
+}
+.PntTableCell span{
+	display: inline-block;
+    width: 270px;
+    font-size: 18px;
+	border-bottom:1px dashed black
+}
+.PntTableCell span.point_value{
+	text-align:center
+}

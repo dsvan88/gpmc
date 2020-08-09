@@ -1,0 +1,27 @@
+// Если в отдельном модальном окне реализовывать с использованием iframe callBackReady - будем id модального окна
+// '<iframe src="js/kcfinder/browse.php?type=images" style="width:'.str_replace(',','px;height:',$result['size']).'px"><iframe>'
+	callBackReady = 'tmp_big_modal';
+	AdditionalModalEvent(res['html'],res['size'],callBackReady);
+
+//В файл: \kcfinder\js\browser\files.js, примерно в строку 169 добавить строчки:
+	else if ( window.opener !== null && window.opener.callBackReady) {
+        window.opener.callback(fileURL) ;
+        window.close() ;
+
+	} else if ( window.parent.callBackReady !== false) {
+		window.parent.callback(fileURL) ;
+// Где:
+	// callBackReady - булевая перменная, утверждающая, что страница "родитель" - готова принять данные.
+	// window.opener.callback - функция-обработчик полученной ссылки на файл, прописанная в родителе, примерно следующим текстом:
+	// window.parent.callBackReady - если работать через iframe
+	
+window.callback = function(url) {
+	if (callBackReady === false) return false;					// Проверка готовности принять перменную (в рамках безопасности)
+	$('#EditSettingImg .ImgPlace img').attr('src',url);			// Куда отправить url выбранного файла
+	if ($('div').is('#'+callBackReady) && $('#'+callBackReady).css('display') === 'block')	// Проверка наличие модального окна с iframe c kcfinder'om
+		$('div#'+callBackReady).animate({opacity: 0, top: '45%'},200,'swing',function(){	// Красивое удаление модального окна и сброс состояние готовности функции принимать значения
+			$('div#'+callBackReady).remove();
+			callBackReady = false;
+		});
+}
+// Окно файлового менеджера закроется только в случае, если закроют alert родителя!

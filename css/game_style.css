@@ -1,0 +1,99 @@
+td#foul_1.fail{
+	background-color:#32CD32;
+}
+td#foul_2.fail{
+	background-color:#FFD700;
+}
+td#foul_3.fail{
+	background-color:#B22222;
+}
+td#foul_4.fail{
+	background-color:#000;
+}
+tr.active{
+	background-color:#98FB98;
+}
+tr.for_kill{
+	background-color:#FA8072;
+}
+td.for_vote{
+	background-color:#98FB98;
+}
+td.for_bm{
+	background-color:#7FFFD4;
+}
+tr.out{
+	background-color:#FA8072;
+	text-decoration:line-through;
+}
+tr.mafia{
+	background-color:#808080;
+	color:white;
+}
+tr.don{
+	background-color:#2F4F4F;
+	color:white;
+}
+tr.sherif{
+	background-color:#8B0000;
+	color:white;
+}
+div.for_image{
+	display:inline
+}
+div.player_avatar{
+	float:left;
+	display:inline
+}
+div.for_image img, div.player_avatar img{
+	height:30px
+}
+span.points
+{
+	float:right
+}
+span.positive
+{
+	color:#228B22
+}
+span.negative
+{
+	color:#FF0000
+}
+div.hide,span.hide,input.hide,p.hide
+{
+	display:none;
+}
+#timer{
+	width:60%;
+	left:20%;
+	position:relative;
+	text-align: center;
+	font-size:13pt;
+}
+#timer td
+{
+	height:50px;
+	width: 30px;
+	background-color:#E0FFFF;
+	border: 1px solid orange;
+}
+#timer td:hover
+{
+	background-color:#FFE4C4;
+	border: 1px solid blue;
+	cursor: pointer
+}
+#timer img
+{
+	height:32px
+}
+#timer td.disabled
+{
+	background-color:#C0C0C0;
+}
+.stopwatch
+{
+	font-size:24pt;
+	font-weight: bold;
+}
