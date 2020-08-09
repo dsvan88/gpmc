@@ -8,7 +8,9 @@ elseif(isset($_GET['g_id']))
 	include $root_path.'/game/game.php';
 else
 {
-	?><div id='RegisterEvening'><?
+	?>
+	<div id='RegisterEvening'>
+	<?
 	$days = array( 'Воскресенье', 'Понедельник' , 'Вторник' , 'Среда' , 'Четверг' , 'Пятница' , 'Суббота');
 	$plan_tobe = array('','на 1-2 игры', 'на 2-3 игры', 'на 3-4 игры');
 	if ($EveningData['ready'] !== false) 

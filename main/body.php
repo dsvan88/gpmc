@@ -12,7 +12,6 @@ else
 	require $root_path.'/main/body/main_body.php';
 }
 require $root_path.'/main/body/footer.php';
-require $root_path.'/main/body/modals.php';
 ?>
 </body>
 

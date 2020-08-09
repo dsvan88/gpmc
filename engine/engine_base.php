@@ -223,6 +223,8 @@ class SQLBase
 		session_destroy();
 		mysqli_close($this->SQL);
 	}
+
+
 	function GetGameLog($id)
 	{
 		$txt = $this->ReadLogFile($id);
@@ -238,8 +240,7 @@ class SQLBase
 		fwrite($file, $t.PHP_EOL);
 		fclose($file);
 	}
-	function ReadLogFile($fn)
-	{
+	function ReadLogFile($fn){
 		$path = dirname(__FILE__,2).'/Logs';
 		$filename = $path.'/'.LOG_PREFIX.$fn.'.txt';
 		if (!file_exists($path) || !file_exists($filename))
@@ -248,5 +249,48 @@ class SQLBase
 			return false;
 		}
 		return file_get_contents($filename);
+	}
+
+	
+	function imageToWebp($source,$output,$from='png'){
+		$func = 'imagecreatefrom'.$from;
+		$image = $func($source);
+		imagewebp($image,$output);
+		imagedestroy($image);
+	}
+	function getAdditionalImage($source, $format, $type='webp'){
+		$output = '';
+		if ($type === 'webp'){
+			$webp = str_replace(".$format",'.webp', $source);
+			if (!file_exists($webp))
+				$this->imageToWebp($source,$webp,$format);
+			$output .= PHP_EOL.'<source srcset="'.$webp.'" type="image/webp">';
+		}
+		elseif ($type === 'mini'){
+			$mini = substr($source,0,strrpos($source,'.')).'-mini.'.$format;
+			if (!file_exists($mini)) return '';
+			if ($format !== 'webp'){
+				$webp = str_replace(".$format",'.webp', $mini);
+				if (!file_exists($webp))
+					$this->imageToWebp($mini,$webp,$format);
+				$output .= PHP_EOL.'<source srcset="'.$webp.'" media="(max-width: 576px)" type="image/png">';
+			}
+			$output .= PHP_EOL.'<source srcset="'.$mini.'" media="(max-width: 576px)" type="image/webp">';
+		}
+		return PHP_EOL.$output;
+	}
+	function checkAndPutImage($source,$title)
+	{
+		$output = "<picture>";
+		$format = strtolower(substr($source,strrpos($source,'.')+1));
+		$realPathToSource = $_SERVER['DOCUMENT_ROOT'].$source;
+
+		$output .= $this->getAdditionalImage($realPathToSource,$format,'mini');
+		
+		if ($format !== 'webp')
+			$output .= $this->getAdditionalImage($realPathToSource,$format,'webp');
+		
+		return str_ireplace($_SERVER['DOCUMENT_ROOT'],'.', $output.PHP_EOL.'<img src="'.$source.'" title="'.$title.'" alt ="'.$title.'">
+		 </picture>');
 	}
 }
