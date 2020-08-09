@@ -1,4 +1,4 @@
-<div id='MainBody'>
+<div class='content'>
 <?
 if (isset($_GET['profile']))
 	include $root_path.'/profile/Profile.php';
@@ -9,7 +9,7 @@ elseif(isset($_GET['g_id']))
 else
 {
 	?>
-	<div id='RegisterEvening'>
+	<div class='content__register-evening'>
 	<?
 	$days = array( 'Воскресенье', 'Понедельник' , 'Вторник' , 'Среда' , 'Четверг' , 'Пятница' , 'Суббота');
 	$plan_tobe = array('','на 1-2 игры', 'на 2-3 игры', 'на 3-4 игры');
@@ -17,9 +17,12 @@ else
 	{
 		$EveningData['time'] = date('H:i',$EveningData['date']);
 		$EveningData['place'] = $EveningData['place'] === '0' ? array('id'=>'0','name'=>'','info'=>'') : $engine->GetPlaceByID($EveningData['place']);
-		$EveningData['players'] = $EveningData['players'] === '' ? '' : $engine->GetPlayersNames($EveningData['players'],true);
-		$EveningData['times'] = $EveningData['times'] === '' ? '' : explode(',',$EveningData['times']);
-		$EveningData['tobe'] = $EveningData['tobe'] === '' ? '' : explode(',',$EveningData['tobe']);
+		if ($EveningData['players'] !== '')
+			$EveningData['players'] = $engine->GetPlayersNames($EveningData['players'],true);
+		if ($EveningData['times'] !== '')
+			$EveningData['times'] = explode(',',$EveningData['times']);
+		if ($EveningData['tobe'] !== '')
+			$EveningData['tobe'] = explode(',',$EveningData['tobe']);
 	}
 	if ($EveningData['start'] === false)
 	{

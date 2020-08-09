@@ -1,4 +1,4 @@
-<aside id='left-panel'>
+<aside class='left-panel'>
 	<div class='left-panel__button' id='EndedGames'>
 		<a href='/?trg=history'>
 			<?=$engine->checkAndPutImage($settings['img']['history']['value'],$settings['img']['history']['name'])?>

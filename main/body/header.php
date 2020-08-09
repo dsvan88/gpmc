@@ -19,15 +19,17 @@
 				</div>
 			<? else: ?>
 				<div>
-					<a id="Welcome">Войдите</a> или <a id="RegisterNewUser">Зарегистрируйтесь</a>
+					<a id="Welcome">Войдите</a>
+					<br>или<br>
+					<a id="RegisterNewUser">Зарегистрируйтесь</a>
 				</div>
 			<?endif?>
 		</div>
 	</div>
 	<menu>
-		<span>Новости</span>
-		<span>Записаться на игру</span>
-		<span>Правила</span>
-		<span>О нас</span>
+		<li><a href='/?trg=news'><span>Новости</span></a></li>
+		<li>Запись на игру</li>
+		<li><a href='/?trg=rules'><span>Правила</span></a></li>
+		<li><a href='/?trg=about'><span>О нас</span></a></li>
 	</menu>
 </header>

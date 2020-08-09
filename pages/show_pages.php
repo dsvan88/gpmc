@@ -1,18 +1,16 @@
-<div id="Pages_Body">
+<div class="content__page">
 <?
-$defaults = array('history','voting','rating');
+$defaults = array('history','voting','rating','news');
 if (in_array($_GET['trg'],$defaults,true) && (isset($_SESSION['status']) && $_SESSION['status'] > 0)):
 	require 'show_'.$_GET['trg'].'.php';
 else:
-	$page = $engine->GetSettings(array('value'),'pages',array('shname'=>$_GET['trg']))[0];
-	if ($page !== false): ?>
-		<div id="Pages_Body_Text">
+	$page = $engine->GetSettings(array('value'),'pages',array('shname'=>$_GET['trg']))[0];?>
+	<div class="content__page__text">
+		<?  if ($page !== false): ?>
 			<?=str_replace(array('!BR!','«', '»'),array("\r\n",'"','"'),$page['value'])?>
-		</div>
-	<?else:?>
-		<div id="Pages_Body_Text">
-		Соответствующей страницы не найдено!
-		</div>
-	<?endif;
-endif;?>
+		<?else:?>
+			<span>Соответствующей страницы не найдено!</span>
+		<?endif?>
+	</div>
+<?endif?>
 </div>
