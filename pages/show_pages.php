@@ -1,7 +1,7 @@
 <div class="content__page">
 <?
-$defaults = array('history','voting','rating','news');
-if (in_array($_GET['trg'],$defaults,true) && (isset($_SESSION['status']) && $_SESSION['status'] > 0)):
+$defaults = array('history','voting','rating','news','booking');
+if (in_array($_GET['trg'],$defaults,true) ): //&& (isset($_SESSION['status']) && $_SESSION['status'] > 0)
 	require 'show_'.$_GET['trg'].'.php';
 else:
 	$page = $engine->GetSettings(array('value'),'pages',array('shname'=>$_GET['trg']))[0];?>

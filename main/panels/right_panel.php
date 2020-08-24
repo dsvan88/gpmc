@@ -1,2 +1,2 @@
-<div id='RightPanel'>
+<div class='right-panel'>
 </div>

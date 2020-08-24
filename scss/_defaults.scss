@@ -1,0 +1,16 @@
+%buttons {
+	background-color: #bffda2;
+	border-radius: 4px;
+	border: 2px solid #ffc919;
+	padding: 10px 5px;
+	margin: 5px 0px;
+	text-transform: uppercase;
+	cursor: pointer;
+	&:active {
+		background-color: #fffc65;
+		border-color: #41c7fc;
+	}
+	img {
+		width: 16px;
+	}
+}

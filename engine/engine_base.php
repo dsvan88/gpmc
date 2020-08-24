@@ -253,7 +253,7 @@ class SQLBase
 
 	
 	function imageToWebp($source,$output,$from='png'){
-		$func = 'imagecreatefrom'.$from;
+		$func = 'imagecreatefrom'.($from !== 'jpg' ? $from : 'jpeg');
 		$image = $func($source);
 		imagewebp($image,$output);
 		imagedestroy($image);
@@ -264,33 +264,36 @@ class SQLBase
 			$webp = str_replace(".$format",'.webp', $source);
 			if (!file_exists($webp))
 				$this->imageToWebp($source,$webp,$format);
-			$output .= PHP_EOL.'<source srcset="'.$webp.'" type="image/webp">';
+			$output .= PHP_EOL.'<source srcset="'.$webp.'" type="'.mime_content_type($webp).'">';
 		}
 		elseif ($type === 'mini'){
 			$mini = substr($source,0,strrpos($source,'.')).'-mini.'.$format;
+
 			if (!file_exists($mini)) return '';
 			if ($format !== 'webp'){
 				$webp = str_replace(".$format",'.webp', $mini);
 				if (!file_exists($webp))
 					$this->imageToWebp($mini,$webp,$format);
-				$output .= PHP_EOL.'<source srcset="'.$webp.'" media="(max-width: 576px)" type="image/png">';
+				$output .= PHP_EOL.'<source srcset="'.$webp.'" media="(max-width: 576px)" type="'.mime_content_type($webp).'">';
 			}
-			$output .= PHP_EOL.'<source srcset="'.$mini.'" media="(max-width: 576px)" type="image/webp">';
+			$output .= PHP_EOL.'<source srcset="'.$mini.'" media="(max-width: 576px)" type="'.mime_content_type($mini).'">';
 		}
 		return PHP_EOL.$output;
 	}
-	function checkAndPutImage($source,$title)
+	function checkAndPutImage($source,$title,$options=[])
 	{
 		$output = "<picture>";
-		$format = strtolower(substr($source,strrpos($source,'.')+1));
 		$realPathToSource = $_SERVER['DOCUMENT_ROOT'].$source;
+		$format = str_replace('image/','',mime_content_type($realPathToSource));
+		if ($format === 'jpeg') $format = 'jpg';
 
 		$output .= $this->getAdditionalImage($realPathToSource,$format,'mini');
-		
+
 		if ($format !== 'webp')
 			$output .= $this->getAdditionalImage($realPathToSource,$format,'webp');
-		
-		return str_ireplace($_SERVER['DOCUMENT_ROOT'],'.', $output.PHP_EOL.'<img src="'.$source.'" title="'.$title.'" alt ="'.$title.'">
+
+		return str_ireplace($_SERVER['DOCUMENT_ROOT'],'.', $output.PHP_EOL.
+			'<img '.(!isset($options['class']) ? '' : 'class="'.$options['class'].'" ').'src="'.$source.'" title="'.$title.'" alt ="'.$title.'">
 		 </picture>');
 	}
 }

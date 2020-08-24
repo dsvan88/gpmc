@@ -1,3 +1,4 @@
+@charset "UTF-8";
 html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%; }
@@ -148,11 +149,139 @@ template {
 [hidden] {
   display: none; }
 
+.modal button, .evening-booking .span_button {
+  background-color: #bffda2;
+  border-radius: 4px;
+  border: 2px solid #ffc919;
+  padding: 10px 5px;
+  margin: 5px 0px;
+  text-transform: uppercase;
+  cursor: pointer; }
+  .modal button:active, .evening-booking .span_button:active {
+    background-color: #fffc65;
+    border-color: #41c7fc; }
+  .modal button img, .evening-booking .span_button img {
+    width: 16px; }
+
+#overlay {
+  z-index: 3;
+  /* пoдлoжкa дoлжнa быть выше слoев элементoв сaйтa, нo ниже слoя мoдaльнoгo oкнa */
+  position: fixed;
+  /* всегдa перекрывaет весь сaйт */
+  background-color: #000;
+  /* чернaя */
+  opacity: 0;
+  /* нo немнoгo прoзрaчнa */
+  width: 100%;
+  height: 100%;
+  /* рaзмерoм вo весь экрaн */
+  top: 0;
+  /* сверху и слевa 0, oбязaтельные свoйствa! */
+  left: 0; }
+
+.modal {
+  position: fixed;
+  /* чтoбы oкнo былo в видимoй зoне в любoм месте */
+  top: 45%;
+  /* oтступaем сверху 45%, oстaльные 5% пoдвинет скрипт */
+  left: 50%;
+  /* пoлoвинa экрaнa слевa */
+  display: none;
+  /* в oбычнoм сoстoянии oкнa не дoлжнo быть */
+  opacity: 0;
+  /* пoлнoстью прoзрaчнo для aнимирoвaния */
+  z-index: 5;
+  /* oкнo дoлжнo быть нaибoлее бoльшем слoе */
+  border-radius: 5px;
+  background-color: #eaf5fb;
+  padding: 20px 30px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 20px; }
+  @media (max-width: 576px) {
+    .modal {
+      width: 300px !important;
+      height: auto !important;
+      font-size: 14px; } }
+  .modal img.modal-close {
+    display: inline;
+    position: absolute;
+    width: 150px;
+    cursor: pointer; }
+    .modal img.modal-close.left {
+      top: -75px;
+      left: -73px; }
+      @media (max-width: 576px) {
+        .modal img.modal-close.left {
+          top: -55px;
+          left: -53px; } }
+    .modal img.modal-close.right {
+      top: -75px;
+      right: -73px; }
+      @media (max-width: 576px) {
+        .modal img.modal-close.right {
+          top: -55px;
+          right: -53px; } }
+    @media (max-width: 576px) {
+      .modal img.modal-close {
+        width: 110px; } }
+  .modal form {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+    .modal form .input_row {
+      width: 100%;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      margin-bottom: 5px; }
+      .modal form .input_row.buttons {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center; }
+  .modal .title {
+    font-size: larger;
+    font-weight: 100;
+    text-transform: uppercase;
+    text-align: center; }
+  .modal a {
+    font-size: smaller; }
+
 body {
   font-family: Lobster, Arial, Helvetica, cursive, sans-serif;
   font-size: 12px;
   background-size: 100%;
   background-color: #fff8dc; }
+
+.wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden; }
+
+footer {
+  margin-top: auto; }
 
 a {
   cursor: pointer;
@@ -160,6 +289,9 @@ a {
   a:hover {
     color: #5c0828;
     text-decoration: underline; }
+
+hr {
+  width: 100%; }
 
 .header {
   display: -webkit-box;
@@ -231,9 +363,23 @@ header menu {
       background: linear-gradient(#3354fda8, #96c0ff66); }
       header menu li:active a {
         color: #221ef0; }
+  @media (max-width: 576px) {
+    header menu {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      position: fixed;
+      top: 0px;
+      left: -70vw;
+      height: 100vh;
+      width: 60vw;
+      background-color: #e7f8f9;
+      border-right: 1px solid #0068c9; } }
 
 .left-panel {
   position: fixed;
+  top: 30vh;
   height: 100%;
   width: 20px;
   z-index: 2; }
@@ -259,3 +405,177 @@ header menu {
       margin-top: 15px;
       font-size: 20px;
       text-align: center; }
+
+.right-panel {
+  display: none; }
+
+.content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+  .content > div {
+    width: 65%; }
+    @media (max-width: 576px) {
+      .content > div {
+        width: 100%; } }
+  .content__game {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    font-size: 20px; }
+    .content__game .timer {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      text-align: center; }
+      @media (max-width: 576px) {
+        .content__game .timer {
+          background-color: #fff8dc;
+          position: fixed;
+          width: 100%;
+          bottom: 0px; } }
+      .content__game .timer__header__title {
+        font-weight: 100; }
+      @media (max-width: 576px) {
+        .content__game .timer__header {
+          background-color: #eaf3fb;
+          height: 150px;
+          position: fixed;
+          width: 100%;
+          top: -130px;
+          border-bottom: 2px solid #b4bcf2; } }
+      .content__game .timer__header:after {
+        display: none;
+        content: "▼";
+        position: fixed;
+        top: 8px;
+        border: 1px solid #79acac;
+        border-radius: 2px;
+        width: 10%;
+        color: #79acac;
+        background-color: #c6e6f4;
+        margin: 0px 42%; }
+        @media (max-width: 576px) {
+          .content__game .timer__header:after {
+            display: block; } }
+      .content__game .timer__body {
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-columns: 1fr;
+            grid-template-columns: 1fr; }
+        @media (max-width: 576px) {
+          .content__game .timer__body {
+            -ms-grid-columns: 1fr 4fr;
+                grid-template-columns: 1fr 4fr; } }
+        .content__game .timer__body__watchclock {
+          font-size: 25px;
+          font-weight: 100; }
+        .content__game .timer__body__control {
+          display: -ms-grid;
+          display: grid;
+          -ms-grid-columns: (1fr)[4];
+              grid-template-columns: repeat(4, 1fr); }
+      .content__game .timer img {
+        width: 50px; }
+    .content__game__table {
+      border: 1px solid black;
+      padding: 20px 0px;
+      border-collapse: collapse;
+      font-weight: 100;
+      width: 100%; }
+      @media (max-width: 576px) {
+        .content__game__table {
+          width: 100%; } }
+      .content__game__table td,
+      .content__game__table th {
+        padding: 2px;
+        border: 1px solid black;
+        white-space: nowrap; }
+      .content__game__table .player_avatar img {
+        width: 5vw;
+        height: 6vh;
+        max-width: 35px; }
+        @media (max-width: 576px) {
+          .content__game__table .player_avatar img {
+            display: none; } }
+
+.evening-booking {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 20px; }
+  .evening-booking img {
+    width: 1.8vw;
+    min-width: 15px; }
+  .evening-booking input {
+    text-align: center;
+    margin: 2px 0px; }
+  .evening-booking .field-label {
+    display: inline-block;
+    width: 80px; }
+  .evening-booking__participants h2 {
+    text-align: center; }
+  .evening-booking .gamer {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: baseline;
+        -ms-flex-align: baseline;
+            align-items: baseline;
+    width: 100%; }
+    .evening-booking .gamer .num {
+      -webkit-box-flex: 0;
+          -ms-flex: 0 0 20px;
+              flex: 0 0 20px; }
+    .evening-booking .gamer__info {
+      -webkit-box-flex: 1;
+          -ms-flex: 1 1 300px;
+              flex: 1 1 300px;
+      display: -ms-grid;
+      display: grid;
+      grid-column-gap: 15px;
+      -ms-grid-columns: minmax(150px, 5fr) (85px)[2] 1fr;
+          grid-template-columns: minmax(150px, 5fr) repeat(2, 85px) 1fr; }
+    .evening-booking .gamer .img-button.img-delete {
+      cursor: pointer; }
+    .evening-booking .gamer .img-button.img-non-delete {
+      cursor: not-allowed; }
+  .evening-booking__buttons {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    margin: 10px 0px; }

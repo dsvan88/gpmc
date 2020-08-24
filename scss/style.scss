@@ -1,10 +1,22 @@
 @import "./normalize";
 @import "./mixins_adapt";
+@import "./defaults";
+@import "./forms";
+
 body {
 	font-family: Lobster, Arial, Helvetica, cursive, sans-serif;
 	font-size: 12px;
 	background-size: 100%;
 	background-color: #fff8dc;
+}
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	overflow: hidden;
+}
+footer {
+	margin-top: auto;
 }
 a {
 	cursor: pointer;
@@ -13,6 +25,9 @@ a {
 		color: #5c0828;
 		text-decoration: underline;
 	}
+}
+hr {
+	width: 100%;
 }
 .header {
 	display: flex;
@@ -79,10 +94,21 @@ header {
 				}
 			}
 		}
+		@include sm {
+			flex-direction: column;
+			position: fixed;
+			top: 0px;
+			left: -70vw;
+			height: 100vh;
+			width: 60vw;
+			background-color: #e7f8f9;
+			border-right: 1px solid #0068c9;
+		}
 	}
 }
 .left-panel {
 	position: fixed;
+	top: 30vh;
 	height: 100%;
 	width: 20px;
 	z-index: 2;
@@ -114,3 +140,105 @@ header {
 		}
 	}
 }
+.right-panel {
+	display: none;
+}
+.content {
+	display: flex;
+	justify-content: center;
+	> div {
+		width: 65%;
+		@include sm {
+			width: 100%;
+		}
+	}
+	&__game {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		font-size: 20px;
+		.timer {
+			display: flex;
+			flex-direction: column;
+			text-align: center;
+			@include sm {
+				background-color: #fff8dc;
+				position: fixed;
+				width: 100%;
+				bottom: 0px;
+			}
+			&__header {
+				&__title {
+					font-weight: 100;
+				}
+				@include sm {
+					background-color: #eaf3fb;
+					height: 150px;
+					position: fixed;
+					width: 100%;
+					top: -130px;
+					border-bottom: 2px solid #b4bcf2;
+				}
+				&:after {
+					display: none;
+					content: "▼";
+					position: fixed;
+					top: 8px;
+					border: 1px solid #79acac;
+					border-radius: 2px;
+					width: 10%;
+					color: #79acac;
+					background-color: #c6e6f4;
+					margin: 0px 42%;
+					@include sm {
+						display: block;
+					}
+				}
+			}
+			&__body {
+				display: grid;
+				grid-template-columns: 1fr;
+				@include sm {
+					grid-template-columns: 1fr 4fr;
+				}
+				&__watchclock {
+					font-size: 25px;
+					font-weight: 100;
+				}
+				&__control {
+					display: grid;
+					grid-template-columns: repeat(4, 1fr);
+				}
+			}
+			img {
+				width: 50px;
+			}
+		}
+		&__table {
+			border: 1px solid black;
+			padding: 20px 0px;
+			border-collapse: collapse;
+			font-weight: 100;
+			width: 100%;
+			@include sm {
+				width: 100%;
+			}
+			td,
+			th {
+				padding: 2px;
+				border: 1px solid black;
+				white-space: nowrap;
+			}
+			.player_avatar img {
+				width: 5vw;
+				height: 6vh;
+				max-width: 35px;
+				@include sm {
+					display: none;
+				}
+			}
+		}
+	}
+}
+@import "./evening-booking";

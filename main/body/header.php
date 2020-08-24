@@ -19,16 +19,16 @@
 				</div>
 			<? else: ?>
 				<div>
-					<a id="Welcome">Войдите</a>
+					<a class="login" id="Welcome">Войдите</a>
 					<br>или<br>
-					<a id="RegisterNewUser">Зарегистрируйтесь</a>
+					<a class="new_user_reg" id="RegisterNewUser">Зарегистрируйтесь</a>
 				</div>
 			<?endif?>
 		</div>
 	</div>
 	<menu>
 		<li><a href='/?trg=news'><span>Новости</span></a></li>
-		<li>Запись на игру</li>
+		<li><a href='/?trg=booking'><span>Запись на игру</span></a></li>
 		<li><a href='/?trg=rules'><span>Правила</span></a></li>
 		<li><a href='/?trg=about'><span>О нас</span></a></li>
 	</menu>

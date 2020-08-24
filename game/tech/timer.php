@@ -1,12 +1,22 @@
-<table id="timer">
-<thead>
-	<tr><th colspan="4"><span class='TimerHeader'>Фаза ночи.<br>Минута договора игроков мафии.<br>Шериф может взглянуть на город.</span></th></tr>
-	<tr><th colspan="4"><span class='stopwatch'>01:00:00</span></th></tr>
-</thead>
-<tr>
-	<td id='Undo' class='disabled'><img src="../css/images/undo.png" alt="undo" title="undo"></div>&nbsp;&nbsp </td>
-	<td id='TimerStart'><img src="../css/images/start.png" alt="Старт" title="Старт"></div></td>
-	<td id='TimerReset'><img src="../css/images/reset.png" alt="Сброс" title="Сброс"></div></td>
-	<td id='TimerNext'><img src="../css/images/next.png" alt="Следующий" title="Следующий"></div>&nbsp;&nbsp </td>
-</tr>
-</table>
+<div class="timer">
+	<div class="timer__header">
+		<h3 class='timer__header__title'>Фаза ночи.<br>Минута договора игроков мафии.<br>Шериф может взглянуть на город.</h3>
+	</div>
+	<div class="timer__body">
+		<div class='timer__body__watchclock'>01:00:00</div>
+		<div class='timer__body__control'>
+			<div class='timer__body__control__undo disabled'>
+					<?=$engine->checkAndPutImage('/css/images/undo.png','Отмена')?>
+			</div>
+			<div class='timer__body__control__start'>
+				<?=$engine->checkAndPutImage('/css/images/start.png','Старт')?>
+			</div>
+			<div class='timer__body__control__reset'>
+				<?=$engine->checkAndPutImage('/css/images/reset.png','Сброс')?>
+			</div>
+			<div class='timer__body__control__next'>
+				<?=$engine->checkAndPutImage('/css/images/next.png','Следующий')?>
+			</div>
+		</div>
+	</div>
+</div>

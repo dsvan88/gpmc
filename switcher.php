@@ -21,13 +21,15 @@ if (in_array($need,$need_forms,true))
 		$_SESSION['ba'] = $_SESSION['ba'] > 0 ? 0 : rand(1,1000);
 		exit('admin');
 	}
-	?>
-	<img class = 'left' src='../css/images/gmpc_emblem1.png' alt='emblem' title='<?=MAFCLUB_SNAME?>'/>
-	<img class = 'right' src='../css/images/gmpc_emblem.png' alt='emblem' title='<?=MAFCLUB_SNAME?>'/>
-	<div class='FormMaket'>
-		<?require $root_path.'/templates/forms/'.$need.'.php';?>
-	</div>
-	<?
+	
+	$output['html'] = 
+		$engine->checkAndPutImage('/css/images/gmpc_emblem1.png',MAFCLUB_SNAME,["class"=>"modal-close left"]).
+		$engine->checkAndPutImage('/css/images/gmpc_emblem.png',MAFCLUB_SNAME,["class"=>"modal-close right"]).
+		'<div class="form-maket">';
+	require $root_path.'/templates/forms/'.$need.'.php';
+	$output['html'] .= '</div>';
+	echo json_encode($output,JSON_UNESCAPED_UNICODE);
+	
 }
 elseif (in_array($need,$need_action,true))
 	require $root_path.'/php_scripts/action/'.$need.'.php';
