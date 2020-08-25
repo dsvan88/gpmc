@@ -22,4 +22,3 @@ $output['html'] .= '
 		</div>
 		<span>* Введите новые данные.</span>
 	</form>';
-$output['size'] = '420,200';

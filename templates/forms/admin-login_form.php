@@ -22,8 +22,7 @@ $output['html'] .= '
 	<input type="hidden" name="ap" value="'.rand(1,1000).'"/>
 	<div class="input_row">
 		<a id="frogetPassword">Забыли пароль?</a>
-		<a id="registerNewUser">Регистрация</a>
+		<a class="user-register">Регистрация</a>
 	</div>
 	* Логин - только имя пользователя.
 </form>';
-$output['size'] = '420,0';

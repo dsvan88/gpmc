@@ -11,6 +11,7 @@
 	if ($EveningData['players'] === '')
 		$EveningData['players'] = $engine->GetResidentsNames(11);
 ?>
+
 <div class="evening-booking__date">
 	<span class="field-label">Время:</span>
 	<input class='datepick' type='text' name='eve_date' value='<?=date('d.m.Y H:i',$EveningData['date'])?>'/>
@@ -22,14 +23,14 @@
 	<input type='text' name='eve_place_info' value='<?=$EveningData['place']['info']?>' placeholder='Адрес, веб-сайт'/>
 </div>
 <div class='evening-booking__buttons'>
-	<span class='span_button' id='ApplyEvening'>
+	<span class='span_button' id='setEveningData'>
 		<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
 		<?=isset($EveningData['id']) ? 'Изменить' : 'Подтвердить'?>!
 		<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
 	</span>
 </div>
 <hr>
-<div class="evening-booking__participants">
+<div class="evening-booking__participants" id="gamerFields">
 	<h2>Участники:</h2>
 <?
 	$i=-1;
@@ -39,12 +40,12 @@
 ?>
 	</div>
 	<div class='evening-booking__buttons'>
-		<span class='span_button' id='AddGamers'>
+		<span class='span_button' id='addGamers'>
 			<?=$engine->checkAndPutImage($settings['img']['plus']['value'],'')?>
 			Добавить поле
 			<?=$engine->checkAndPutImage($settings['img']['plus']['value'],'')?>
 		</span><br><br>
-		<span class='span_button' id='ApproveEvening'>
+		<span class='span_button' id='approveEvening'>
 			<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
 			Утвердить!
 			<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>

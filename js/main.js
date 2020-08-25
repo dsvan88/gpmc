@@ -13,6 +13,8 @@ $(function () {
 	});
 })
 document.body.addEventListener('click', showForm);
+addGamers.addEventListener('click', addGamerField);
+setEveningData.addEventListener('click', setEveningDatePlace);
 
 // 	$('#LogInDiv').off('click','#LogOut');
 // 	$('#LogInDiv').on('click','#LogOut', function(){
@@ -34,39 +36,6 @@ document.body.addEventListener('click', showForm);
 // 			became_admin();
 // 			return false;
 // 		}
-// 	});
-// 	$('#MainBody').off('click','#AddGamers');
-// 	$('#MainBody').on('click','#AddGamers', function(){
-// 		let newID = parseInt($('div#GamerFields div.gamer:last-child span.num').text());
-// 		$.ajax({
-// 			url:'switcher.php'
-// 			, type:'POST'
-// 			, data:'need=gamer_field&i='+newID
-// 			, async: false
-// 			, success: function(res) {
-// 				$('div#GamerFields').append(res);
-// 				$('input.input_name').autocomplete({
-// 					source: 'switcher.php?need=autocomplete_names&e='+EveningID+'&',
-// 					minLength: 2
-// 				});
-// 			}
-// 		});
-// 		return false;
-// 	});
-// 	$('#MainBody').off('click','#ApplyEvening');
-// 	$('#MainBody').on('click','#ApplyEvening', function(){
-// 		$.ajax({
-// 			url:'switcher.php'
-// 			, type:'POST'
-// 			, data:'need=apply_evening&eve_date='+$('#EveningDate input[name="eve_date"]').val()+'&eve_place='+$('#EveningPlace input[name="eve_place"]').val()+'&eve_place_info='+$('#EveningPlace input[name="eve_place_info"]').val()
-// 			, success: function(res) {
-// 				alert('Успешно!');
-// 			}
-// 			, error: function(res) {
-// 				alert('Error: Ошибка связи с сервером');
-// 			}
-// 		});
-// 		return false;
 // 	});
 // 	$('#MainBody').off('click','#ApplyMyReg');
 // 	$('#MainBody').on('click','#ApplyMyReg', function(){

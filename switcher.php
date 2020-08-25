@@ -8,7 +8,7 @@ $need = trim(isset($_GET['need']) ? $_GET['need'] : $_POST['need']);
 if ($need==='') exit('Wrong `need` type!');
 $settings = $engine->ModifySettingsArray($engine->GetSettings(array('shname','name','value','type'),'img'));
 
-$need_forms = ['my_record_form','add_evening_player_form','new_user_reg_form','login_form','admin_login_form','edit_my_info_form','rename_player_form'];
+$need_forms = ['my_record_form','add_evening_player_form','user-register_form','login_form','admin-login_form','edit_my_info_form','rename_player_form'];
 $need_action = ['login','new_user_registration','cancel_my_reg','remove_player_from_evening','discharge_player','add_new_player', 'apply_evening',
 	'crop_file','edit_setting','edit_my_info','do_my_vote','save_comment','rename_player','edit_user_row','edit_point','add_new_player','upload_file'];
 $need_autocomplete = ['autocomplete_names','autocomplete_places'];

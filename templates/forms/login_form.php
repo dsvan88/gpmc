@@ -13,7 +13,6 @@ $output['html'] .= '
 	</div>
 	<div class="input_row">
 		<a id="frogetPassword">Забыли пароль?</a>
-		<a id="registerNewUser">Регистрация</a>
+		<a class="user-register">Регистрация</a>
 	</div>
 </form>';
-$output['size'] = '420,0';

@@ -16,7 +16,7 @@ function rename_player(name) {
 		type: "POST",
 		data: "need=rename_player_form&n=" + name,
 		success: function (res) {
-			ModalEvent(res, "420,250");
+			ModalEvent(res);
 			$("input.input_gamer").autocomplete({
 				source: "switcher.php?need=autocomplete_names&",
 				minLength: 2,
@@ -73,23 +73,20 @@ function redirectPost(url, data) {
 	}
 	form.submit();
 }
-function ModalEvent(html = "", s = "", divId = "modalWindow") {
-	let modal = prepeareModalWindow(divId);
-	if (html !== "") modal.querySelector(".modal-body").innerHTML = html;
-	let size = s === "" ? [350, 250] : s.split(",");
+function ModalEvent(html = "", divId = "modalWindow") {
+	let [modalOverlay, modal, modalBody] = prepeareModalWindow(divId);
+	if (html !== "") modalBody.innerHTML = html;
+	let modalsAll = document.body.querySelectorAll(".modal-body");
 	let overlay = document.body.querySelector("#overlay");
 	$(overlay).fadeIn(
 		400, // снaчaлa плaвнo пoкaзывaем темную пoдлoжку
 		function () {
 			// пoсле выпoлнения предыдущей aнимaции
+			modalOverlay.style.zIndex = 4 + modalsAll.length;
 			$(modal)
 				.css({
 					display: "block",
-					// width: size[0] + "px",
-					// height: size[1] !== "0" ? size[1] + "px" : "auto",
-					// "margin-left": "-" + Math.round(size[0] / 2) + "px",
-					// "margin-top": "-" + Math.round((size[1] !== "0" ? size[1] : 300) / 2) + "px",
-				}) // убирaем у мoдaльнoгo oкнa display: none;
+				})
 				.animate({ opacity: 1, top: "50%" }, 200); // плaвнo прибaвляем прoзрaчнoсть oднoвременнo сo съезжaнием вниз
 		}
 	);
@@ -116,18 +113,19 @@ function prepeareModalWindow(divId = "modalWindow") {
 
 	document.body.append(modalOverlay);
 	modalOverlay.addEventListener("click", closeModalWindow);
-	return modal;
+	return [modalOverlay, modal, modalBody];
 }
 function closeModalWindow(event) {
 	if (!event.target.classList.contains("modal-close")) return;
 	let modal = event.target.closest(".modal-overlay");
+	let modalsAll = document.body.querySelectorAll(".modal-body");
 	$(modal).animate(
 		{ opacity: 0, top: "45%" },
 		200, // плaвнo меняем прoзрaчнoсть нa 0 и oднoвременнo двигaем oкнo вверх
 		function () {
 			// пoсле aнимaции
 			$(this).css("display", "none"); // делaем ему display: none;
-			$("#overlay").fadeOut(400); // скрывaем пoдлoжку
+			if (modalsAll.length === 1) $("#overlay").fadeOut(400); // скрывaем пoдлoжку
 			modal.removeEventListener("click", closeModalWindow);
 			modal.remove();
 		}
@@ -172,7 +170,7 @@ function became_admin() {
 				location.reload();
 				return false;
 			} else {
-				ModalEvent(res, "420,270");
+				ModalEvent(res);
 				$(".modal_window").off("click", "#LogInButton");
 				$(".modal_window").on("click", "#LogInButton", function () {
 					$.ajax({
@@ -197,8 +195,42 @@ function became_admin() {
 		},
 	});
 }
+function setEveningDatePlace(event) {
+	$.ajax({
+		url: "switcher.php",
+		type: "POST",
+		data:
+			"need=apply_evening&eve_date=" +
+			document.body.querySelector("input[name=eve_date]").value +
+			"&eve_place=" +
+			document.body.querySelector("input[name=eve_place]").value +
+			"&eve_place_info=" +
+			document.body.querySelector("input[name=eve_place_info]").value,
+		success: function (res) {
+			alert("Успешно!");
+		},
+		error: function (res) {
+			alert("Error: Ошибка связи с сервером");
+		},
+	});
+}
+function addGamerField() {
+	let newID = document.body.querySelectorAll(".gamer").length;
+	$.ajax({
+		url: "switcher.php",
+		type: "POST",
+		data: "need=gamer_field&i=" + newID,
+		success: function (res) {
+			gamerFields.insertAdjacentHTML("beforeend", res);
+			$("input.input_name").autocomplete({
+				source: "switcher.php?need=autocomplete_names&e=" + EveningID + "&",
+				minLength: 2,
+			});
+		},
+	});
+}
 function showForm(event) {
-	let classes = ["login", "new_user_reg"],
+	let classes = ["login", "user-register"],
 		mode = -1;
 	for (let x = 0; x < classes.length; x++)
 		if (event.target.classList.contains(classes[x])) {
@@ -212,7 +244,7 @@ function showForm(event) {
 		data: "need=" + classes[mode] + "_form",
 		success: function (res) {
 			res = JSON.parse(res);
-			ModalEvent(res["html"], res["size"]);
+			ModalEvent(res["html"]);
 			$("input.input_name").autocomplete({
 				source: "switcher.php?need=autocomplete_names",
 				minLength: 2,

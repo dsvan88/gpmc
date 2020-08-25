@@ -26,7 +26,6 @@ $output['html'] .= '
 		<button id="CheckAndReg">Зарегистрировать</button>
 	</div>
 	<div class="input_row">
-		<a class="login">Назад</a>
+		<a class="modal-close">Назад</a>
 	</div>
 </form>';
-$output['size'] = '420,0';

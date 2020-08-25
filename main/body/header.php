@@ -1,7 +1,7 @@
 <header>
 	<div class="header">
 		<div class="header__main-logo">
-			<a href="http://<?=$_SERVER['SERVER_NAME']?>/">
+			<a href="http://<?=$_SERVER['SERVER_NAME']?>/" >
 				<?=$engine->checkAndPutImage($settings['img']['MainLogo']['value'],$settings['img']['MainLogo']['name'])?>
 			</a>
 		</div>
@@ -19,9 +19,9 @@
 				</div>
 			<? else: ?>
 				<div>
-					<a class="login" id="Welcome">Войдите</a>
+					<a class="login">Войдите</a>
 					<br>или<br>
-					<a class="new_user_reg" id="RegisterNewUser">Зарегистрируйтесь</a>
+					<a class="user-register">Зарегистрируйтесь</a>
 				</div>
 			<?endif?>
 		</div>

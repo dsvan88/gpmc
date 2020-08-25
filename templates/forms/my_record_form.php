@@ -18,4 +18,3 @@ $output['html'] .= '
 	<div class ="input_row"><button id="AddMe">Записаться!</button></div>
 	<span>* Уточните Ваши планы.</span>
 </form>';
-$output['size'] = '420,200';
