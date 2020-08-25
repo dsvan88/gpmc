@@ -22,12 +22,15 @@ if (in_array($need,$need_forms,true))
 		exit('admin');
 	}
 	
-	$output['html'] = 
+	$output['html'] = '
+	<div class="modal-container">
+	'.
 		$engine->checkAndPutImage('/css/images/gmpc_emblem1.png',MAFCLUB_SNAME,["class"=>"modal-close left"]).
 		$engine->checkAndPutImage('/css/images/gmpc_emblem.png',MAFCLUB_SNAME,["class"=>"modal-close right"]).
 		'<div class="form-maket">';
 	require $root_path.'/templates/forms/'.$need.'.php';
-	$output['html'] .= '</div>';
+	$output['html'] .= '</div>
+	</div>';
 	echo json_encode($output,JSON_UNESCAPED_UNICODE);
 	
 }

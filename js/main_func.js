@@ -85,10 +85,10 @@ function ModalEvent(html = "", s = "", divId = "modalWindow") {
 			$(modal)
 				.css({
 					display: "block",
-					width: size[0] + "px",
-					height: size[1] !== "0" ? size[1] + "px" : "auto",
-					"margin-left": "-" + Math.round(size[0] / 2) + "px",
-					"margin-top": "-" + Math.round((size[1] !== "0" ? size[1] : 300) / 2) + "px",
+					// width: size[0] + "px",
+					// height: size[1] !== "0" ? size[1] + "px" : "auto",
+					// "margin-left": "-" + Math.round(size[0] / 2) + "px",
+					// "margin-top": "-" + Math.round((size[1] !== "0" ? size[1] : 300) / 2) + "px",
 				}) // убирaем у мoдaльнoгo oкнa display: none;
 				.animate({ opacity: 1, top: "50%" }, 200); // плaвнo прибaвляем прoзрaчнoсть oднoвременнo сo съезжaнием вниз
 		}
@@ -101,27 +101,26 @@ function prepeareModalWindow(divId = "modalWindow") {
 		overlay.id = "overlay";
 		document.body.append(overlay);
 	}
+	let modalOverlay = document.createElement("div");
+	modalOverlay.className = "modal-overlay modal-close";
+
 	let modal = document.createElement("div");
 	modal.className = "modal";
 	modal.id = divId;
 
-	// let modalClose = document.createElement("span");
-	// modalClose.className = "modal-close";
-	// modalClose.innerText = "X";
-
 	let modalBody = document.createElement("div");
 	modalBody.className = "modal-body";
 
-	// modal.append(modalClose);
 	modal.append(modalBody);
+	modalOverlay.append(modal);
 
-	document.body.append(modal);
-	modal.addEventListener("click", closeModalWindow);
+	document.body.append(modalOverlay);
+	modalOverlay.addEventListener("click", closeModalWindow);
 	return modal;
 }
 function closeModalWindow(event) {
 	if (!event.target.classList.contains("modal-close")) return;
-	let modal = event.target.closest(".modal");
+	let modal = event.target.closest(".modal-overlay");
 	$(modal).animate(
 		{ opacity: 0, top: "45%" },
 		200, // плaвнo меняем прoзрaчнoсть нa 0 и oднoвременнo двигaем oкнo вверх
