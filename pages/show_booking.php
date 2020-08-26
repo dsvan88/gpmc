@@ -1,5 +1,20 @@
-<form class="evening-booking" id="EveningRegisterForm" method="POST">
-<? if ($EveningData['ready'] === false)
+<form class="evening-booking" id="eveningRegisterForm" method="POST">
+<? 
+	$days = array( 'Воскресенье', 'Понедельник' , 'Вторник' , 'Среда' , 'Четверг' , 'Пятница' , 'Суббота');
+	$plan_tobe = array('','на 1-2 игры', 'на 2-3 игры', 'на 3-4 игры');
+
+	if ($EveningData['ready'] !== false) 
+	{
+		$EveningData['time'] = date('H:i',$EveningData['date']);
+		$EveningData['place'] = $EveningData['place'] === '0' ? array('id'=>'0','name'=>'','info'=>'') : $engine->GetPlaceByID($EveningData['place']);
+		if ($EveningData['players'] !== '')
+			$EveningData['players'] = $engine->GetPlayersNames($EveningData['players'],true);
+		if ($EveningData['times'] !== '')
+			$EveningData['times'] = explode(',',$EveningData['times']);
+		if ($EveningData['tobe'] !== '')
+			$EveningData['tobe'] = explode(',',$EveningData['tobe']);
+	}
+	if ($EveningData['ready'] === false)
 	$EveningData = array(
 			'date'=>strtotime(date('d.m.Y 17:00')),
 			'place' => array(
@@ -30,7 +45,7 @@
 	</span>
 </div>
 <hr>
-<div class="evening-booking__participants" id="gamerFields">
+<div class="evening-booking__participants" id="eveningGamersFields">
 	<h2>Участники:</h2>
 <?
 	$i=-1;

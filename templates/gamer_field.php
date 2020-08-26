@@ -4,7 +4,7 @@
 	<div class="gamer__info">
 		<input name="gamer[<?=$i?>]" type="text" class="input_name" value ="<?=isset($EveningData['players'][$i]) ? $EveningData['players'][$i]['name'] : ''?>"/>
 		<input name="g_time[<?=$i?>]" type="text" class="input_time timepicker" value ="<?=isset($EveningData['times'][$i]) ? $EveningData['times'][$i] : '17:00'?>"/>
-		<select name="tobe[<?=$i?>]" class="input_tobe">
+		<select name="duration[<?=$i?>]" class="input_tobe">
 			<option value='0'<?=$EveningData['tobe'][$i] == '0' ? ' selected ' : ''?>></option>
 			<option value='1'<?=$EveningData['tobe'][$i] == '1' ? ' selected ' : ''?>>1-2 игры</option>
 			<option value='2'<?=$EveningData['tobe'][$i] == '2' ? ' selected ' : ''?>>2-3 игры</option>

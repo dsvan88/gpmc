@@ -15,6 +15,7 @@ $(function () {
 document.body.addEventListener('click', showForm);
 addGamers.addEventListener('click', addGamerField);
 setEveningData.addEventListener('click', setEveningDatePlace);
+approveEvening.addEventListener('click', saveEveningFullData);
 
 // 	$('#LogInDiv').off('click','#LogOut');
 // 	$('#LogInDiv').on('click','#LogOut', function(){

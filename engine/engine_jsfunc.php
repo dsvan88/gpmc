@@ -136,6 +136,27 @@ class JSFunc extends SQLBase
 		$a['enum'] = '"'.implode('","',$_POST['gamer']).'"';
 		return $this->GetPlayersIDs($a);
 	}
+	function getUsersIDs($gamers){
+		$a = [];
+		$gamers = json_decode($gamers,true);
+		for ($x=0;$x<count($gamers);$x++){
+			$check = trim($gamers[$x]['name']);
+			if ($check === '')
+			{
+				unset($gamers[$x]);
+				continue;
+			}
+			$gamers[$x]['name'] = $check !== '+1' ? $check : 'tmp_user_'.$x;
+		}
+		$gamers = array_values($gamers);
+		for ($x=0;$x<count($gamers);$x++){
+			$a[$x]['id'] = -1;
+			$a[$x]['name'] = $gamers[$x]['name'];
+			$a['enum'] .= '"'.$gamers[$x]['name'].'",';
+		}
+		$a['enum']= substr($a['enum'],0,-1);
+		return $this->GetPlayersIDs($a);
+	}
 	function CheckEveningID($i)
 	{
 		if (($r = $this->MakeRawArray($this->Query('SELECT `id` FROM `'.MYSQL_TBLEVEN.'` WHERE `id` ="'.$i.'" LIMIT 1'))[0]) > 0)
@@ -179,22 +200,21 @@ class JSFunc extends SQLBase
 			return $r;
 		else return false;
 	}
-	function SetEveningApplied($data)
+	function setEveningApproved($data)
 	{
 		if ($data['place']!=='') $r = $this->GetPlaceData($data['place'],$data['p_info']);
 		else $r['id'] = 0;
 		$a = array('date'=>$data['date'],'place'=>$r['id'],'applied'=>1);
-		if ($data['gamers'] > 0)
+		if (isset($data['gamers']))
 		{
-			$a['players'] = $this->ParsePostGamers()['ids'];
-			$a['times'] = $data['times'];
-			$a['tobe'] = $data['tobe'];
+			$a['players'] = $this->getUsersIDs($data['gamers'])['ids'];
+			$a['player_info'] = str_replace('"','||',$data['gamers']);
 		}
-		$id = $this->GetNearEveningData();
-		if ($id === false)
+		$eveningId = $this->GetNearEveningData();
+		if ($eveningId === false)
 			$this->InsertRow($a,MYSQL_TBLEVEN);
 		else 
-			$this->UpdateRow($a,array('id'=>$id),MYSQL_TBLEVEN);
+			$this->UpdateRow($a,array('id'=>$eveningId),MYSQL_TBLEVEN);
 	}
 	function SetEveningID($d,$p)
 	{

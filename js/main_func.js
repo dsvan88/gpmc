@@ -207,7 +207,39 @@ function setEveningDatePlace(event) {
 			"&eve_place_info=" +
 			document.body.querySelector("input[name=eve_place_info]").value,
 		success: function (res) {
-			alert("Успешно!");
+			alert("Успешно!" + res);
+		},
+		error: function (res) {
+			alert("Error: Ошибка связи с сервером");
+		},
+	});
+}
+function saveEveningFullData(event) {
+	let data = [];
+	let nameInputs = eveningRegisterForm.querySelectorAll("input[name^=gamer]");
+	let arriveInputs = eveningRegisterForm.querySelectorAll("input[name^=g_time]");
+	let durationInputs = eveningRegisterForm.querySelectorAll("select[name^=duration]");
+	for (let x = 0; x < nameInputs.length; x++) {
+		data.push({
+			name: nameInputs[x].value,
+			arrive: arriveInputs[x].value,
+			duration: durationInputs[x].value,
+		});
+	}
+	$.ajax({
+		url: "switcher.php",
+		type: "POST",
+		data:
+			"need=apply_evening&eve_date=" +
+			document.body.querySelector("input[name=eve_date]").value +
+			"&eve_place=" +
+			document.body.querySelector("input[name=eve_place]").value +
+			"&eve_place_info=" +
+			document.body.querySelector("input[name=eve_place_info]").value +
+			"&data=" +
+			JSON.stringify(data),
+		success: function (res) {
+			alert("Успешно!" + res);
 		},
 		error: function (res) {
 			alert("Error: Ошибка связи с сервером");
@@ -221,7 +253,7 @@ function addGamerField() {
 		type: "POST",
 		data: "need=gamer_field&i=" + newID,
 		success: function (res) {
-			gamerFields.insertAdjacentHTML("beforeend", res);
+			eveningGamersFields.insertAdjacentHTML("beforeend", res);
 			$("input.input_name").autocomplete({
 				source: "switcher.php?need=autocomplete_names&e=" + EveningID + "&",
 				minLength: 2,
