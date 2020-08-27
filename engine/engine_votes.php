@@ -38,7 +38,7 @@ class VoteSystem extends SQLBase
 		if ($r = $this->MakeRawArray($this->Query('SELECT `type` FROM `'.MYSQL_TBLVOTES.'` WHERE `object`="'.$id.'" AND `type`>=10')))
 		{
 			$votes=array('against'=>0,'neutral'=>0,'for'=>0);
-			$cap = (($this->MakeRawArray($this->Query('SELECT count(`id`) FROM `'.MYSQL_TBLPLAYERS.'` WHERE `status` > 0'))[0])/2)+1;
+			$cap = (($this->MakeRawArray($this->Query('SELECT count(`id`) FROM `'.MYSQL_TBLGAMERS.'` WHERE `status` > 0'))[0])/2)+1;
 			for($x=0;$x<count($r);$x++)
 			{
 				if ($r[$x]==='10')
@@ -61,9 +61,9 @@ class VoteSystem extends SQLBase
 			return $this->MakeRawArray($r)[0];
 		else error_log(__METHOD__.': SQL ERROR');
 	}
-	function GetPlayerName($id)
+	function GetGamerName($id)
 	{
-		if (($r = $this->MakeRawArray($this->Query('SELECT `name` FROM `'.MYSQL_TBLPLAYERS.'` WHERE `id` ="'.$id.'" LIMIT 1'))[0]) !== false)
+		if (($r = $this->MakeRawArray($this->Query('SELECT `name` FROM `'.MYSQL_TBLGAMERS.'` WHERE `id` ="'.$id.'" LIMIT 1'))[0]) !== false)
 			return $r;
 		else return '';
 	}

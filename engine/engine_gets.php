@@ -28,7 +28,7 @@ class GetDatas extends SQLBase
 	// Получить информацию про последний состоявшийся вечер игр
 	function GetLastEveningInfo()
 	{
-		$r = $this->GetAssoc($this->Query('SELECT `id`,DATE_FORMAT(DATE(FROM_UNIXTIME(`date`)),"%d.%m.%Y %H:%i") AS `date`,`games`,`players` FROM `'.MYSQL_TBLEVEN.'` ORDER BY `id` DESC LIMIT 1'));
+		$r = $this->GetAssoc($this->Query('SELECT `id`,DATE_FORMAT(DATE(FROM_UNIXTIME(`date`)),"%d.%m.%Y %H:%i") AS `date`,`games`,`gamers`,`gamers_info` FROM `'.MYSQL_TBLEVEN.'` ORDER BY `id` DESC LIMIT 1'));
 		if (count($r) > 0)
 			return $r;
 		else return false;
@@ -56,7 +56,7 @@ class GetDatas extends SQLBase
 	{
 		if ($f !== 0) $dop = ' AND `date` >= '.$f;
 		if ($t !== 0) $dop = (isset($dop) ? $dop : '').' AND `date` <= '.$t;
-		if ($r = $this->Query('SELECT `games`,`players` FROM `'.MYSQL_TBLEVEN.'` WHERE `id` > 0'.(isset($dop) ? $dop : '')))
+		if ($r = $this->Query('SELECT `games`,`gamers` FROM `'.MYSQL_TBLEVEN.'` WHERE `id` > 0'.(isset($dop) ? $dop : '')))
 			return $this->MakeAssocArray($r);
 		else 
 		{
@@ -82,23 +82,23 @@ class GetDatas extends SQLBase
 		return $this->GetAssoc($this->Query('SELECT `'.implode('`,`',$c).'` FROM `'.MYSQL_TBLEVEN.'` WHERE `'.array_keys($b)[0].'`="'.array_values($b)[0].'" LIMIT 1'));
 	}
 	// Получение списка игроков, учасвстующих в $e вечере
-	function GetEveningPlayers($e)
+	function GetEveningGamers($e)
 	{
-		return $this->MakeRawArray($this->Query('SELECT `players` FROM `'.MYSQL_TBLEVEN.'` WHERE `id`="'.$e.'" LIMIT 1'))[0];
+		return $this->MakeRawArray($this->Query('SELECT `gamers` FROM `'.MYSQL_TBLEVEN.'` WHERE `id`="'.$e.'" LIMIT 1'))[0];
 	}
 	// Получение простого списка игроков, принимающих участие в $e вечере
-	function GetAllPlayers($e=-1) 
+	function GetAllGamers($e=-1) 
 	{
-		if ($e !== -1) $dop = 'WHERE `id` IN ('.$this->GetEveningPlayers($e).')';
-		if ($r = $this->Query('SELECT `id`,`name` FROM `'.MYSQL_TBLPLAYERS.'` '.(isset($dop) ? $dop : '')))
+		if ($e !== -1) $dop = 'WHERE `id` IN ('.$this->GetEveningGamers($e).')';
+		if ($r = $this->Query('SELECT `id`,`name` FROM `'.MYSQL_TBLGAMERS.'` '.(isset($dop) ? $dop : '')))
 			return $this->MakeSimpleArray($r);
 		else error_log(__METHOD__.': SQL ERROR');
 	}
 	// Получение списка из $c случайних игроков, принимающих участие в $e вечере
-	function GetRandomPlayers($c=10,$e=-1) 
+	function GetRandomGamers($c=10,$e=-1) 
 	{
-		if ($e !== -1) $dop = $this->MakeRawArray($this->Query('SELECT `players` FROM `'.MYSQL_TBLEVEN.'` WHERE `id`="'.$e.'" LIMIT 1'))[0];
-		if ($r = $this->Query('SELECT `name` FROM `'.MYSQL_TBLPLAYERS.'` '.(isset($dop) ? 'WHERE `id` IN ('.$dop.')' : 'ORDER BY RAND() LIMIT '.$c)))
+		if ($e !== -1) $dop = $this->MakeRawArray($this->Query('SELECT `gamers` FROM `'.MYSQL_TBLEVEN.'` WHERE `id`="'.$e.'" LIMIT 1'))[0];
+		if ($r = $this->Query('SELECT `name` FROM `'.MYSQL_TBLGAMERS.'` '.(isset($dop) ? 'WHERE `id` IN ('.$dop.')' : 'ORDER BY RAND() LIMIT '.$c)))
 			return $this->MakeRawArray($r);
 		else error_log(__METHOD__.': SQL ERROR');
 	}
@@ -121,16 +121,16 @@ class GetDatas extends SQLBase
 		else return false;
 	}
 	// Получение имени игрока по его ID в системе
-	function GetPlayerName($id)
+	function GetGamerName($id)
 	{
-		if (($r = $this->MakeRawArray($this->Query('SELECT `name` FROM `'.MYSQL_TBLPLAYERS.'` WHERE `id` ="'.$id.'" LIMIT 1'))[0]) !== false)
+		if (($r = $this->MakeRawArray($this->Query('SELECT `name` FROM `'.MYSQL_TBLGAMERS.'` WHERE `id` ="'.$id.'" LIMIT 1'))[0]) !== false)
 			return $r;
 		else return '';
 	}
 	// Массовое получение имён игроков по их ids
-	function GetPlayersNames($ids,$s = false)
+	function GetGamersNames($ids,$s = false)
 	{
-		if (count($r = $this->MakeAssocArray($this->Query('SELECT `id`,`name` FROM `'.MYSQL_TBLPLAYERS.'` WHERE `id` IN ('.$ids.') ORDER BY `status` DESC'))) > 0)
+		if (count($r = $this->MakeAssocArray($this->Query('SELECT `id`,`name` FROM `'.MYSQL_TBLGAMERS.'` WHERE `id` IN ('.$ids.') ORDER BY `status` DESC'))) > 0)
 		{
 			if (!$s)
 				return $r;
@@ -158,7 +158,7 @@ class GetDatas extends SQLBase
 	// Получить именя резидентов $c - количество
 	function GetResidentsNames($c=11)
 	{
-		if ($r = $this->Query('SELECT `id`,`name` FROM `'.MYSQL_TBLPLAYERS.'` WHERE `status` > 0 ORDER BY `id` LIMIT '.$c))
+		if ($r = $this->Query('SELECT `id`,`name` FROM `'.MYSQL_TBLGAMERS.'` WHERE `status` > 0 ORDER BY `id` LIMIT '.$c))
 			return $this->MakeAssocArray($r);
 		else error_log(__METHOD__.': SQL ERROR');
 	}
@@ -212,7 +212,7 @@ class GetDatas extends SQLBase
 		WHERE `FIRSTTABLE`.`type`<10
 		'.($o>=0 ? 'AND `FIRSTTABLE`.`open` = '.$o : '').' 
 		ORDER BY `FIRSTTABLE`.`id`';
-		return $this->MakeAssocArray($this->Query(str_replace(array('FIRSTTABLE','SECONDTABLE'),array(MYSQL_TBLVOTES,MYSQL_TBLPLAYERS),$sql)));
+		return $this->MakeAssocArray($this->Query(str_replace(array('FIRSTTABLE','SECONDTABLE'),array(MYSQL_TBLVOTES,MYSQL_TBLGAMERS),$sql)));
 	}
 	// Получить комментарии
 	function GetComments($t,$id)

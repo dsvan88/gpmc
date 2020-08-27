@@ -1,8 +1,6 @@
 <?php
 $check = array_search($_POST['t'], array('login','add_new','reg_me','edit_my','rec_me','admin_login'), true);
 if ($check === false)
-	exit ('Не верно указан тип требуемой формы!');
-include 'dir_cfg.php';
 $engine_set = 'GETS';
 include $root_path.'/engine/engine.php';
 include $root_path.'/engine/check_admin.php';
@@ -24,7 +22,7 @@ if ($check < 5) :?>
 		<a>Забыли пароль?</a><a class='right' id='RegisterNewUser'>Регистрация</a>
 	</form>
 	<?elseif ($_POST['t'] === 'add_new') :?>
-	<form id='AddEveningPlayer'>
+	<form id='AddEveningGamer'>
 		<div class ='input_row'><input name="new_gamer" type="text" class="input_gamer" value ="<?=$players[$i]?>"/></div>
 		<div class ='input_row'><button id='AddNewGamer'>Добавить</button></div>
 		<span>* Введите игровой ник игрока.</span>
@@ -40,7 +38,7 @@ if ($check < 5) :?>
 		<a id='Welcome'>Назад</a>
 	</form>
 	<?elseif ($_POST['t'] === 'edit_my') :
-		$user_data = $engine->GetPlayerData(array($_POST['c']),array('id'=>$_SESSION['id']));
+		$user_data = $engine->GetGamerData(array($_POST['c']),array('id'=>$_SESSION['id']));
 	?>
 	<form id='Form_EditUserInfoRow'>
 		<div class ='input_row'>

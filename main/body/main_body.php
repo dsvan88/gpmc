@@ -10,6 +10,6 @@ else
 {
 	?>
 	<div class='content__register-evening'>
-</div><?
+	</div><?
 }?>
 </div>

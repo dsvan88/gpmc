@@ -36,7 +36,7 @@ if ($r > 0)
 	$classes = array('negative','positive');
 	$voted = $engine->GetVotes($r);
 	$result['vote'] = 2;
-	$result['html'] ='<div class="modal_vote_caption">Голосование за "'.$types[$_POST['t']].' игрока <b>'.$engine->GetPlayerName($_POST['i']).'"</b></div>
+	$result['html'] ='<div class="modal_vote_caption">Голосование за "'.$types[$_POST['t']].' игрока <b>'.$engine->GetGamerName($_POST['i']).'"</b></div>
 	<input type="hidden" name="v_id" value="'.$r.'"/>
 	<input type="hidden" name="type" value="'.$_POST['t'].'"/>
 	<div class="modal_vote_txt">Голосование уже в процессе!<br>
@@ -50,7 +50,7 @@ if ($r > 0)
 		if ($voted[$x]['type'] === '11')
 		{
 			++$i;
-			$positive .= '<div class="user_voted vote_'.($classes[$voted[$x]['type']-10]).'">'.$i.'. <b>'.$engine->GetPlayerName($voted[$x]['author']).'</b> : '.$voted[$x]['txt'].'</div>';
+			$positive .= '<div class="user_voted vote_'.($classes[$voted[$x]['type']-10]).'">'.$i.'. <b>'.$engine->GetGamerName($voted[$x]['author']).'</b> : '.$voted[$x]['txt'].'</div>';
 		}
 	}
 	$i=0;
@@ -59,7 +59,7 @@ if ($r > 0)
 		if ($voted[$x]['type'] === '10')
 		{
 			++$i;
-			$negative .= '<div class="user_voted vote_'.($classes[$voted[$x]['type']-10]).'">'.$i.'. <b>'.$engine->GetPlayerName($voted[$x]['author']).'</b> : '.$voted[$x]['txt'].'</div>';
+			$negative .= '<div class="user_voted vote_'.($classes[$voted[$x]['type']-10]).'">'.$i.'. <b>'.$engine->GetGamerName($voted[$x]['author']).'</b> : '.$voted[$x]['txt'].'</div>';
 		}
 	}
 	$result['html'] .= $positive.'</div>'.$negative.'</div>
@@ -75,7 +75,7 @@ if ($r > 0)
 else
 {
 	$result['vote'] = 1;
-	$result['html'] = '<div class="modal_vote_caption">Голосование за<br>"'.$types[$_POST['t']].' игрока <b>'.$engine->GetPlayerName($_POST['i']).'"</b></div>
+	$result['html'] = '<div class="modal_vote_caption">Голосование за<br>"'.$types[$_POST['t']].' игрока <b>'.$engine->GetGamerName($_POST['i']).'"</b></div>
 	<input type="hidden" name="p_id" value="'.$_POST['i'].'"/>
 	<input type="hidden" name="type" value="'.$_POST['t'].'"/>
 	<div class="modal_vote_txt">Хотите начать голосование за "'.$types[$_POST['t']].'"?

@@ -12,7 +12,7 @@
 				<div>
 					<?=$genders[$_SESSION['gender']]?>
 					<a href='<?='/?profile=',$_SESSION['id']?>' id="aProfile">
-						<?=$engine->GetPlayerData(array('name'), array('id'=>$_SESSION['id']))['name']?>
+						<?=$engine->GetGamerData(array('name'), array('id'=>$_SESSION['id']))['name']?>
 					</a>
 					<br>
 					<a href='#' id='LogOut'>Выйти</a>

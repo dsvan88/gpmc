@@ -1,4 +1,4 @@
-<?php include 'dir_cfg.php';
+<?php
 $engine_set = 'GETS';
 include $root_path.'/engine/engine.php'; 
 $engine = new GetDatas();

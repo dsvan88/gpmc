@@ -22,7 +22,7 @@ if ($src !== FALSE)
 	}
     ('image'.$func)($src, $root_path.FILE_USRGALL.$_SESSION['id'].'/'.$new_name,100);
 	imagedestroy($src);
-	$engine->UpdateRow(array('avatar'=>$new_name),array('id'=>$_SESSION['id']),MYSQL_TBLPLAYERS);
+	$engine->UpdateRow(array('avatar'=>$new_name),array('id'=>$_SESSION['id']),MYSQL_TBLGAMERS);
 	$result['error']=0;
 	$result['html']='Успешно!';
 	exit(json_encode($result,JSON_UNESCAPED_UNICODE));

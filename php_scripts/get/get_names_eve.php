@@ -1,5 +1,4 @@
 <?php
-include 'dir_cfg.php';
 $engine_set = 'JSFUNC';
 include $root_path.'/engine/engine.php'; 
 $jsfunc = new JSFunc();

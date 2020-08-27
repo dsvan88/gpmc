@@ -1,5 +1,4 @@
 <?php
-include 'dir_cfg.php';
 include $root_path.'/config/vars_default.php';
 if (!defined('FUNC_LOAD'))	include 'functions.php';
 if (!defined('BASE_LOAD'))	include 'engine_base.php';

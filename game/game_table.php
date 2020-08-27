@@ -1,6 +1,6 @@
 <? if (isset($vars)) :?>
 	<table id='Game_<?=$game_id?>' class='GameTable'>
-	<caption>Игра №<?=++$ti?>. Ведущий: <i><?=$engine->GetPlayerName($game['manager'])?></i>. Рейтинговая игра для ранга: <i><?=$enum_rating[$a['rating']]?></i><br>
+	<caption>Игра №<?=++$ti?>. Ведущий: <i><?=$engine->GetGamerName($game['manager'])?></i>. Рейтинговая игра для ранга: <i><?=$enum_rating[$a['rating']]?></i><br>
 	Победитель: <i><?=$enum_winner[$vars['win']]?></i></caption>
 	<thead><tr><th rowspan = '2'>№</th><th rowspan = '2'>Игроки:</th><th colspan="4">Фолы:</th><th rowspan = '2'></th><th colspan='<?=$vars['day_count']+1?>'>Выставил:</th><th rowspan = '2'>Прим.</th></tr>
 	<tr><th>1</th><th>2</th><th>3</th><th>4</th><?for($x=0;$x<=$vars['day_count'];++$x){ ?><th><?=$x?></th><? }?></tr>

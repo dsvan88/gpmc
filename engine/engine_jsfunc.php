@@ -7,8 +7,8 @@ class JSFunc extends SQLBase
 	function GetNamesAutoComplete($s,$e=0) 
 	{
 		$dop = '';
-		if ($e > 0) $dop = ' AND `id` IN ('.$this->GetEveningPlayers($e).')';
-		if ($r = $this->Query('SELECT `name` FROM `'.MYSQL_TBLPLAYERS.'` WHERE `name` LIKE "%'.$s.'%"'.$dop))
+		if ($e > 0) $dop = ' AND `id` IN ('.$this->GetEveningGamers($e).')';
+		if ($r = $this->Query('SELECT `name` FROM `'.MYSQL_TBLGAMERS.'` WHERE `name` LIKE "%'.$s.'%"'.$dop))
 			return $this->MakeSimpleString($r,'","');
 		else error_log(__METHOD__.': SQL ERROR');
 	}
@@ -26,14 +26,15 @@ class JSFunc extends SQLBase
 	}
 	function GetResidentsNames($c=11)
 	{
-		if ($r = $this->Query('SELECT `id`,`name` FROM `'.MYSQL_TBLPLAYERS.'` WHERE `status` > 0 ORDER BY `id` LIMIT '.$c))
+		if ($r = $this->Query('SELECT `id`,`name` FROM `'.MYSQL_TBLGAMERS.'` WHERE `status` > 0 ORDER BY `id` LIMIT '.$c))
 			return $this->MakeAssocArray($r);
 		else error_log(__METHOD__.': SQL ERROR');
 	}
 	function GetRandomPlayers($c=10,$e=-1) 
 	{
-		if ($e !== -1) $dop = $this->MakeRawArray($this->Query('SELECT `players` FROM `'.MYSQL_TBLEVEN.'` WHERE `id`="'.$e.'" LIMIT 1'))[0];
-		if ($r = $this->Query('SELECT `name` FROM `'.MYSQL_TBLPLAYERS.'` '.(isset($dop) ? 'WHERE `id` IN ('.$dop.')' : 'ORDER BY RAND() LIMIT '.$c)))
+		// Переделать, опираясь на новую колонку "gamers_info"
+		if ($e !== -1) $dop = $this->MakeRawArray($this->Query('SELECT `gamers` FROM `'.MYSQL_TBLEVEN.'` WHERE `id`="'.$e.'" LIMIT 1'))[0];
+		if ($r = $this->Query('SELECT `name` FROM `'.MYSQL_TBLGAMERS.'` '.(isset($dop) ? 'WHERE `id` IN ('.$dop.')' : 'ORDER BY RAND() LIMIT '.$c)))
 			return $this->MakeRawArray($r);
 		else error_log(__METHOD__.': SQL ERROR');
 	}
@@ -67,7 +68,7 @@ class JSFunc extends SQLBase
 			return false;
 		}
 	}
-	function GetAllPlayerIDs($f_date=0,$t_date=0) 
+	function GetAllGamersIDs($f_date=0,$t_date=0) 
 	{
 		if ($f_date !== 0) $dop = ' AND `date` >= '.$f_date;
 		if ($t_date !== 0) $dop = (isset($dop) ? $dop : '').' AND `date` <= '.$t_date;
@@ -86,7 +87,7 @@ class JSFunc extends SQLBase
 	{
 		if ($f !== 0) $dop = ' AND `date` >= '.$f;
 		if ($t !== 0) $dop = (isset($dop) ? $dop : '').' AND `date` <= '.$t;
-		if ($r = $this->Query('SELECT `games`,`players` FROM `'.MYSQL_TBLEVEN.'` WHERE `id` > 0'.(isset($dop) ? $dop : '')))
+		if ($r = $this->Query('SELECT `games`,`gamers` FROM `'.MYSQL_TBLEVEN.'` WHERE `id` > 0'.(isset($dop) ? $dop : '')))
 			return $this->MakeAssocArray($r);
 		else 
 		{
@@ -94,16 +95,16 @@ class JSFunc extends SQLBase
 			return false;
 		}
 	}
-	function GetAllPlayers($e=-1) 
+	function GetAllGamers($e=-1) 
 	{
-		if ($e !== -1) $dop = 'WHERE `id` IN ('.$this->GetEveningPlayers($e).')';
-		if ($r = $this->Query('SELECT `id`,`name` FROM `'.MYSQL_TBLPLAYERS.'` '.(isset($dop) ? $dop : '')))
+		if ($e !== -1) $dop = 'WHERE `id` IN ('.$this->GetEveningGamers($e).')';
+		if ($r = $this->Query('SELECT `id`,`name` FROM `'.MYSQL_TBLGAMERS.'` '.(isset($dop) ? $dop : '')))
 			return $this->MakeSimpleArray($r);
 		else error_log(__METHOD__.': SQL ERROR');
 	}
-	function GetEveningPlayers($e)
+	function GetEveningGamers($e)
 	{
-		return $this->MakeRawArray($this->Query('SELECT `players` FROM `'.MYSQL_TBLEVEN.'` WHERE `id`="'.$e.'" LIMIT 1'))[0];
+		return $this->MakeRawArray($this->Query('SELECT `gamers` FROM `'.MYSQL_TBLEVEN.'` WHERE `id`="'.$e.'" LIMIT 1'))[0];
 	}
 	function GetEveningGames($e)
 	{
@@ -134,7 +135,7 @@ class JSFunc extends SQLBase
 			$a[$i]['name'] = $_POST['gamer'][$i];
 		}
 		$a['enum'] = '"'.implode('","',$_POST['gamer']).'"';
-		return $this->GetPlayersIDs($a);
+		return $this->GetGamersIDs($a);
 	}
 	function getUsersIDs($gamers){
 		$a = [];
@@ -155,7 +156,7 @@ class JSFunc extends SQLBase
 			$a['enum'] .= '"'.$gamers[$x]['name'].'",';
 		}
 		$a['enum']= substr($a['enum'],0,-1);
-		return $this->GetPlayersIDs($a);
+		return $this->GetGamersIDs($a);
 	}
 	function CheckEveningID($i)
 	{
@@ -196,7 +197,7 @@ class JSFunc extends SQLBase
 	}
 	function GetLastEveningInfo()
 	{
-		if ($r = $this->GetAssoc($this->Query('SELECT `id`,DATE_FORMAT(DATE(FROM_UNIXTIME(`date`)),"%d.%m.%Y %H:%i") AS `date`,`games`,`players` FROM `'.MYSQL_TBLEVEN.'` ORDER BY `id` DESC LIMIT 1')))
+		if ($r = $this->GetAssoc($this->Query('SELECT `id`,DATE_FORMAT(DATE(FROM_UNIXTIME(`date`)),"%d.%m.%Y %H:%i") AS `date`,`games`,`gamers` FROM `'.MYSQL_TBLEVEN.'` ORDER BY `id` DESC LIMIT 1')))
 			return $r;
 		else return false;
 	}
@@ -207,8 +208,8 @@ class JSFunc extends SQLBase
 		$a = array('date'=>$data['date'],'place'=>$r['id'],'applied'=>1);
 		if (isset($data['gamers']))
 		{
-			$a['players'] = $this->getUsersIDs($data['gamers'])['ids'];
-			$a['player_info'] = str_replace('"','||',$data['gamers']);
+			$a['gamers'] = $this->getUsersIDs($data['gamers'])['ids'];
+			$a['gamers_info'] = str_replace('"','||',$data['gamers']);
 		}
 		$eveningId = $this->GetNearEveningData();
 		if ($eveningId === false)
@@ -220,7 +221,7 @@ class JSFunc extends SQLBase
 	{
 		if (($r = $this->MakeRawArray($this->Query('SELECT `id` FROM `'.MYSQL_TBLEVEN.'` WHERE `date` ="'.$d.'" LIMIT 1'))[0]) > 0)
 			return $r;
-		else return $this->InsertRow(array('date'=>$d,'players'=>$p),MYSQL_TBLEVEN);
+		else return $this->InsertRow(array('date'=>$d,'gamers'=>$p),MYSQL_TBLEVEN);
 	}
 	function GetPlaceByID($id)
 	{
@@ -265,7 +266,7 @@ class JSFunc extends SQLBase
 		$_SESSION['id_game'] = $this->InsertRow(array(
 			'e_id'=>$e,
 			'g_ids'=>$ids,
-			'manager'=>$this->GetPlayerID($m),
+			'manager'=>$this->GetGamerID($m),
 			'players'=>str_replace('"','\"',json_encode($players,JSON_UNESCAPED_UNICODE)),
 			'rating'=>$this->GetGameRating($ids)));
 		$games = $this->GetEveningGames($e);
@@ -289,21 +290,21 @@ class JSFunc extends SQLBase
 		$arr['enum']		= 	'"'.implode('","',$a['player']).'"';
 		return $arr;
 	}
-	function GetPlayerID($n,$chk=0)
+	function GetGamerID($n,$chk=0)
 	{
-		if (($r = $this->MakeRawArray($this->Query('SELECT `id` FROM `'.MYSQL_TBLPLAYERS.'` WHERE `name` ="'.$n.'" LIMIT 1'))[0]) > 0)
+		if (($r = $this->MakeRawArray($this->Query('SELECT `id` FROM `'.MYSQL_TBLGAMERS.'` WHERE `name` ="'.$n.'" LIMIT 1'))[0]) > 0)
 			return $r;
-		else return $chk === 0 ? $this->InsertRow(array('name'=>$n),MYSQL_TBLPLAYERS) : false;
+		else return $chk === 0 ? $this->InsertRow(array('name'=>$n),MYSQL_TBLGAMERS) : false;
 	}
-	function GetPlayerName($id)
+	function GetGamerName($id)
 	{
-		if (($r = $this->MakeRawArray($this->Query('SELECT `name` FROM `'.MYSQL_TBLPLAYERS.'` WHERE `id` ="'.$id.'" LIMIT 1'))[0]) !== false)
+		if (($r = $this->MakeRawArray($this->Query('SELECT `name` FROM `'.MYSQL_TBLGAMERS.'` WHERE `id` ="'.$id.'" LIMIT 1'))[0]) !== false)
 			return $r;
 		else return '';
 	}
-	function GetPlayersNames($ids,$s = false)
+	function GetGamersNames($ids,$s = false)
 	{
-		if (count($r = $this->MakeAssocArray($this->Query('SELECT `id`,`name` FROM `'.MYSQL_TBLPLAYERS.'` WHERE `id` IN ('.$ids.') ORDER BY `status` DESC'))) > 0)
+		if (count($r = $this->MakeAssocArray($this->Query('SELECT `id`,`name` FROM `'.MYSQL_TBLGAMERS.'` WHERE `id` IN ('.$ids.') ORDER BY `status` DESC'))) > 0)
 		{
 			if (!$s)
 				return $r;
@@ -330,7 +331,7 @@ class JSFunc extends SQLBase
 	}
 	function GetGameRating($ids)
 	{
-		if (($r = $this->MakeRawArray($this->Query('SELECT `rank` FROM `'.MYSQL_TBLPLAYERS.'` WHERE `id` IN ('.$ids.') LIMIT 20'))) !== false)
+		if (($r = $this->MakeRawArray($this->Query('SELECT `rank` FROM `'.MYSQL_TBLGAMERS.'` WHERE `id` IN ('.$ids.') LIMIT 20'))) !== false)
 		{
 			$i=-1;
 			$res = 0;
@@ -343,32 +344,31 @@ class JSFunc extends SQLBase
 		}
 		else return 0;
 	}
-	function AddPlayerToEvening($e,$id,$t='')
+	function AddGamerToEvening($e,$id,$t='')
 	{
-		$ids = $this->GetEveningPlayers($e).','.$id;
-		$this->UpdateRow(array('players'=>$ids),array('id'=>$e),MYSQL_TBLEVEN);
+		$ids = $this->GetEveningGamers($e).','.$id;
+		$this->UpdateRow(array('gamers'=>$ids),array('id'=>$e),MYSQL_TBLEVEN);
 		return $ids;
 	}
-	function RemovePlayerFromEvening($e,$id)
+	function RemoveGamerFromEvening($e,$id)
 	{
-		$ids = str_replace(array($id.',',','.$id),array('',''),$this->GetEveningPlayers($e));
-		$this->UpdateRow(array('players'=>$ids),array('id'=>$e),MYSQL_TBLEVEN);
+		$ids = str_replace(array($id.',',','.$id),array('',''),$this->GetEveningGamers($e));
+		$this->UpdateRow(array('gamers'=>$ids),array('id'=>$e),MYSQL_TBLEVEN);
 	}
-	function UnRecordPlayerFromEvening($i)
+	function UnRecordGamerFromEvening($i)
 	{
-		$data = $this->GetNearEveningData(array('id','players','times','tobe'));
+		$data = $this->GetNearEveningData(array('id','gamers','gamers_info'));
 		if ($data === false) return false;
-		$data['players'] = explode(',',$data['players']);
-		$data['times'] = explode(',',$data['times']);
-		$data['tobe'] = explode(',',$data['tobe']);
-		unset($data['players'][$i]);
-		unset($data['times'][$i]);
-		unset($data['tobe'][$i]);
-		$this->UpdateRow(array('players'=>implode(',',$data['players']),'times'=>implode(',',$data['times']),'tobe'=>implode(',',$data['tobe'])),array('id'=>$data['id']),MYSQL_TBLEVEN);
+		$data['gamers'] = explode(',',$data['gamers']);
+		$data['gamers_info'] = json_decode(str_replace('||','"',$data['gamers']));
+
+		unset($data['gamers'][$i]);
+		unset($data['gamers_info'][$i]);
+		$this->UpdateRow(['gamers'=>implode(',',$data['gamers']),'gamers_info'=>json_encode(str_replace('"','||',$data['gamers_info']),JSON_UNESCAPED_UNICODE)],['id'=>$data['id']],MYSQL_TBLEVEN);
 	}
-	function GetPlayersIDs($a)
+	function GetGamersIDs($a)
 	{
-		$res = $this->Query('SELECT `id`,`name` FROM `'.MYSQL_TBLPLAYERS.'` WHERE `name` IN ('.$a['enum'].') LIMIT 25');
+		$res = $this->Query('SELECT `id`,`name` FROM `'.MYSQL_TBLGAMERS.'` WHERE `name` IN ('.$a['enum'].') LIMIT 25');
 		unset($a['enum']);
 		while ($row = $this->GetAssoc($res))
 		{
@@ -385,7 +385,7 @@ class JSFunc extends SQLBase
 		{
 			if (trim($a[$i]['name']) === '') continue;
 			if ($a[$i]['id'] === -1)
-				$a[$i]['id'] = $this->InsertRow(array('name'=>$a[$i]['name'],'game_credo'=>'','live_credo'=>''),MYSQL_TBLPLAYERS);
+				$a[$i]['id'] = $this->InsertRow(array('name'=>$a[$i]['name']),MYSQL_TBLGAMERS);
 			$a['ids'] .= 	$a[$i]['id'].',';
 		}
 		$a['ids'] = substr($a['ids'],0,-1);

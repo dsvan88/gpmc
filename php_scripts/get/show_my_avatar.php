@@ -6,7 +6,7 @@ $result = array(
 	'txt'	=> ''
 );
 $max_height = 450;
-$user = $engine->GetPlayerData(['avatar'],['id'=>$_SESSION['id']],1);
+$user = $engine->GetGamerData(['avatar'],['id'=>$_SESSION['id']],1);
 $user['avatar'] = FILE_USRGALL.$_SESSION['id'].'/'.$user['avatar'];
 $a = getimagesize($root_path.$user['avatar']);
 $size=$a[0].'x'.$a[1];

@@ -6,10 +6,10 @@
 				'name'=>'',
 				'info' => ''
 			),
-			'players' => $engine->GetResidentsNames(11)
+			'gamers' => $engine->GetResidentsNames(11)
 	);
-	if ($EveningData['players'] === '')
-		$EveningData['players'] = $engine->GetResidentsNames(11);
+	if ($EveningData['gamers'] === '')
+		$EveningData['gamers'] = $engine->GetResidentsNames(11);
 ?>
 <div id='EveningDate'><div>Время: </div><input class='datepick' type='text' name='eve_date' value='<?=date('d.m.Y H:i',$EveningData['date'])?>'/></div>
 <div id='EveningPlace'><div>Место: </div><input type='text' name='eve_place' value='<?=$EveningData['place']['name']?>'/><br>
@@ -20,7 +20,7 @@
 Участники:
 <?
 	$i=-1;
-	while(++$i<($EveningData['players'] !== '' ? count($EveningData['players']) : 11))
+	while(++$i<($EveningData['gamers'] !== '' ? count($EveningData['gamers']) : 11))
 		include $root_path.'/templates/gamer_field.php';
 	?>
 	</div>

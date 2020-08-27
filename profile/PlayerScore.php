@@ -1,6 +1,3 @@
-<? include 'dir_cfg.php';
-$root_path;
-?>
 <div class='InfoRow'><span class='InfoCaption'>Всего игр</span>:<span class='InfoValue'></span></div>
 <div class='InfoRow'><span class='InfoCaption'>Побед</span>:<span class='InfoValue'></span></div>
 <div class='InfoRow'><span class='InfoCaption'>Побед мирным</span>:<span class='InfoValue'></span></div>

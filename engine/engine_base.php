@@ -121,7 +121,7 @@ class SQLBase
 	}
 	function GetUsersArray()
 	{
-		if ($r = $this->Query('SELECT `id`,`fio` FROM `'.MYSQL_TBLPLAYERS.'` WHERE '.($_SESSION['sector'] !== '0' ? '`sector` LIKE "%'.str_replace(',','% OR `sector` LIKE %',$_SESSION['sector']).'%"' : '`id` > 0')))
+		if ($r = $this->Query('SELECT `id`,`fio` FROM `'.MYSQL_TBLGAMERS.'` WHERE '.($_SESSION['sector'] !== '0' ? '`sector` LIKE "%'.str_replace(',','% OR `sector` LIKE %',$_SESSION['sector']).'%"' : '`id` > 0')))
 			return $this->MakeSimpleArray($r);
 		else error_log(__METHOD__.': SQL ERROR');
 	}
@@ -164,12 +164,12 @@ class SQLBase
 	}
 	function CheckFreeLogin($s)
 	{
-		if ($this->GetRow($this->Query('SELECT `id` FROM `'.MYSQL_TBLPLAYERS.'` WHERE `username`="'.$s.'" LIMIT 1'))[0] > 0)
+		if ($this->GetRow($this->Query('SELECT `id` FROM `'.MYSQL_TBLGAMERS.'` WHERE `username`="'.$s.'" LIMIT 1'))[0] > 0)
 			return false;
 		return true;
 	}
 	// Получить ассоциативный массив всех игроков, по заданным условиям.
-	function GetPlayerData($c,$b='',$l=1)
+	function GetGamerData($c,$b='',$l=1)
 	{
 		$method = ($l !== 1) ? 'MakeAssocArray' : 'GetAssoc';
 		$where = '';
@@ -184,14 +184,14 @@ class SQLBase
 			}
 			$where = mb_substr($where,0,-4);
 		}
-		return $this->$method($this->Query('SELECT `'.implode('`,`',$c).'` FROM `'.MYSQL_TBLPLAYERS.'`'.$where.($l > 0 ? ' LIMIT '.$l : '')));
+		return $this->$method($this->Query('SELECT `'.implode('`,`',$c).'` FROM `'.MYSQL_TBLGAMERS.'`'.$where.($l > 0 ? ' LIMIT '.$l : '')));
 	}
 	function ChangePass($r)
 	{
 		if ($r['np'] !== $r['np2'])
 			return '0#ОШИБКА! Пароли не совпадают. Повторите ввод!';
 		$r['op'] = md5($r['op']);
-		$g = $this->GetAssoc($this->Query('SELECT `id`,`p` FROM `'.MYSQL_TBLPLAYERS.'` WHERE `id` = "'.$_SESSION['id'].'" LIMIT 1'));
+		$g = $this->GetAssoc($this->Query('SELECT `id`,`p` FROM `'.MYSQL_TBLGAMERS.'` WHERE `id` = "'.$_SESSION['id'].'" LIMIT 1'));
 		if ($r['op'] === $g['p'])
 		{
 			$this->UpdateRow(array('p'=>md5($r['np'])),array('id'=>$g['id']),'users');
@@ -205,14 +205,14 @@ class SQLBase
 	}
 	function LogIn($l,$p)
 	{
-		$r = $this->GetAssoc($this->Query('SELECT `id`,`name`,`username`,`status`,`gender`,`ar` FROM `'.MYSQL_TBLPLAYERS.'` WHERE (`name`="'.$l.'" OR `username`="'.$l.'" OR `email`="'.$l.'") AND `pass`="'.$p.'" LIMIT 1'));
+		$r = $this->GetAssoc($this->Query('SELECT `id`,`name`,`username`,`status`,`gender`,`ar` FROM `'.MYSQL_TBLGAMERS.'` WHERE (`name`="'.$l.'" OR `username`="'.$l.'" OR `email`="'.$l.'") AND `pass`="'.$p.'" LIMIT 1'));
 		if (isset($r['id']))
 			$_SESSION = $r;
 		else return false;
 	}
 	function AdminLogIn($l,$p)
 	{
-		$r = $this->GetAssoc($this->Query('SELECT `id`,`name`,`username`,`status`,`gender`,`ar` FROM `'.MYSQL_TBLPLAYERS.'` WHERE `username`="'.$l.'" AND `pass`="'.$p.'" AND `ar` > 0 LIMIT 1'));
+		$r = $this->GetAssoc($this->Query('SELECT `id`,`name`,`username`,`status`,`gender`,`ar` FROM `'.MYSQL_TBLGAMERS.'` WHERE `username`="'.$l.'" AND `pass`="'.$p.'" AND `ar` > 0 LIMIT 1'));
 		if (isset($r['id']))
 			$_SESSION = $r;
 		else return false;

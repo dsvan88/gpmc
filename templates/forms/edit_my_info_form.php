@@ -1,4 +1,4 @@
-<? $user_data = $engine->GetPlayerData(array($_POST['c']),array('id'=>$_SESSION['id'])); 
+<? $user_data = $engine->GetGamerData(array($_POST['c']),array('id'=>$_SESSION['id'])); 
 $output['html'] .= '
 	<form id="Form_EditUserInfoRow">
 		<div class ="input_row">';

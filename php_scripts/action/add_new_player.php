@@ -1,2 +1,2 @@
-<? $engine->AddPlayerToEvening($engine->GetEveningID(strtotime(date('d.m.Y'))),$engine->GetPlayerID($_POST['n'])) ?>
+<? $engine->AddGamerToEvening($engine->GetEveningID(strtotime(date('d.m.Y'))),$engine->GetGamerID($_POST['n'])) ?>
 <span id='player_<?=$id?>' class='player_name'><?=$_POST['n']?></span><span class='del' id='del_<?=$id?>'>X</span>&nbsp;

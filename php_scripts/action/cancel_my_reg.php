@@ -3,19 +3,18 @@ $result = array(
 	'error'=> 0,
 	'txt' => 'Очень жаль!'.PHP_EOL.'Надеемся увидеть Вас в следующий раз!'
 );
-$EveningData = $engine->GetNearEveningData(array('id','date','players','times','tobe'));
-$EveningData['players'] = explode(',',$EveningData['players']);
-$EveningData['times'] = explode(',',$EveningData['times']);
-$EveningData['tobe'] = explode(',',$EveningData['tobe']);
-for($x=0;$x<count($EveningData['players']);$x++)
+$EveningData = $engine->GetNearEveningData(array('id','date','gamers','gamers_info'));
+$EveningData['gamers'] = explode(',',$EveningData['gamers']);
+$EveningData['gamers_info'] = json_decode(str_replace('||','"',$EveningData['gamers_info']));
+
+for($x=0;$x<count($EveningData['gamers']);$x++)
 {
-	if ($EveningData['players'][$x] === $_SESSION['id'])
+	if ($EveningData['gamers'][$x] === $_SESSION['id'])
 	{
-		unset($EveningData['players'][$x]);
-		unset($EveningData['times'][$x]);
-		unset($EveningData['tobe'][$x]);
+		unset($EveningData['gamers'][$x]);
+		unset($EveningData['gamers_info'][$x]);
 		break;
 	}
 }
-$engine->UpdateRow(array('players'=>implode(',',$EveningData['players']),'times'=>implode(',',$EveningData['times']),'tobe'=>implode(',',$EveningData['tobe'])),array('id'=>$EveningData['id']),MYSQL_TBLEVEN);
+$engine->UpdateRow(['gamers'=>implode(',',$EveningData['gamers']),'gamers_info'=> json_encode(str_replace('"','||',$EveningData['gamers_info']),JSON_UNESCAPED_UNICODE)],['id'=>$EveningData['id']],MYSQL_TBLEVEN);
 exit(json_encode($result,JSON_UNESCAPED_UNICODE));

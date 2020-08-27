@@ -50,8 +50,8 @@ else :
 		$a['bm'] = 'Игрока №'.($vars['make_bm']+1).': '.implode(', ',$vars['bm']);
 		$a['rating'] = $game['rating'];
 		//------------------------------------------------------------------------------- Получение некоторых данных о пользователях
-		$a['manager'] = $engine->GetPlayerName($game['manager']);
-		$tmp = $engine->GetPlayerData(array('id','gender','avatar'),array('id'=>explode(',',$game['g_ids'])),0);
+		$a['manager'] = $engine->GetGamerName($game['manager']);
+		$tmp = $engine->GetGamerData(array('id','gender','avatar'),array('id'=>explode(',',$game['g_ids'])),0);
 		for($x=0;$x<count($tmp);$x++)
 			$avatar[$tmp[$x]['id']] = $tmp[$x]['avatar'] !== '' ? '/gallery/users/'.$tmp[$x]['id'].'/'.$tmp[$x]['avatar'] : $img_genders[$tmp[$x]['gender']];
 		?>

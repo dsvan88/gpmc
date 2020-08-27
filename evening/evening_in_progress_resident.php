@@ -13,7 +13,7 @@ $players = $engine->GetRandomPlayers(10,$EveningID);
 </div>
 <br>
 <hr/>
-<? require $root_path.'/evening/evening_player_list.php'?>
+<? require $root_path.'/evening/evening_gamers_list.php'?>
 <hr/>
 <div class='SepDiv'><button id='AddPlayersToArray'>Добавить игрока</button></div>
 <? require $root_path.'/game/check_game_in_progress.php';

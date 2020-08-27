@@ -44,7 +44,7 @@ if ($_GET['p']==='images'):
 		<?endfor?>
 	</div>
 <?elseif ($_GET['p']==='users'):
-	$users = $engine->GetPlayerData(array('id','name','rank','last_game','status','username','fio','birthday','gender','email','ar'),'',0);
+	$users = $engine->GetGamersData(array('id','name','rank','last_game','status','username','fio','birthday','gender','email','ar'),'',0);
 	$genders=array('-','господин','госпожа','некто');
 	$statuses = array('', 'Резидент', 'Основатель');
 	$cats = array('C', 'B', 'A');?>

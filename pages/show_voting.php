@@ -1,7 +1,6 @@
 <?
 if (!defined('GETS_LOAD'))
 {
-	include 'dir_cfg.php';
 	$engine_set = 'GETS';
 	include $root_path.'/engine/engine.php';
 	$engine = new GetDatas();
@@ -33,7 +32,7 @@ for($x=0;$x<count($votings);$x++){
 			if ($voted[$y]['type'] === '11')
 			{
 				++$i;
-				$positive .= '<div class="user_voted vote_'.($classes[$voted[$y]['type']-10]).'">'.$i.'. <b>'.$engine->GetPlayerName($voted[$y]['author']).'</b> : '.$voted[$y]['txt'].'</div>';
+				$positive .= '<div class="user_voted vote_'.($classes[$voted[$y]['type']-10]).'">'.$i.'. <b>'.$engine->GetGamerName($voted[$y]['author']).'</b> : '.$voted[$y]['txt'].'</div>';
 			}
 		}
 		$i=0;
@@ -42,7 +41,7 @@ for($x=0;$x<count($votings);$x++){
 			if ($voted[$y]['type'] === '10')
 			{
 				++$i;
-				$negative .= '<div class="user_voted vote_'.($classes[$voted[$y]['type']-10]).'">'.$i.'. <b>'.$engine->GetPlayerName($voted[$y]['author']).'</b> : '.$voted[$y]['txt'].'</div>';
+				$negative .= '<div class="user_voted vote_'.($classes[$voted[$y]['type']-10]).'">'.$i.'. <b>'.$engine->GetGamerName($voted[$y]['author']).'</b> : '.$voted[$y]['txt'].'</div>';
 			}
 		}
 		$html .= $positive.'</div>'.$negative.'</div>

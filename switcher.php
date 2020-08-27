@@ -8,9 +8,9 @@ $need = trim(isset($_GET['need']) ? $_GET['need'] : $_POST['need']);
 if ($need==='') exit('Wrong `need` type!');
 $settings = $engine->ModifySettingsArray($engine->GetSettings(array('shname','name','value','type'),'img'));
 
-$need_forms = ['my_record_form','add_evening_player_form','user-register_form','login_form','admin-login_form','edit_my_info_form','rename_player_form'];
-$need_action = ['login','new_user_registration','cancel_my_reg','remove_player_from_evening','discharge_player','add_new_player', 'apply_evening',
-	'crop_file','edit_setting','edit_my_info','do_my_vote','save_comment','rename_player','edit_user_row','edit_point','add_new_player','upload_file'];
+$need_forms = ['my_record_form','add-gamer_form','user-register_form','login_form','admin-login_form','edit_my_info_form','rename-gamer_form'];
+$need_action = ['login','new_user_registration','cancel_my_reg','remove_gamer','discharge_gamer','add_gamer', 'apply_evening',
+	'crop_file','edit_setting','edit_my_info','do_my_vote','save_comment','rename_gamer','edit_user_row','edit_point','upload_file'];
 $need_autocomplete = ['autocomplete_names','autocomplete_places'];
 $need_gets = ['check_vote','get_place_info','get_setting_img','get_setting_txt','edit_user_row_form','edit_point_form','show_user_avatar','show_my_avatar','get_browser'];
 

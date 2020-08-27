@@ -7,24 +7,22 @@
 	{
 		$EveningData['time'] = date('H:i',$EveningData['date']);
 		$EveningData['place'] = $EveningData['place'] === '0' ? array('id'=>'0','name'=>'','info'=>'') : $engine->GetPlaceByID($EveningData['place']);
-		if ($EveningData['players'] !== '')
-			$EveningData['players'] = $engine->GetPlayersNames($EveningData['players'],true);
-		if ($EveningData['times'] !== '')
-			$EveningData['times'] = explode(',',$EveningData['times']);
-		if ($EveningData['tobe'] !== '')
-			$EveningData['tobe'] = explode(',',$EveningData['tobe']);
+		if ($EveningData['gamers'] !== '')
+			$EveningData['gamers'] = $engine->GetGamersNames($EveningData['gamers'],true);
+		if ($EveningData['gamers_info'] !== '')
+			$EveningData['gamers_info'] = json_decode(str_replace('||','"',$EveningData['gamers_info']),true);
 	}
 	if ($EveningData['ready'] === false)
-	$EveningData = array(
+		$EveningData = array(
 			'date'=>strtotime(date('d.m.Y 17:00')),
 			'place' => array(
 				'name'=>'',
 				'info' => ''
 			),
-			'players' => $engine->GetResidentsNames(11)
+			'gamers' => $engine->GetResidentsNames(11)
 	);
-	if ($EveningData['players'] === '')
-		$EveningData['players'] = $engine->GetResidentsNames(11);
+	if ($EveningData['gamers'] === '')
+		$EveningData['gamers'] = $engine->GetResidentsNames(11);
 ?>
 
 <div class="evening-booking__date">
@@ -49,7 +47,7 @@
 	<h2>Участники:</h2>
 <?
 	$i=-1;
-	$max = $EveningData['players'] !== '' ? count($EveningData['players']) : 11;
+	$max = $EveningData['gamers'] !== '' ? count($EveningData['gamers']) : 11;
 	while(++$i < $max)
 		include $root_path.'/templates/gamer_field.php';
 ?>

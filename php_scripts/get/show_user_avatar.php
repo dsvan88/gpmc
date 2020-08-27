@@ -6,7 +6,7 @@ $result = array(
 	'txt'	=> ''
 );
 $max_height = 450;
-$user = $engine->GetPlayerData(['avatar'],['id'=>$_POST['u']],1);
+$user = $engine->GetGamerData(['avatar'],['id'=>$_POST['u']],1);
 if ($user['avatar'] === '')
 {
 	$result['error'] = 1;

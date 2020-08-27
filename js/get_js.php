@@ -1,2 +1,2 @@
 <?header('Content-Type: text/javascript');
-require($_GET['script'].'.js');
+require('./scripts/'.$_GET['script'].'.js');

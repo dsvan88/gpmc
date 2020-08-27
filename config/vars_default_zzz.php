@@ -6,7 +6,7 @@ if (!defined('MYSQL_HOST'))
 	define('MYSQL_PASS', 'MAF_admin1234');
 	define('MYSQL_DB', 'dsvan');
 	define('MYSQL_TBLGAMES', 'games');
-	define('MYSQL_TBLPLAYERS', 'players');
+	define('MYSQL_TBLGAMERS', 'players');
 	define('MYSQL_TBLSTATS', 'statistic');
 	define('MYSQL_TBLEVEN', 'evenings');
 	define('MYSQL_TBLPLACES', 'places');

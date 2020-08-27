@@ -1,4 +1,4 @@
-<? include 'dir_cfg.php';
+<? 
 $def = '<i><нет данных></i>';
 if (!$my && $user['email'] !== '')
 {

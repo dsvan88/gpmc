@@ -3,7 +3,7 @@ $result = array(
 	'error'	=> 0,
 	'html'	=> ''
 );
-$user = $engine->GetPlayerData(['id','name','fio','rank','status','birthday','gender','email','ar'],['id'=>$_POST['id']],1);
+$user = $engine->GetGamerData(['id','name','fio','rank','status','birthday','gender','email','ar'],['id'=>$_POST['id']],1);
 $genders=array('-','господин','госпожа','некто');
 $statuses = array('Гость', 'Резидент', 'Основатель');
 $ranks = array('C', 'B', 'A');

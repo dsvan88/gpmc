@@ -20,8 +20,8 @@
 	$a['bm'] = $vars['bm'] != '' ? implode(',',$vars['bm']) : '';
 	$a['num'] = $engine->GetGameNum($EveningID,$game_id);
 	//------------------------------------------------------------------------------- Получение некоторых данных о пользователях
-	$a['manager'] = $engine->GetPlayerName($a['manager']);
-	$tmp = $engine->GetPlayerData(array('id','gender','avatar'),array('id'=>explode(',',$a['g_ids'])),0);
+	$a['manager'] = $engine->GetGamerName($a['manager']);
+	$tmp = $engine->GetGamersData(array('id','gender','avatar'),array('id'=>explode(',',$a['g_ids'])),0);
 	for($x=0;$x<count($tmp);$x++)
 		$avatar[$tmp[$x]['id']] = $tmp[$x]['avatar'] !== '' ? '/gallery/users/'.$tmp[$x]['id'].'/'.$tmp[$x]['avatar'] : $img_genders[$tmp[$x]['gender']];
 	//------------------------------------------------------------------------------- Загрузка игровой таблицы
