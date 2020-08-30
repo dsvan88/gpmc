@@ -209,7 +209,7 @@ class JSFunc extends SQLBase
 		if (isset($data['gamers']))
 		{
 			$a['gamers'] = $this->getUsersIDs($data['gamers'])['ids'];
-			$a['gamers_info'] = str_replace('"','||',$data['gamers']);
+			$a['gamers_info'] = str_replace('"','\"',$data['gamers']);
 		}
 		$eveningId = $this->GetNearEveningData();
 		if ($eveningId === false)
@@ -360,11 +360,11 @@ class JSFunc extends SQLBase
 		$data = $this->GetNearEveningData(array('id','gamers','gamers_info'));
 		if ($data === false) return false;
 		$data['gamers'] = explode(',',$data['gamers']);
-		$data['gamers_info'] = json_decode(str_replace('||','"',$data['gamers']));
+		$data['gamers_info'] = json_decode($data['gamers_info'], true);
 
 		unset($data['gamers'][$i]);
 		unset($data['gamers_info'][$i]);
-		$this->UpdateRow(['gamers'=>implode(',',$data['gamers']),'gamers_info'=>json_encode(str_replace('"','||',$data['gamers_info']),JSON_UNESCAPED_UNICODE)],['id'=>$data['id']],MYSQL_TBLEVEN);
+		$this->UpdateRow(['gamers'=>implode(',',$data['gamers']),'gamers_info'=>str_replace('"','\"',json_encode($data['gamers_info'],JSON_UNESCAPED_UNICODE))],['id'=>$data['id']],MYSQL_TBLEVEN);
 	}
 	function GetGamersIDs($a)
 	{

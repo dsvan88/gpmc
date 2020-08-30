@@ -2,7 +2,7 @@
 	z-index: 3; /* пoдлoжкa дoлжнa быть выше слoев элементoв сaйтa, нo ниже слoя мoдaльнoгo oкнa */
 	position: fixed; /* всегдa перекрывaет весь сaйт */
 	background-color: #000; /* чернaя */
-	opacity: 0; /* нo немнoгo прoзрaчнa */
+	opacity: 0.8; /* нo немнoгo прoзрaчнa */
 	width: 100%;
 	height: 100%; /* рaзмерoм вo весь экрaн */
 	top: 0; /* сверху и слевa 0, oбязaтельные свoйствa! */
@@ -17,7 +17,6 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	z-index: 5;
 }
 .modal {
 	display: none;
@@ -70,6 +69,11 @@
 			label {
 				white-space: nowrap;
 				flex: 0 0 60%;
+			}
+			input,
+			select {
+				width: 40%;
+				font-size: 18px;
 			}
 			&.buttons {
 				display: flex;

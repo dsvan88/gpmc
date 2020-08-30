@@ -17,11 +17,16 @@ if (!isset($_SESSION['ba']) || $_SESSION['ba'] < 1)
 	$img_genders=array($settings['img']['profile']['value'],$settings['img']['male']['value'],$settings['img']['female']['value'],$settings['img']['profile']['value']);
 }
 $genders=array('','господин','госпожа','некто');
+$user['status'] = 'guest';
+$user_statuses = ['user','resident','resident'];
+if (isset($_SESSION['status']))
+	$user['status'] = $user_statuses[$_SESSION['status']];
+
 ?>
 <!DOCTYPE html>
 <html>
 <?
-require $root_path.'/main/head.php';
-require $root_path.'/main/body.php';
+	require $root_path.'/main/head.php';
+	require $root_path.'/main/body.php';
 ?>
 </html>

@@ -23,7 +23,7 @@ $output['html'] .= '
 		<input required name="chk_pass" type="password" class="input_name" value =""/>
 	</div>
 	<div class ="input_row buttons">
-		<button id="CheckAndReg">Зарегистрировать</button>
+		<button>Зарегистрировать</button>
 	</div>
 	<div class="input_row">
 		<a class="modal-close">Назад</a>

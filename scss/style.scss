@@ -15,6 +15,9 @@ body {
 	min-height: 100vh;
 	overflow: hidden;
 }
+.span_button {
+	@extend %buttons;
+}
 footer {
 	margin-top: auto;
 }
@@ -242,3 +245,4 @@ header {
 	}
 }
 @import "./evening-booking";
+@import "./profile";

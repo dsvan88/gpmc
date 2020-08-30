@@ -15,13 +15,13 @@
 						<?=$engine->GetGamerData(array('name'), array('id'=>$_SESSION['id']))['name']?>
 					</a>
 					<br>
-					<a href='#' id='LogOut'>Выйти</a>
+					<a href='#' data-action="logout">Выйти</a>
 				</div>
 			<? else: ?>
 				<div>
-					<a class="login">Войдите</a>
+					<a data-form-type="login">Войдите</a>
 					<br>или<br>
-					<a class="user-register">Зарегистрируйтесь</a>
+					<a data-form-type="user-register">Зарегистрируйтесь</a>
 				</div>
 			<?endif?>
 		</div>
@@ -29,6 +29,9 @@
 	<menu>
 		<li><a href='/?trg=news'><span>Новости</span></a></li>
 		<li><a href='/?trg=booking'><span>Запись на игру</span></a></li>
+		<? if ($EveningData['start']) :?>
+			<li><a href='/?trg=evening'><span>Вечер игры!</span></a></li>
+		<?endif?>
 		<li><a href='/?trg=rules'><span>Правила</span></a></li>
 		<li><a href='/?trg=about'><span>О нас</span></a></li>
 	</menu>

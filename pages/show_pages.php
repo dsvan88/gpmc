@@ -1,6 +1,6 @@
 <div class="content__page">
 <?
-$defaults = array('history','voting','rating','news','booking');
+$defaults = array('history','voting','rating','news','booking', 'evening');
 if (in_array($_GET['trg'],$defaults,true) ): //&& (isset($_SESSION['status']) && $_SESSION['status'] > 0)
 	require 'show_'.$_GET['trg'].'.php';
 else:

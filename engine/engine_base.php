@@ -222,6 +222,7 @@ class SQLBase
 		unset($_SESSION);
 		session_destroy();
 		mysqli_close($this->SQL);
+		return true;
 	}
 
 

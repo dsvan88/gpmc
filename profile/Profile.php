@@ -1,73 +1,113 @@
 <? if (isset($_SESSION['id']) && $_SESSION['id'] > 0) :
 	$_GET['profile'] = (int) $_GET['profile'];
 	$a_genders = array('<i>Инкогнито</i>', 'Господин', 'Госпожа', 'Некто');
+	$a_genders_colors = ['#8ee6d826','#8ea1e626','#e68e8e26','#a18ee626;'];
 	$a_statuses = array('Гость клуба', 'Резидент клуба', 'Основатель клуба');
 	$a_cats = array('C', 'B', 'A');
 	$my = $_GET['profile'] == $_SESSION['id'] ? true : false;
 	$user = $engine->GetGamerData(array('name','rank','status','fio','birthday','gender','email','game_credo','live_credo','avatar'),array('id'=>$_GET['profile']));
 ?>
-	<script type='text/javascript'>
-	var uID = <?=$_GET['profile']?>;
-	</script>
-	<div id = 'Profile_MainDiv'>
-		<div id ='Profile_CaptionDiv'>Профиль игрока <b><?=$a_genders[$user['gender']],' ',$user['name']?></b></div>
-		<div id='Profile_GamerData'>
-			<div id='Profile_PhotoDiv'>
-				<div id="Profile_PhotoPlace">
+	<div class="profile" style="background-color:<?=$a_genders_colors[$user['gender']]?>" data-user-id="<?=$_GET['profile']?>">
+		<h3 class="profile__title">
+			Профиль игрока 
+			<b>
+			<?=$a_genders[$user['gender']],' ',$user['name']?>
+			</b>
+		</h3>
+		<div class='profile__upper-block'>
+			<div class='profile__upper-block__photo-block'>
+				<div class="profile__upper-block__photo-block__photo-place" id="Profile_PhotoPlace">
 				<? if ($my) : ?>
-					<img class='my_avatar' src ='<?=$user['avatar'] === '' ? $settings['img']['empty_avatar']['value'] : '/gallery/users/'.$_GET['profile'].'/'.$user['avatar']?>'/>
+					<?=$engine->checkAndPutImage($user['avatar'] === '' ? $settings['img']['empty_avatar']['value'] : '/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],$settings['img']['empty_avatar']['name'])?>
 				<?else:?>
-					<img class='user_avatar' src ='<?=$user['avatar'] === '' ? $img_genders[$user['gender']] : '/gallery/users/'.$_GET['profile'].'/'.$user['avatar']?>'/>
-				<?endif;?>
+					<?=$engine->checkAndPutImage($user['avatar'] === '' ? $img_genders[$user['gender']] : '/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],$settings['img']['empty_avatar']['name'])?>
+				<?endif?>
 				</div>
 				<form enctype="multipart/form-data" action="php_scripts/upload_file.php" method="POST" style='display:none'>
 					<input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
-					Добавить фото: <input name="userfile" type="file" accept="image/jpeg,image/png"/>
+					<input name="userfile" type="file" accept="image/jpeg,image/png"/>
 					<input type="submit" value="Отправить файл" />
 				</form>					
 			</div>
-			<div id='Profile_InfoDiv'>
-				<div class="Profile_tabs active" id="Profile_GamerInfo">Личные данные</div>
-				<div class="Profile_tabs" id="Profile_GamerScore">Рейтинг общий</div>
-				<div class="Profile_tabs" id="Profile_GamerRedScore">Рейтинг мирным</div>
-				<div class="Profile_tabs" id="Profile_GamerBlackScore">Рейтинг мафией</div>
-				<div id="Profile_ScoreTextPlace">
-					<? include dirname(__FILE__).'/GamerInfo.php' ?>
+			<div class='profile__upper-block__info-block'>
+				<menu class="profile__upper-block__info-block__menu">
+					<li class="active" data-profile-info="gamer-info">Личные данные</li>
+					<li data-profile-info="gamer-score">Рейтинг общий</li>
+					<li data-profile-info="gamer-red-score">Рейтинг мирным</li>
+					<li data-profile-info="gamer-black-score">Рейтинг мафией</li>
+				</menu>
+				<div class="profile__upper-block__info-block__content">
+					<? include dirname(__FILE__).'/gamer-info.php' ?>
 				</div>
 			</div>
 		</div>
-		<div id='Profile_GamerPhrases'>
-			Немного о себе:
-			<div class='InfoRow'><span class='InfoCaption'>Игровое кредо:</span><?if ($my) :?><a class='EditPencilTA' id='game_credo'><img src = '<?=$settings['img']['edit_pen']['value']?>' title='<?=$settings['img']['edit_pen']['name']?>' alt='<?=$settings['img']['edit_pen']['name']?>'/></a><a class='ApplyTA' id='game_credo' title='Принять' alt='Принять'><img src = '<?=$settings['img']['apply']['value']?>'/></a><?endif?></div>
-			<div class='InfoRow'><span id="game_credo"><?=$user['game_credo'] === '' ? $def : str_replace(array('!BR!','«', '»'),array('<br>','"','"'),$user['game_credo'])?></span></div>
-			<div class='InfoRow'><span class='InfoCaption'>Жизненная позиция:</span><?if ($my) :?><a class='EditPencilTA' id='live_credo'><img src = '<?=$settings['img']['edit_pen']['value']?>' title='<?=$settings['img']['edit_pen']['name']?>' alt='<?=$settings['img']['edit_pen']['name']?>'/></a><a class='ApplyTA' id='live_credo' title='Принять' alt='Принять'><img src = '<?=$settings['img']['apply']['value']?>'/></a><?endif?></div>
-			<div class='InfoRow'><span id="live_credo"><?=$user['live_credo'] === '' ? $def : str_replace(array('!BR!','«', '»'),array('<br>','"','"'),$user['live_credo'])?></span></div>
-		</div>;
-		<div id='Profile_OthersPhrases'>
-		<?if ($my):?>
-			<div>Немного про Вас:</div>
-		<?else:?>
-			<div>Пара слов об игроке:</div>
-			<div class='span_buttons_place'>
-				<span class='span_button' id='AddComment'><img src='<?=$settings['img']['plus']['value']?>'/>Добавить коментарий<img src='<?=$settings['img']['plus']['value']?>'/></span>
+		<div class='profile__middle-block'>
+			<h4>Немного о себе:</h4>
+			<div class='info-row'>
+				<span class='info-row__title'>
+					Игровое кредо:
+				</span>
+				<?if ($my) :?>
+					<a class='info-row__edit' data-action-type="edit-row" data-edit-row='game_credo'>
+						<?=$engine->checkAndPutImage($settings['img']['edit_pen']['value'],$settings['img']['edit_pen']['name'])?>
+					</a>
+					<a class='info-row__apply' data-action-type="save-row" data-save-row='game_credo' title='Принять' alt='Принять'>
+						<?=$engine->checkAndPutImage($settings['img']['apply']['value'],$settings['img']['apply']['name'])?>
+					</a>
+				<?endif?>
+				<p id="game_credo">
+					<?=$user['game_credo'] === '' ? $def : str_replace(array('!BR!','«', '»'),array('<br>','"','"'),$user['game_credo'])?>
+				</p>
 			</div>
-			<form id='AddComment' style='display:none'>
-				<textarea name='comment'></textarea><br>
-				<span class='span_button' id='SaveComment'><img src='<?=$settings['img']['apply']['value']?>'/>Сохранить<img src='<?=$settings['img']['apply']['value']?>'/></span>
+			<div class='info-row'>
+				<span class='info-row__title'>
+					Жизненная позиция:
+				</span>
+				<?if ($my) :?>
+					<a class='info-row__edit' data-action-type="edit-row" data-edit-row='live_credo'>
+						<?=$engine->checkAndPutImage($settings['img']['edit_pen']['value'],$settings['img']['edit_pen']['name'])?>
+					</a>
+					<a class='info-row__apply' data-action-type="save-row" data-save-row='live_credo' title='Принять' alt='Принять'>
+						<?=$engine->checkAndPutImage($settings['img']['apply']['value'],$settings['img']['apply']['name'])?>
+					</a>
+				<?endif?>
+				<p id="live_credo">
+					<?=$user['live_credo'] === '' ? $def : str_replace(array('!BR!','«', '»'),array('<br>','"','"'),$user['live_credo'])?>
+				</p>
+			</div>
+		</div>
+		<div class='profile__lower-block'>
+			<?if ($my):?>
+			<h4>Немного про Вас:</h4>
+			<?else:?>
+			<h4>Пара слов об игроке:</h4>
+			<div class='profile__lower-block__buttons'>
+				<span class='span_button' data-action-type='show-comment-form'>
+					<?=$engine->checkAndPutImage($settings['img']['plus']['value'],'')?>
+					Добавить коментарий
+					<?=$engine->checkAndPutImage($settings['img']['plus']['value'],'')?>
+				</span>
+			</div>
+			<form id='addComment' style='display:none'>
+				<textarea name='comment'></textarea>
+				<span class='span_button' data-action-type='save-comment'>
+					<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
+						Сохранить
+					<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
+				</span>
 			</form>
-			<br>
-		<?endif?>
+			<?endif?>
 			<div id ='Profile_Comments'>
 				<? $comments = $engine->GetComments('user',$_GET['profile']);
 				if ($comments !== false)
 					for ($x=0;$x<count($comments);$x++):?>
-						<div class='CommentsUser'><a href='/?profile=<?=$comments[$x]['author']?>'><b><?=$engine->GetGamerName($comments[$x]['author'])?></b></a>:</div>
-						<div class='CommentsText'><?=str_replace(array('!BR!','«', '»'),array('<br>','"','"'),$comments[$x]['txt'])?></div>
+						<h4><a href='/?profile=<?=$comments[$x]['author']?>'><b><?=$engine->GetGamerName($comments[$x]['author'])?></b></a>:</h4>
+						<p><?=str_replace(array('!BR!','«', '»'),array('<br>','"','"'),$comments[$x]['txt'])?></p>
 					<?endfor;
 				else echo $def;?>
 			</div>
 		</div>
 	</div>
 <?else:?>
-Не <a id="Welcome">авторизованные</a> гости сайта - не могут просматривать личные профили гостей и резидентов клуба. Приносим свои извинения!
+Не&nbsp;<a data-form-type="login">авторизованные</a>&nbsp;гости сайта - не могут просматривать личные профили гостей и резидентов клуба. Приносим свои извинения!
 <?endif?>

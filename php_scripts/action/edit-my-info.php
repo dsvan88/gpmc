@@ -1,4 +1,5 @@
 <?php
+#error_log(json_encode($_POST,JSON_UNESCAPED_UNICODE));
 $result=array(
 	'error' => 0,
 	'txt' => '',
@@ -12,24 +13,24 @@ if (!isset($_SESSION['id']) || $_SESSION['id'] < 1)
 }
 if (!isset($_POST['html']))
 {
-	$col = array_keys($_POST)[1];
+	$col = trim($_POST['column']);
 	if ($col === 'birthday')
 	{
-		if ($_POST['birthday'] === '01.01.1970')
+		if ($_POST['value'] === '01.01.1970')
 		{
 			$result['error'] = 1;
 			$result['txt'] = 'Вы не ввели новую дату';
 			exit(json_encode($result,JSON_UNESCAPED_UNICODE));
 		}
 		else
-			$_POST['birthday'] = strtotime($_POST['birthday']);
+			$_POST['value'] = strtotime($_POST['value']);
 	}
 	if ($col === 'email')
 	{
-		if ($_POST['email'] !== '')
+		if ($_POST['value'] !== '')
 		{
-			$_POST['email'] = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-			if ($_POST['email'] === false)
+			$_POST['value'] = filter_var($_POST['value'], FILTER_VALIDATE_EMAIL);
+			if ($_POST['value'] === false)
 			{
 				$result['error'] = 1;
 				$result['txt'] = 'Вы ввели не правильную электронную почту!';
@@ -37,15 +38,16 @@ if (!isset($_POST['html']))
 			}
 		}
 	}
-	$engine->UpdateRow(array($col=>$_POST[$col]),array('id'=>$_SESSION['id']),MYSQL_TBLGAMERS);
+
+	$engine->UpdateRow(array($col=>$_POST['value']),array('id'=>$_SESSION['id']),MYSQL_TBLGAMERS);
 
 	$result['txt'] = 'Успешно изменено!';
-	$result['nv'] = '<b>'.$_POST[$col].'</b>';
+	$result['nv'] = '<b>'.$_POST['value'].'</b>';
 	exit(json_encode($result,JSON_UNESCAPED_UNICODE));
 }
 else
 {
-	$engine->UpdateRow(array($_POST['i']=>$_POST['html']),array('id'=>$_SESSION['id']),MYSQL_TBLGAMERS);
+	$engine->UpdateRow(array($_POST['column']=>$_POST['html']),array('id'=>$_SESSION['id']),MYSQL_TBLGAMERS);
 	$result['error'] = 0;
 	$result['txt'] = 'Успешно изменено!';
 	exit(json_encode($result,JSON_UNESCAPED_UNICODE));

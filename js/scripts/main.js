@@ -1,5 +1,21 @@
 let dblclick_func = null;
 let EveningID = <?=isset($EveningData['id']) && $EveningData['id'] > 0 ? $EveningData['id'] : -1?>;
+
+document.body.addEventListener('click', actionHandler.clickCommonHandler);
+
+//перенести все клики в clickCommonHandler. Или не надо
+if (typeof addGamers !== "undefined")
+	addGamers.onclick = actionHandler.addGamers;
+if (typeof setEveningData !== "undefined")
+	setEveningData.onclick == actionHandler.setEveningData;
+if (typeof approveEvening !== "undefined")
+	approveEvening.onclick = actionHandler.approveEvening;
+if (typeof eveningGamersFields !== "undefined")
+	eveningGamersFields.onclick = actionHandler.eveningGamersFields;
+
+if (typeof eveningPlace !== "undefined")
+	eveningPlace.onchange = actionHandler.eveningPlace;
+
 $(function () {
 	$('.datepick').datetimepicker({ format: 'd.m.Y H:i', dayOfWeekStart: 1 });
 	$('.timepicker').datetimepicker({ datepicker: false, format: 'H:i' });
@@ -12,24 +28,7 @@ $(function () {
 		minLength: 2
 	});
 })
-document.body.addEventListener('click', showForm);
-addGamers.addEventListener('click', addGamerField);
-setEveningData.addEventListener('click', setEveningDatePlace);
-approveEvening.addEventListener('click', saveEveningFullData);
 
-// 	$('#LogInDiv').off('click','#LogOut');
-// 	$('#LogInDiv').on('click','#LogOut', function(){
-// 		$.ajax({
-// 			url:'switcher.php?need=logout'
-// 			, success: function(res) {
-// 				location.reload();
-// 			}
-// 			, error: function(res) {
-// 				alert('Error: Ошибка связи с сервером');
-// 			}
-// 		});
-// 		return false;
-// 	});
 // 	$('#MainHeader').on('click','a#aProfile,a#MainLogo', function(e){
 // 		e = e || event;
 // 		if (e.ctrlKey)
@@ -76,21 +75,7 @@ approveEvening.addEventListener('click', saveEveningFullData);
 // 		});
 // 		return false;
 // 	});
-// 	$('#MainBody').off('click','#ApproveEvening');
-// 	$('#MainBody').on('click','#ApproveEvening', function(){
-// 		$.ajax({
-// 			url:'switcher.php'
-// 			, type:'POST'
-// 			, data:'need=apply_evening&'+$('#EveningRegisterForm').serialize()
-// 			, success: function(res) {
-// 				alert('Успешно!');
-// 			}
-// 			, error: function(res) {
-// 				alert('Error: Ошибка связи с сервером');
-// 			}
-// 		});
-// 		return false;
-// 	});
+// 	
 // 	$('#MainBody').on('change','select.select_role', function(){
 // 		$('#ShufleGamers').addClass('hide');
 // 	});
@@ -199,35 +184,6 @@ approveEvening.addEventListener('click', saveEveningFullData);
 // 			});
 // 		}
 // 	});
-// 	$('#MainBody').off('click','.img_delete');
-// 	$('#MainBody').on('click','.img_delete', function(){
-// 		if (confirm('Точно удалить игрока из записи?'))
-// 		{
-// 			$.ajax({
-// 				url:'switcher.php'
-// 				, type:'POST'
-// 				, data:'need=discharge_player&i='+$(this).attr('id').split('_')[0]
-// 				, success: function(res) {
-// 					location.reload();
-// 				}
-// 			});
-// 		}
-// 	});
-// 	$('#MainBody').off('change','input[name="eve_place"]');
-// 	$('#MainBody').on('change','input[name="eve_place"]', function(){
-// 		$.ajax({
-// 			url:'switcher.php'
-// 			, type:'POST'
-// 			, data:'need=get_place_info&p='+$('input[name="eve_place"]').val()
-// 			, async: false
-// 			, success: function(res) {
-// 				$('input[name="eve_place_info"]').val(res);
-// 			}
-// 			, error: function(res) {
-// 				alert('Error: Ошибка связи с сервером');
-// 			}
-// 		});
-// 	});
 // 	$('#MainBody').off('change','input.input_name');
 // 	$('#MainBody').on('change','input.input_name', function(){
 // 		if (EveningID !== -1)
@@ -250,43 +206,6 @@ approveEvening.addEventListener('click', saveEveningFullData);
 // 		}
 // 		else alert('Уже зарегистрирован!');
 // 	});
-// 	$('#LogInDiv,.modal_window').off('click','#RegisterNewUser');
-// 	$('#LogInDiv,.modal_window').on('click','#RegisterNewUser', function(){
-// 		$.ajax({
-// 			url:'switcher.php'
-// 			, type:'POST'
-// 			, data:'need=new_user_reg_form'
-// 			, success: function(res) {
-// 				ModalEvent(res,'420,360');
-// 				$('input[name="player_name"]').autocomplete({
-// 					source: 'switcher.php?need=autocomplete_names&',
-// 					minLength: 2
-// 				});
-// 			}
-// 			, error: function(res) {
-// 				alert('Error: Ошибка связи с сервером');
-// 			}
-// 		});
-// 	});
-// 	$('#modal_block').off('click','#LogInButton');
-// 	$('#modal_block').on('click','#LogInButton', function(){
-// 		$.ajax({
-// 			url:'switcher.php'
-// 			, type:'POST'
-// 			, data:'need=login&'+$('#LoginForm').serialize()
-// 			, success: function(res) {
-// 				let result = JSON.parse(res);
-// 				if (result['error']===0)
-// 					location.reload();
-// 				else
-// 					alert(result['txt']);
-// 			}
-// 			, error: function(res) {
-// 				alert('Error: Ошибка связи с сервером');
-// 			}
-// 		});
-// 		return false;
-// 	});
 // 	$('#modal_block').off('click','#RenamePlayer');
 // 	$('#modal_block').on('click','#RenamePlayer', function(){
 // 		let old = $('#RenameEveningPlayer input[name="old_name"]').val();
@@ -303,31 +222,6 @@ approveEvening.addEventListener('click', saveEveningFullData);
 // 				}
 // 				else
 // 					alert(result['txt']);
-// 			}
-// 			, error: function(res) {
-// 				alert('Error: Ошибка связи с сервером');
-// 			}
-// 		});
-// 		return false;
-// 	});
-// 	$('#modal_block').off('click','#CheckAndReg');
-// 	$('#modal_block').on('click','#CheckAndReg', function(){
-// 		$.ajax({
-// 			url:'switcher.php'
-// 			, type:'POST'
-// 			, data:'need=new_user_registration&'+$('form#RegisterForm').serialize()
-// 			, success: function(res) {
-// 				let result = JSON.parse(res);
-// 				if (result['error']===0)
-// 				{
-// 					alert(result['txt']);
-// 					$('#Welcome').click();
-// 				}
-// 				else
-// 				{
-// 					alert(result['txt']);
-// 					$('input[name='+result['wrong']+']').trigger('focus');
-// 				}
 // 			}
 // 			, error: function(res) {
 // 				alert('Error: Ошибка связи с сервером');

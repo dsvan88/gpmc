@@ -149,7 +149,8 @@ template {
 [hidden] {
   display: none; }
 
-.modal button, .evening-booking .span_button {
+.modal button, .span_button {
+  display: inline-block;
   background-color: #bffda2;
   border-radius: 4px;
   border: 2px solid #ffc919;
@@ -157,11 +158,22 @@ template {
   margin: 5px 0px;
   text-transform: uppercase;
   cursor: pointer; }
-  .modal button:active, .evening-booking .span_button:active {
+  .modal button:active, .span_button:active {
     background-color: #fffc65;
     border-color: #41c7fc; }
-  .modal button img, .evening-booking .span_button img {
-    width: 16px; }
+  .modal button img, .span_button img {
+    position: relative;
+    top: 3px;
+    width: 15px; }
+
+.profile__upper-block__photo-block, .profile__middle-block, .profile__lower-block {
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #6055ff; }
+  .profile__upper-block__photo-block > div, .profile__middle-block > div, .profile__lower-block > div {
+    margin: 10px 5px; }
+  .profile__upper-block__photo-block h4, .profile__middle-block h4, .profile__lower-block h4 {
+    border-bottom: 1px dotted #6055ff; }
 
 #overlay {
   z-index: 3;
@@ -170,7 +182,7 @@ template {
   /* всегдa перекрывaет весь сaйт */
   background-color: #000;
   /* чернaя */
-  opacity: 0;
+  opacity: 0.8;
   /* нo немнoгo прoзрaчнa */
   width: 100%;
   height: 100%;
@@ -194,8 +206,7 @@ template {
           justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
-  z-index: 5; }
+          align-items: center; }
 
 .modal {
   display: none;
@@ -257,6 +268,10 @@ template {
         -webkit-box-flex: 0;
             -ms-flex: 0 0 60%;
                 flex: 0 0 60%; }
+      .modal form .input_row input,
+      .modal form .input_row select {
+        width: 40%;
+        font-size: 18px; }
       .modal form .input_row.buttons {
         display: -webkit-box;
         display: -ms-flexbox;
@@ -576,9 +591,9 @@ header menu {
       grid-column-gap: 15px;
       -ms-grid-columns: minmax(150px, 5fr) (85px)[2] 1fr;
           grid-template-columns: minmax(150px, 5fr) repeat(2, 85px) 1fr; }
-    .evening-booking .gamer .img-button.img-delete {
+    .evening-booking .gamer .img-delete {
       cursor: pointer; }
-    .evening-booking .gamer .img-button.img-non-delete {
+    .evening-booking .gamer .img-non-delete {
       cursor: not-allowed; }
   .evening-booking__buttons {
     display: -webkit-box;
@@ -592,3 +607,89 @@ header menu {
         -ms-flex-align: center;
             align-items: center;
     margin: 10px 0px; }
+
+.profile {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  font-size: 16px;
+  font-weight: 200;
+  border: 1px dashed #3d39f4;
+  padding: 10px;
+  border-radius: 5px; }
+  .profile .info-row__apply {
+    display: none; }
+  .profile img {
+    width: 18px; }
+  .profile > div {
+    margin: 5px; }
+  .profile__title {
+    font-size: 23px; }
+  .profile__upper-block {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr 3fr;
+        grid-template-columns: 1fr 3fr; }
+    .profile__upper-block__photo-block__photo-place {
+      padding: 5px 5px 2px 5px; }
+      .profile__upper-block__photo-block__photo-place img {
+        width: 100%; }
+    .profile__upper-block__info-block__menu {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: end;
+          -ms-flex-align: end;
+              align-items: flex-end;
+      list-style-type: none;
+      text-transform: uppercase;
+      padding-left: 5px;
+      margin: 0; }
+      .profile__upper-block__info-block__menu li {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: end;
+            -ms-flex-align: end;
+                align-items: flex-end;
+        padding: 3px 5px;
+        border: 1px solid #928ce18a;
+        border-radius: 5px 5px 0px 0px;
+        background-color: #55ddff7a;
+        cursor: pointer;
+        font-family: "Times New Roman", Times, serif; }
+        .profile__upper-block__info-block__menu li.active {
+          padding: 5px 8px;
+          font-size: 18px;
+          border: 1px solid #48ec6d91;
+          background-color: #55ffd48a;
+          cursor: default; }
+    .profile__upper-block__info-block__content {
+      padding: 10px 5px; }
+      .profile__upper-block__info-block__content .info-row {
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-columns: 1fr 3fr 1fr;
+            grid-template-columns: 1fr 3fr 1fr; }
+        .profile__upper-block__info-block__content .info-row__value {
+          text-align: center;
+          border-bottom: 1px dotted #3d39f4;
+          font-size: 18px; }
+        .profile__upper-block__info-block__content .info-row__edit {
+          width: 25px; }
+  .profile__lower-block > form {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding-top: 10px; }

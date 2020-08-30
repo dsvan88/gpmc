@@ -34,13 +34,11 @@
 			grid-column-gap: 15px;
 			grid-template-columns: minmax(150px, 5fr) repeat(2, 85px) 1fr;
 		}
-		.img-button {
-			&.img-delete {
-				cursor: pointer;
-			}
-			&.img-non-delete {
-				cursor: not-allowed;
-			}
+		.img-delete {
+			cursor: pointer;
+		}
+		.img-non-delete {
+			cursor: not-allowed;
 		}
 	}
 	&__buttons {
@@ -48,8 +46,5 @@
 		flex-direction: column;
 		align-items: center;
 		margin: 10px 0px;
-	}
-	.span_button {
-		@extend %buttons;
 	}
 }

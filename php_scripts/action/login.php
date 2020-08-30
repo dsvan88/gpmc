@@ -1,7 +1,8 @@
 <?php
 $result=array(
 	'error' => isset($_POST['ap']) ? $_POST['ap'] : 0,
-	'txt' => ''
+	'txt' => '',
+	// 'post' => json_encode($_POST,JSON_UNESCAPED_UNICODE)
 );
 if (!isset($_POST['ap']) && $engine->LogIn($_POST['login'], md5(PASS_SALT.$_POST['pass'])) === false)
 {
