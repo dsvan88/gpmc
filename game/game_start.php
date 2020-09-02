@@ -5,7 +5,7 @@ if (!defined('JSFUNC_LOAD'))
 	include $root_path.'/engine/engine.php'; 
 	$engine = new JSFunc();
 }
-$players = $engine->GetGamerIDs($engine->SetPlayersDefaults($_POST));
+$players = $engine->GetGamersIDs($engine->SetPlayersDefaults($_POST));
 $ids = $players['ids'];
 unset($players['ids']);
 $engine->StartGame($_POST['e'],$ids,$players,$_POST['manager']);

@@ -34,22 +34,23 @@ actionHandler = {
 		});
 		return false;
 	},
-	addGamers: function (event) {
+	addGamers: function (target) {
 		let newID = document.body.querySelectorAll(".gamer").length;
 		$.ajax({
 			url: "switcher.php",
 			type: "POST",
-			data: "need=gamer_field&i=" + newID,
+			data: "need=gamer-field&i=" + newID,
 			success: function (res) {
 				eveningGamersFields.insertAdjacentHTML("beforeend", res);
 				$("input.input_name").autocomplete({
 					source: "switcher.php?need=autocomplete_names&e=" + EveningID + "&",
 					minLength: 2,
 				});
+				$(".timepicker").datetimepicker({ datepicker: false, format: "H:i" });
 			},
 		});
 	},
-	setEveningData: function (event) {
+	setEveningData: function (target) {
 		$.ajax({
 			url: "switcher.php",
 			type: "POST",
@@ -68,7 +69,7 @@ actionHandler = {
 			},
 		});
 	},
-	approveEvening: function (event) {
+	approveEvening: function (target) {
 		let data = [];
 		let names = eveningRegisterForm.querySelectorAll("input[name=gamer]");
 		let arrives = eveningRegisterForm.querySelectorAll("input[name=arrive]");
@@ -101,6 +102,7 @@ actionHandler = {
 		});
 	},
 	eveningPlace: function (event) {
+		console.log("catch Event: " + "need=get_place_info&p=" + event.target.value);
 		$.ajax({
 			url: "switcher.php",
 			type: "POST",
@@ -113,9 +115,9 @@ actionHandler = {
 			},
 		});
 	},
-	eveningGamersFields: function (event) {
-		if (event.target.tagName === "IMG") {
-			let elem = event.target.closest("span");
+	eveningGamersFields: function (target) {
+		if (target.tagName === "IMG") {
+			let elem = target.closest("span");
 			if (elem.className === "img-delete" && confirm("Точно удалить игрока из записи?")) {
 				$.ajax({
 					url: "switcher.php",
@@ -184,8 +186,9 @@ actionHandler = {
 			try {
 				event.preventDefault();
 				actionHandler[type](target);
-			} catch {
-				alert("Не существует метода для этого action-type: " + type + "... или возникла ошибка. Сообщите администратору!");
+			} catch (error) {
+				alert(`Не существует метода для этого action-type: ${type}... или возникла ошибка. Сообщите администратору!\r\n${error.name}: ${error.message}`);
+				console.log(error);
 			}
 		}
 	},
@@ -200,7 +203,10 @@ function close_log(id) {
 	$("#ShowLog_" + id).text("+ Открыть лог игры");
 }
 function check_present(name) {
-	if ($('span.player_name:contains("' + name + '")').text() === name) return true;
+	let players = document.body.querySelectorAll("span.player_name");
+	for (item of players) {
+		if (item.childNodes[0].data === name) return true;
+	}
 	return false;
 }
 function rename_player(name) {
@@ -216,13 +222,6 @@ function rename_player(name) {
 			});
 		},
 	});
-}
-function remove_player(name) {
-	let i = -1;
-	while (++i <= 9) {
-		if ($('input[name="player[' + i + ']"]').val() === name) $('input[name="player[' + i + ']"]').val("");
-	}
-	if ($('input[name="manager"]').val() === name) $('input[name="manager"]').val("");
 }
 function add_evening_player(name) {
 	$.ajax({
@@ -400,9 +399,9 @@ Array.prototype.shuffle = function (b) {
 	var i = this.length,
 		j,
 		t;
-	for (let i = array.length - 1; i > 0; i--) {
+	for (let i = this.length - 1; i > 0; i--) {
 		let j = Math.floor(Math.random() * (i + 1)); // случайный индекс от 0 до i
-		[array[i], array[j]] = [array[j], array[i]];
+		[this[i], this[j]] = [this[j], this[i]];
 	}
 	return this;
 };

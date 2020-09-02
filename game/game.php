@@ -21,7 +21,7 @@
 	$a['num'] = $engine->GetGameNum($EveningID,$game_id);
 	//------------------------------------------------------------------------------- Получение некоторых данных о пользователях
 	$a['manager'] = $engine->GetGamerName($a['manager']);
-	$tmp = $engine->GetGamersData(array('id','gender','avatar'),array('id'=>explode(',',$a['g_ids'])),0);
+	$tmp = $engine->GetGamerData(array('id','gender','avatar'),array('id'=>explode(',',$a['g_ids'])),0);
 	for($x=0;$x<count($tmp);$x++)
 		$avatar[$tmp[$x]['id']] = $tmp[$x]['avatar'] !== '' ? '/gallery/users/'.$tmp[$x]['id'].'/'.$tmp[$x]['avatar'] : $img_genders[$tmp[$x]['gender']];
 	//------------------------------------------------------------------------------- Загрузка игровой таблицы

@@ -95,7 +95,7 @@ class GetDatas extends SQLBase
 		else error_log(__METHOD__.': SQL ERROR');
 	}
 	// Получение списка из $c случайних игроков, принимающих участие в $e вечере
-	function GetRandomGamers($c=10,$e=-1) 
+	function GetRandomPlayers($c=10,$e=-1) 
 	{
 		if ($e !== -1) $dop = $this->MakeRawArray($this->Query('SELECT `gamers` FROM `'.MYSQL_TBLEVEN.'` WHERE `id`="'.$e.'" LIMIT 1'))[0];
 		if ($r = $this->Query('SELECT `name` FROM `'.MYSQL_TBLGAMERS.'` '.(isset($dop) ? 'WHERE `id` IN ('.$dop.')' : 'ORDER BY RAND() LIMIT '.$c)))

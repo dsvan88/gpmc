@@ -36,7 +36,7 @@
 	<input type='text' name='eve_place_info' value='<?=$EveningData['place']['info']?>' placeholder='Адрес, веб-сайт'/>
 </div>
 <div class='evening-booking__buttons'>
-	<span class='span_button' id='setEveningData'>
+	<span class='span_button' data-action-type='set-evening-data'>
 		<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
 		<?=isset($EveningData['id']) ? 'Изменить' : 'Подтвердить'?>!
 		<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
@@ -49,16 +49,16 @@
 	$i=-1;
 	$max = $EveningData['gamers'] !== '' ? count($EveningData['gamers']) : 11;
 	while(++$i < $max)
-		include $root_path.'/templates/gamer_field.php';
+		include $root_path.'/templates/gamer-field.php';
 ?>
 	</div>
 	<div class='evening-booking__buttons'>
-		<span class='span_button' id='addGamers'>
+		<span class='span_button' data-action-type='add-gamers'>
 			<?=$engine->checkAndPutImage($settings['img']['plus']['value'],'')?>
 			Добавить поле
 			<?=$engine->checkAndPutImage($settings['img']['plus']['value'],'')?>
 		</span><br><br>
-		<span class='span_button' id='approveEvening'>
+		<span class='span_button' data-action-type='approve-evening'>
 			<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
 			Утвердить!
 			<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>

@@ -3,17 +3,7 @@ let EveningID = <?=isset($EveningData['id']) && $EveningData['id'] > 0 ? $Evenin
 
 document.body.addEventListener('click', actionHandler.clickCommonHandler);
 
-//перенести все клики в clickCommonHandler. Или не надо
-if (typeof addGamers !== "undefined")
-	addGamers.onclick = actionHandler.addGamers;
-if (typeof setEveningData !== "undefined")
-	setEveningData.onclick == actionHandler.setEveningData;
-if (typeof approveEvening !== "undefined")
-	approveEvening.onclick = actionHandler.approveEvening;
-if (typeof eveningGamersFields !== "undefined")
-	eveningGamersFields.onclick = actionHandler.eveningGamersFields;
-
-if (typeof eveningPlace !== "undefined")
+if (typeof eveningPlace != "undefined")
 	eveningPlace.onchange = actionHandler.eveningPlace;
 
 $(function () {
@@ -78,16 +68,6 @@ $(function () {
 // 	
 // 	$('#MainBody').on('change','select.select_role', function(){
 // 		$('#ShufleGamers').addClass('hide');
-// 	});
-// 	$('#MainBody').off('click','#ShufleGamers');
-// 	$('#MainBody').on('click','#ShufleGamers', function(){
-// 		var a_names=[],i=-1;
-// 		while(++i<=9)
-// 			a_names.push($('input[name="player['+i+']"]').val())
-// 		a_names = a_names.shuffle();
-// 		i=-1;
-// 		while(++i<=9)
-// 			$('input[name="player['+i+']"]').val(a_names[i])
 // 	});
 // 	$('#MainBody').off('click','#StartGame');
 // 	$('#MainBody').on('click','#StartGame', function(){

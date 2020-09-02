@@ -12,6 +12,8 @@
 	<script type='text/javascript' src='js/jquery-cropper.js'></script>
 <?elseif (isset($_GET['trg']) && $_GET['trg'] ==='voting'):?>
 	<script type='text/javascript' src='js/voting.js.php'></script>
+<?elseif (isset($_GET['trg']) && $_GET['trg'] ==='evening'):?>
+	<script defer type='text/javascript' src='js/get_js.php/?script=evening'></script>
 <?elseif (isset($_GET['g_id'])):?>
 	<script type='text/javascript' src='js/mafia_common_func.js.php'></script>
 	<script type='text/javascript' src='js/mafia_func.js.php'></script>

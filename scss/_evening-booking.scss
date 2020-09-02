@@ -47,4 +47,59 @@
 		align-items: center;
 		margin: 10px 0px;
 	}
+	&__guest {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		&__participants-list {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			.guest-list-column {
+				margin-left: 50px;
+			}
+		}
+	}
+}
+.evening-active {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	input {
+		@include md {
+			font-size: smaller;
+			width: 200px;
+		}
+	}
+	&__player-list {
+		.player {
+		}
+	}
+	&__gamers-array {
+		padding: 10px;
+		text-align: justify;
+		.player_name {
+			display: inline-block;
+			padding: 2px;
+			margin: 2px;
+			background-color: #a7ffd0;
+			border: 1px solid #419d63;
+			cursor: pointer;
+			&.selected {
+				text-decoration: line-through;
+				background-color: #ffc1c1;
+				border: 1px solid #d03147;
+			}
+			&.tmp_user {
+				background-color: #fffba7;
+				border: 1px solid #ffb8a7;
+			}
+		}
+		[data-action-type="remove-gamer"] {
+			background-color: #ff101094;
+			border: 1px solid #f20505;
+			color: #555397;
+		}
+	}
 }

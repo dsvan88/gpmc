@@ -309,7 +309,8 @@ body {
   overflow: hidden; }
 
 footer {
-  margin-top: auto; }
+  margin-top: auto;
+  padding: 20px; }
 
 a {
   cursor: pointer;
@@ -607,6 +608,68 @@ header menu {
         -ms-flex-align: center;
             align-items: center;
     margin: 10px 0px; }
+  .evening-booking__guest {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+    .evening-booking__guest__participants-list {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between; }
+      .evening-booking__guest__participants-list .guest-list-column {
+        margin-left: 50px; }
+
+.evening-active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+  @media (max-width: 768px) {
+    .evening-active input {
+      font-size: smaller;
+      width: 200px; } }
+  .evening-active__gamers-array {
+    padding: 10px;
+    text-align: justify; }
+    .evening-active__gamers-array .player_name {
+      display: inline-block;
+      padding: 2px;
+      margin: 2px;
+      background-color: #a7ffd0;
+      border: 1px solid #419d63;
+      cursor: pointer; }
+      .evening-active__gamers-array .player_name.selected {
+        text-decoration: line-through;
+        background-color: #ffc1c1;
+        border: 1px solid #d03147; }
+      .evening-active__gamers-array .player_name.tmp_user {
+        background-color: #fffba7;
+        border: 1px solid #ffb8a7; }
+    .evening-active__gamers-array [data-action-type="remove-gamer"] {
+      background-color: #ff101094;
+      border: 1px solid #f20505;
+      color: #555397; }
 
 .profile {
   display: -webkit-box;

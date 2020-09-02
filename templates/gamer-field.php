@@ -2,7 +2,7 @@
 <div class="gamer">
 	<span class="num"><?=($i+1)?>.</span>
 	<div class="gamer__info">
-		<input name="gamer" type="text" value ="<?=isset($EveningData['gamers'][$i]) ? $EveningData['gamers'][$i]['name'] : ''?>"/>
+		<input name="gamer" type="text" class="input_name" value ="<?=isset($EveningData['gamers'][$i]) ? $EveningData['gamers'][$i]['name'] : ''?>"/>
 		<input name="arrive" type="text" class="timepicker" value ="<?=isset($EveningData['gamers_info'][$i]['arrive']) ? $EveningData['gamers_info'][$i]['arrive'] : '17:00'?>"/>
 		<select name="duration">
 			<option value='0'<?=$EveningData['gamers_info'][$i]['duration'] == '0' ? ' selected ' : ''?>></option>

@@ -276,6 +276,7 @@ class JSFunc extends SQLBase
 	}
 	function SetPlayersDefaults(&$a)
 	{
+		error_log(json_encode($a,JSON_UNESCAPED_UNICODE));
 		$arr=array('enum' => '');
 		$i=-1;
 		while (isset($a['player'][++$i]))

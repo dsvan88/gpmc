@@ -20,6 +20,7 @@ body {
 }
 footer {
 	margin-top: auto;
+	padding: 20px;
 }
 a {
 	cursor: pointer;
@@ -35,7 +36,6 @@ hr {
 .header {
 	display: flex;
 	justify-content: space-between;
-	// align-items: center;
 	div {
 		&:nth-child(2) {
 			margin: 10px 20px;
