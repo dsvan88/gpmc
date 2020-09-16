@@ -29,9 +29,9 @@ while(++$i<=9):
 </ol>
 	<div class='evening-active__buttons'>
 		<span class='span_button' data-action-type='start-game'>
-			<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
+			<?=$engine->checkAndPutImage($settings['img']['apply']['value'])?>
 			Начать
-			<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
+			<?=$engine->checkAndPutImage($settings['img']['apply']['value'])?>
 		</span>
 	</div>
 	<!-- <div class='SepDiv'><button id="StartGame" class="menu_button">Начать</button></div> -->

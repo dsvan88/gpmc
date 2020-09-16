@@ -5,6 +5,7 @@ require $root_path.'/engine/engine.php';
 $engine = new JSFunc();
 $_GET = _ft($_GET);
 $need = trim(isset($_GET['need']) ? $_GET['need'] : $_POST['need']);
+// error_log($need);
 if ($need==='') exit('Wrong `need` type!');
 $settings = $engine->ModifySettingsArray($engine->GetSettings(array('shname','name','value','type'),'img'));
 
@@ -25,11 +26,12 @@ if (in_array($need,$need_forms,true))
 	$output['html'] = '
 	<div class="modal-container">
 	'.
-		$engine->checkAndPutImage('/css/images/gmpc_emblem1.png',MAFCLUB_SNAME,["class"=>"modal-close left"]).
-		$engine->checkAndPutImage('/css/images/gmpc_emblem.png',MAFCLUB_SNAME,["class"=>"modal-close right"]).
+		$engine->checkAndPutImage('/css/images/gmpc_emblem1.png',['title'=>MAFCLUB_SNAME,'class'=>'modal-close left']).
+		$engine->checkAndPutImage('/css/images/gmpc_emblem.png',['title'=>MAFCLUB_SNAME,'class'=>'modal-close right']).
 		'<div class="form-maket">';
-	require $root_path.'/templates/forms/'.$need.'.php';
-	$output['html'] .= '</div>
+		require $root_path.'/templates/forms/'.$need.'.php';
+		$output['html'] .= '
+		</div>
 	</div>';
 	echo json_encode($output,JSON_UNESCAPED_UNICODE);
 	

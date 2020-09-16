@@ -11,9 +11,9 @@ $players = $engine->GetRandomPlayers(10,$EveningID);
 
 	<div class='evening-active__buttons'>
 		<span class='span_button' data-action-type='shuffle-gamers'>
-			<!-- <?=$engine->checkAndPutImage($settings['img']['plus']['value'],'')?> -->
+			<!-- <?=$engine->checkAndPutImage($settings['img']['plus']['value'])?> -->
 			Перемешать игроков
-			<!-- <?=$engine->checkAndPutImage($settings['img']['plus']['value'],'')?> -->
+			<!-- <?=$engine->checkAndPutImage($settings['img']['plus']['value'])?> -->
 		</span>
 	</div>
 	<!-- <button id="ShufleGamers" class="menu_button">Перемешать игроков</button> -->
@@ -22,9 +22,9 @@ $players = $engine->GetRandomPlayers(10,$EveningID);
 	<hr/>
 	<div class='evening-active__buttons'>
 		<span class='span_button' data-form-type='add-players-to-array'>
-			<?=$engine->checkAndPutImage($settings['img']['plus']['value'],'')?>
+			<?=$engine->checkAndPutImage($settings['img']['plus']['value'])?>
 			Добавить игрока
-			<?=$engine->checkAndPutImage($settings['img']['plus']['value'],'')?>
+			<?=$engine->checkAndPutImage($settings['img']['plus']['value'])?>
 		</span>
 	</div>
 	<!-- <div class='SepDiv'><button id='AddPlayersToArray'>Добавить игрока</button></div> -->

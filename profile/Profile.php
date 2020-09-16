@@ -18,9 +18,9 @@
 			<div class='profile__upper-block__photo-block'>
 				<div class="profile__upper-block__photo-block__photo-place" id="Profile_PhotoPlace">
 				<? if ($my) : ?>
-					<?=$engine->checkAndPutImage($user['avatar'] === '' ? $settings['img']['empty_avatar']['value'] : '/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],$settings['img']['empty_avatar']['name'])?>
+					<?=$engine->checkAndPutImage($user['avatar'] === '' ? $settings['img']['empty_avatar']['value'] : '/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],['title'=>$settings['img']['empty_avatar']['name']])?>
 				<?else:?>
-					<?=$engine->checkAndPutImage($user['avatar'] === '' ? $img_genders[$user['gender']] : '/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],$settings['img']['empty_avatar']['name'])?>
+					<?=$engine->checkAndPutImage($user['avatar'] === '' ? $img_genders[$user['gender']] : '/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],['title'=>$settings['img']['empty_avatar']['name']])?>
 				<?endif?>
 				</div>
 				<form enctype="multipart/form-data" action="php_scripts/upload_file.php" method="POST" style='display:none'>
@@ -49,10 +49,10 @@
 				</span>
 				<?if ($my) :?>
 					<a class='info-row__edit' data-action-type="edit-row" data-edit-row='game_credo'>
-						<?=$engine->checkAndPutImage($settings['img']['edit_pen']['value'],$settings['img']['edit_pen']['name'])?>
+						<?=$engine->checkAndPutImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
 					</a>
 					<a class='info-row__apply' data-action-type="save-row" data-save-row='game_credo' title='Принять' alt='Принять'>
-						<?=$engine->checkAndPutImage($settings['img']['apply']['value'],$settings['img']['apply']['name'])?>
+						<?=$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])?>
 					</a>
 				<?endif?>
 				<p id="game_credo">
@@ -65,10 +65,10 @@
 				</span>
 				<?if ($my) :?>
 					<a class='info-row__edit' data-action-type="edit-row" data-edit-row='live_credo'>
-						<?=$engine->checkAndPutImage($settings['img']['edit_pen']['value'],$settings['img']['edit_pen']['name'])?>
+						<?=$engine->checkAndPutImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
 					</a>
 					<a class='info-row__apply' data-action-type="save-row" data-save-row='live_credo' title='Принять' alt='Принять'>
-						<?=$engine->checkAndPutImage($settings['img']['apply']['value'],$settings['img']['apply']['name'])?>
+						<?=$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])?>
 					</a>
 				<?endif?>
 				<p id="live_credo">
@@ -83,17 +83,17 @@
 			<h4>Пара слов об игроке:</h4>
 			<div class='profile__lower-block__buttons'>
 				<span class='span_button' data-action-type='show-comment-form'>
-					<?=$engine->checkAndPutImage($settings['img']['plus']['value'],'')?>
+					<?=$engine->checkAndPutImage($settings['img']['plus']['value'])?>
 					Добавить коментарий
-					<?=$engine->checkAndPutImage($settings['img']['plus']['value'],'')?>
+					<?=$engine->checkAndPutImage($settings['img']['plus']['value'])?>
 				</span>
 			</div>
 			<form id='addComment' style='display:none'>
 				<textarea name='comment'></textarea>
 				<span class='span_button' data-action-type='save-comment'>
-					<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
+					<?=$engine->checkAndPutImage($settings['img']['apply']['value'])?>
 						Сохранить
-					<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
+					<?=$engine->checkAndPutImage($settings['img']['apply']['value'])?>
 				</span>
 			</form>
 			<?endif?>

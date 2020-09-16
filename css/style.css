@@ -329,9 +329,9 @@ hr {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between; }
-  .header div:nth-child(2) {
+  .header > div:nth-child(2) {
     margin: 10px 20px; }
-  .header div img {
+  .header > div img {
     width: 100% !important; }
   .header__main-logo {
     -webkit-box-flex: 1;
@@ -357,7 +357,60 @@ hr {
             flex: 1 1 10%;
     border: 3px groove #cac6ff;
     padding: 5px 10px 10px 15px;
-    background-color: #ffe1e1; }
+    background-color: #ffe1e1;
+    font-family: franklin gothic medium;
+    font-size: 12px; }
+    .header__login-place .info-row {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      font-size: 14px;
+      padding: 1px 10px; }
+    .header__login-place h4 {
+      text-align: center;
+      padding: 0;
+      margin: 10px;
+      font-size: 16px;
+      text-transform: uppercase; }
+    .header__login-place__inputs {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center; }
+      .header__login-place__inputs input {
+        width: 100%;
+        margin: 3px 5px;
+        text-align: center;
+        font-size: 16px; }
+    .header__login-place__links {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center; }
+      .header__login-place__links a {
+        text-transform: uppercase;
+        font-size: 14px; }
     @media (max-width: 576px) {
       .header__login-place {
         -webkit-box-flex: 1;

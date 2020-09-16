@@ -1,2 +1,2 @@
 <?
-$engine->UnRecordGamerFromEvening((int)$_POST['i']);
+$engine->UnRecordGamerFromEvening((int)$_POST['id']);

@@ -1,2 +1,2 @@
 <?
-echo $engine->GetPlacesInfo($_POST['p']);
+echo $engine->GetPlacesInfo($_POST['place']);

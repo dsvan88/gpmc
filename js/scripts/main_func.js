@@ -1,47 +1,67 @@
+let debug = false;
 actionHandler = {
 	login: function (modal) {
-		$.ajax({
-			url: "switcher.php",
-			type: "POST",
-			data: "need=login&login=" + modal.querySelector("input[name=login]").value + "&pass=" + modal.querySelector("input[name=pass]").value,
-			success: function (res) {
-				res = JSON.parse(res);
-				if (res["error"] == 0) location.reload();
-				else alert(res["txt"]);
+		postAjax({
+			data: {
+				need: "login",
+				login: modal.querySelector("input[name=login]").value,
+				pass: modal.querySelector("input[name=pass]").value,
 			},
-			error: function (res) {
-				alert("Error: Ошибка связи с сервером");
+			successFunc: function (result) {
+				result = JSON.parse(result);
+				if (result["error"] == 0) location.reload();
+				else alert(result["txt"]);
+			},
+		});
+	},
+	headerLogin: function (target) {
+		postAjax({
+			data: {
+				need: "login",
+				login: document.body.querySelector("header input[name=login]").value,
+				pass: document.body.querySelector("header input[name=pass]").value,
+			},
+			successFunc: function (result) {
+				result = JSON.parse(result);
+				if (result["error"] == 0) location.reload();
+				else alert(result["txt"]);
 			},
 		});
 	},
 	userRegister: function (modal) {
-		$.ajax({
-			url: "switcher.php",
-			type: "POST",
-			data: "need=user-registration&" + $("form#RegisterForm").serialize(),
-			success: function (res) {
-				res = JSON.parse(res);
-				if (res["error"] == 0) {
-					alert(res["txt"]);
-				} else {
-					alert(res["txt"]);
-					$("input[name=" + res["wrong"] + "]").trigger("focus");
-				}
+		let ajaxObject = {
+			data: {
+				need: "user-registration",
 			},
-			error: function (res) {
-				alert("Error: Ошибка связи с сервером");
-			},
+		};
+		modal.querySelectorAll("input").forEach((element) => {
+			ajaxObject.data[element.name] = element.value;
 		});
-		return false;
+		if (ajaxObject.data["chk_pass"] !== ajaxObject.data["pass"]) {
+			modal.querySelector("input[name=pass]").focus();
+			alert("Пароли не совпадают!");
+			return false;
+		}
+		ajaxObject.successFunc = function (result) {
+			result = JSON.parse(result);
+			if (result["error"] == 0) {
+				alert(result["txt"]);
+			} else {
+				alert(result["txt"]);
+				$("input[name=" + result["wrong"] + "]").trigger("focus");
+			}
+		};
+		postAjax(ajaxObject);
 	},
 	addGamers: function (target) {
 		let newID = document.body.querySelectorAll(".gamer").length;
-		$.ajax({
-			url: "switcher.php",
-			type: "POST",
-			data: "need=gamer-field&i=" + newID,
-			success: function (res) {
-				eveningGamersFields.insertAdjacentHTML("beforeend", res);
+		postAjax({
+			data: {
+				need: "gamer-field",
+				id: newID,
+			},
+			successFunc: function (result) {
+				eveningGamersFields.insertAdjacentHTML("beforeend", result);
 				$("input.input_name").autocomplete({
 					source: "switcher.php?need=autocomplete_names&e=" + EveningID + "&",
 					minLength: 2,
@@ -51,21 +71,12 @@ actionHandler = {
 		});
 	},
 	setEveningData: function (target) {
-		$.ajax({
-			url: "switcher.php",
-			type: "POST",
-			data:
-				"need=apply_evening&eve_date=" +
-				document.body.querySelector("input[name=eve_date]").value +
-				"&eve_place=" +
-				document.body.querySelector("input[name=eve_place]").value +
-				"&eve_place_info=" +
-				document.body.querySelector("input[name=eve_place_info]").value,
-			success: function (res) {
-				alert("Успешно!" + res);
-			},
-			error: function (res) {
-				alert("Error: Ошибка связи с сервером");
+		postAjax({
+			data: {
+				need: "apply_evening",
+				eve_date: document.body.querySelector("input[name=eve_date]").value,
+				eve_place: document.body.querySelector("input[name=eve_place]").value,
+				eve_place_info: document.body.querySelector("input[name=eve_place_info]").value,
 			},
 		});
 	},
@@ -81,108 +92,90 @@ actionHandler = {
 				duration: durations[x].value,
 			});
 		}
-		$.ajax({
-			url: "switcher.php",
-			type: "POST",
-			data:
-				"need=apply_evening&eve_date=" +
-				document.body.querySelector("input[name=eve_date]").value +
-				"&eve_place=" +
-				document.body.querySelector("input[name=eve_place]").value +
-				"&eve_place_info=" +
-				document.body.querySelector("input[name=eve_place_info]").value +
-				"&data=" +
-				JSON.stringify(data),
-			success: function (res) {
-				alert("Успешно!" + res);
-			},
-			error: function (res) {
-				alert("Error: Ошибка связи с сервером");
+		postAjax({
+			data: {
+				need: "apply_evening",
+				eve_date: document.body.querySelector("input[name=eve_date]").value,
+				eve_place: document.body.querySelector("input[name=eve_place]").value,
+				eve_place_info: document.body.querySelector("input[name=eve_place_info]").value,
+				data: JSON.stringify(data),
 			},
 		});
 	},
 	eveningPlace: function (event) {
-		console.log("catch Event: " + "need=get_place_info&p=" + event.target.value);
-		$.ajax({
-			url: "switcher.php",
-			type: "POST",
-			data: "need=get_place_info&p=" + event.target.value,
-			success: function (res) {
-				document.body.querySelector('input[name="eve_place_info"]').value = res;
+		postAjax({
+			data: {
+				need: "get_place_info",
+				place: event.target.value,
 			},
-			error: function (res) {
-				console.log("Error: Ошибка связи с сервером");
+			successFunc: function (result) {
+				document.body.querySelector('input[name="eve_place_info"]').value = result;
 			},
 		});
 	},
-	eveningGamersFields: function (target) {
-		if (target.tagName === "IMG") {
-			let elem = target.closest("span");
-			if (elem.className === "img-delete" && confirm("Точно удалить игрока из записи?")) {
-				$.ajax({
-					url: "switcher.php",
-					type: "POST",
-					data: "need=discharge_gamer&i=" + elem.id.split("_")[0],
-					success: function (res) {
-						location.reload();
-					},
-				});
-			}
+	dischargeGamer: function (target) {
+		if (confirm("Точно удалить игрока из записи?")) {
+			postAjax({
+				data: {
+					need: "discharge_gamer",
+					id: target.id.split("_")[0],
+				},
+				successFunc: function () {
+					location.reload();
+				},
+			});
 		}
 	},
 	clickCommonHandler: function (event) {
 		let target = event.target;
 		if (target.tagName === "IMG") target = target.closest("a,div");
 		if ("formType" in target.dataset) {
+			let ajaxObject = { data: {} };
+			event.preventDefault();
 			column = target.dataset.editRow || "";
-			$.ajax({
-				url: "switcher.php",
-				type: "POST",
-				data: "need=" + target.dataset.formType + "_form" + (column !== "" ? "&c=" + column : ""),
-				success: function (res) {
-					res = JSON.parse(res);
-					if (res["error"] != 0) {
-						alert(res["html"]);
-						return false;
-					}
-					let modal = modalEvent(res["html"]);
-					$(".modal-body input.input_name").autocomplete({
-						source: "switcher.php?need=autocomplete_names",
-						minLength: 2,
-					});
-					$(".modal-body .datepick").datetimepicker({ timepicker: false, format: "d.m.Y", dayOfWeekStart: 1 });
-					$(".modal-body .timepicker").datetimepicker({ datepicker: false, format: "H:i" });
-					let type = camelize(target.dataset.formType);
-					modal.querySelector("form").addEventListener("submit", (submitEvent) => {
-						submitEvent.preventDefault();
-						actionHandler[type](modal);
-					});
-				},
-				error: function (res) {
-					alert("Error: Ошибка связи с сервером");
-				},
-			});
-			return false;
+			ajaxObject.successFunc = function (result) {
+				result = JSON.parse(result);
+				if (result["error"] != 0) {
+					alert(result["html"]);
+					return false;
+				}
+				let modal = modalEvent(result["html"]);
+				$(".modal-body input.input_name").autocomplete({
+					source: "switcher.php?need=autocomplete_names",
+					minLength: 2,
+				});
+				$(".modal-body .datepick").datetimepicker({ timepicker: false, format: "d.m.Y", dayOfWeekStart: 1 });
+				$(".modal-body .timepicker").datetimepicker({ datepicker: false, format: "H:i" });
+				modal.querySelector("input").focus();
+				let type = camelize(target.dataset.formType);
+				if (debug) console.log(type);
+				modal.querySelector("form").addEventListener("submit", (submitEvent) => {
+					submitEvent.preventDefault();
+					actionHandler[type](modal);
+				});
+			};
+			ajaxObject.data["need"] = target.dataset.formType + "_form";
+			if (column !== "") ajaxObject.data["column"] = column;
+			postAjax(ajaxObject);
 		} else if ("action" in target.dataset) {
-			$.ajax({
-				url: "switcher.php",
-				type: "POST",
-				data: "need=" + target.dataset.action,
-				success: function (res) {
-					res = JSON.parse(res);
-					if (res["error"] != 0) {
-						alert(res["html"]);
+			event.preventDefault();
+			postAjax({
+				data: {
+					need: target.dataset.action,
+				},
+				successFunc: function (result) {
+					result = JSON.parse(result);
+					if (result["error"] != 0) {
+						alert(result["html"]);
 						return false;
 					}
 					location.reload();
 				},
-				error: function (res) {
-					alert("Error: Ошибка связи с сервером");
-				},
 			});
-			return false;
 		} else if ("actionType" in target.dataset) {
+			event.preventDefault();
 			let type = camelize(target.dataset.actionType);
+			if (debug) console.log(type);
 			try {
 				event.preventDefault();
 				actionHandler[type](target);
@@ -202,26 +195,21 @@ function close_log(id) {
 	$("#Log_" + id).addClass("hide");
 	$("#ShowLog_" + id).text("+ Открыть лог игры");
 }
-function check_present(name) {
-	let players = document.body.querySelectorAll("span.player_name");
-	for (item of players) {
-		if (item.childNodes[0].data === name) return true;
-	}
-	return false;
-}
 function rename_player(name) {
-	$.ajax({
-		url: "switcher.php",
-		type: "POST",
-		data: "need=rename_player_form&n=" + name,
-		success: function (res) {
-			modalEvent(res);
+	let ajaxObject = {
+		data: {
+			need: "rename_player_form",
+			name: name,
+		},
+		successFunc: function (result) {
+			modalEvent(result);
 			$("input.input_gamer").autocomplete({
 				source: "switcher.php?need=autocomplete_names&",
 				minLength: 2,
 			});
 		},
-	});
+	};
+	postAjax(ajaxObject);
 }
 function add_evening_player(name) {
 	$.ajax({
@@ -252,12 +240,12 @@ function inttotime(t) {
 	return "0" + m + ":" + (s > 9 ? s : "0" + s) + ":" + (ms > 9 ? ms : "0" + ms);
 }
 function redirectPost(url, data) {
-	var form = document.createElement("form");
+	let form = document.createElement("form");
 	document.body.appendChild(form);
 	form.method = "post";
 	form.action = url;
-	for (var name in data) {
-		var input = document.createElement("input");
+	for (let name in data) {
+		let input = document.createElement("input");
 		input.type = "hidden";
 		input.name = name;
 		input.value = data[name];
@@ -324,9 +312,6 @@ function closeModalWindow(event) {
 		}
 	);
 }
-function prepeare_add_modal_div(new_id) {
-	$("body").append('<div id="' + new_id + '" class="modal_window">' + $("div#modal_block").html() + "</div>");
-}
 function make_cropper() {
 	let img = $("#img_for_crop");
 	img.cropper({
@@ -388,12 +373,52 @@ function became_admin() {
 		},
 	});
 }
+function postAjax({ data, successFunc, errorFunc }) {
+	if (successFunc == undefined) {
+		successFunc = function (result) {
+			console.log("Not set `successFunc`. Ajax result: " + result);
+			alert("Успешно!");
+		};
+	}
+	if (errorFunc == undefined) {
+		errorFunc = function (result) {
+			console.log(`Error: Ошибка связи с сервером ${result}`);
+			alert("Error: Ошибка связи с сервером");
+		};
+	}
+	data = simpleObjectToGetString(data);
+	if (debug) {
+		console.log(data);
+		successFunc = catchResult(successFunc);
+		errorFunc = catchResult(errorFunc);
+	}
+	$.ajax({
+		url: "switcher.php",
+		type: "POST",
+		data: data,
+		success: successFunc,
+		error: errorFunc,
+	});
+}
 
+function simpleObjectToGetString(obj) {
+	let strData = "";
+	for (let item in obj) {
+		strData += `${item}=${obj[item]}&`;
+	}
+	return strData.slice(0, -1);
+}
 function camelize(str) {
 	return str
 		.split("-") // разбивает 'my-long-word' на массив ['my', 'long', 'word']
 		.map((word, index) => (index == 0 ? word : word[0].toUpperCase() + word.slice(1)))
 		.join(""); // соединяет ['my', 'Long', 'Word'] в 'myLongWord'
+}
+function catchResult(func) {
+	return function (args) {
+		console.log(...args);
+		return func.call(this, args);
+	};
 }
 Array.prototype.shuffle = function (b) {
 	var i = this.length,

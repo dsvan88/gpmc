@@ -281,7 +281,7 @@ class SQLBase
 		}
 		return PHP_EOL.$output;
 	}
-	function checkAndPutImage($source,$title,$options=[])
+	function checkAndPutImage($source,$options=[])
 	{
 		$output = "<picture>";
 		$realPathToSource = $_SERVER['DOCUMENT_ROOT'].$source;
@@ -292,9 +292,18 @@ class SQLBase
 
 		if ($format !== 'webp')
 			$output .= $this->getAdditionalImage($realPathToSource,$format,'webp');
-
+		
+		$attrs = '';
+		foreach ($options as $attr=>$value){
+			if ($attr !== 'title'){
+				$attrs .= "$attr='$value' ";
+			}
+			else{
+				$attrs .= "$attr='$value' alt='$value' ";
+			}
+		}
 		return str_ireplace($_SERVER['DOCUMENT_ROOT'],'.', $output.PHP_EOL.
-			'<img '.(!isset($options['class']) ? '' : 'class="'.$options['class'].'" ').'src="'.$source.'" title="'.$title.'" alt ="'.$title.'">
+			'<img '.$attrs.' src="'.$source.'">
 		 </picture>');
 	}
 }

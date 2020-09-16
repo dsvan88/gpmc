@@ -1,4 +1,4 @@
-<? $i = isset($_POST['i']) ? $_POST['i'] : $i; ?>
+<? $i = isset($_POST['id']) ? $_POST['id'] : $i; ?>
 <div class="gamer">
 	<span class="num"><?=($i+1)?>.</span>
 	<div class="gamer__info">
@@ -10,14 +10,14 @@
 			<option value='2'<?=$EveningData['gamers_info'][$i]['duration'] == '2' ? ' selected ' : ''?>>2-3 игры</option>
 			<option value='3'<?=$EveningData['gamers_info'][$i]['duration'] == '3' ? ' selected ' : ''?>>3-4 игры</option>
 		</select>
-		<? if (!isset($_POST['i'])):?>
-			<span class='img-delete' id='<?=$i.'_'.$EveningData['gamers'][$i]['id']?>'>
-			<?=$engine->checkAndPutImage('/css/images/minus.png','Отписать')?>
-			</span>
+		<? if (!isset($_POST['id'])):?>
+			<div class='img-delete' id='<?=$i.'_'.$EveningData['gamers'][$i]['id']?>' data-action-type="discharge-gamer">
+			<?=$engine->checkAndPutImage('/css/images/minus.png',['title'=>'Отписать'])?>
+			</div>
 		<?else:?>
-			<span class='img-non-delete'>
-			<?=$engine->checkAndPutImage('/css/images/minus.png','Отписать')?>
-			</span>
+			<div class='img-non-delete'>
+			<?=$engine->checkAndPutImage('/css/images/minus.png',['title'=>'Отписать'])?>
+			</div>
 		<?endif?>
 	</div>
 </div>

@@ -37,9 +37,9 @@
 </div>
 <div class='evening-booking__buttons'>
 	<span class='span_button' data-action-type='set-evening-data'>
-		<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
+		<?=$engine->checkAndPutImage($settings['img']['apply']['value'])?>
 		<?=isset($EveningData['id']) ? 'Изменить' : 'Подтвердить'?>!
-		<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
+		<?=$engine->checkAndPutImage($settings['img']['apply']['value'])?>
 	</span>
 </div>
 <hr>
@@ -54,14 +54,14 @@
 	</div>
 	<div class='evening-booking__buttons'>
 		<span class='span_button' data-action-type='add-gamers'>
-			<?=$engine->checkAndPutImage($settings['img']['plus']['value'],'')?>
+			<?=$engine->checkAndPutImage($settings['img']['plus']['value'])?>
 			Добавить поле
-			<?=$engine->checkAndPutImage($settings['img']['plus']['value'],'')?>
+			<?=$engine->checkAndPutImage($settings['img']['plus']['value'])?>
 		</span><br><br>
 		<span class='span_button' data-action-type='approve-evening'>
-			<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
+			<?=$engine->checkAndPutImage($settings['img']['apply']['value'])?>
 			Утвердить!
-			<?=$engine->checkAndPutImage($settings['img']['apply']['value'],'')?>
+			<?=$engine->checkAndPutImage($settings['img']['apply']['value'])?>
 		</span>
 	</div>
 </form>

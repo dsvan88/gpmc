@@ -18,11 +18,12 @@ actionHandler.addPlayersToArray = function (modal) {
 		}
 	}
 	if (!present) {
-		$.ajax({
-			url: "switcher.php",
-			type: "POST",
-			data: "need=add_gamer&n=" + name,
-			success: function (userId) {
+		postAjax({
+			data: {
+				need: "add_gamer",
+				name: name,
+			},
+			successFunc: function (userId) {
 				let newGamer = gamers[0].cloneNode(true);
 				newGamer.dataset.playerId = userId;
 				newGamer.childNodes[0].data = name;
@@ -35,12 +36,12 @@ actionHandler.addPlayersToArray = function (modal) {
 actionHandler.toggleGamerInTable = function (target) {
 	let name = target.childNodes[0].data;
 	let playersList = document.body.querySelectorAll("input[name=player],input[name=manager]");
-	let toogled = false;
+	let toggled = false;
 	if (target.classList.contains("selected")) {
 		for (player of playersList) {
 			if (player.value === name) {
 				player.value = "";
-				toogled = true;
+				toggled = true;
 				break;
 			}
 		}
@@ -48,12 +49,12 @@ actionHandler.toggleGamerInTable = function (target) {
 		for (player of playersList) {
 			if (player.value === "") {
 				player.value = name;
-				toogled = true;
+				toggled = true;
 				break;
 			}
 		}
 	}
-	if (toogled) target.classList.toggle("selected");
+	if (toggled) target.classList.toggle("selected");
 };
 actionHandler.removeGamer = function (target) {
 	let gamer = target.parentElement;
@@ -70,11 +71,12 @@ actionHandler.removeGamer = function (target) {
 				break;
 			}
 		}
-		$.ajax({
-			url: "switcher.php",
-			type: "POST",
-			data: "need=remove-gamer&i=" + gamerId,
-			success: function (res) {
+		postAjax({
+			data: {
+				need: "remove-gamer",
+				id: gamerId,
+			},
+			successFunc: function (userId) {
 				gamer.remove();
 			},
 		});

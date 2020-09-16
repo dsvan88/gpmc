@@ -1,6 +1,6 @@
 <?
 $output['html'] .= '
-<form id="RegisterForm">
+<form>
 	<h2 class="title">Реєстрація користувача</h2>
 	<div class ="input_row">
 		<label>Логин</label>

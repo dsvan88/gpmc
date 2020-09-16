@@ -13,11 +13,11 @@
 			<td class="vote_num"><?=$i+1?>.</td>
 			<td class='player_name'>
 				<span class='player_avatar'>
-					<?=$engine->checkAndPutImage($avatar[$players[$i]['id']],'')?>
+					<?=$engine->checkAndPutImage($avatar[$players[$i]['id']])?>
 				</span>
 				<span class='for_image hide'>
 					<? if ($players[$i]['role'] > 0) 
-						echo $engine->checkAndPutImage('/css/'.$enum_roles[$players[$i]['role']].'.png',$enum_roles_rus[$players[$i]['role']])?>
+						echo $engine->checkAndPutImage('/css/'.$enum_roles[$players[$i]['role']].'.png',['title'=>$enum_roles_rus[$players[$i]['role']]])?>
 				</span>
 				<?=$players[$i]['name']?>
 				<span class='points'></span>
