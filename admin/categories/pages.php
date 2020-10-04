@@ -16,7 +16,7 @@
 			$page = $engine->GetSettings(array('id','shname','name','value'), 'pages', array('shname'=>$_GET['p']))[0];
 	}
 ?>
-<form method='POST' action="/?b=pages<?=$_GET['p'] ? '' : '&p='.$_GET['p']?>">
+<form method='POST' action="/?b=pages<?=isset($_GET['p']) ? '&p='.$_GET['p'] : ''?>">
 	<input type='hidden' name='id' value='<?=$page['id']?>'>
 	<div>Краткое имя:</div>
 	<div><input type='text' name='shname' value='<?=$page['shname']?>'></div>
@@ -24,7 +24,7 @@
 	<div><input type='text' name='name' value='<?=$page['name']?>'></div>
 	<div>Текст страницы:</div>
 	<div>
-		<textarea name='html' id='editor'>
+		<textarea name='html'>
 			<?=str_replace(array('!BR!','«', '»'),array("\r\n",'"','"'),$page['value'])?>
 		</textarea>
 	</div>

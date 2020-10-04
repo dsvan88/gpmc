@@ -1,15 +1,15 @@
 <?
-$user_data = $engine->GetGamerData(array($_POST['column']),array('id'=>$_SESSION['id'])); 
+$user_data = $engine->GetGamerData(array($_POST['editTarget']),array('id'=>$_SESSION['id'])); 
 $output['html'] .= '
 	<form class="edit-info-row">
 		<h2 class="title">Изменение данных</h2>
 		<div class ="input_row">
 		<label>Новое значение</label>';
-if ($_POST['column'] !== "gender"){
-	if ($_POST['column'] === "birthday")
-		$output['html'] .= '<input name="value" type="text" class="input_gamer datepick" value ="'.date("d.m.Y",$user_data[$_POST['column']]).'"/>';
+if ($_POST['editTarget'] !== "gender"){
+	if ($_POST['editTarget'] === "birthday")
+		$output['html'] .= '<input name="value" type="text" class="input_gamer datepick" value ="'.date("d.m.Y",$user_data[$_POST['editTarget']]).'"/>';
 	else
-		$output['html'] .= '<input name="value" type="text" class="input_gamer" value ="'.$user_data[$_POST['column']].'"/>';
+		$output['html'] .= '<input name="value" type="text" class="input_gamer" value ="'.$user_data[$_POST['editTarget']].'"/>';
 }
 else {
 	$genders = array("Инкогнито","Господин","Госпожа","Некто");
@@ -20,7 +20,7 @@ else {
 }
 $output['html'] .= '
 		</div>
-		<input name="column" type="hidden" value ="'.$_POST['column'].'"/>
+		<input name="editTarget" type="hidden" value ="'.$_POST['editTarget'].'"/>
 		<div class ="input_row buttons">
 			<button>Изменить</button>
 		</div>

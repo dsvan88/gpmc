@@ -5,8 +5,9 @@
 <script defer type='text/javascript' src='js/get_js.php/?script=main_func'></script>
 <script defer type='text/javascript' src='js/get_js.php/?script=main'></script>
 <? if ($_SESSION['ba'] > 0):?>
-	<script type='text/javascript' src="js/ckeditor/ckeditor.js"></script>
-	<script type='text/javascript' src='js/admin.js.php'></script>
+	<script defer type='text/javascript' src="js/ckeditor/ckeditor.js"></script>
+	<script defer type='text/javascript' src='js/get_js.php/?script=admin'></script>
+	<!-- <script type='text/javascript' src='js/admin.js.php'></script> -->
 <?elseif (isset($_GET['profile'])):?>
 	<script defer type='text/javascript' src='js/get_js.php/?script=profile'></script>
 	<script type='text/javascript' src='js/jquery-cropper.js'></script>
@@ -15,7 +16,7 @@
 <?elseif (isset($_GET['trg']) && $_GET['trg'] ==='evening'):?>
 	<script defer type='text/javascript' src='js/get_js.php/?script=evening'></script>
 <?elseif (isset($_GET['g_id'])):?>
-	<script type='text/javascript' src='js/mafia_common_func.js.php'></script>
-	<script type='text/javascript' src='js/mafia_func.js.php'></script>
-	<script type='text/javascript' src='js/mafia.js.php'></script>
+	<script defer type='text/javascript' src='js/get_js.php/?script=mafia_common_func'></script>
+	<script defer type='text/javascript' src='js/get_js.php/?script=mafia_func'></script>
+	<script defer type='text/javascript' src='js/get_js.php/?script=mafia'></script>
 <?endif?>

@@ -9,7 +9,7 @@
 		<div class="header__login-place">
 			<h4>Добро пожаловать!</h4>
 			<?	if (isset($_SESSION['id'])): 
-				$userData = $engine->GetGamerData(array('name','fio','rank'), array('id'=>$_SESSION['id']));
+				$userData = $engine->GetGamerData(array('name','fio','rank','ar'), array('id'=>$_SESSION['id']));
 				$statuses = array('Гость', 'Резидент', 'Основатель');
 				$ranks = array('C', 'B', 'A');
 				?>
@@ -20,7 +20,8 @@
 					</div>
 					<div class="info-row">
 						<label>Псведоним:</label>
-						<a href='<?='/?profile=',$_SESSION['id']?>'>
+						<a href='<?='/?profile=',$_SESSION['id']?>'
+						<?=($userData['ar'] > 0 ? 'data-action-type="admin-panel"': '')?>>
 							<?=$userData['name']?>
 						</a>
 					</div>
@@ -37,8 +38,11 @@
 						<span><?=$ranks[$userData['rank']]?></span>
 					</div>
 					<div class="info-row">
-						<a href='<?='/?profile=',$_SESSION['id']?>'>Профиль</a>
-						<a href='#' data-action="logout">Выйти</a>
+						<a href='<?='/?profile=',$_SESSION['id']?>'
+						<?=($userData['ar'] > 0 ? 'data-action-type="admin-panel"': '')?>>
+						Профиль
+						</a>
+						<a href='#' data-action="logout">выйти</a>
 					</div>
 				</div>
 			<? else: ?>
@@ -48,17 +52,15 @@
 						<input type="password" name="pass" placeholder="Пароль">
 					</div>
 					<div class="header__login-place__links">
-					<a data-action-type="header-login">Войдите</a>
+					<button data-action-type="header-login" href="#">Войдите</button>
 					<br>или<br>
-					<a data-form-type="user-register">Зарегистрируйтесь</a>
+					<a data-form-type="user-register" href="#">Зарегистрируйтесь</a>
 					</div>
-					<!-- <a data-form-type="login">Войдите</a>
-					<br>или<br>
-					<a data-form-type="user-register">Зарегистрируйтесь</a> -->
 				</form>
 			<?endif?>
 		</div>
 	</div>
+	<?if (!isset($_SESSION['ba']) || $_SESSION['ba'] < 1):?>
 	<menu>
 		<li><a href='/?trg=news'><span>Новости</span></a></li>
 		<li><a href='/?trg=booking'><span>Запись на игру</span></a></li>
@@ -68,4 +70,5 @@
 		<li><a href='/?trg=rules'><span>Правила</span></a></li>
 		<li><a href='/?trg=about'><span>О нас</span></a></li>
 	</menu>
+	<?endif;?>
 </header>

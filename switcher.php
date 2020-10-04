@@ -9,11 +9,52 @@ $need = trim(isset($_GET['need']) ? $_GET['need'] : $_POST['need']);
 if ($need==='') exit('Wrong `need` type!');
 $settings = $engine->ModifySettingsArray($engine->GetSettings(array('shname','name','value','type'),'img'));
 
-$need_forms = ['my_record_form','add-players-to-array_form','add-gamer_form','user-register_form','login_form','admin-login_form','edit-my-info_form','rename-gamer_form'];
-$need_action = ['login','user-registration','cancel_my_reg','remove-gamer','discharge_gamer','add_gamer', 'apply_evening',
-	'crop_file','edit_setting','edit-my-info','do_my_vote','save-comment','rename_gamer','edit_user_row','edit_point','upload_file'];
-$need_autocomplete = ['autocomplete_names','autocomplete_places'];
-$need_gets = ['check_vote','get_place_info','get_setting_img','get_setting_txt','edit_user_row_form','edit_point_form','show_user_avatar','show_my_avatar','get_browser'];
+$need_forms = [
+	'add-gamer_form',
+	'add-players-to-array_form',
+	'admin-login_form',
+	'edit-my-info_form',
+	'edit-settings-image_form',
+	'get-kcfinder-browser_form',
+	'login_form',
+	'my_record_form',
+	'rename-gamer_form',
+	'user-register_form'
+];
+$need_action = [
+	'add_gamer',
+	'admin-panel',
+	'apply_evening',
+	'apply-new-points',
+	'apply-setting',
+	'apply-user-data',
+	'cancel_my_reg',
+	'crop_file',
+	'discharge_gamer',
+	'do_my_vote',
+	'edit-my-info',
+	// 'edit-setting',
+	'login',
+	'remove-gamer',
+	'rename_gamer',
+	'save-comment',
+	'upload_file',
+	'user-registration'
+];
+$need_autocomplete = [
+	'autocomplete_names',
+	'autocomplete_places'
+];
+$need_gets = [
+	'check_vote',
+	'edit-points',
+	// 'edit-setting-text',
+	'edit-user-row',
+	'get_place_info',
+	// 'get_setting_img',
+	'show_my_avatar',
+	'show_user_avatar'
+];
 
 if (in_array($need,$need_forms,true))
 {
@@ -34,7 +75,6 @@ if (in_array($need,$need_forms,true))
 		</div>
 	</div>';
 	echo json_encode($output,JSON_UNESCAPED_UNICODE);
-	
 }
 elseif (in_array($need,$need_action,true))
 	require $root_path.'/php_scripts/action/'.$need.'.php';

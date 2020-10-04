@@ -8,15 +8,15 @@ $result = array(
 	'size'	=> '500,500',
 	'html'	=> ''
 );
-$a = getimagesize($root_path.'/'.$img['value']);
-$size=$a[0].'x'.$a[1];
-$a[0] = $a[0] > 400 ? 400 : $a[0];
-$a[1] = $a[1] > 300 ? 300 : $a[1];
+[$x, $y] = getimagesize($root_path.'/'.$img['value']);
+$size=$x.'x'.$y;
+$x = $x > 400 ? 400 : $x;
+$y = $y > 300 ? 300 : $y;
 $result['html'] = '<form id="EditSettingImg">
 <input type="hidden" name="i_id" value="'.$_POST['id'].'">
 <div class="input_row"><span>Коротка назва:</span><span>'.$img['shname'].'</span></div>
 <div class="input_row"><span>Опис:</span><input type="text" name="name" value="'.$img['name'].'"></div>
-<div class="ImgPlace"style="width:'.$a[0].'px;height:'.$a[1].'px;"><a href="../js/kcfinder/browse.php?type=images" target="_blank"><img alt="'.$img['name'].'" title="'.$img['name'].'" src="'.$img['value'].'" style="width:'.$a[0].'px;height:'.$a[1].'px"></a></div>
+<div class="ImgPlace"style="width:'.$x.'px;height:'.$y.'px;"><a href="../js/kcfinder/browse.php?type=images" target="_blank"><img alt="'.$img['name'].'" title="'.$img['name'].'" src="'.$img['value'].'" style="width:'.$x.'px;height:'.$y.'px"></a></div>
 <div style="text-align:center"><span class="span_button" id="SaveSettingData"><img src="'.$settings['img']['apply']['value'].'"/>Сохранить<img src="'.$settings['img']['apply']['value'].'"/></span></div>
 <form>
 <br>
@@ -24,5 +24,5 @@ $result['html'] = '<form id="EditSettingImg">
 <script>
 var callBackReady = true;
 </script>';
-$result['size'] = ($a[0]+40).','.($a[1]+180);
+$result['size'] = ($x+40).','.($y+180);
 exit(json_encode($result,JSON_UNESCAPED_UNICODE));

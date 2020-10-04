@@ -2,6 +2,7 @@
 @import "./mixins_adapt";
 @import "./defaults";
 @import "./forms";
+@import "./admin-panel";
 
 body {
 	font-family: Lobster, Arial, Helvetica, cursive, sans-serif;
@@ -95,9 +96,15 @@ hr {
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
+			button,
 			a {
+				border: 0;
+				background-color: transparent;
 				text-transform: uppercase;
+				text-decoration: underline;
+				color: #6e3f6c;
 				font-size: 14px;
+				cursor: pointer;
 			}
 		}
 

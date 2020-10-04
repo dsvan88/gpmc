@@ -283,6 +283,17 @@ template {
         -webkit-box-align: center;
             -ms-flex-align: center;
                 align-items: center; }
+    .modal form .image-place {
+      cursor: pointer;
+      border: 1px solid black;
+      padding: 15px;
+      margin-bottom: 10px;
+      background-color: #eee;
+      background-size: 60px 60px;
+      background-position: 0 0, 30px 30px;
+      background-image: linear-gradient(45deg, grey 25%, transparent 25%, transparent 75%, grey 75%, grey), linear-gradient(45deg, grey 25%, transparent 25%, transparent 75%, grey 75%, grey);
+      text-align: center;
+      overflow: hidden; }
   .modal .title {
     font-size: larger;
     font-weight: 100;
@@ -290,6 +301,123 @@ template {
     text-align: center; }
   .modal a {
     font-size: smaller; }
+
+.admin-panel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background-color: #78defda8;
+  margin: 10px 7vw;
+  border: 1px dashed #1aa3f4;
+  border-radius: 7px;
+  font-family: franklin gothic medium;
+  font-size: 15px; }
+  @media (max-width: 576px) {
+    .admin-panel {
+      font-size: 3vw; } }
+  .admin-panel > div {
+    border: 1px solid #2620f275; }
+  .admin-panel__header {
+    padding: 5px; }
+    .admin-panel__header__navigation {
+      font-style: italic; }
+    .admin-panel__header h2 {
+      margin: 5px 10px; }
+  .admin-panel__body {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 2fr 7fr;
+        grid-template-columns: 2fr 7fr;
+    grid-gap: 0.5vw; }
+    .admin-panel__body > div {
+      border: 1px solid #2620f275; }
+    .admin-panel__body__menu {
+      font-size: larger; }
+      .admin-panel__body__menu > ul {
+        list-style: none;
+        padding: 10px;
+        margin: 5px;
+        border: 1px solid #6670fdb7; }
+        .admin-panel__body__menu > ul li {
+          display: none;
+          padding-left: 5px; }
+        .admin-panel__body__menu > ul h4 {
+          margin: 2px 5px;
+          border: 2px solid #bf73ff;
+          text-align: center;
+          cursor: pointer; }
+        .admin-panel__body__menu > ul.active h4 {
+          font-weight: bolder; }
+        .admin-panel__body__menu > ul.active li {
+          display: block; }
+        .admin-panel__body__menu > ul.active li.active {
+          font-weight: bolder; }
+    .admin-panel__body__content {
+      padding: 5px; }
+      .admin-panel__body__content .images-table {
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-columns: (1fr)[5];
+            grid-template-columns: repeat(5, 1fr);
+        grid-gap: 0.5vw; }
+        .admin-panel__body__content .images-table__cell {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+              -ms-flex-direction: column;
+                  flex-direction: column;
+          border: 1px solid #6670fdb7; }
+          .admin-panel__body__content .images-table__cell-caption {
+            font-size: 14px;
+            margin: 2px 1px;
+            text-align: center;
+            font-weight: 100; }
+          .admin-panel__body__content .images-table__cell__image-place img {
+            height: auto;
+            width: 100%;
+            cursor: pointer; }
+          .admin-panel__body__content .images-table__cell__bottom {
+            margin: auto 3px 2px 3px;
+            text-align: center;
+            border-top: 1px solid #755fe3; }
+      .admin-panel__body__content .users-table td,
+      .admin-panel__body__content .users-table th {
+        border: 1px solid #b583ff9c;
+        text-align: center; }
+      .admin-panel__body__content .points-table {
+        padding: 10px 2vw; }
+        .admin-panel__body__content .points-table__cell {
+          display: -ms-grid;
+          display: grid;
+          -ms-grid-columns: 1fr 2fr 20px;
+              grid-template-columns: 1fr 2fr 20px;
+          font-size: 16px; }
+          @media (max-width: 576px) {
+            .admin-panel__body__content .points-table__cell {
+              font-size: 3vw; } }
+          .admin-panel__body__content .points-table__cell span {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                    justify-content: center; }
+            .admin-panel__body__content .points-table__cell span input {
+              width: 95%;
+              text-align: center; }
+          .admin-panel__body__content .points-table__cell-name {
+            font-weight: 600;
+            border-bottom: 1px dashed #4b48f8; }
+          .admin-panel__body__content .points-table__cell-value {
+            border-bottom: 1px dotted #4b48f8; }
+  .admin-panel img {
+    width: 20px; }
 
 body {
   font-family: Lobster, Arial, Helvetica, cursive, sans-serif;
@@ -408,9 +536,15 @@ hr {
       -webkit-box-align: center;
           -ms-flex-align: center;
               align-items: center; }
+      .header__login-place__links button,
       .header__login-place__links a {
+        border: 0;
+        background-color: transparent;
         text-transform: uppercase;
-        font-size: 14px; }
+        text-decoration: underline;
+        color: #6e3f6c;
+        font-size: 14px;
+        cursor: pointer; }
     @media (max-width: 576px) {
       .header__login-place {
         -webkit-box-flex: 1;
@@ -732,7 +866,7 @@ header menu {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 200;
   border: 1px dashed #3d39f4;
   padding: 10px;
@@ -780,7 +914,6 @@ header menu {
         font-family: "Times New Roman", Times, serif; }
         .profile__upper-block__info-block__menu li.active {
           padding: 5px 8px;
-          font-size: 18px;
           border: 1px solid #48ec6d91;
           background-color: #55ffd48a;
           cursor: default; }

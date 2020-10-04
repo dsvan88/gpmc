@@ -13,7 +13,7 @@ if (!isset($_SESSION['id']) || $_SESSION['id'] < 1)
 }
 if (!isset($_POST['html']))
 {
-	$col = trim($_POST['column']);
+	$col = trim($_POST['editTarget']);
 	if ($col === 'birthday')
 	{
 		if ($_POST['value'] === '01.01.1970')
@@ -47,7 +47,7 @@ if (!isset($_POST['html']))
 }
 else
 {
-	$engine->UpdateRow(array($_POST['column']=>$_POST['html']),array('id'=>$_SESSION['id']),MYSQL_TBLGAMERS);
+	$engine->UpdateRow(array($_POST['editTarget']=>$_POST['html']),array('id'=>$_SESSION['id']),MYSQL_TBLGAMERS);
 	$result['error'] = 0;
 	$result['txt'] = 'Успешно изменено!';
 	exit(json_encode($result,JSON_UNESCAPED_UNICODE));

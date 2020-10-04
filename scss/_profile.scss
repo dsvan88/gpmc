@@ -1,7 +1,7 @@
 .profile {
 	display: flex;
 	flex-direction: column;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: 200;
 	border: 1px dashed #3d39f4;
 	padding: 10px;
@@ -49,7 +49,6 @@
 					font-family: "Times New Roman", Times, serif;
 					&.active {
 						padding: 5px 8px;
-						font-size: 18px;
 						border: 1px solid #48ec6d91;
 						background-color: #55ffd48a;
 						cursor: default;

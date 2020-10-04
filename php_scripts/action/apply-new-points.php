@@ -18,5 +18,12 @@ foreach($data as $k=>$v)
 }
 $engine->SetSettings($data);
 $result['txt'] = 'Успешно изменено!';
-$result['html'] = '<span class="point_name"><b>'.$data['name'].'</b></span><span class="point_value">'.str_replace(',',', ',$data['value']).'</span><a class="EditPencil"><img src = "'.$settings['img']['edit_pen']['value'].'" title="'.$settings['img']['edit_pen']['name'].'" alt="'.$settings['img']['edit_pen']['value'].'"/></a>';
+$result['html'] = '
+	<label class="points-table__cell-name">
+		'.$data['name'].'
+	</label>
+	<span class="points-table__cell-value">'.
+		str_replace(',',', ',$data['value'])
+	.'</span>'.
+	$engine->checkAndPutImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']]);
 exit(json_encode($result,JSON_UNESCAPED_UNICODE));

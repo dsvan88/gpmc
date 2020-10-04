@@ -158,7 +158,9 @@ browser.returnFile = function(file) {
     var fileURL = file.substr
         ? file : browser.uploadURL + '/' + browser.dir + '/' + file.data('name');
     fileURL = _.escapeDirs(fileURL);
-	
+
+    //console.dir(window.opener.callBackReady);
+
 	if (this.opener.CKEditor) {
         this.opener.CKEditor.object.tools.callFunction(this.opener.CKEditor.funcNum, fileURL, '');
         window.close();
@@ -168,11 +170,11 @@ browser.returnFile = function(file) {
         window.close() ;
 		
 	} else if ( window.opener !== null && window.opener.callBackReady) {
-        window.opener.callback(fileURL) ;
+        window.opener.callBackForKCFinderBrowser(fileURL) ;
         window.close() ;
 
 	} else if ( window.parent.callBackReady) {
-		window.parent.callback(fileURL) ;
+        window.parent.callBackForKCFinderBrowser(fileURL) ;
 
     } else if (this.opener.TinyMCE) {
         var win = tinyMCEPopup.getWindowArg('window');

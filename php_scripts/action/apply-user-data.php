@@ -34,5 +34,9 @@ $result['html'] = '<td>'.$_POST['id'].'</td>
 	<td>'.$data['email'].'</td>
 	<td>'.($data['ar'] > 0 ? '+' : '').'</td>
 	<td>'.$user['last_game'].'</td>
-	<td><a class="EditPencil"><img src = "'.$settings['img']['edit_pen']['value'].'" title="'.$settings['img']['edit_pen']['name'].'" alt="'.$settings['img']['edit_pen']['value'].'"/></a></td>';
+	<td>
+		<a data-action-type="edit-user-row" title="Изменить" alt="Изменить">'.
+			$engine->checkAndPutImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])
+		.'</a>
+	</td>';
 exit(json_encode($result,JSON_UNESCAPED_UNICODE));

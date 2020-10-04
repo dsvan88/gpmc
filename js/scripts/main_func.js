@@ -1,5 +1,19 @@
-let debug = false;
+let debug = true;
 actionHandler = {
+	adminPanel: function (target, event) {
+		if (event.ctrlKey || event.metaKey) {
+			postAjax({
+				data: {
+					need: "admin-panel",
+				},
+				successFunc: function (result) {
+					result = JSON.parse(result);
+					if (result["error"] == 0) location.reload();
+					else alert(result["txt"]);
+				},
+			});
+		} else window.location.href = target.href;
+	},
 	login: function (modal) {
 		postAjax({
 			data: {
@@ -132,14 +146,15 @@ actionHandler = {
 		if ("formType" in target.dataset) {
 			let ajaxObject = { data: {} };
 			event.preventDefault();
-			column = target.dataset.editRow || "";
+			let editTarget = target.dataset.editRow || target.dataset.editImage || "";
 			ajaxObject.successFunc = function (result) {
 				result = JSON.parse(result);
 				if (result["error"] != 0) {
 					alert(result["html"]);
 					return false;
 				}
-				let modal = modalEvent(result["html"]);
+				let type = camelize(target.dataset.formType);
+				let [modalOverlay, modal] = modalEvent(result["html"], type);
 				$(".modal-body input.input_name").autocomplete({
 					source: "switcher.php?need=autocomplete_names",
 					minLength: 2,
@@ -147,15 +162,15 @@ actionHandler = {
 				$(".modal-body .datepick").datetimepicker({ timepicker: false, format: "d.m.Y", dayOfWeekStart: 1 });
 				$(".modal-body .timepicker").datetimepicker({ datepicker: false, format: "H:i" });
 				modal.querySelector("input").focus();
-				let type = camelize(target.dataset.formType);
 				if (debug) console.log(type);
 				modal.querySelector("form").addEventListener("submit", (submitEvent) => {
 					submitEvent.preventDefault();
 					actionHandler[type](modal);
 				});
+				if (result["javascript"]) window.eval(result["javascript"]);
 			};
 			ajaxObject.data["need"] = target.dataset.formType + "_form";
-			if (column !== "") ajaxObject.data["column"] = column;
+			if (editTarget !== "") ajaxObject.data["editTarget"] = editTarget;
 			postAjax(ajaxObject);
 		} else if ("action" in target.dataset) {
 			event.preventDefault();
@@ -173,12 +188,11 @@ actionHandler = {
 				},
 			});
 		} else if ("actionType" in target.dataset) {
-			event.preventDefault();
 			let type = camelize(target.dataset.actionType);
 			if (debug) console.log(type);
 			try {
 				event.preventDefault();
-				actionHandler[type](target);
+				actionHandler[type](target, event);
 			} catch (error) {
 				alert(`Не существует метода для этого action-type: ${type}... или возникла ошибка. Сообщите администратору!\r\n${error.name}: ${error.message}`);
 				console.log(error);
@@ -270,7 +284,7 @@ function modalEvent(html = "", divId = "modalWindow") {
 				.animate({ opacity: 1, top: "50%" }, 200); // плaвнo прибaвляем прoзрaчнoсть oднoвременнo сo съезжaнием вниз
 		}
 	);
-	return modal;
+	return [modalOverlay, modal];
 }
 function prepeareModalWindow(divId = "modalWindow") {
 	let overlay = document.body.querySelector("#overlay");
@@ -281,10 +295,10 @@ function prepeareModalWindow(divId = "modalWindow") {
 	}
 	let modalOverlay = document.createElement("div");
 	modalOverlay.className = "modal-overlay modal-close";
+	modalOverlay.id = divId;
 
 	let modal = document.createElement("div");
 	modal.className = "modal";
-	modal.id = divId;
 
 	let modalBody = document.createElement("div");
 	modalBody.className = "modal-body";
@@ -297,6 +311,7 @@ function prepeareModalWindow(divId = "modalWindow") {
 	return [modalOverlay, modal, modalBody];
 }
 function closeModalWindow(event) {
+	if (debug) console.log(event);
 	if (!event.target.classList.contains("modal-close")) return;
 	let modalOverlay = event.target.closest(".modal-overlay");
 	let modalsAll = document.body.querySelectorAll(".modal-body");
@@ -305,7 +320,7 @@ function closeModalWindow(event) {
 		200, // плaвнo меняем прoзрaчнoсть нa 0 и oднoвременнo двигaем oкнo вверх
 		function () {
 			// пoсле aнимaции
-			$(this).css("display", "none"); // делaем ему display: none;
+			modalOverlay.style.display = "none"; // делaем ему display: none;
 			if (modalsAll.length === 1) $("#overlay").fadeOut(400); // скрывaем пoдлoжку
 			modalOverlay.removeEventListener("click", closeModalWindow);
 			modalOverlay.remove();
@@ -408,6 +423,15 @@ function simpleObjectToGetString(obj) {
 	}
 	return strData.slice(0, -1);
 }
+function serializeForm(target) {
+	let elements = target.querySelectorAll("input, select");
+	let result = {};
+	elements.forEach((element) => {
+		if (element.tagName === "INPUT" && element.type === "checkbox" && !element.checked) return;
+		result[element.name] = element.value;
+	});
+	return result;
+}
 function camelize(str) {
 	return str
 		.split("-") // разбивает 'my-long-word' на массив ['my', 'long', 'word']
@@ -419,6 +443,21 @@ function catchResult(func) {
 		console.log(...args);
 		return func.call(this, args);
 	};
+}
+function clearBlock(block) {
+	while (block.firstChild && block.removeChild(block.firstChild));
+}
+function createNewElement({ tag: tagName = "div", ...attributes }) {
+	if (debug) console.log(attributes);
+	let element = document.createElement(tagName);
+	applyAttributes(element, attributes);
+	return element;
+}
+function applyAttributes(element, attributes) {
+	for (let [attName, attrValue] of Object.entries(attributes)) {
+		if (typeof attrValue !== "object") element[attName] = attrValue;
+		else applyAttributes(element[attName], attrValue);
+	}
 }
 Array.prototype.shuffle = function (b) {
 	var i = this.length,
