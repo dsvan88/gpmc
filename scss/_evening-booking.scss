@@ -59,6 +59,12 @@
 			.guest-list-column {
 				margin-left: 50px;
 			}
+			&__item {
+				color: #ff1e0ee1;
+				span {
+					color: #000000;
+				}
+			}
 		}
 	}
 }

@@ -1,7 +1,7 @@
 <form class="evening-booking" id="eveningRegisterForm" method="POST">
 <?
-	$days = array( 'Воскресенье', 'Понедельник' , 'Вторник' , 'Среда' , 'Четверг' , 'Пятница' , 'Суббота');
-	$plan_tobe = array('','на 1-2 игры', 'на 2-3 игры', 'на 3-4 игры');
+	$days = array( 'Воскресенье', 'Понедельник' , 'Вторник' , 'Среда' , 'Четверг' , 'Пятница' , 'Суббота', 'Воскресенье');
+	$plan_tobe = array('','1-2 игры', '2-3 игры', '3-4 игры');
 
 	if ($EveningData['ready'] !== false) 
 	{
@@ -22,6 +22,8 @@
 		);
 	if ($EveningData['gamers'] === '')
 		$EveningData['gamers'] = $engine->GetResidentsNames(11);
-
-	require $root_path.'/evening/evening_active_'.$user['status'].'.php';
+	
+	if (isset($_SESSION['status']) && $_SESSION['status'] > 1)
+		require $root_path.'/evening/active_resident.php';
+	else require $root_path.'/templates/list_for_'.$user['status'].'.php';
 ?>

@@ -1,30 +1,26 @@
 actionHandler.editMyInfo = function (modal) {
-	$.ajax({
-		url: "switcher.php",
-		type: "POST",
-		data: "need=edit-my-info&column=" + modal.querySelector("input[name=column]").value + "&value=" + modal.querySelector("[name=value]").value,
-		success: function (res) {
-			res = JSON.parse(res);
-			if (res["error"] == 0) {
-				alert(res["txt"]);
+	let data = serializeForm(modal);
+	data["need"] = "edit-my-info";
+	postAjax({
+		data: data,
+		successFunc: function (result) {
+			result = JSON.parse(result);
+			if (result["error"] == 0) {
+				alert(result["txt"]);
 				location.reload();
 			} else {
-				alert(res["txt"]);
-				$("input[name=" + res["wrong"] + "]").trigger("focus");
+				alert(result["txt"]);
+				modal.querySelector("input[name=" + result["wrong"] + "]").focus();
 			}
 		},
-		error: function (res) {
-			alert("Error: Ошибка связи с сервером");
-		},
 	});
-	return false;
 };
 actionHandler.editRow = function (target) {
 	let div = target.closest("div");
 	let elem = div.querySelector("#" + target.dataset.editRow);
 	let textarea = document.createElement("textarea");
 	textarea.innerHTML = elem.innerHTML;
-	elem.innerHTML = "";
+	clearBlock(elem.innerHTML);
 	elem.append(textarea);
 	$(textarea).cleditor();
 	div.querySelector(".info-row__apply").style.display = "inline";
@@ -33,24 +29,24 @@ actionHandler.editRow = function (target) {
 actionHandler.saveRow = function (target) {
 	let div = target.closest("div");
 	let p = div.querySelector("p");
-	let textarea = p.querySelector("textarea");
-	$.ajax({
-		url: "switcher.php",
-		type: "POST",
-		data: "need=edit-my-info&column=" + target.dataset.saveRow + "&html=" + textarea.value.replace(/\n/g, ""),
-		success: function (res) {
-			res = JSON.parse(res);
-			if (res["error"] == 0) {
-				alert(res["txt"]);
-				p.innerHTML = textarea.value;
+	let html = p.querySelector("textarea").value;
+	postAjax({
+		data: {
+			need: "edit-my-info",
+			column: target.dataset.saveRow,
+			html: html.replace(/(\n|\t)/g, "").replace(/\&/g, "%26"),
+		},
+		successFunc: function (result) {
+			result = JSON.parse(result);
+			if (result["error"] == 0) {
+				alert(result["txt"]);
+				clearBlock(p.innerHTML);
+				p.innerHTML = html;
 				div.querySelector(".info-row__apply").style.display = "none";
 				div.querySelector(".info-row__edit").style.display = "inline";
 			} else {
-				alert(res["txt"]);
+				alert(result["txt"]);
 			}
-		},
-		error: function (res) {
-			alert("Error: Ошибка связи с сервером");
 		},
 	});
 };
@@ -59,25 +55,46 @@ actionHandler.showCommentForm = function (target) {
 	$("form#addComment textarea").cleditor();
 };
 actionHandler.saveComment = function (target) {
-	let uID = document.body.querySelector("div.profile").dataset.userId;
-	let textarea = target.closest("div").querySelector("textarea");
-	$.ajax({
-		url: "switcher.php",
-		type: "POST",
-		data: "need=save-comment&t=user&u=" + uID + "&html=" + textarea.value.replace(/\n/g, ""),
-		success: function (res) {
-			console.log(res);
-			res = JSON.parse(res);
-			if (res["error"] === 0) {
-				alert(res["txt"]);
-				$("form#addComment").slideUp();
-			} else alert(res["txt"]);
+	let html = target.closest("div").querySelector("textarea").value;
+	postAjax({
+		data: {
+			need: "save-comment",
+			type: "user",
+			target: document.body.querySelector("div.profile").dataset.userId,
+			html: html.replace(/(\n|\t)/g, "").replace(/\&/g, "%26"),
 		},
-		error: function (res) {
-			alert("Error: Ошибка связи с сервером");
+		successFunc: function (result) {
+			if (debug) console.log(result);
+			result = JSON.parse(result);
+			if (result["error"] === 0) {
+				alert(result["txt"]);
+				$("form#addComment").slideUp();
+			} else alert(result["txt"]);
 		},
 	});
 };
+
+actionHandler.startNewVote = function (target) {
+	let uID = document.body.querySelector("div.profile").dataset.userId;
+	let result = checkCurrentVote([uID, target.classList.contains("minus") ? "down" : "up", target.dataset.voteType]);
+	modalEvent(result["html"], target.dataset.voteType);
+};
+
+function checkCurrentVote([id, vote, type]) {
+	let result = {};
+	postAjax({
+		data: {
+			need: "check-current-vote",
+			id: id,
+			type: type,
+			vote: vote,
+		},
+		successFunc: function (res) {
+			result = JSON.parse(res);
+		},
+	});
+	return result;
+}
 /* 
 $("#MainBody").off("click", ".EditPencilTA");
 $("#MainBody").on("click", ".EditPencilTA", function () {
@@ -355,19 +372,3 @@ $("#MainBody").on("click", ".ApplyTA", function () {
 //         });
 //     });
 // });
-// function check_current_vote(id, vote, type) {
-//     let result = {};
-//     $.ajax({
-//         url: 'switcher.php'
-//         , type: 'POST'
-//         , data: 'need=check_vote&i=' + id + '&t=' + type + '&m=' + vote
-//         , async: false
-//         , success: function (res) {
-//             result = JSON.parse(res);
-//         }
-//         , error: function (res) {
-//             alert('Error: Ошибка связи с сервером');
-//         }
-//     });
-//     return result;
-// }

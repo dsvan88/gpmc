@@ -25,7 +25,7 @@ class SQLBase
 		$r = mysqli_query($this->SQL, $q);
 		if (!$r)
 			error_log(__METHOD__.': SQL ERROR: '.mysqli_error($this->SQL).' Query: '.$q);
-		error_log('Query: '.$q);
+		//error_log('Query: '.$q);
 		return $r;
 	}
 	// Разбирает результат запроса в простой массив

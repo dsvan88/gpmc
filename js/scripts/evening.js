@@ -1,3 +1,4 @@
+let isLoadEvening = true;
 actionHandler.shuffleGamers = function (target) {
 	let players = [],
 		i = -1;

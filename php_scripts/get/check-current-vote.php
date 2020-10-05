@@ -5,25 +5,27 @@ $result=array(
 	'vote' => 0,
 	'html' => ''
 );
-$_POST['i'] = (int) $_POST['i'];
-$_POST['t'] = (int) $_POST['t'];
-$_POST['m'] = (int) $_POST['m'];
+$_POST['id'] = (int) $_POST['id'];
 if (!isset($_SESSION['id']) || $_SESSION['id'] < 1)
 {
 	$result['vote'] = 1;
-	$result['html'] = '<div class="modal_vote_caption">ОШИБКА!</div><div class="modal_vote_txt">Не авторизованные пользователи не могут голосовать за изменение '.($_POST['t']===0 ? 'категории' : 'статуса').' игроков!</div>';
+	$result['html'] = '
+		<div class="modal_vote_caption">ОШИБКА!</div>
+		<div class="modal_vote_txt">Не авторизованные пользователи не могут голосовать за изменение '.($_POST['type']=== 'rank' ? 'категории' : 'статуса').' игроков!</div>';
 	exit(json_encode($result,JSON_UNESCAPED_UNICODE));
 }
-elseif ($_SESSION['id'] == $_POST['i'])
+elseif ($_SESSION['id'] == $_POST['id'])
 {
 	$result['vote'] = 0;
-	$result['html'] = '<div class="modal_vote_caption">ОШИБКА!</div><div class="modal_vote_txt">Вы не можете голосовать за изменение '.($_POST['t']===0 ? 'своей категории' : 'своего статуса').'!</div>';
+	$result['html'] = '
+		<div class="modal_vote_caption">ОШИБКА!</div>
+		<div class="modal_vote_txt">Вы не можете голосовать за изменение '.($_POST['type']=== 'rank' ? 'своей категории' : 'своего статуса').'!</div>';
 	exit(json_encode($result,JSON_UNESCAPED_UNICODE));
 }
 $engine = new VoteSystem();
 $motion = array('<b>Против</b> повышения категории','<b>За</b> повышение категории','<b>Против</b> повышения статуса','<b>За</b> повышение</b> статуса');
 $types = array('Изменение <b>категории</b>','Изменение <b>статуса</b>');
-$r = $engine->CheckVoteInAction($_POST['i'],$_POST['t']);
+$r = $engine->CheckVoteInAction($_POST['id'],$_POST['type']);
 if ($r > 0)
 {
 	$c = $engine->CheckUserVotes($_SESSION['id'],$r);

@@ -13,11 +13,11 @@ $need_forms = [
 	'add-gamer_form',
 	'add-players-to-array_form',
 	'admin-login_form',
+	'apply-my-booking_form',
 	'edit-my-info_form',
 	'edit-settings-image_form',
 	'get-kcfinder-browser_form',
 	'login_form',
-	'my_record_form',
 	'rename-gamer_form',
 	'user-register_form'
 ];
@@ -25,10 +25,11 @@ $need_action = [
 	'add_gamer',
 	'admin-panel',
 	'apply_evening',
+	'apply-my-booking',
 	'apply-new-points',
 	'apply-setting',
 	'apply-user-data',
-	'cancel_my_reg',
+	'cancel-my-booking',
 	'crop_file',
 	'discharge_gamer',
 	'do_my_vote',
@@ -46,7 +47,7 @@ $need_autocomplete = [
 	'autocomplete_places'
 ];
 $need_gets = [
-	'check_vote',
+	'check-current-vote',
 	'edit-points',
 	// 'edit-setting-text',
 	'edit-user-row',

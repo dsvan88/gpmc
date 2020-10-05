@@ -820,6 +820,10 @@ header menu {
               justify-content: space-between; }
       .evening-booking__guest__participants-list .guest-list-column {
         margin-left: 50px; }
+      .evening-booking__guest__participants-list__item {
+        color: #ff1e0ee1; }
+        .evening-booking__guest__participants-list__item span {
+          color: #000000; }
 
 .evening-active {
   display: -webkit-box;

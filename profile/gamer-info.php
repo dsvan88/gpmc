@@ -27,13 +27,13 @@ if (!$my && $user['email'] !== '')
 <div class='info-row'>
 	<span class='info-row__title'>Статус в клубе</span>
 	<span class='info-row__value'>
-		<?=(!$my && $user['status'] < $_SESSION['status'] ? '<span class="span_vote minus t_status">-</span>' : ''),$a_statuses[(int)$user['status']]?><?=(!$my && $user['status'] < $_SESSION['status'] ? '<span class="span_vote plus t_status">+</span>' : '')?>
+		<?=(!$my && $user['status'] < $_SESSION['status'] ? '<span class="info-row__value__vote minus" data-action-type="start-new-vote" data-vote-type="status">-</span>' : ''),$a_statuses[(int)$user['status']]?><?=(!$my && $user['status'] < $_SESSION['status'] ? '<span class="info-row__value__vote plus" data-action-type="start-new-vote" data-vote-type="status">+</span>' : '')?>
 	</span>
 </div>
 <div class='info-row'>
 	<span class='info-row__title'>Категория</span>
 	<span class='info-row__value'>
-		<?=(!$my && $user['status'] < $_SESSION['status'] ? '<span class="span_vote minus">-</span>' : '')?>"<b><i><?=$a_cats[(int)$user['rank']]?></i></b>"<?=(!$my && $user['status'] < $_SESSION['status'] ? '<span class="span_vote plus">+</span>' : '')?>
+		<?=(!$my && $user['status'] < $_SESSION['status'] ? '<span class="info-row__value__vote minus" data-action-type="start-new-vote" data-vote-type="rank">-</span>' : '')?>"<b><i><?=$a_cats[(int)$user['rank']]?></i></b>"<?=(!$my && $user['status'] < $_SESSION['status'] ? '<span class="info-row__value__vote plus" data-action-type="start-new-vote" data-vote-type="status">+</span>' : '')?>
 	</span>
 </div>
 <div class='info-row'>

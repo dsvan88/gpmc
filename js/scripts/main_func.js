@@ -144,34 +144,35 @@ actionHandler = {
 		let target = event.target;
 		if (target.tagName === "IMG") target = target.closest("a,div");
 		if ("formType" in target.dataset) {
-			let ajaxObject = { data: {} };
 			event.preventDefault();
 			let editTarget = target.dataset.editRow || target.dataset.editImage || "";
-			ajaxObject.successFunc = function (result) {
-				result = JSON.parse(result);
-				if (result["error"] != 0) {
-					alert(result["html"]);
-					return false;
-				}
-				let type = camelize(target.dataset.formType);
-				let [modalOverlay, modal] = modalEvent(result["html"], type);
-				$(".modal-body input.input_name").autocomplete({
-					source: "switcher.php?need=autocomplete_names",
-					minLength: 2,
-				});
-				$(".modal-body .datepick").datetimepicker({ timepicker: false, format: "d.m.Y", dayOfWeekStart: 1 });
-				$(".modal-body .timepicker").datetimepicker({ datepicker: false, format: "H:i" });
-				modal.querySelector("input").focus();
-				if (debug) console.log(type);
-				modal.querySelector("form").addEventListener("submit", (submitEvent) => {
-					submitEvent.preventDefault();
-					actionHandler[type](modal);
-				});
-				if (result["javascript"]) window.eval(result["javascript"]);
-			};
-			ajaxObject.data["need"] = target.dataset.formType + "_form";
-			if (editTarget !== "") ajaxObject.data["editTarget"] = editTarget;
-			postAjax(ajaxObject);
+			let data = { need: target.dataset.formType + "_form" };
+			if (editTarget !== "") data["editTarget"] = editTarget;
+			postAjax({
+				data: data,
+				successFunc: function (result) {
+					result = JSON.parse(result);
+					if (result["error"] != 0) {
+						alert(result["html"]);
+						return false;
+					}
+					let type = camelize(target.dataset.formType);
+					if (debug) console.log(type);
+					let [modalOverlay, modal] = modalEvent(result["html"], type);
+					$(".modal-body input.input_name").autocomplete({
+						source: "switcher.php?need=autocomplete_names",
+						minLength: 2,
+					});
+					$(".modal-body .datepick").datetimepicker({ timepicker: false, format: "d.m.Y", dayOfWeekStart: 1 });
+					$(".modal-body .timepicker").datetimepicker({ datepicker: false, format: "H:i" });
+					modal.querySelector("input").focus();
+					modal.querySelector("form").addEventListener("submit", (submitEvent) => {
+						submitEvent.preventDefault();
+						actionHandler[type](modal);
+					});
+					if (result["javascript"]) window.eval(result["javascript"]);
+				},
+			});
 		} else if ("action" in target.dataset) {
 			event.preventDefault();
 			postAjax({
@@ -254,17 +255,21 @@ function inttotime(t) {
 	return "0" + m + ":" + (s > 9 ? s : "0" + s) + ":" + (ms > 9 ? ms : "0" + ms);
 }
 function redirectPost(url, data) {
-	let form = document.createElement("form");
-	document.body.appendChild(form);
-	form.method = "post";
-	form.action = url;
+	let form = createNewElement({
+		tag: "form",
+		method: "POST",
+		action: url,
+	});
 	for (let name in data) {
-		let input = document.createElement("input");
-		input.type = "hidden";
-		input.name = name;
-		input.value = data[name];
+		let input = createNewElement({
+			tag: "input",
+			type: "hidden",
+			name: name,
+			value: data[name],
+		});
 		form.appendChild(input);
 	}
+	document.body.appendChild(form);
 	form.submit();
 }
 function modalEvent(html = "", divId = "modalWindow") {

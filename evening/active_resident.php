@@ -18,7 +18,7 @@ $players = $engine->GetRandomPlayers(10,$EveningID);
 	</div>
 	<!-- <button id="ShufleGamers" class="menu_button">Перемешать игроков</button> -->
 	<hr/>
-	<? require $root_path.'/evening/evening_gamers_list.php'?>
+	<? require $root_path.'/evening/gamers_list.php'?>
 	<hr/>
 	<div class='evening-active__buttons'>
 		<span class='span_button' data-form-type='add-players-to-array'>

@@ -5,7 +5,7 @@ $result = array(
 );
 $EveningData = $engine->GetNearEveningData(array('id','date','gamers','gamers_info'));
 $EveningData['gamers'] = explode(',',$EveningData['gamers']);
-$EveningData['gamers_info'] = json_decode(str_replace('"','\"',$EveningData['gamers_info']));
+$EveningData['gamers_info'] = json_decode($EveningData['gamers_info']);
 
 for($x=0;$x<count($EveningData['gamers']);$x++)
 {
@@ -16,5 +16,5 @@ for($x=0;$x<count($EveningData['gamers']);$x++)
 		break;
 	}
 }
-$engine->UpdateRow(['gamers'=>implode(',',$EveningData['gamers']),'gamers_info'=> json_encode(str_replace('"','\"',$EveningData['gamers_info']),JSON_UNESCAPED_UNICODE)],['id'=>$EveningData['id']],MYSQL_TBLEVEN);
+$engine->UpdateRow(['gamers'=>implode(',',$EveningData['gamers']),'gamers_info'=> str_replace('"','\"',json_encode($EveningData['gamers_info'],JSON_UNESCAPED_UNICODE))],['id'=>$EveningData['id']],MYSQL_TBLEVEN);
 exit(json_encode($result,JSON_UNESCAPED_UNICODE));
