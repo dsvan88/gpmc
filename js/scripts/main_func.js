@@ -15,12 +15,10 @@ actionHandler = {
 		} else window.location.href = target.href;
 	},
 	login: function (modal) {
+		let data = serializeForm(modal);
+		data["need"] = "login";
 		postAjax({
-			data: {
-				need: "login",
-				login: modal.querySelector("input[name=login]").value,
-				pass: modal.querySelector("input[name=pass]").value,
-			},
+			data: data,
 			successFunc: function (result) {
 				result = JSON.parse(result);
 				if (result["error"] == 0) location.reload();
@@ -43,29 +41,25 @@ actionHandler = {
 		});
 	},
 	userRegister: function (modal) {
-		let ajaxObject = {
-			data: {
-				need: "user-registration",
-			},
-		};
-		modal.querySelectorAll("input").forEach((element) => {
-			ajaxObject.data[element.name] = element.value;
-		});
-		if (ajaxObject.data["chk_pass"] !== ajaxObject.data["pass"]) {
+		let data = serializeForm(modal);
+		data["need"] = "user-registration";
+		if (data["chk_pass"] !== data["pass"]) {
 			modal.querySelector("input[name=pass]").focus();
 			alert("Пароли не совпадают!");
 			return false;
 		}
-		ajaxObject.successFunc = function (result) {
-			result = JSON.parse(result);
-			if (result["error"] == 0) {
-				alert(result["txt"]);
-			} else {
-				alert(result["txt"]);
-				$("input[name=" + result["wrong"] + "]").trigger("focus");
-			}
-		};
-		postAjax(ajaxObject);
+		postAjax({
+			data: data,
+			successFunc: function (result) {
+				result = JSON.parse(result);
+				if (result["error"] == 0) {
+					alert(result["txt"]);
+				} else {
+					alert(result["txt"]);
+					modal.querySelector(`input[name=${result["wrong"]}]`).focus();
+				}
+			},
+		});
 	},
 	addGamers: function (target) {
 		let newID = document.body.querySelectorAll(".gamer").length;

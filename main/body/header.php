@@ -1,7 +1,7 @@
 <header>
 	<div class="header">
 		<div class="header__main-logo">
-			<a href="http://<?=$_SERVER['SERVER_NAME']?>/" >
+			<a href="http://<?=$_SERVER['SERVER_NAME']?>/" data-action-type="admin-panel">
 				<?=$engine->checkAndPutImage($settings['img']['MainLogo']['value'],['title'=>$settings['img']['MainLogo']['name']])?>
 			</a>
 		</div>
