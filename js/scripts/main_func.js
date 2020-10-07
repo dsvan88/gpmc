@@ -1,7 +1,7 @@
 let debug = true;
 actionHandler = {
 	adminPanel: function (target, event) {
-		if (event.ctrlKey || event.metaKey) {
+		if (event.ctrlKey || event.metaKey || target.dataset.actionMode === "admin") {
 			postAjax({
 				data: {
 					need: "admin-panel",
