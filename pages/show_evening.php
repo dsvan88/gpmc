@@ -25,5 +25,5 @@
 	
 	if (isset($_SESSION['status']) && $_SESSION['status'] > 1)
 		require $root_path.'/evening/active_resident.php';
-	else require $root_path.'/templates/list_for_'.$user['status'].'.php';
+	else require $root_path.'/templates/list_for_'.$userData['status'].'.php';
 ?>

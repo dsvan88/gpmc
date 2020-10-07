@@ -17,10 +17,14 @@ if (!isset($_SESSION['ba']) || $_SESSION['ba'] < 1)
 	$img_genders=array($settings['img']['profile']['value'],$settings['img']['male']['value'],$settings['img']['female']['value'],$settings['img']['profile']['value']);
 }
 $genders=array('','господин','госпожа','некто');
-$user['status'] = 'guest';
+$userData['status'] = 'guest';
 $user_statuses = ['user','resident','resident'];
 if (isset($_SESSION['status']))
-	$user['status'] = $user_statuses[$_SESSION['status']];
+{
+	$userData = $engine->GetGamerData(array('name','fio','rank','ar'), array('id'=>$_SESSION['id']));
+	$userData['status'] = $user_statuses[$_SESSION['status']];
+}
+	
 
 ?>
 <!DOCTYPE html>

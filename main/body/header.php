@@ -9,7 +9,6 @@
 		<div class="header__login-place">
 			<h4>Добро пожаловать!</h4>
 			<?	if (isset($_SESSION['id'])): 
-				$userData = $engine->GetGamerData(array('name','fio','rank','ar'), array('id'=>$_SESSION['id']));
 				$statuses = array('Гость', 'Резидент', 'Основатель');
 				$ranks = array('C', 'B', 'A');
 				?>
