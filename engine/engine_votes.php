@@ -27,7 +27,7 @@ class VoteSystem extends SQLBase
 	{
 		$this->UpdateRow(array('open'=>0),array('id'=>$id));
 	}
-	function CheckVoteInAction($id,$t) 
+	function CheckVoteInAction($id,$type)
 	{
 		if ($r = $this->Query('SELECT `id` FROM `'.MYSQL_TBLVOTES.'` WHERE `object`="'.$id.'" AND `type`="'.$t.'" AND `open`="1" LIMIT 1'))
 			return $this->MakeRawArray($r)[0];

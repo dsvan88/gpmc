@@ -210,22 +210,6 @@ function close_log(id) {
 	$("#Log_" + id).addClass("hide");
 	$("#ShowLog_" + id).text("+ Открыть лог игры");
 }
-function rename_player(name) {
-	let ajaxObject = {
-		data: {
-			need: "rename_player_form",
-			name: name,
-		},
-		successFunc: function (result) {
-			modalEvent(result);
-			$("input.input_gamer").autocomplete({
-				source: "switcher.php?need=autocomplete_names&",
-				minLength: 2,
-			});
-		},
-	};
-	postAjax(ajaxObject);
-}
 function add_evening_player(name) {
 	$.ajax({
 		url: "switcher.php",

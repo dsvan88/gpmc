@@ -37,12 +37,11 @@ actionHandler.addPlayersToArray = function (modal) {
 actionHandler.toggleGamerInTable = function (target) {
 	let name = target.childNodes[0].data;
 	let playersList = document.body.querySelectorAll("input[name=player],input[name=manager]");
-	let toggled = false;
 	if (target.classList.contains("selected")) {
 		for (player of playersList) {
 			if (player.value === name) {
 				player.value = "";
-				toggled = true;
+				target.classList.toggle("selected");
 				break;
 			}
 		}
@@ -50,12 +49,11 @@ actionHandler.toggleGamerInTable = function (target) {
 		for (player of playersList) {
 			if (player.value === "") {
 				player.value = name;
-				toggled = true;
+				target.classList.toggle("selected");
 				break;
 			}
 		}
 	}
-	if (toggled) target.classList.toggle("selected");
 };
 actionHandler.removeGamer = function (target) {
 	let gamer = target.parentElement;
@@ -83,42 +81,60 @@ actionHandler.removeGamer = function (target) {
 		});
 	}
 };
+//-------------------Проверить!
+actionHandler.renameGamer = function (modal) {
+	let data = serializeForm(modal);
+	data["need"] = "rename-gamer";
+	postAjax({
+		data: data,
+		successFunc: function (result) {
+			result = JSON.parse(result);
+			if (result["error"] != 0) {
+				alert(result["txt"]);
+				return false;
+			}
+			alert(result["txt"]);
+			let gamer = document.body.querySelector(`span.temp_username[data-edit-target=${result["uid"]}]`);
+			gamer.classList.remove("temp_username");
+			gamer.dataset.removeAttribute("data-form-type");
+			gamer.dataset.removeAttribute("data-edit-target");
+			gamer.dataset.actionType = "toggle-gamer-in-table";
+			gamer.dataset.playerId = result["uid"];
+			if (confirm(`Добавить игрока ${result["newName"]} в список играющих на ближайшую игру?]`)) actionHandler.toggleGamerInTable(gamer);
+		},
+	});
+};
 actionHandler.startGame = function (target) {
 	if (document.body.querySelector("input[name=manager]").value.trim() === "") {
 		alert("Сначала выберите ведущего из списка не играющих игроков!");
 		return false;
 	}
-	let check = 0;
 	let playersList = document.body.querySelectorAll("input[name=player]");
 	let setupRoles = ["1", "1", "2", "4", "0", "0", "0", "0", "0", "0"];
 	let role = 0;
 	for (player of playersList) {
 		if (player.value.trim() === "") {
-			check = 1;
 			alert("Кого-то не хватает! (Нет игрока под №" + (i + 1) + ")");
-			break;
+			return false;
 		}
 		role = player.nextElementSibling.value;
 		let index = setupRoles.indexOf(role);
 		if (index === -1) {
-			check = 1;
-			break;
+			alert("Неправильно распределены роли!\r\n(Ролей всего: Мафии - 2, Дон - 1, Шериф - 1, Мирные - 6");
+			return false;
 		} else {
 			setupRoles.splice(index, 1);
 		}
 	}
-	if (setupRoles.length > 0) check = 1;
-	if (check === 0) {
+	if (setupRoles.length > 0) {
 		$.ajax({
 			url: "switcher.php",
 			type: "POST",
 			data: "need=game_start&" + $("#tempForm").serialize() + "&e=" + EveningID,
-			success: function (res) {
-				window.location.href = "/?g_id=" + res;
+			success: function (gameId) {
+				window.location.href = "/?g_id=" + gameId;
 			},
 		});
-	} else {
-		alert("Неправильно распределены роли!\r\n(Ролей всего: Мафии - 2, Дон - 1, Шериф - 1, Мирные - 6");
 	}
 };
 actionHandler.resumeGame = function (target) {

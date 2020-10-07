@@ -1,9 +1,9 @@
 <?
 $time = date('H:i',$engine->GetNearEveningData('date'));
 $output['html'] .= '
-<form class="login-form">
+<form>
 	<h2 class="title">Переименование игрока</h2>
-	<input type="hidden" name="old_name" value="'.$_POST['name'].'"/>
+	<input type="hidden" name="uid" value="'.$_POST['editTarget'].'"/>
 	<div class ="input_row">
 		<label>Псевдоним:</label>
 		<input name="new_name" type="text" class="input_gamer" value =""/>

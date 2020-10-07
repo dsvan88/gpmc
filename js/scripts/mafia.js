@@ -1,8 +1,3 @@
-<?
-session_start();
-header('Content-Type: text/javascript');
-if (!isset($_SESSION['status']) || $_SESSION['status'] < 1) exit();
-?>
 var dblclick_func = null;
 var id_game = <?=isset($_GET['g_id']) && $_GET['g_id']>0 ? $_GET['g_id'] : -1?>;
 $(function(){
@@ -47,7 +42,7 @@ $(function(){
 	//--------------------------------------------------- Блок кликаний по td
 	$("table.GameTable").off('click')
 	$("table.GameTable").on('click', 'td', function(){
-		dblclick_func = setTimeout(function() { if (dblclick_func === false)	{ } else { clearTimeout(dblclick_func);  dblclick_func = false; };}, 200)
+		dblclick_func = setTimeout(function() { if (dblclick_func === null)	{ } else { clearTimeout(dblclick_func);  dblclick_func = false; };}, 200)
 	});
 	$("table.GameTable").off('dblclick')
 	$("table.GameTable").on('dblclick', 'td', function(){
