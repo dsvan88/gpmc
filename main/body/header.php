@@ -1,7 +1,7 @@
 <header>
 	<div class="header">
 		<div class="header__main-logo">
-			<a href="http://<?=$_SERVER['SERVER_NAME']?>/" <?=($userData['ar'] > 0 ? 'data-action-type="admin-panel" data-action-mode="admin"': '')?>>
+			<a href="http://<?=$_SERVER['SERVER_NAME']?>/">
 				<?=$engine->checkAndPutImage($settings['img']['MainLogo']['value'],['title'=>$settings['img']['MainLogo']['name']])?>
 			</a>
 		</div>
@@ -30,7 +30,15 @@
 					</div>
 					<div class="info-row">
 						<label>Статус:</label>
-						<span><?=$statuses[$_SESSION['status']]?></span>
+						<span>
+						<? if ($userData['ar'] > 0):?>
+							<a data-action-type="admin-panel" data-action-mode="admin">
+								<?=$statuses[$_SESSION['status']]?>
+							</a>
+						<?else:?>
+							<?=$statuses[$_SESSION['status']]?>
+						<?endif;?>
+						</span>
 					</div>
 					<div class="info-row">
 						<label>Ранг:</label>
