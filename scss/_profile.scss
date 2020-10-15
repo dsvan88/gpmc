@@ -64,6 +64,16 @@
 						text-align: center;
 						border-bottom: 1px dotted #3d39f4;
 						font-size: 18px;
+						&__vote {
+							margin: 0px 10px;
+							font-weight: 600;
+							line-height: 16px;
+							cursor: pointer;
+							color: #25a213;
+							&.negative {
+								color: #cc0505;
+							}
+						}
 					}
 					&__edit {
 						width: 25px;

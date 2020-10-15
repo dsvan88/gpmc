@@ -19,6 +19,7 @@ $need_forms = [
 	'get-kcfinder-browser_form',
 	'login_form',
 	'rename-gamer_form',
+	'set-vote_form',
 	'user-register_form'
 ];
 $need_action = [
@@ -32,13 +33,13 @@ $need_action = [
 	'cancel-my-booking',
 	'crop_file',
 	'discharge_gamer',
-	'do_my_vote',
 	'edit-my-info',
 	// 'edit-setting',
 	'login',
 	'remove-gamer',
 	'rename_gamer',
 	'save-comment',
+	'set-vote',
 	'upload_file',
 	'user-registration'
 ];
@@ -47,11 +48,11 @@ $need_autocomplete = [
 	'autocomplete_places'
 ];
 $need_gets = [
-	'check-current-vote',
 	'edit-points',
 	// 'edit-setting-text',
 	'edit-user-row',
 	'get_place_info',
+	'get-vote-list',
 	// 'get_setting_img',
 	'show_my_avatar',
 	'show_user_avatar'
@@ -98,6 +99,6 @@ elseif ($need === 'save_log' || $need === 'save_game')
 	require $root_path.'/game/tech/save_progress.php';
 elseif ($need === 'show_history')
 	require $root_path.'/pages/show_history.php';
-elseif ($need === 'show_voting')
-	require $root_path.'/pages/show_voting.php';
+/* elseif ($need === 'show_voting')
+	require $root_path.'/pages/show_voting.php'; */
 else exit('Wrong `need` type! '.$need);

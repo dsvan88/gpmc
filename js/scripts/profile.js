@@ -74,27 +74,58 @@ actionHandler.saveComment = function (target) {
 	});
 };
 
-actionHandler.startNewVote = function (target) {
-	let uID = document.body.querySelector("div.profile").dataset.userId;
-	let result = checkCurrentVote([uID, target.classList.contains("minus") ? "down" : "up", target.dataset.voteType]);
-	modalEvent(result["html"], target.dataset.voteType);
+actionHandler.setVote = function (modal) {
+	if (confirm('Вы уверены?')) {
+		let data = serializeForm(modal);
+		data['need'] = "set-vote";
+		postAjax({
+			data: data,
+			successFunc: function (result) {
+				if (debug) console.log(result);
+				result = JSON.parse(result);
+				if (result["error"] === 0) {
+					alert(result["txt"]);
+					$("form#addComment").slideUp();
+				} else alert(result["txt"]);
+			},
+		});
+		// $.ajax({
+		// 	url: 'switcher.php'
+		// 	, type: 'POST'
+		// 	, data: 'need=do_my_vote&m=' + $('input[name=motion]').val() + '&t=' + $('input[name=type]').val() + '&html=' + $('textarea[name=vote_comment]').val() + ($('input[name=v_id]').val() != undefined ? '&v=' + $('input[name=v_id]').val() : '') + ($('input[name=p_id]').val() != undefined ? '&p=' + $('input[name=p_id]').val() : '')
+		// 	, success: function (res) {
+		// 		let result = JSON.parse(res);
+		// 		if (result['error'])
+		// 			alert(result['txt'])
+		// 		else {
+		// 			alert(result['txt']);
+		// 			$('#overlay').click();
+		// 		}
+		// 	}
+		// });
+	}
 };
+// actionHandler.startNewVote = function (target) {
+// 	let uID = document.body.querySelector("div.profile").dataset.userId;
+// 	let result = getVotVote([uID, target.classList.contains("minus") ? "down" : "up", target.dataset.voteType]);
+// 	modalEvent(result["html"], target.dataset.voteType);
+// };
 
-function checkCurrentVote([id, vote, type]) {
-	let result = {};
-	postAjax({
-		data: {
-			need: "check-current-vote",
-			id: id,
-			type: type,
-			vote: vote,
-		},
-		successFunc: function (res) {
-			result = JSON.parse(res);
-		},
-	});
-	return result;
-}
+// function checkCurrentVote([id, vote, type]) {
+// 	let result = {};
+// 	postAjax({
+// 		data: {
+// 			need: "check-current-vote",
+// 			id: id,
+// 			type: type,
+// 			vote: vote,
+// 		},
+// 		successFunc: function (res) {
+// 			result = JSON.parse(res);
+// 		},
+// 	});
+// 	return result;
+// }
 /* 
 $("#MainBody").off("click", ".EditPencilTA");
 $("#MainBody").on("click", ".EditPencilTA", function () {

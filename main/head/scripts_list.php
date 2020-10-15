@@ -14,11 +14,11 @@
 <?endif?>
 <?if (isset($_GET['profile'])):?>
 	<script defer type='text/javascript' src='js/get_js.php/?script=profile'></script>
-	<script type='text/javascript' src='js/jquery-cropper.js'></script>
+	<script defer type='text/javascript' src='js/jquery-cropper.js'></script>
 <?endif?>
 <?if (isset($_GET['trg'])):
 	if ($_GET['trg'] ==='voting'):?>
-		<script type='text/javascript' src='js/voting.js.php'></script>
+		<script defer type='text/javascript' src='js/get_js.php/?script=voting'></script>
 	<?elseif ($_GET['trg'] ==='evening'):?>
 		<script defer type='text/javascript' src='js/get_js.php/?script=evening'></script>
 	<?endif;?>

@@ -272,7 +272,9 @@ template {
       .modal form .input_row select {
         width: 40%;
         font-size: 18px; }
-      .modal form .input_row.buttons {
+      .modal form .input_row .textarea {
+        width: 100%; }
+      .modal form .input_row.buttons, .modal form .input_row.textareas {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -283,6 +285,31 @@ template {
         -webkit-box-align: center;
             -ms-flex-align: center;
                 align-items: center; }
+        .modal form .input_row.buttons textarea, .modal form .input_row.textareas textarea {
+          width: 100%; }
+    .modal form .info-block {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      max-width: 70vw; }
+      .modal form .info-block__lists {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex; }
+        .modal form .info-block__lists .positive {
+          background-color: #75cdfc98;
+          border: 1px dashed #35b7fd; }
+          .modal form .info-block__lists .positive li {
+            border: 1px dashed #3358fa; }
+        .modal form .info-block__lists .negative {
+          background-color: #fc9ed28e;
+          border: 1px dashed #f770e5; }
+          .modal form .info-block__lists .negative li {
+            border: 1px dashed #fd4b33; }
     .modal form .image-place {
       cursor: pointer;
       border: 1px solid black;
@@ -932,6 +959,14 @@ header menu {
           text-align: center;
           border-bottom: 1px dotted #3d39f4;
           font-size: 18px; }
+          .profile__upper-block__info-block__content .info-row__value__vote {
+            margin: 0px 10px;
+            font-weight: 600;
+            line-height: 16px;
+            cursor: pointer;
+            color: #25a213; }
+            .profile__upper-block__info-block__content .info-row__value__vote.negative {
+              color: #cc0505; }
         .profile__upper-block__info-block__content .info-row__edit {
           width: 25px; }
   .profile__lower-block > form {
@@ -946,3 +981,77 @@ header menu {
         -ms-flex-align: center;
             align-items: center;
     padding-top: 10px; }
+
+.vote-tabs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  font-size: 20px;
+  text-transform: uppercase; }
+  .vote-tabs__item {
+    padding: 2px 5px;
+    background-color: #f8e88d;
+    border: 1px solid #faa403;
+    border-radius: 3px;
+    cursor: pointer; }
+    .vote-tabs__item:hover {
+      background-color: #d7fd7f;
+      border-color: #a4fa5e; }
+    .vote-tabs__item:active {
+      background-color: #0357c5;
+      border-color: #1302b4;
+      color: #ffffff; }
+
+.vote-lists {
+  margin-top: 10px;
+  font-size: 16px; }
+  .vote-lists__item {
+    border: 1px solid #31f3fa; }
+    .vote-lists__item-header {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      padding: 2px 10px;
+      background-color: #bef9fba3;
+      border-bottom: 1px dashed #31f3fa;
+      font-size: larger;
+      cursor: pointer; }
+    .vote-lists__item-body h3 {
+      text-align: center; }
+    .vote-lists__item-body__lists {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex; }
+      .vote-lists__item-body__lists ol {
+        padding: 5px 10px; }
+        .vote-lists__item-body__lists ol.positive {
+          background-color: #49ff9594; }
+        .vote-lists__item-body__lists ol.negative {
+          background-color: #f54b4b94; }
+        .vote-lists__item-body__lists ol li {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          margin-bottom: 5px;
+          border-bottom: 1px dashed #2420fcc7; }
+          .vote-lists__item-body__lists ol li span:first-child {
+            -webkit-box-flex: 0;
+                -ms-flex: 0 1 110px;
+                    flex: 0 1 110px;
+            margin-right: 5px; }
+    .vote-lists__item-body .my-vote {
+      -webkit-box-sizing: content-box;
+              box-sizing: content-box; }
+      .vote-lists__item-body .my-vote h3 {
+        text-align: center; }
+    .vote-lists__item.closed-vote {
+      background-color: #f9f9f9a1;
+      color: #424242e3;
+      border: 1px solid #a4a4a4; }
+      .vote-lists__item.closed-vote :first-child {
+        border-bottom: 1px dashed #a4a4a4; }

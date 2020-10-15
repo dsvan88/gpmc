@@ -75,10 +75,39 @@
 				width: 40%;
 				font-size: 18px;
 			}
-			&.buttons {
+			.textarea {
+				width: 100%;
+			}
+			&.buttons,
+			&.textareas {
 				display: flex;
 				flex-direction: column;
 				align-items: center;
+				textarea {
+					width: 100%;
+				}
+			}
+		}
+		.info-block {
+			display: flex;
+			flex-direction: column;
+			max-width: 70vw;
+			&__lists {
+				display: flex;
+				.positive {
+					background-color: #75cdfc98;
+					border: 1px dashed #35b7fd;
+					li {
+						border: 1px dashed #3358fa;
+					}
+				}
+				.negative {
+					background-color: #fc9ed28e;
+					border: 1px dashed #f770e5;
+					li {
+						border: 1px dashed #fd4b33;
+					}
+				}
 			}
 		}
 		.image-place {

@@ -170,14 +170,13 @@ class JSFunc extends SQLBase
 		{
 			$r = $this->MakeRawArray($this->Query('SELECT `'.$c.'` FROM `'.MYSQL_TBLEVEN.'` WHERE `date` >="'.($_SERVER['REQUEST_TIME']-DATE_MARGE).'" ORDER BY `id` DESC LIMIT 1'));
 			if (isset($r[0]) && $r[0] != '') return $r[0];
-			else return false;
 		}
 		else
 		{
 			$r = $this->GetAssoc($this->Query('SELECT `'.implode('`,`',$c).'` FROM `'.MYSQL_TBLEVEN.'` WHERE `date` >="'.($_SERVER['REQUEST_TIME']-DATE_MARGE).'" ORDER BY `id` DESC LIMIT 1'));
 			if (isset($r) && count($r) > 0) return $r;
-			else return false;
 		}
+		return false;
 	}
 	function GetEveningData($c,$b)
 	{

@@ -40,14 +40,13 @@ class GetDatas extends SQLBase
 		{
 			$r = $this->MakeRawArray($this->Query('SELECT `'.$c.'` FROM `'.MYSQL_TBLEVEN.'` WHERE `date` >="'.($_SERVER['REQUEST_TIME']-DATE_MARGE).'" ORDER BY `id` DESC LIMIT 1'));
 			if (isset($r[0]) && $r[0] != '') return $r[0];
-			else return false;
 		}
 		else
 		{
 			$r = $this->GetAssoc($this->Query('SELECT `'.implode('`,`',$c).'` FROM `'.MYSQL_TBLEVEN.'` WHERE `date` >="'.($_SERVER['REQUEST_TIME']-DATE_MARGE).'" ORDER BY `id` DESC LIMIT 1'));
 			if (isset($r) && count($r) > 0) return $r;
-			else return false;
 		}
+		return false;
 	}
 	// Получение информации об вечерах игры по заданым критериям:
 	// $f - метка времени с какой даты
@@ -170,7 +169,7 @@ class GetDatas extends SQLBase
 	// Получение информации о уже проголосовавших по текущему голосованию
 	function GetVotes($id)
 	{
-		return $this->MakeAssocArray($this->Query('SELECT `author`,`txt`,`type` FROM `'.MYSQL_TBLVOTES.'` WHERE `object`="'.$id.'" AND `type` >= 10'));
+		return $this->MakeAssocArray($this->Query('SELECT `author`,`txt`,`type` FROM `'.MYSQL_TBLVOTES.'` WHERE `object`="'.$id.'" AND `type` IN ("negative","neutral","positive")'));
 	}
 	// Получение информации о голосованиях, в которых имеет право учавствовать пользователь, но ещё не проголосовал
 	// $c === false - получить только количество
@@ -179,7 +178,7 @@ class GetDatas extends SQLBase
 	{
 		$columns = $c === false ? 'count(`id`)' : '`'.implode('`,`',$c).'`';
 		$func = ($c === false || is_array($c) && count($c) === 1) ? 'MakeRawArray' : 'MakeAssocArray';
-		return $this->$func($this->Query('SELECT '.$columns.' FROM `'.MYSQL_TBLVOTES.'` WHERE `type`<10 AND `open` = 1 AND `id` NOT IN (SELECT `object` FROM `'.MYSQL_TBLVOTES.'` WHERE `type` >=10 AND `author` = "'.$_SESSION['id'].'")'));
+		return $this->$func($this->Query('SELECT '.$columns.' FROM `'.MYSQL_TBLVOTES.'` WHERE `type` NOT IN ("negative","neutral","positive") AND `open` = 1 AND `id` NOT IN (SELECT `object` FROM `'.MYSQL_TBLVOTES.'` WHERE `type` IN ("negative","neutral","positive") AND `author` = "'.$_SESSION['id'].'")'));
 	}
 	// Получение информации о голосованиях, в которых имеет право учавствовать пользователь, но ещё не проголосовал
 	// $c === false - получить только количество
@@ -205,14 +204,63 @@ class GetDatas extends SQLBase
 			`tmp_SECONDTABLE`.`name` AS `author_name`,
 			`tmp_SECONDTABLE`.`status` AS `author_status`,
 			`FIRSTTABLE`.`name`,
-			`FIRSTTABLE`.`started`
+			`FIRSTTABLE`.`started`,
+			`FIRSTTABLE`.`open`
 		FROM `FIRSTTABLE`
 		LEFT JOIN `SECONDTABLE` ON `SECONDTABLE`.`id` = `FIRSTTABLE`.`object`
 		LEFT JOIN `tmp_SECONDTABLE` ON `tmp_SECONDTABLE`.`id` = `FIRSTTABLE`.`author`
-		WHERE `FIRSTTABLE`.`type`<10
+		WHERE `FIRSTTABLE`.`type` NOT IN ("negative","neutral","positive")
 		'.($o>=0 ? 'AND `FIRSTTABLE`.`open` = '.$o : '').' 
 		ORDER BY `FIRSTTABLE`.`id`';
 		return $this->MakeAssocArray($this->Query(str_replace(array('FIRSTTABLE','SECONDTABLE'),array(MYSQL_TBLVOTES,MYSQL_TBLGAMERS),$sql)));
+	}
+	//-------- получить HTML-код для страницы голосований
+	function getVotingListHTML($open=1){
+		$result = '';
+		$votings = $this->GetAllVotingsData($open);
+		$my_votes = $this->GetUnvotedVotings(array('id'));
+		for($x=0;$x<count($votings);$x++){
+			$checkMyVote = count($my_votes) > 0 || in_array($votings[$x]['vote_id'],$my_votes);
+			$voted = $this->GetVotes($votings[$x]['vote_id']);
+			$result .= '
+			<div class="vote-lists__item '.($votings[$x]['open'] === '1' ? 'open-vote' : 'closed-vote').'">
+				<div class="vote-lists__item-header" data-action-type="toggle-vote-list">
+					<span>'.($checkMyVote ? 'Не голосовал!' : 'Проголосовал!').'</span>
+					<span>'.$votings[$x]['name'].'</span>
+					<span>'.date('H:i:s d.m.Y',strtotime($votings[$x]['started'])).'</span>
+				</div>
+				<div class="vote-lists__item-body" id="'.$votings[$x]['vote_id'].'" style="display:none">
+					<h3>Уже проголосовали:</h3>
+					<div class="vote-lists__item-body__lists">';
+					$positive = '<ol class="positive">';
+					$negative = '<ol class="negative">';
+					$i=0;
+					for($x=0;$x<count($voted);$x++)
+						${$voted[$x]['type']} .= '
+						 	<li>
+		                	    <span><a href="/?profile='.$voted[$x]['author'].'">'.$this->GetGamerName($voted[$x]['author']).'</a>:</span><span>'.($voted[$x]['txt']=== '' ? '<i>Без комментариев</i>' : $voted[$x]['txt']).'</span>
+		                	</li>';
+					$result .= $positive.'</ol>'.$negative.'</ol>
+					</div>';
+					if ($checkMyVote)
+					{
+						
+						$result .= '
+						<hr>
+						<div class="my-vote">
+							<h3>Желаете как-то прокомментировать Ваше решение?</h3>
+							<textarea name="vote_comment" rows="2" placeholder="Можно и без комментариев, но может это поможет другим определиться?"></textarea>
+							<div class="my-vote__buttons">
+								<span class="span_button span_vote" id="MyVoteFor">За</span>
+								<span class="span_button span_vote" id="MyVoteAgainst">Против</span>
+							</div>
+						</div>';
+					}
+				$result .= '
+					</div>
+				</div>';
+		}
+		return $result;
 	}
 	// Получить комментарии
 	function GetComments($t,$id)

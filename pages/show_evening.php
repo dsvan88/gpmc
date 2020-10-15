@@ -14,6 +14,7 @@
 	}
 	if ($EveningData['ready'] === false)
 		$EveningData = array(
+			'ready'=> false,
 			'date'=>strtotime(date('d.m.Y 17:00')),
 			'place' => [
 				'name'=>'',

@@ -136,12 +136,20 @@ actionHandler = {
 	},
 	clickCommonHandler: function (event) {
 		let target = event.target;
-		if (target.tagName === "IMG") target = target.closest("a,div");
+		let datasetArray = Object.entries(target.dataset);
+		if (datasetArray.length === 0) target = target.closest("a[data-form-type],a[data-action-type],div[data-form-type],div[data-action-type]");
+		if (target === null) return false;
+		
 		if ("formType" in target.dataset) {
 			event.preventDefault();
-			let editTarget = target.dataset.editRow || target.dataset.editImage || "";
+			let editTarget = target.dataset.editRow || target.dataset.editImage || target.dataset.editTarget || "";
 			let data = { need: target.dataset.formType + "_form" };
 			if (editTarget !== "") data["editTarget"] = editTarget;
+			for (let [key, value] of Object.entries(target.dataset)) {
+				if (!['editRow','editImage','editTarget','formType'].includes(key))
+					data[key] = value;
+			}
+			if (debug) console.log(data);
 			postAjax({
 				data: data,
 				successFunc: function (result) {
@@ -407,7 +415,7 @@ function simpleObjectToGetString(obj) {
 	return strData.slice(0, -1);
 }
 function serializeForm(target) {
-	let elements = target.querySelectorAll("input, select");
+	let elements = target.querySelectorAll("input, select, textarea");
 	let result = {};
 	elements.forEach((element) => {
 		if (element.tagName === "INPUT" && element.type === "checkbox" && !element.checked) return;

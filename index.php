@@ -6,7 +6,7 @@ $engine = new GetDatas();
 $settings = $engine->ModifySettingsArray($engine->GetSettings(array('shname','name','value','type'),['img','txt']));
 if (!isset($_SESSION['ba']) || $_SESSION['ba'] < 1)
 {
-	$EveningData = $engine->GetNearEveningData(array('id','date','place','games','gamers','gamers_info'));
+	$EveningData = $engine->GetNearEveningData(['id','date','place','games','gamers','gamers_info']);
 	if ($EveningData === false)
 	{
 		$EveningData['ready'] = false;
