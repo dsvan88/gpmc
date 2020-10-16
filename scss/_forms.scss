@@ -87,6 +87,9 @@
 					width: 100%;
 				}
 			}
+			&.big-avatar {
+				max-height: 40vh;
+			}
 		}
 		.info-block {
 			display: flex;

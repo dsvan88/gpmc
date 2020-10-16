@@ -32,7 +32,7 @@ if ($v_data['id'] > 0)
 	$player_name = $engine->GetGamerName($v_data['object']);
 	$txt = $types[$v_data['type']].' игрока '.$player_name;
 	$result['error'] = 0;
-	$result['txt'] = "Вы успешно проголосовали:\r\n$txt!";
+	$result['txt'] = "Вы успешно проголосовали:\r\n".str_replace(['<b>','</b>'],'',$txt).'!';
 	$engine->AddVoteEvent(array('object'=>$v_data['id'],'type'=>$_POST['motion'],'name'=>$txt,'txt'=>$_POST['html'],'author'=>$_SESSION['id']));
 	$c = $engine->CheckVoteGoal($v_data['id']);
 	exit(json_encode($result,JSON_UNESCAPED_UNICODE));
@@ -42,7 +42,7 @@ else
 	$player_name = $engine->GetGamerName($_POST['player_id']);
 	$txt = $types[$_POST['type']].' игрока '.$player_name;
 	$result['error'] = 0;
-	$result['txt'] = "Вы успешно создали голосование:\r\n$txt!";
+	$result['txt'] = "Вы успешно создали голосование:\r\n".str_replace(['<b>','</b>'],'',$txt).'!';
 	$v_data['id'] = $engine->AddVoteEvent(array('object'=>$_POST['player_id'],'type'=>$_POST['type'],'name'=>$txt,'author'=>$_SESSION['id']));
 	$engine->AddVoteEvent(array('object'=>$v_data['id'],'type'=>$_POST['motion'],'name'=>$txt,'txt'=>$_POST['html'],'author'=>$_SESSION['id']));
 	exit(json_encode($result,JSON_UNESCAPED_UNICODE));

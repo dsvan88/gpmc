@@ -1,7 +1,6 @@
 actionHandler.toggleVoteList = function (target) {
     $(target.nextElementSibling).slideToggle("fast", 'linear', function () {
-        this.style.height = "auto";
-        $('textarea').cleditor({ height: "100" }).refresh();
+		$('textarea').cleditor({ height: 200});
     });
 }
 actionHandler.showVoteList = function (target) {
@@ -18,6 +17,28 @@ actionHandler.showVoteList = function (target) {
 		},
 	});
 }
+actionHandler.setVote = function (target) {
+	
+	if (confirm('Вы уверены?')) {
+		let parent = target.closest('.vote-lists__item');
+		postAjax({
+			data: {
+				need: "set-vote",
+				voteid: parent.dataset.voteId,
+				motion: target.dataset.actionMode,
+				html: parent.querySelector('textarea[name=vote_comment]').value,
+			},
+			successFunc: function (result) {
+				if (debug) console.log(result);
+				result = JSON.parse(result);
+				if (result["error"] === 0) {
+					alert(result["txt"]);
+					$("form#addComment").slideUp();
+				} else alert(result["txt"]);
+			},
+		});
+	}
+};
 /*
 $(function(){
 	$('#AllVotings').off('click','.VotingHeaderDiv');

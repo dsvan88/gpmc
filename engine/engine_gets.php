@@ -220,16 +220,16 @@ class GetDatas extends SQLBase
 		$votings = $this->GetAllVotingsData($open);
 		$my_votes = $this->GetUnvotedVotings(array('id'));
 		for($x=0;$x<count($votings);$x++){
-			$checkMyVote = count($my_votes) > 0 || in_array($votings[$x]['vote_id'],$my_votes);
+			$checkMyVote = count($my_votes) > 0 && in_array($votings[$x]['vote_id'],$my_votes);
 			$voted = $this->GetVotes($votings[$x]['vote_id']);
 			$result .= '
-			<div class="vote-lists__item '.($votings[$x]['open'] === '1' ? 'open-vote' : 'closed-vote').'">
+			<div class="vote-lists__item '.($votings[$x]['open'] === '1' ? 'open-vote' : 'closed-vote').'" data-vote-id="'.$votings[$x]['vote_id'].'">
 				<div class="vote-lists__item-header" data-action-type="toggle-vote-list">
 					<span>'.($checkMyVote ? 'Не голосовал!' : 'Проголосовал!').'</span>
 					<span>'.$votings[$x]['name'].'</span>
 					<span>'.date('H:i:s d.m.Y',strtotime($votings[$x]['started'])).'</span>
 				</div>
-				<div class="vote-lists__item-body" id="'.$votings[$x]['vote_id'].'" style="display:none">
+				<div class="vote-lists__item-body"  style="display:none">
 					<h3>Уже проголосовали:</h3>
 					<div class="vote-lists__item-body__lists">';
 					$positive = '<ol class="positive">';
@@ -242,7 +242,7 @@ class GetDatas extends SQLBase
 		                	</li>';
 					$result .= $positive.'</ol>'.$negative.'</ol>
 					</div>';
-					if ($checkMyVote)
+					if ($checkMyVote && $open === 1)
 					{
 						
 						$result .= '
@@ -251,8 +251,8 @@ class GetDatas extends SQLBase
 							<h3>Желаете как-то прокомментировать Ваше решение?</h3>
 							<textarea name="vote_comment" rows="2" placeholder="Можно и без комментариев, но может это поможет другим определиться?"></textarea>
 							<div class="my-vote__buttons">
-								<span class="span_button span_vote" id="MyVoteFor">За</span>
-								<span class="span_button span_vote" id="MyVoteAgainst">Против</span>
+								<span class="span_button span_vote" data-action-type="set-vote" data-action-mode="positive">За</span>
+								<span class="span_button span_vote" data-action-type="set-vote" data-action-mode="negative">Против</span>
 							</div>
 						</div>';
 					}

@@ -41,6 +41,7 @@
 			&__lists {
 				display: flex;
 				ol {
+					flex: 1 1 50%;
 					padding: 5px 10px;
 					&.positive {
 						background-color: #49ff9594;
@@ -60,9 +61,32 @@
 				}
 			}
 			.my-vote {
-				box-sizing: content-box;
+				height: auto;
 				h3 {
 					text-align: center;
+				}
+				&__buttons {
+					display: flex;
+					justify-content: space-around;
+					span {
+						width: 15vw;
+						text-align: center;
+						&[data-action-mode="positive"] {
+							border: 2px solid #acff19;
+							&:hover {
+								background-color: #9cfccc;
+								border: 2px solid #34ff19;
+							}
+						}
+						&[data-action-mode="negative"] {
+							background-color: #fdc8a2;
+							border: 2px solid #ff5a19;
+							&:hover {
+								background-color: #fc917e;
+								border: 2px solid #ff3b19;
+							}
+						}
+					}
 				}
 			}
 		}

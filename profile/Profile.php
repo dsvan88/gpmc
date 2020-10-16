@@ -16,7 +16,7 @@
 		</h3>
 		<div class='profile__upper-block'>
 			<div class='profile__upper-block__photo-block'>
-				<div class="profile__upper-block__photo-block__photo-place" id="Profile_PhotoPlace">
+				<div class="profile__upper-block__photo-block__photo-place" data-form-type="user-avatar" data-user-id="<?=$_GET['profile']?>">
 				<? if ($my) : ?>
 					<?=$engine->checkAndPutImage($user['avatar'] === '' ? $settings['img']['empty_avatar']['value'] : '/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],['title'=>$settings['img']['empty_avatar']['name']])?>
 				<?else:?>

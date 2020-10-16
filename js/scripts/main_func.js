@@ -173,6 +173,7 @@ actionHandler = {
 						actionHandler[type](modal);
 					});
 					if (result["javascript"]) window.eval(result["javascript"]);
+					$(".modal-body textarea").cleditor({ height: 200});
 				},
 			});
 		} else if ("action" in target.dataset) {

@@ -20,6 +20,7 @@ $need_forms = [
 	'login_form',
 	'rename-gamer_form',
 	'set-vote_form',
+	'user-avatar_form',
 	'user-register_form'
 ];
 $need_action = [
@@ -34,7 +35,6 @@ $need_action = [
 	'crop_file',
 	'discharge_gamer',
 	'edit-my-info',
-	// 'edit-setting',
 	'login',
 	'remove-gamer',
 	'rename_gamer',
@@ -49,13 +49,11 @@ $need_autocomplete = [
 ];
 $need_gets = [
 	'edit-points',
-	// 'edit-setting-text',
 	'edit-user-row',
 	'get_place_info',
 	'get-vote-list',
-	// 'get_setting_img',
-	'show_my_avatar',
-	'show_user_avatar'
+	// 'show_my_avatar',
+	// 'show_user_avatar'
 ];
 
 if (in_array($need,$need_forms,true))

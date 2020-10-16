@@ -89,20 +89,6 @@ actionHandler.setVote = function (modal) {
 				} else alert(result["txt"]);
 			},
 		});
-		// $.ajax({
-		// 	url: 'switcher.php'
-		// 	, type: 'POST'
-		// 	, data: 'need=do_my_vote&m=' + $('input[name=motion]').val() + '&t=' + $('input[name=type]').val() + '&html=' + $('textarea[name=vote_comment]').val() + ($('input[name=v_id]').val() != undefined ? '&v=' + $('input[name=v_id]').val() : '') + ($('input[name=p_id]').val() != undefined ? '&p=' + $('input[name=p_id]').val() : '')
-		// 	, success: function (res) {
-		// 		let result = JSON.parse(res);
-		// 		if (result['error'])
-		// 			alert(result['txt'])
-		// 		else {
-		// 			alert(result['txt']);
-		// 			$('#overlay').click();
-		// 		}
-		// 	}
-		// });
 	}
 };
 // actionHandler.startNewVote = function (target) {

@@ -23,10 +23,7 @@
 		$votings = $engine->GetUnvotedVotings();
 		?>
 		<div class='left-panel__button'>
-			<a href='/?trg=voting'>
-				<?=$engine->checkAndPutImage($settings['img']['voting']['value'],['title'=>$settings['img']['voting']['name']])?>
-				<span>Голосование</span>
-			</a>
+			<a href='/?trg=voting'><?=$engine->checkAndPutImage($settings['img']['voting']['value'],['title'=>$settings['img']['voting']['name']])?><span>Голосование</span></a>
 			<? if ($votings[0] != 0) : ?><div class='NewAlert'><?=$votings[0]?></div><?endif?></div>
 	<?endif?>
 	<div class='left-panel__button'>
