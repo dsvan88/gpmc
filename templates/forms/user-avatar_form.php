@@ -38,12 +38,12 @@ if ($_SESSION['id'] == $_POST['userId'])
 			<img src="'.$user['avatar'].'">
 		</div>
 		<div class="input_row">
-			<span class="span_button" id="ReCropMyAvatar">
+			<span class="span_button" data-action-type="re-crop-avatar">
 				'.$engine->checkAndPutImage($settings['img']['edit_pen']['value']).'
 				Переобрезать
 				'.$engine->checkAndPutImage($settings['img']['edit_pen']['value']).'
 			</span>
-			<span class="span_button" id="CropMyNewAvatar">
+			<span class="span_button" data-action-type="re-crop-new-avatar">
 				'.$engine->checkAndPutImage($settings['img']['edit_pen']['value']).'
 				Новый
 				'.$engine->checkAndPutImage($settings['img']['edit_pen']['value']).'
