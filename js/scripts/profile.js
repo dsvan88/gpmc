@@ -73,7 +73,6 @@ actionHandler.saveComment = function (target) {
 		},
 	});
 };
-
 actionHandler.setVote = function (modal) {
 	if (confirm('Вы уверены?')) {
 		let data = serializeForm(modal);
@@ -91,26 +90,36 @@ actionHandler.setVote = function (modal) {
 		});
 	}
 };
-// actionHandler.startNewVote = function (target) {
-// 	let uID = document.body.querySelector("div.profile").dataset.userId;
-// 	let result = getVotVote([uID, target.classList.contains("minus") ? "down" : "up", target.dataset.voteType]);
-// 	modalEvent(result["html"], target.dataset.voteType);
-// };
+// actionHandler.reCropAvatar = function (target) {
 
-// function checkCurrentVote([id, vote, type]) {
-// 	let result = {};
 // 	postAjax({
-// 		data: {
-// 			need: "check-current-vote",
-// 			id: id,
-// 			type: type,
-// 			vote: vote,
-// 		},
-// 		successFunc: function (res) {
-// 			result = JSON.parse(res);
+// 		data: data,
+// 		successFunc: function (result) {
+// 			if (debug) console.log(result);
+// 			result = JSON.parse(result);
+// 			if (result["error"] === 0) {
+// 				alert(result["txt"]);
+// 				$("form#addComment").slideUp();
+// 			} else alert(result["txt"]);
 // 		},
 // 	});
-// 	return result;
+// 	// $.ajax({
+// 	// 	url: 'switcher.php'
+// 	// 	, data: 'need=upload_file'
+// 	// 	, type: 'POST'
+// 	// 	, success: function (res) {
+// 	// 		res = JSON.parse(res);
+// 	// 		if (res['error'] === 0) {
+// 	// 			AdditionalModalEvent(res['html'], res['size']);
+// 	// 			make_cropper()
+// 	// 		}
+// 	// 		else
+// 	// 			alert(res['html']);
+// 	// 	}
+// 	// 	, error: function (res) {
+// 	// 		alert('Error: Ошибка связи с сервером');
+// 	// 	}
+// 	// });
 // }
 /* 
 $("#MainBody").off("click", ".EditPencilTA");

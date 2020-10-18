@@ -18,6 +18,7 @@ $need_forms = [
 	'edit-settings-image_form',
 	'get-kcfinder-browser_form',
 	'login_form',
+	're-crop-avatar_form',
 	'rename-gamer_form',
 	'set-vote_form',
 	'user-avatar_form',
