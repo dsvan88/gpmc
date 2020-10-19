@@ -34,21 +34,33 @@ else
 	}	
 }
 $full_path = FILE_USRGALL.$_SESSION['id'].'/originals/'.$new_name;
-$output['html'] = '
-	<div class="ImgPlace" style="width:100%;height:85%">
-		<img class="original_img" id="img_for_crop" src='.$full_path.' style="width:100%;height:100%">
-	</div>
-	<br />
-	<input type="hidden" name="filename" value="'.$new_name.'">
-	<div class="vote_button_row"><span class="span_button" id="CropMyAvatar"><img src="'.$settings['img']['apply']['value'].'"/>Применить<img src="'.$settings['img']['apply']['value'].'"/></span></div>';
 $max_height = 400;
-$a = getimagesize($root_path.$full_path);
-$size=$a[0].'x'.$a[1];
-if ($a[1] > $max_height)
+[$x, $y] = getimagesize($root_path.$full_path);
+$size=$x.'x'.$y;
+if ($y > $max_height)
 {
-	$ratio = $a[0]/$a[1];
-	$a[0] = $max_height*$ratio;
-	$a[1] = $max_height;
+	$ratio = $x/$y;
+	$x = $max_height*$ratio;
+	$y = $max_height;
 }
-$output['size'] = ($a[0]+140).','.($a[1]+30);
+$output['html'] = '
+	<form>
+		<h2>Переобрезка аватара</h2>
+		<div class="input_row cropped-image-place" style="width:'.$x.'px;height:'.$y.'px">
+			<img src="'.$full_path.'" style="width:'.$x.'px;height:'.$y.'px">
+		</div>
+		<br />
+		<input type="hidden" name="filename" value="'.$new_name.'">
+		<div class="input_row buttons">
+			<button>
+					'
+					.$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']]).
+					'
+					Применить
+					'
+					.$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']]).
+					'
+				</button>
+		</div>
+	</form>';
 exit(json_encode($output,JSON_UNESCAPED_UNICODE));

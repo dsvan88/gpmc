@@ -90,37 +90,33 @@ actionHandler.setVote = function (modal) {
 		});
 	}
 };
-// actionHandler.reCropAvatar = function (target) {
 
-// 	postAjax({
-// 		data: data,
-// 		successFunc: function (result) {
-// 			if (debug) console.log(result);
-// 			result = JSON.parse(result);
-// 			if (result["error"] === 0) {
-// 				alert(result["txt"]);
-// 				$("form#addComment").slideUp();
-// 			} else alert(result["txt"]);
-// 		},
-// 	});
-// 	// $.ajax({
-// 	// 	url: 'switcher.php'
-// 	// 	, data: 'need=upload_file'
-// 	// 	, type: 'POST'
-// 	// 	, success: function (res) {
-// 	// 		res = JSON.parse(res);
-// 	// 		if (res['error'] === 0) {
-// 	// 			AdditionalModalEvent(res['html'], res['size']);
-// 	// 			make_cropper()
-// 	// 		}
-// 	// 		else
-// 	// 			alert(res['html']);
-// 	// 	}
-// 	// 	, error: function (res) {
-// 	// 		alert('Error: Ошибка связи с сервером');
-// 	// 	}
-// 	// });
-// }
+actionHandler.reCropAvatarFormReady = function ({modal, result}) {
+	// let img = modal.querySelector('div.cropped-image-place>img');
+	$('div.cropped-image-place>img').cropper({
+		aspectRatio: 3.5 / 4,
+		minContainerWidth: 325,
+		minContainerHeight: 220,
+		checkOrientation: false,
+	});
+}
+actionHandler.reCropAvatar = function (modal) {
+	let img = modal.querySelector('div.cropped-image-place>img');
+	postAjax({
+		data: {
+			need: 'crop_file',
+			image: img.src,
+			data: JSON.stringify($(img).data("cropper").getData(true))
+		},
+			successFunc: function (result) {
+				if (debug) console.log(result);
+				result = JSON.parse(result);
+				if (result["error"] === 0) {
+					location.reload();
+				} else alert(result["txt"]);
+			},
+		});
+}
 /* 
 $("#MainBody").off("click", ".EditPencilTA");
 $("#MainBody").on("click", ".EditPencilTA", function () {

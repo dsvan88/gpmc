@@ -285,8 +285,7 @@ class SQLBase
 		$output = "<picture>";
 		$realPathToSource = $_SERVER['DOCUMENT_ROOT'].$source;
 		$format = str_replace('image/','',mime_content_type($realPathToSource));
-		if ($format === 'jpeg') $format = 'jpg';
-
+		
 		$output .= $this->getAdditionalImage($realPathToSource,$format,'mini');
 
 		if ($format !== 'webp')

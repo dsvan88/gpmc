@@ -5,15 +5,15 @@
 
 <? if ($_SESSION['ba'] > 0):?>
 	<link rel='stylesheet' type="text/css" href='../css/admin.css'/>
-<?elseif (isset($_GET['profile'])):?>
-	<link rel='stylesheet' type="text/css" href='css/profile_style.css'/>
-	<link rel='stylesheet' type="text/css" href='css/cropper.css' />
 <?elseif (isset($_GET['g_id']) && $_GET['g_id'] > 0):?>
 <link rel='stylesheet' type="text/css" href='css/game_style.css'/>
 <?elseif (isset($_GET['trg']) && $_GET['trg'] ==='voting'):?>
 	<link rel='stylesheet' type="text/css" href='css/voting_style.css'/>
 <?endif?>
 */?>
+<?if (isset($_GET['profile'])):?>
+	<link rel='stylesheet' type="text/css" href='css/cropper.css' />
+<?endif?>
 <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css" />
 <link rel="stylesheet" type="text/css" href="css/jquery-ui.structure.min.css" />
 <link rel="stylesheet" type="text/css" href="css/jquery-ui.theme.min.css" />

@@ -134,10 +134,28 @@ actionHandler = {
 			});
 		}
 	},
+	CommonFormReady: function ({ modal = null, result = {}, type = null}) {
+		$(".modal-body input.input_name").autocomplete({
+			source: "switcher.php?need=autocomplete_names",
+			minLength: 2,
+		});
+		$(".modal-body .datepick").datetimepicker({ timepicker: false, format: "d.m.Y", dayOfWeekStart: 1 });
+		$(".modal-body .timepicker").datetimepicker({ datepicker: false, format: "H:i" });
+		let firstInput = modal.querySelector("input");
+		if (firstInput !== null) firstInput.focus();
+		let form = modal.querySelector("form");
+		if (form !== null)
+				form.addEventListener("submit", (submitEvent) => {
+					submitEvent.preventDefault();
+					actionHandler[type](modal);
+				});
+		if (result["javascript"]) window.eval(result["javascript"]);
+		$(".modal-body textarea").cleditor({ height: 200 });
+	},
 	clickCommonHandler: function (event) {
 		let target = event.target;
 		let datasetArray = Object.entries(target.dataset);
-		if (datasetArray.length === 0) target = target.closest("a[data-form-type],a[data-action-type],div[data-form-type],div[data-action-type]");
+		if (datasetArray.length === 0) target = target.closest("*[data-form-type],*[data-action-type]");
 		if (target === null) return false;
 		
 		if ("formType" in target.dataset) {
@@ -161,19 +179,10 @@ actionHandler = {
 					let type = camelize(target.dataset.formType);
 					if (debug) console.log(type);
 					let [modalOverlay, modal] = modalEvent(result["html"], type);
-					$(".modal-body input.input_name").autocomplete({
-						source: "switcher.php?need=autocomplete_names",
-						minLength: 2,
-					});
-					$(".modal-body .datepick").datetimepicker({ timepicker: false, format: "d.m.Y", dayOfWeekStart: 1 });
-					$(".modal-body .timepicker").datetimepicker({ datepicker: false, format: "H:i" });
-					modal.querySelector("input").focus();
-					modal.querySelector("form").addEventListener("submit", (submitEvent) => {
-						submitEvent.preventDefault();
-						actionHandler[type](modal);
-					});
-					if (result["javascript"]) window.eval(result["javascript"]);
-					$(".modal-body textarea").cleditor({ height: 200});
+					actionHandler.CommonFormReady({ modal, result, type });
+					if (actionHandler[type + "FormReady"]) {
+						actionHandler[type + "FormReady"]({ modal, result });
+					}
 				},
 			});
 		} else if ("action" in target.dataset) {

@@ -4,14 +4,15 @@ $result=array(
 	'html'=>''
 );
 
-$gd_data = json_decode(str_replace('»','"',$_POST['d']));
-
+$gd_data = json_decode(str_replace('»','"',$_POST['data']));
+$_POST['image'] = substr($_POST['image'],strrpos($_POST['image'],'/'));
 $path = $root_path.FILE_USRGALL.$_SESSION['id'].'/originals';
+
 if (!file_exists($path)) exit('Cann’t find folders: '.$path);
-$func = strpos($_POST['i'],'.png') !== false ? 'png' : 'jpeg';
-$src = ('imagecreatefrom'.$func)($path.'/'.$_POST['i']);
+$func = strpos($_POST['image'],'.png') !== false ? 'png' : 'jpeg';
+$src = ('imagecreatefrom'.$func)($path.'/'.$_POST['image']);
 $src = imagecrop($src, ['x' => $gd_data->x, 'y' => $gd_data->y, 'width' => $gd_data->width, 'height' => $gd_data->height]);
-$new_name = substr($_POST['i'],0,strrpos($_POST['i'],'.')).'_3,5x4'. substr($_POST['i'],strrpos($_POST['i'],'.'));
+$new_name = substr($_POST['image'],0,strrpos($_POST['image'],'.')).'_3,5x4'. substr($_POST['image'],strrpos($_POST['image'],'.'));
 if ($src !== FALSE)
 {
 	$max_height = 400;
@@ -20,7 +21,11 @@ if ($src !== FALSE)
 		$ratio = $gd_data->width/$gd_data->height;
 		$src = imagescale($src, $max_height*$ratio, $max_height);
 	}
-    ('image'.$func)($src, $root_path.FILE_USRGALL.$_SESSION['id'].'/'.$new_name,100);
+
+	$fullPath = $root_path.FILE_USRGALL.$_SESSION['id'].'/'.substr($new_name,0,strrpos($new_name,'.')+1);
+	('image'.$func)($src, $fullPath.$func,100);
+	imagewebp($src,$fullPath.'webp');
+	
 	imagedestroy($src);
 	$engine->UpdateRow(array('avatar'=>$new_name),array('id'=>$_SESSION['id']),MYSQL_TBLGAMERS);
 	$result['error']=0;
