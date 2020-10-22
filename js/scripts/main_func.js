@@ -328,7 +328,7 @@ function closeModalWindow(event) {
 		}
 	);
 }
-function make_cropper() {
+/* function make_cropper() {
 	let img = $("#img_for_crop");
 	img.cropper({
 		aspectRatio: 3.5 / 4,
@@ -388,8 +388,8 @@ function became_admin() {
 			alert("Error: Ошибка связи с сервером");
 		},
 	});
-}
-function postAjax({ data, successFunc, errorFunc }) {
+} */
+function postAjax({ data, formData, successFunc, errorFunc, ...options }) {
 	if (successFunc == undefined) {
 		successFunc = function (result) {
 			console.log("Not set `successFunc`. Ajax result: " + result);
@@ -402,21 +402,35 @@ function postAjax({ data, successFunc, errorFunc }) {
 			alert("Error: Ошибка связи с сервером");
 		};
 	}
-	data = simpleObjectToGetString(data);
+
+	data = formData || simpleObjectToGetString(data);
+
 	if (debug) {
 		console.log(data);
 		successFunc = catchResult(successFunc);
 		errorFunc = catchResult(errorFunc);
 	}
-	$.ajax({
+	
+	let ajaxObject = {
 		url: "switcher.php",
 		type: "POST",
 		data: data,
 		success: successFunc,
 		error: errorFunc,
-	});
+	}
+	for (let [optName, optValue] of Object.entries(options)) {
+		ajaxObject[optName] = optValue;
+	}
+	$.ajax(ajaxObject);
 }
 
+function simpleObjectToFormData(obj) {
+	let formData = new FormData();
+	for (let item in obj)
+		formData.append(item,obj[item]);
+	return formData;
+
+}
 function simpleObjectToGetString(obj) {
 	let strData = "";
 	for (let item in obj) {
@@ -425,6 +439,10 @@ function simpleObjectToGetString(obj) {
 	return strData.slice(0, -1);
 }
 function serializeForm(target) {
+
+	if (target.tagName === 'FROM')
+		return new FormData(target);
+	
 	let elements = target.querySelectorAll("input, select, textarea");
 	let result = {};
 	elements.forEach((element) => {

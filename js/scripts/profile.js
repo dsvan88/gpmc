@@ -92,7 +92,6 @@ actionHandler.setVote = function (modal) {
 };
 
 actionHandler.reCropAvatarFormReady = function ({modal, result}) {
-	// let img = modal.querySelector('div.cropped-image-place>img');
 	$('div.cropped-image-place>img').cropper({
 		aspectRatio: 3.5 / 4,
 		minContainerWidth: 325,
@@ -108,14 +107,49 @@ actionHandler.reCropAvatar = function (modal) {
 			image: img.src,
 			data: JSON.stringify($(img).data("cropper").getData(true))
 		},
+		successFunc: function (result) {
+			if (debug) console.log(result);
+			result = JSON.parse(result);
+			if (result["error"] === 0) {
+				location.reload();
+			} else alert(result["txt"]);
+		},
+	});
+}
+actionHandler.cropNewAvatar = function (target) {
+	let input = createNewElement({
+		tag: 'input',
+		type: 'file',
+		accept: '.jpg, .jpeg, .png, .webp', 
+		style: { display: 'none' }
+	});
+	target.after(input);
+	
+	input.click();
+
+	input.onchange = function (event) {
+		let data = new FormData;
+		data.append('img', $(this).prop('files')[0]);
+		data.append('need', 'upload_file');
+		postAjax({
+			formData: data,
+			processData: false,
+			contentType: false,
 			successFunc: function (result) {
-				if (debug) console.log(result);
 				result = JSON.parse(result);
-				if (result["error"] === 0) {
-					location.reload();
-				} else alert(result["txt"]);
-			},
-		});
+				if (result['error'] === 0) {
+					let [modalOverlay, modal] = modalEvent(result["html"], 'cropNewAvatar');
+					actionHandler.CommonFormReady({ modal, result, type: 'saveCroppedAvatar'});
+					actionHandler.reCropAvatarFormReady({ modal, result});
+				}
+				else
+					alert(result['html']);
+			}
+		})
+	}
+}
+actionHandler.saveCroppedAvatar = function (modal) {
+	actionHandler.reCropAvatar(modal);
 }
 /* 
 $("#MainBody").off("click", ".EditPencilTA");
@@ -369,28 +403,5 @@ $("#MainBody").on("click", ".ApplyTA", function () {
 //     $('body').on('click', 'span#CropMyNewAvatar', function () {
 //         $('#Profile_PhotoDiv form input[type=file]').trigger('click');
 //     })
-//     $('#Profile_PhotoDiv').on('change', 'form input[type=file]', function () {
-//         let fd = new FormData;
-//         fd.append('img', $(this).prop('files')[0]);
-//         fd.append('need', 'upload_file');
-//         $.ajax({
-//             url: 'switcher.php'
-//             , data: fd
-//             , processData: false
-//             , contentType: false
-//             , type: 'POST'
-//             , success: function (res) {
-//                 res = JSON.parse(res);
-//                 if (res['error'] === 0) {
-//                     AdditionalModalEvent(res['html'], res['size']);
-//                     make_cropper()
-//                 }
-//                 else
-//                     alert(res['html']);
-//             }
-//             , error: function (res) {
-//                 alert('Error: Ошибка связи с сервером');
-//             }
-//         });
-//     });
+
 // });
