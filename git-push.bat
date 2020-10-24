@@ -1,4 +1,4 @@
 git add -A
-git commit -m "v0.15 remake ReCropAvatar"
+git commit -m "v0.15 Minor Changes"
 git push
 pause
