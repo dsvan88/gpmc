@@ -1,15 +1,15 @@
-<?
-session_start();
-header('Content-Type: text/javascript');
-?>
 function change_active_speaker(id=-1)
 {
 	if (load) return false;
 	$('tr.active').removeClass('active');
 	if (id !== -1) $('tr[id^="'+id+'_"]').addClass('active');
 }
-function show_courtroom(){$('#OnVote').text("На голосование выставлены игроки под номерами: "+vars.currentVote.join(', ')+'.').removeClass( "hide" )}
-function hide_courtroom(){$('#OnVote').text('').addClass( "hide" )}
+function show_courtroom() {
+	$('#OnVote').text("На голосование выставлены игроки под номерами: " + vars.currentVote.join(', ') + '.').removeClass("hide")
+}
+function hide_courtroom() {
+	$('#OnVote').text('').addClass("hide")
+}
 function NextSpeaker(start)
 {
 	let i = start-1;

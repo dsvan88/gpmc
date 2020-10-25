@@ -9,6 +9,9 @@ $need = trim(isset($_GET['need']) ? $_GET['need'] : $_POST['need']);
 if ($need==='') exit('Wrong `need` type!');
 $settings = $engine->ModifySettingsArray($engine->GetSettings(array('shname','name','value','type'),'img'));
 
+if ($need === 'upload_file')
+	$need = 're-crop-avatar_form';
+
 $need_forms = [
 	'add-gamer_form',
 	'add-players-to-array_form',
@@ -41,7 +44,6 @@ $need_action = [
 	'rename_gamer',
 	'save-comment',
 	'set-vote',
-	'upload_file',
 	'user-registration'
 ];
 $need_autocomplete = [

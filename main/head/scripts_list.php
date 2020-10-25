@@ -7,7 +7,6 @@
 <? if (isset($_SESSION['ba']) && $_SESSION['ba'] > 0):?>
 	<script defer type='text/javascript' src="js/ckeditor/ckeditor.js"></script>
 	<script defer type='text/javascript' src='js/get_js.php/?script=admin'></script>
-	<!-- <script type='text/javascript' src='js/admin.js.php'></script> -->
 <?endif?>
 <?if (isset($_SESSION['id']) && $_SESSION['id'] > 0):?>
 	<script defer type='text/javascript' src='js/get_js.php/?script=users_scripts'></script>
@@ -24,7 +23,8 @@
 	<?endif;?>
 <?endif;?>
 <?if (isset($_GET['g_id'])):?>
-	<script defer type='text/javascript' src='js/get_js.php/?script=mafia_common_func'></script>
+	<script defer type='text/javascript' src='js/get_js.php/?script=game'></script>
+	<!-- <script defer type='text/javascript' src='js/get_js.php/?script=mafia_common_func'></script>
 	<script defer type='text/javascript' src='js/get_js.php/?script=mafia_func'></script>
-	<script defer type='text/javascript' src='js/get_js.php/?script=mafia'></script>
+	<script defer type='text/javascript' src='js/get_js.php/?script=mafia'></script> -->
 <?endif?>

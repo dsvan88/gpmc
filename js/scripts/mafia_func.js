@@ -1,7 +1,3 @@
-<?
-session_start();
-header('Content-Type: text/javascript');
-?>
 var prev_vars = [];
 var prev_players = [];
 var prev_text = [];

@@ -18,7 +18,7 @@ if(isset($_FILES['img']['tmp_name']))
 	if (!file_exists($path))
 		mkdir($path, 0777, true);
 	if (!file_exists($path)) exit('Cann’t create folders: '.$path);
-	$new_name = md5_file($_FILES['img']['tmp_name']).substr($_FILES['img']['name'],strrpos($_FILES['img']['name'],'.'));
+	$new_name = md5_file($_FILES['img']['tmp_name']).'.'.str_replace('image/','',mime_content_type($_FILES['img']['tmp_name']));
 	move_uploaded_file($_FILES['img']['tmp_name'], $path.$new_name);
 }
 else
@@ -45,7 +45,7 @@ if ($y > $max_height)
 }
 $output['html'] = '
 	<form>
-		<h2>Переобрезка аватара</h2>
+		<h2>Налаштування аватара</h2>
 		<div class="input_row cropped-image-place" style="width:'.$x.'px;height:'.$y.'px">
 			<img src="'.$full_path.'" style="width:'.$x.'px;height:'.$y.'px">
 		</div>
@@ -63,4 +63,3 @@ $output['html'] = '
 				</button>
 		</div>
 	</form>';
-exit(json_encode($output,JSON_UNESCAPED_UNICODE));

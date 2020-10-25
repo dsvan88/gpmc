@@ -144,11 +144,12 @@ actionHandler = {
 		let firstInput = modal.querySelector("input");
 		if (firstInput !== null) firstInput.focus();
 		let form = modal.querySelector("form");
-		if (form !== null)
-				form.addEventListener("submit", (submitEvent) => {
-					submitEvent.preventDefault();
-					actionHandler[type](modal);
-				});
+		if (form !== null) {
+			form.addEventListener("submit", (submitEvent) => {
+				submitEvent.preventDefault();
+				actionHandler[type](modal);
+			});
+		}
 		if (result["javascript"]) window.eval(result["javascript"]);
 		$(".modal-body textarea").cleditor({ height: 200 });
 	},
@@ -221,28 +222,6 @@ function open_log(id) {
 function close_log(id) {
 	$("#Log_" + id).addClass("hide");
 	$("#ShowLog_" + id).text("+ Открыть лог игры");
-}
-function add_evening_player(name) {
-	$.ajax({
-		url: "switcher.php",
-		type: "POST",
-		data: "need=add_new_player&n=" + name,
-		success: function (res) {
-			$("#PlayersArray").html($("#PlayersArray").html() + res);
-		},
-	});
-}
-function add_player(name) {
-	let i = -1;
-	let set = false;
-	while (++i <= 9) {
-		if ($('input[name="player[' + i + ']"]').val() === "") {
-			$('input[name="player[' + i + ']"]').val(name);
-			set = true;
-			break;
-		}
-	}
-	if (!set) $('input[name="manager"]').val(name);
 }
 function inttotime(t) {
 	m = Math.floor(t / 6000);
@@ -328,67 +307,7 @@ function closeModalWindow(event) {
 		}
 	);
 }
-/* function make_cropper() {
-	let img = $("#img_for_crop");
-	img.cropper({
-		aspectRatio: 3.5 / 4,
-		minContainerWidth: 325,
-		minContainerHeight: 220,
-		checkOrientation: false,
-		ready: function (event) {
-			$("body").on("click", "#CropMyAvatar", function () {
-				$.ajax({
-					url: "switcher.php",
-					data: "need=crop_file&i=" + $("input[name=filename]").val() + "&d=" + JSON.stringify(img.data("cropper").getData(true)),
-					type: "POST",
-					success: function (res) {
-						res = JSON.parse(res);
-						if (res["error"] === 0) location.reload();
-						else alert(res["html"]);
-					},
-					error: function (res) {
-						alert("Error: Ошибка связи с сервером");
-					},
-				});
-			});
-		},
-	});
-}
-function became_admin() {
-	$.ajax({
-		url: "switcher.php",
-		type: "POST",
-		data: "need=admin_login_form",
-		success: function (res) {
-			if (res === "admin") {
-				location.reload();
-				return false;
-			} else {
-				modalEvent(res);
-				$(".modal_window").off("click", "#LogInButton");
-				$(".modal_window").on("click", "#LogInButton", function () {
-					$.ajax({
-						url: "switcher.php",
-						type: "POST",
-						data: "need=login&" + $("#Form_AdminLogin").serialize(),
-						success: function (res) {
-							let result = JSON.parse(res);
-							if (result["error"] == $('#Form_AdminLogin input[name="ap"]').val()) location.reload();
-							else alert(result["txt"]);
-						},
-						error: function (res) {
-							alert("Error: Ошибка связи с сервером");
-						},
-					});
-					return false;
-				});
-			}
-		},
-		error: function (res) {
-			alert("Error: Ошибка связи с сервером");
-		},
-	});
-} */
+
 function postAjax({ data, formData, successFunc, errorFunc, ...options }) {
 	if (successFunc == undefined) {
 		successFunc = function (result) {

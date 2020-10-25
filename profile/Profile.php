@@ -16,18 +16,27 @@
 		</h3>
 		<div class='profile__upper-block'>
 			<div class='profile__upper-block__photo-block'>
-				<div class="profile__upper-block__photo-block__photo-place" data-form-type="user-avatar" data-user-id="<?=$_GET['profile']?>">
-				<? if ($my) : ?>
-					<?=$engine->checkAndPutImage($user['avatar'] === '' ? $settings['img']['empty_avatar']['value'] : '/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],['title'=>$settings['img']['empty_avatar']['name']])?>
+			<? if ($my) : 
+				if ($user['avatar'] === ''):?>
+					<div class="profile__upper-block__photo-block__photo-place" data-action-type="crop-new-avatar">
+						<?=$engine->checkAndPutImage($settings['img']['empty_avatar']['value'],['title'=>$settings['img']['empty_avatar']['name']])?>
+					</div>
 				<?else:?>
-					<?=$engine->checkAndPutImage($user['avatar'] === '' ? $img_genders[$user['gender']] : '/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],['title'=>$settings['img']['empty_avatar']['name']])?>
+					<div class="profile__upper-block__photo-block__photo-place" data-form-type="user-avatar" data-user-id="<?=$_GET['profile']?>">
+						<?=$engine->checkAndPutImage('/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],['title'=>'Аватар користувача'])?>
+					</div>
 				<?endif?>
-				</div>
-				<form enctype="multipart/form-data" action="php_scripts/upload_file.php" method="POST" style='display:none'>
+			<?else:?>
+					<div class="profile__upper-block__photo-block__photo-place" data-form-type="user-avatar" data-user-id="<?=$_GET['profile']?>">
+						<?=$engine->checkAndPutImage($user['avatar'] === '' ? $img_genders[$user['gender']] : '/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],['title'=>$settings['img']['empty_avatar']['name']])?>
+					</div>
+			<?endif?>
+				
+				<!-- <form enctype="multipart/form-data" action="php_scripts/upload_file.php" method="POST" style='display:none'>
 					<input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
 					<input name="userfile" type="file" accept="image/jpeg,image/png"/>
 					<input type="submit" value="Отправить файл" />
-				</form>					
+				</form>					 -->
 			</div>
 			<div class='profile__upper-block__info-block'>
 				<menu class="profile__upper-block__info-block__menu">

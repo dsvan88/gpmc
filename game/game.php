@@ -7,27 +7,26 @@
 	$engine = new JSFunc();
 	//------------------------------------------------------------------------------- Основные значения
 	require $root_path.'/game/tech/vars_default.php';
-	$players = $a = $avatar = array();
-	$enum_roles=array('red','mafia','don','','sherif');
-	$enum_roles_rus=array('Мирный','Мафия','Дон','','Шериф');
-	$enum_rating=array('C','B','A');
+	$players = $gameData = $gameDatavatar = array();
 	//------------------------------------------------------------------------------- Загрузка данных игры
 	$game_id = (int) $_GET['g_id'];
-	$a = $engine->ResumeGame($game_id);
-	$EveningID = (int) $a['e_id'];
-	$players = json_decode(str_replace('\\','',$a['players']),true);
-	$vars = json_decode(str_replace('\\','',$a['vars']),true);
-	$a['bm'] = $vars['bm'] != '' ? implode(',',$vars['bm']) : '';
-	$a['num'] = $engine->GetGameNum($EveningID,$game_id);
+	$gameData = $engine->ResumeGame($game_id);
+	$EveningID = (int) $gameData['e_id'];
+	
+	$players = json_decode(str_replace('\\','',$gameData['players']),true);
+	$vars = json_decode(str_replace('\\','',$gameData['vars']),true);
+
+	$gameData['bm'] = $vars['bm'] != '' ? implode(',',$vars['bm']) : '';
+	$gameData['num'] = $engine->GetGameNum($EveningID,$game_id);
 	//------------------------------------------------------------------------------- Получение некоторых данных о пользователях
-	$a['manager'] = $engine->GetGamerName($a['manager']);
-	$tmp = $engine->GetGamerData(array('id','gender','avatar'),array('id'=>explode(',',$a['g_ids'])),0);
+	$gameData['manager'] = $engine->GetGamerName($gameData['manager']);
+	$tmp = $engine->GetGamerData(array('id','gender','avatar'),array('id'=>explode(',',$gameData['g_ids'])),0);
 	for($x=0;$x<count($tmp);$x++)
-		$avatar[$tmp[$x]['id']] = $tmp[$x]['avatar'] !== '' ? '/gallery/users/'.$tmp[$x]['id'].'/'.$tmp[$x]['avatar'] : $img_genders[$tmp[$x]['gender']];
+		$gameDatavatar[$tmp[$x]['id']] = $tmp[$x]['avatar'] !== '' ? '/gallery/users/'.$tmp[$x]['id'].'/'.$tmp[$x]['avatar'] : $img_genders[$tmp[$x]['gender']];
 	//------------------------------------------------------------------------------- Загрузка игровой таблицы
-	if ($a['win']==='0')
+	if ($gameData['win']==='0')
 	{
-		if (isset($_SESSION['id']) && ($_SESSION['id'] == $a['manager'] || $_SESSION['status'] > 1))
+		if (isset($_SESSION['id']) && ($_SESSION['id'] == $gameData['manager'] || $_SESSION['status'] > 1))
 		{
 			require $root_path.'/game/tech/timer.php';
 			require $root_path.'/game/game_active.php';
@@ -43,13 +42,13 @@
 	?>
 	<script type='text/javascript'>
 	id_game=<?=$game_id?>;
-	<? if (!isset($a['players'])) : ?>
+	<? if (!isset($gameData['players'])) : ?>
 	var players = <?=str_replace('\\','',json_encode($players,JSON_UNESCAPED_UNICODE))?>;
 	<?else:?>
-	var players = <?=str_replace('\\','',$a['players'])?>;
+	var players = <?=str_replace('\\','',$gameData['players'])?>;
 	<?endif?>
-	<?if ($a['txt'] != ''): ?> var prev_text = ['<?=str_replace('\\','',$a['txt'])?>'];<?endif?>
-	<?if ($a['vars'] != ''): ?>vars = <?=str_replace('\\','',$a['vars'])?>;
+	<?if ($gameData['txt'] != ''): ?> var prev_text = ['<?=str_replace('\\','',$gameData['txt'])?>'];<?endif?>
+	<?if ($gameData['vars'] != ''): ?>vars = <?=str_replace('\\','',$gameData['vars'])?>;
 	<?else:?>vars = <?=json_encode($def_vars)?>;<?endif?>
 	var reasons = <?=json_encode($reasons,JSON_UNESCAPED_UNICODE)?>;
 	load = true;

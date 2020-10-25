@@ -925,7 +925,8 @@ header menu {
     .profile__upper-block__photo-block__photo-place {
       padding: 5px 5px 2px 5px; }
       .profile__upper-block__photo-block__photo-place img {
-        width: 100%; }
+        width: 100%;
+        cursor: pointer; }
     .profile__upper-block__info-block__menu {
       display: -webkit-box;
       display: -ms-flexbox;

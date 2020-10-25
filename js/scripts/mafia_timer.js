@@ -1,30 +1,29 @@
 class TimerFunc {
 	constructor(Game) {
-		self = this;
-		let timer_default = 6000;
+		let default_interval = 6000;
 		let MainTimer = false;
 	}
-	timer_start() {
+	start() {
 		$("td#TimerStart > img").prop({ src: "../css/images/pause.png", title: "Пауза", alt: "Пауза" });
-		self.MainTimer = setInterval(function () {
+		this.MainTimer = setInterval(()=> {
 			if (vars["timer"] > 0) {
-				$("th span.stopwatch").text(self.inttotime((vars["timer"] -= 5)));
-				if ([1000, 500, 300, 200, 100].indexOf(vars["timer"]) !== -1) self.beep();
+				$("th span.stopwatch").text(this.inttotime((vars["timer"] -= 5)));
+				if ([1000, 500, 300, 200, 100].indexOf(vars["timer"]) !== -1) this.beep();
 			} else {
-				self.timer_reset(1);
-				self.beep();
+				this.reset(1);
+				this.beep();
 			}
 		}, 50);
 	}
-	timer_pause() {
-		clearInterval(self.MainTimer);
-		self.MainTimer = false;
+	pause() {
+		clearInterval(this.MainTimer);
+		this.MainTimer = false;
 		$("td#TimerStart > img").prop({ src: "../css/images/start.png", title: "Старт", alt: "Старт" });
 	}
-	timer_reset(n = 0) {
-		self.timer_pause();
-		vars["timer"] = self.timer_default;
-		$("th span.stopwatch").text(self.inttotime(vars["timer"]));
+	reset(n = 0) {
+		this.pause();
+		vars["timer"] = this.default_interval;
+		$("th span.stopwatch").text(this.inttotime(vars["timer"]));
 		if (n !== 0) Game.next();
 	}
 	beep() {
