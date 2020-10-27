@@ -25,7 +25,7 @@ class SQLBase
 		$r = mysqli_query($this->SQL, $q);
 		if (!$r)
 			error_log(__METHOD__.': SQL ERROR: '.mysqli_error($this->SQL).' Query: '.$q);
-		// error_log('Query: '.$q);
+		error_log('Query: '.$q);
 		return $r;
 	}
 	// Разбирает результат запроса в простой массив
@@ -183,7 +183,12 @@ class SQLBase
 			}
 			$where = mb_substr($where,0,-4);
 		}
-		return $this->$method($this->Query('SELECT `'.implode('`,`',$c).'` FROM `'.MYSQL_TBLGAMERS.'`'.$where.($l > 0 ? ' LIMIT '.$l : '')));
+		return $this->$method($this->Query('SELECT `'.implode('`,`',$c).'` FROM `'.MYSQL_TBLGAMERS.'`'.$where.($l !== 0 ? ' LIMIT '.$l : '')));
+	}
+	// Получить ассоциативный массив всех игроков, по заданным условиям.
+	function GetGamerCount()
+	{
+		return $this->MakeRawArray($this->Query('SELECT count(`id`) FROM `'.MYSQL_TBLGAMERS.'`'))[0];
 	}
 	function ChangePass($r)
 	{

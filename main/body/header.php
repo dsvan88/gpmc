@@ -9,7 +9,6 @@
 		<div class="header__login-place">
 			<h4>Добро пожаловать!</h4>
 			<?	if (isset($_SESSION['id'])): 
-				$statuses = array('Гость', 'Резидент', 'Основатель');
 				$ranks = array('C', 'B', 'A');
 				?>
 				<div>
@@ -74,6 +73,7 @@
 		<? if ($EveningData['start']) :?>
 			<li><a href='/?trg=evening'><span>Вечер игры!</span></a></li>
 		<?endif?>
+		<li><a href='/?trg=gamers'><span>Игроки</span></a></li>
 		<li><a href='/?trg=rules'><span>Правила</span></a></li>
 		<li><a href='/?trg=about'><span>О нас</span></a></li>
 	</menu>

@@ -18,6 +18,7 @@ if (!isset($_SESSION['ba']) || $_SESSION['ba'] < 1)
 }
 $genders=array('','господин','госпожа','некто');
 $userData['status'] = 'guest';
+$statuses = array('Гость', 'Резидент', 'Основатель');
 $user_statuses = ['user','resident','resident'];
 if (isset($_SESSION['status']))
 {
