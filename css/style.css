@@ -607,6 +607,28 @@ template {
   border-bottom: 1px dotted #4b48f8;
 }
 
+.admin-panel__body__content .add-news__content__options {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  grid-column-gap: 1vw;
+  grid-row-gap: 1vh;
+}
+
+.admin-panel__body__content .add-news__content__options-row {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+}
+
+.admin-panel__body__content .add-news__content__main-data h4 {
+  margin: 1vh 0px;
+  text-align: center;
+  font-size: 20px;
+}
+
 .admin-panel img {
   width: 20px;
 }
@@ -1549,12 +1571,18 @@ header menu li:active a {
   font-size: larger;
 }
 
-.users-pages {
+.page-title {
+  text-align: center;
+  font-size: 25px;
+  font-weight: 100;
+}
+
+.list-pages {
   text-align: center;
   font-size: 18px;
 }
 
-.users-pages a {
+.list-pages a {
   background-color: #c503c559;
   border: 1px solid #fb7dff;
   border-radius: 2px;
@@ -1562,12 +1590,12 @@ header menu li:active a {
   margin: 2px;
 }
 
-.users-pages a.active, .users-pages a:active {
+.list-pages a.active, .list-pages a:active {
   background-color: #befd4859;
   border: 1px solid #a4f845;
 }
 
-.users-pages a:hover {
+.list-pages a:hover {
   background-color: #5ce6ff59;
   border: 1px solid #15b3fc;
 }

@@ -280,4 +280,39 @@ class GetDatas extends SQLBase
 	{
 		return ($_SESSION['id_game'] = $this->GetRow($this->Query('SELECT `id` FROM `'.MYSQL_TBLGAMES.'` WHERE `win`<1 AND `players` !="" ORDER BY `id` DESC LIMIT 1'))[0]);
 	}
+	// Получить информацию обо всех новостях
+	function GetNewsData($c,$b='',$l=1)
+	{
+		$method = ($l !== 1) ? 'MakeAssocArray' : 'GetAssoc';
+		$where = '';
+		if ($b !== '')
+		{
+			$where = ' WHERE ';
+			foreach($b as $k=>$v)
+			{
+				if (!is_array($v))
+					$where .= '`'.$k.'` = "'.$v.'" AND ';
+				else $where .= '`'.$k.'` IN ("'.implode('","',$v).'") AND ';
+			}
+			$where = mb_substr($where,0,-4);
+		}
+		return $this->$method($this->Query('SELECT `'.implode('`,`',$c).'` FROM `'.MYSQL_TBLNEWS.'`'.$where.($l !== 0 ? ' LIMIT '.$l : '')));
+	}
+	// Получить количество всех новостей, по заданным условиям.
+	function GetNewsCount($b = '')
+	{
+		$where = '';
+		if ($b !== '')
+		{
+			$where = ' WHERE ';
+			foreach($b as $k=>$v)
+			{
+				if (!is_array($v))
+					$where .= '`'.$k.'` = "'.$v.'" AND ';
+				else $where .= '`'.$k.'` IN ("'.implode('","',$v).'") AND ';
+			}
+			$where = mb_substr($where,0,-4);
+		}
+		return $this->MakeRawArray($this->Query('SELECT count(`id`) FROM `'.MYSQL_TBLNEWS.'`'.$where))[0];
+	}
 }

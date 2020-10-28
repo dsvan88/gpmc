@@ -13,6 +13,7 @@ if (!defined('MYSQL_HOST'))
 	define('MYSQL_TBLSETTINGS', 'settings');
 	define('MYSQL_TBLVOTES', 'votes');
 	define('MYSQL_TBLCOMM', 'comments');
+	define('MYSQL_TBLNEWS', 'news');
 	define('DATE_MARGE', 36000); //36000 = +10 часов к длительности вечера
 	define('TIME_MARGE', 1800); //1800 = за полчаса до официально старта - открывает регистрация игроков на первую игру
 	define('LOG_PREFIX', 'LogFile_');

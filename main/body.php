@@ -1,8 +1,15 @@
 <body style="
 	background:url(<?=$settings['img']['fon']['value']?>);
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: contain">
+<?
+[$x, $y] = getimagesize($root_path.'/'.$settings['img']['fon']['value']);
+if ($x > 410 || $y >410):
+	?>
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain
+	<?
+endif;
+?>">
 <div class="wrapper">
 <?
 require $root_path.'/main/body/header.php';

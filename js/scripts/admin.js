@@ -150,20 +150,41 @@ actionHandler.applyNewPoints = function (target) {
 	});
 };
 actionHandler.applyUserData = function (target) {
-	let prnt = target.closest("tr");
-	let ajaxObject = {
-		data: {
-			need: "apply-user-data",
-			id: prnt.dataset.userId,
-		},
+	let parent = target.closest("tr");
+	let data = serializeForm(parent);
+	data['need'] = 'apply-user-data';
+	data['id'] = parent.dataset.userId;
+	postAjax({
+		data: data,
 		successFunc: function (result) {
 			result = JSON.parse(result);
-			if (result["error"] === 0) prnt.innerHTML = result["html"];
+			if (result["error"] === 0) parent.innerHTML = result["html"];
 			else alert(result["txt"]);
 		},
-	};
-	Object.assign(ajaxObject.data, serializeForm(prnt));
-	postAjax(ajaxObject);
+	});
+};
+actionHandler.applyNews = function (target) {
+	target = target.target || target;
+	let parent = target.target || target.closest('div[data-action-mode]');
+	let data = serializeForm(parent);
+	data['need'] = 'apply-news';
+	if (parent.dataset.newsId) data['id'] = parent.dataset.newsId;
+	postAjax({
+		data: data,
+		successFunc: function (result) {
+			result = JSON.parse(result);
+			if (result["error"] === 0) location.reload();
+			else alert(result["txt"]);
+		},
+	});
+};
+actionHandler.showAddNewsForm = function (target) {
+	target.style.display = "none";
+	target.nextElementSibling.style.display = 'inline';
+	let addNewsDiv = document.body.querySelector('div.add-news__content');
+	$(addNewsDiv).slideToggle("fast");
+	// Придумать, куда можно это переместить для большей универсальности и удобства
+	addNewsDiv.querySelector("a.cke_button__save").onclick = actionHandler.applyNews;
 };
 window.callBackForKCFinderBrowser = function (url) {
 	if (callBackReady === false) return false;

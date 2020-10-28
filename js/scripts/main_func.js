@@ -359,13 +359,18 @@ function simpleObjectToGetString(obj) {
 }
 function serializeForm(target) {
 
-	if (target.tagName === 'FROM')
+	if (target.tagName === 'FORM')
 		return new FormData(target);
 	
 	let elements = target.querySelectorAll("input, select, textarea");
 	let result = {};
 	elements.forEach((element) => {
 		if (element.tagName === "INPUT" && element.type === "checkbox" && !element.checked) return;
+		if (element.tagName === "TEXTAREA" && element.name === "html" && element.id !== undefined && CKEDITOR.instances[element.id]){
+			result[element.name] = CKEDITOR.instances[element.id].getData();
+			return;
+		}
+		if (element.value == '') return;
 		result[element.name] = element.value;
 	});
 	return result;

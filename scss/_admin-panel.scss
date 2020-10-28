@@ -122,6 +122,27 @@
 					}
 				}
 			}
+			.add-news {
+				&__content {
+					&__options {
+						display: grid;
+						grid-template-columns: 1fr 1fr;
+						grid-column-gap: 1vw;
+						grid-row-gap: 1vh;
+						&-row {
+							display: grid;
+							grid-template-columns: 1fr 1fr;
+						}
+					}
+					&__main-data {
+						h4 {
+							margin: 1vh 0px;
+							text-align: center;
+							font-size: 20px;
+						}
+					}
+				}
+			}
 		}
 	}
 	img {

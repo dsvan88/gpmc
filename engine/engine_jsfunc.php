@@ -439,4 +439,19 @@ class JSFunc extends SQLBase
 		else
 			return false;
 	}
+	// Добавление/изменение новости
+	function setNews($a)
+	{
+		// {"title":"РџРµСЂРІР°СЏ РЅРѕРІРѕСЃС‚СЊ","subtitle":"РЎР°РјР°СЏ РїРµСЂРІР°СЏ РЅРѕРІРѕРІСЃС‚СЊ","date_remove":"31.10.2020 17:13","type":"attention","html":"РґР»СЏ С‚РµСЃС‚Р°","need":"apply-news"}
+		unset($a['need']);
+		if (isset($a['date_remove']));
+			$a['date_remove'] = strtotime($a['date_remove']);
+		if (isset($a['id']))
+		{
+			$this->UpdateRow($a,array('id'=>$a['id']),MYSQL_TBLNEWS);
+			return $a['id'];
+		}
+		$a['date_add'] = $_SERVER['REQUEST_TIME'];
+		return $this->InsertRow($a,MYSQL_TBLNEWS);
+	}
 }

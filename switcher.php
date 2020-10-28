@@ -33,6 +33,7 @@ $need_action = [
 	'apply_evening',
 	'apply-my-booking',
 	'apply-new-points',
+	'apply-news',
 	'apply-setting',
 	'apply-user-data',
 	'cancel-my-booking',
