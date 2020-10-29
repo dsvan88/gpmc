@@ -6,33 +6,31 @@ if (!isset($_GET['nid'])){
 	$news_count = $engine->GetNewsCount();
 	if ($news_count > 0):
 		$news_on_page = $max_news_per_page * (int) $_GET['page'];
-		$newsData = $engine->GetNewsData(['id','title','subtitle','html','date_add','date_remove'],['type'=>'news'],($news_on_page === 0 ? $max_news_per_page : $news_on_page.','.$max_news_per_page));
+		$newsData = $engine->GetNewsData(['id','title','subtitle','logo','html','date_add','date_remove'],['type'=>'news'],($news_on_page === 0 ? $max_news_per_page : $news_on_page.','.$max_news_per_page));
 	
 		?>
 		
 		<div class="news-list">
 		<?
-		/*for($x=0; isset($newsData[$x]); $x++):
+		for($x=0; isset($newsData[$x]); $x++):
 			?>
 			<div class="news-list-row">
-				<div class="news-list-row__avatar">
-					<a href='/?profile=<?=$newsData[$x]['id']?>'>
-						<?=$engine->checkAndPutImage($newsData[$x]['avatar'] === '' ? $img_genders[$newsData[$x]['gender']] : '/gallery/users/'.$newsData[$x]['id'].'/'.$newsData[$x]['avatar'],['title'=>$settings['img']['empty_avatar']['name']])?>
+				<div class="news-list-row__logo">
+					<a href='/?trg=news&nid=<?=$newsData[$x]['id']?>'>
+						<?=$engine->checkAndPutImage($newsData[$x]['logo'] === '' ? $settings['img']['news_default']['value'] : $newsData[$x]['logo'],['title'=>$settings['img']['news_default']['name']])?>
 					</a>
 				</div>
 				<div class="news-list-row__content">
 					<h3 class="news-list-row__content__title">
-						<?=$genders[$newsData[$x]['gender']]?>
-						<a href='/?profile=<?=$newsData[$x]['id']?>'><?=$newsData[$x]['name']?></a>
+						<a href='/?trg=news&nid=<?=$newsData[$x]['id']?>'><?=$newsData[$x]['title']?></a>
 					</h3>
-					<ul class="news-list-row__content__data">
-						<li><span class="news-list-row__content__data-label">В миру</span><span class="news-list-row__content__data-value"><?=$newsData[$x]['fio']?></span></li>
-						<li><span class="news-list-row__content__data-label">Статус в клубе</span><span class="news-list-row__content__data-value"><?=$statuses[$newsData[$x]['status']]?></span></li>
-					</ul>
+					<div class="news-list-row__content__subtitle"><?=$newsData[$x]['title']?></div>
+					<div class="news-list-row__content__text"><?=$newsData[$x]['html']?></div>
+					<div class="news-list-row__content__read-more">Читать дальше...</div>
 				</div>
 			</div>
 			<?
-		endfor;*/
+		endfor;
 		?>
 		</div>
 		<?

@@ -44,12 +44,15 @@
 $max_news_per_page = 5;
 $news_count = $engine->GetNewsCount();
 $news_on_page = $max_news_per_page * (int) $_GET['page'];
-$newsData = $engine->GetNewsData(['id','title','subtitle','html','date_remove'],'',($news_on_page === 0 ? $max_news_per_page : $news_on_page.','.$max_news_per_page));
+$newsData = $engine->GetNewsData(['id','title','subtitle','logo','html','date_remove'],'',($news_on_page === 0 ? $max_news_per_page : $news_on_page.','.$max_news_per_page));
 for($x=0; isset($newsData[$x]); $x++):
     ?>
     <div class="news" data-action-mode="edit" data-news-id="<?=$newsData[$x]['id']?>">
         <h3 class="news__title">
             Редактирование новости
+            <span class="span_button" data-action-type="apply-news">
+				<?=$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])?>
+			</span>
         </h3>
         <div class="add-news__content">
             <form action="/switcher?need=add-news">
@@ -76,7 +79,7 @@ for($x=0; isset($newsData[$x]); $x++):
                 </div>
                 <div class="add-news__content__main-data">
                     <h4>Текст новости</h4>
-                    <textarea name="html"><?=$newsData[$x]['html']?></textarea>
+                    <textarea name="html" class='news'><?=$newsData[$x]['html']?></textarea>
                 </div>
             </form>
         </div>

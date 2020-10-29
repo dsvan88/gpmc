@@ -9,6 +9,14 @@ textareas.forEach((textarea) => {
 		filebrowserImageUploadUrl: "js/kcfinder/upload.php?type=images",
 	});
 	CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;
+	
+	if (textarea.classList.contains('news')) {
+		CKEDITOR.on("instanceReady", function (event) {
+			textarea.nextElementSibling.querySelector("a.cke_button__save").onclick = actionHandler.applyNews;
+		// form.querySelector("a.cke_button__save").onclick = actionHandler.applySetting;
+		});
+	}
+		
 });
 
 actionHandler.toggleListItems = function (target) {

@@ -260,6 +260,11 @@ class SQLBase
 	function imageToWebp($source,$output,$from='png'){
 		$func = 'imagecreatefrom'.($from !== 'jpg' ? $from : 'jpeg');
 		$image = $func($source);
+		if ($from === 'png'){
+			imagepalettetotruecolor($image);
+			imagealphablending($image, true);
+			imagesavealpha($image, true);
+		}
 		imagewebp($image,$output);
 		imagedestroy($image);
 	}

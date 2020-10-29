@@ -7,8 +7,7 @@
 body {
 	font-family: Lobster, Arial, Helvetica, cursive, sans-serif;
 	font-size: 12px;
-	background-size: 100%;
-	background-color: #fff8dc;
+	color: #e63d24;
 }
 .wrapper {
 	display: flex;
@@ -25,7 +24,7 @@ footer {
 }
 a {
 	cursor: pointer;
-	color: #6e3f6c;
+	color: #831111;
 	&:hover {
 		color: #5c0828;
 		text-decoration: underline;
@@ -63,7 +62,7 @@ hr {
 		flex: 1 1 10%;
 		border: 3px groove #cac6ff;
 		padding: 5px 10px 10px 15px;
-		background-color: #ffe1e1;
+		background-color: #ced3e647;
 		font-family: franklin gothic medium;
 		font-size: 12px;
 		.info-row {
@@ -127,7 +126,7 @@ header {
 			text-transform: uppercase;
 			cursor: pointer;
 			a {
-				color: #000000;
+				color: #b27aea;
 			}
 			&:hover {
 				background: linear-gradient(#96c0ff66, #3354fda8);

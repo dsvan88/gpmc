@@ -136,6 +136,44 @@
 		}
 	}
 }
+.news-list {
+	&-row {
+		display: flex;
+		justify-content: flex-start;
+		padding: 10px;
+		&__logo {
+			margin: 5px;
+			flex: 1 1 350px;
+			max-width: 8vw;
+			@include sm {
+				max-width: 16vw;
+			}
+			img {
+				width: 100%;
+			}
+		}
+		&__content {
+			flex: 1 1 350px;
+			&__title {
+				padding-left: 10px;
+				font-size: 20px;
+			}
+			&__data {
+				font-size: 16px;
+				&-label {
+					display: inline-block;
+					width: 20vw;
+					@include sm {
+						width: 30vw;
+					}
+				}
+				&-value {
+					font-size: larger;
+				}
+			}
+		}
+	}
+}
 .page-title {
 	text-align: center;
 	font-size: 25px;

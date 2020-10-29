@@ -296,7 +296,7 @@ class GetDatas extends SQLBase
 			}
 			$where = mb_substr($where,0,-4);
 		}
-		return $this->$method($this->Query('SELECT `'.implode('`,`',$c).'` FROM `'.MYSQL_TBLNEWS.'`'.$where.($l !== 0 ? ' LIMIT '.$l : '')));
+		return $this->$method($this->Query('SELECT `'.implode('`,`',$c).'` FROM `'.MYSQL_TBLNEWS.'`'.$where.' ORDER BY `id` DESC'.($l !== 0 ? ' LIMIT '.$l : '')));
 	}
 	// Получить количество всех новостей, по заданным условиям.
 	function GetNewsCount($b = '')
