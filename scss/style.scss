@@ -97,16 +97,18 @@ hr {
 			align-items: center;
 			button,
 			a {
-				border: 0;
-				background-color: transparent;
 				text-transform: uppercase;
-				text-decoration: underline;
-				color: #6e3f6c;
-				font-size: 14px;
-				cursor: pointer;
 			}
 		}
-
+		button,
+		a {
+			border: 0;
+			background-color: transparent;
+			text-decoration: underline;
+			color: #fd5137;
+			font-size: 14px;
+			cursor: pointer;
+		}
 		@include sm {
 			flex: 1 1 50%;
 			min-width: 100px;

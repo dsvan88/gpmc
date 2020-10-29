@@ -9,7 +9,6 @@ if (!isset($_GET['nid'])){
 		$newsData = $engine->GetNewsData(['id','title','subtitle','logo','html','date_add','date_remove'],['type'=>'news'],($news_on_page === 0 ? $max_news_per_page : $news_on_page.','.$max_news_per_page));
 	
 		?>
-		
 		<div class="news-list">
 		<?
 		for($x=0; isset($newsData[$x]); $x++):
@@ -25,8 +24,10 @@ if (!isset($_GET['nid'])){
 						<a href='/?trg=news&nid=<?=$newsData[$x]['id']?>'><?=$newsData[$x]['title']?></a>
 					</h3>
 					<div class="news-list-row__content__subtitle"><?=$newsData[$x]['title']?></div>
-					<div class="news-list-row__content__text"><?=$newsData[$x]['html']?></div>
-					<div class="news-list-row__content__read-more">Читать дальше...</div>
+					<div class="news-list-row__content__text"><?=mb_substr($newsData[$x]['html'],0,200,'UTF-8')?>…</div>
+					<div class="news-list-row__content__read-more">
+						<a href='/?trg=news&nid=<?=$newsData[$x]['id']?>'>Читать дальше…</a>
+					</div>
 				</div>
 			</div>
 			<?
