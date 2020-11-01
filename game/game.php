@@ -7,14 +7,14 @@
 	$engine = new JSFunc();
 	//------------------------------------------------------------------------------- Основные значения
 	require $root_path.'/game/tech/vars_default.php';
-	$players = $gameData = $gameDatavatar = array();
+	$players = $gameData = $gameDataAvatar = array();
 	//------------------------------------------------------------------------------- Загрузка данных игры
 	$game_id = (int) $_GET['g_id'];
 	$gameData = $engine->ResumeGame($game_id);
 	$EveningID = (int) $gameData['e_id'];
 	
-	$players = json_decode(str_replace('\\','',$gameData['players']),true);
-	$vars = json_decode(str_replace('\\','',$gameData['vars']),true);
+	$players = json_decode($gameData['players'],true);
+	$vars = json_decode($gameData['vars'],true);
 
 	$gameData['bm'] = $vars['bm'] != '' ? implode(',',$vars['bm']) : '';
 	$gameData['num'] = $engine->GetGameNum($EveningID,$game_id);
@@ -22,7 +22,9 @@
 	$gameData['manager'] = $engine->GetGamerName($gameData['manager']);
 	$tmp = $engine->GetGamerData(array('id','gender','avatar'),array('id'=>explode(',',$gameData['g_ids'])),0);
 	for($x=0;$x<count($tmp);$x++)
-		$gameDatavatar[$tmp[$x]['id']] = $tmp[$x]['avatar'] !== '' ? '/gallery/users/'.$tmp[$x]['id'].'/'.$tmp[$x]['avatar'] : $img_genders[$tmp[$x]['gender']];
+		$gameDataAvatar[$tmp[$x]['id']] = $tmp[$x]['avatar'] !== '' ? 
+		'/gallery/users/'.$tmp[$x]['id'].'/'.$tmp[$x]['avatar'] : 
+		$img_genders[$tmp[$x]['gender']];
 	//------------------------------------------------------------------------------- Загрузка игровой таблицы
 	if ($gameData['win']==='0')
 	{

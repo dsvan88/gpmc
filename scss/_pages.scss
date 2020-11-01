@@ -166,8 +166,7 @@
 			}
 			&__text {
 				margin: 5px auto 10px 5px;
-				font-size: 18px;
-				max-height: 10vh;
+				font-size: 16px;
 				overflow: hidden;
 				text-overflow: ellipsis;
 			}
@@ -197,9 +196,31 @@
 	font-size: 25px;
 	font-weight: 100;
 }
+.news {
+	font-size: 18px;
+	&__title,
+	&__subtitle {
+		text-align: center;
+		font-size: larger;
+	}
+	&__title {
+		font-size: larger;
+	}
+	&__content {
+		padding: 10px;
+		text-align: justify;
+		&__logo {
+			height: 10vh;
+			width: auto;
+			float: left;
+			margin: 0px 5px;
+		}
+	}
+}
 .list-pages {
 	text-align: center;
 	font-size: 18px;
+	font-weight: 100;
 	a {
 		background-color: #c503c559;
 		border: 1px solid #fb7dff;

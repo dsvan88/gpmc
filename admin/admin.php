@@ -20,11 +20,11 @@
 			<div class='admin-panel__body__menu'>
 				<ul id='settings'>
 					<h4 data-action-type="toggle-list-items">Настройки сайта</h4>
+					<li id='news'><a href='/?b=settings&p=news'>Новости</a></li>
 					<li id='texts'><a href='/?b=settings&p=texts'>Тексты сайта</a></li>
 					<li id='images'><a href='/?b=settings&p=images'>Изображения</a></li>
 					<li id='users'><a href='/?b=settings&p=users'>Пользователи</a></li>
 					<li id='points'><a href='/?b=settings&p=points'>Рейтинговые баллы</a></li>
-					<li id='news'><a href='/?b=settings&p=news'>Новости</a></li>
 				</ul>
 				<ul id='pages'>
 					<h4 data-action-type="toggle-list-items">Страницы сайта</h4>

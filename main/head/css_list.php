@@ -1,6 +1,7 @@
-<link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/fonts/Lobster-Regular.css">
 <link rel='stylesheet' type="text/css" href='css/style.css'/>
-<?/*<link rel="stylesheet" href="css/fonts/Lobster-Regular.css">
+<?/*
+<link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
 <link rel='stylesheet' type="text/css" href='css/forms_style.css' />
 
 <? if ($_SESSION['ba'] > 0):?>

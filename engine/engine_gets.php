@@ -119,13 +119,6 @@ class GetDatas extends SQLBase
 			return $r;
 		else return false;
 	}
-	// Получение имени игрока по его ID в системе
-	function GetGamerName($id)
-	{
-		if (($r = $this->MakeRawArray($this->Query('SELECT `name` FROM `'.MYSQL_TBLGAMERS.'` WHERE `id` ="'.$id.'" LIMIT 1'))[0]) !== false)
-			return $r;
-		else return '';
-	}
 	// Массовое получение имён игроков по их ids
 	function GetGamersNames($ids,$s = false)
 	{

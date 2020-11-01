@@ -45,6 +45,7 @@ class SQLBase
 	#function InsertRow($a,$g_id=0,$t='')
 	function InsertRow($a,$t='')
 	{
+		$a = str_replace('"','\\"',$a);
 		$k = array_keys($a);
 		$v = array_values($a);
 		$t = $t === '' ? MYSQL_TBLGAMES : $t;
@@ -58,6 +59,9 @@ class SQLBase
 	// $t - таблица в которую будет добавлена запись
 	function UpdateRow($a,$f,$t='')
 	{
+		$a = str_replace('"','\\"',$a);
+		$f = str_replace('"','\\"',$f);
+		// [$a, $f] = str_replace('"','\\"',[$a, $f]);
 		$q ='UPDATE `'.($t==='' ? MYSQL_TBLGAMES : $t).'` SET ';
 		foreach ($a as $k=>$v)
 			$q .= '`'.$k.'` = "'.$v.'",';
@@ -185,7 +189,14 @@ class SQLBase
 		}
 		return $this->$method($this->Query('SELECT `'.implode('`,`',$c).'` FROM `'.MYSQL_TBLGAMERS.'`'.$where.($l !== 0 ? ' LIMIT '.$l : '')));
 	}
-	// Получить ассоциативный массив всех игроков, по заданным условиям.
+	// Получение имени игрока по его ID в системе
+	function GetGamerName($id)
+	{
+		if (($r = $this->MakeRawArray($this->Query('SELECT `name` FROM `'.MYSQL_TBLGAMERS.'` WHERE `id` ="'.$id.'" LIMIT 1'))[0]) !== false)
+			return $r;
+		else return '';
+	}
+	// Получить количество всех игроков в системе.
 	function GetGamerCount()
 	{
 		return $this->MakeRawArray($this->Query('SELECT count(`id`) FROM `'.MYSQL_TBLGAMERS.'`'))[0];

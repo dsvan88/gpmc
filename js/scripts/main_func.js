@@ -367,11 +367,11 @@ function serializeForm(target) {
 	elements.forEach((element) => {
 		if (element.tagName === "INPUT" && element.type === "checkbox" && !element.checked) return;
 		if (element.tagName === "TEXTAREA" && element.name === "html" && element.id !== undefined && CKEDITOR.instances[element.id]){
-			result[element.name] = CKEDITOR.instances[element.id].getData();
+			result[element.name] = CKEDITOR.instances[element.id].getData().replace(/\&/g, "%26");
 			return;
 		}
 		if (element.value == '') return;
-		result[element.name] = element.value;
+		result[element.name] = element.value.replace(/\&/g, "%26");
 	});
 	return result;
 }

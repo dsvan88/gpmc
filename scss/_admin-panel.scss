@@ -1,12 +1,16 @@
 .admin-panel {
 	display: flex;
 	flex-direction: column;
-	background-color: #78defda8;
+	background-color: #bcddea5e;
 	margin: 10px 7vw;
 	border: 1px dashed #1aa3f4;
 	border-radius: 7px;
 	font-family: franklin gothic medium;
 	font-size: 15px;
+	color: #55001c;
+	a {
+		color: #821d1d;
+	}
 	@include sm {
 		font-size: 3vw;
 	}

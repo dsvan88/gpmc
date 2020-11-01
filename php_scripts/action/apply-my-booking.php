@@ -10,5 +10,5 @@ $EveningData['gamers_info'][] = [
 	'arrive' =>$_POST['arrive'],
 	'duration' =>$_POST['duration']
 ];
-$engine->UpdateRow(['gamers'=>$EveningData['gamers'].','.$_SESSION['id'],'gamers_info'=> str_replace('"','\"',json_encode($EveningData['gamers_info'],JSON_UNESCAPED_UNICODE))],['id'=>$EveningData['id']],MYSQL_TBLEVEN);
+$engine->UpdateRow(['gamers'=>$EveningData['gamers'].','.$_SESSION['id'],'gamers_info'=> json_encode($EveningData['gamers_info'],JSON_UNESCAPED_UNICODE)],['id'=>$EveningData['id']],MYSQL_TBLEVEN);
 exit(json_encode($result,JSON_UNESCAPED_UNICODE));

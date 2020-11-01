@@ -208,7 +208,7 @@ class JSFunc extends SQLBase
 		if (isset($data['gamers']))
 		{
 			$a['gamers'] = $this->getUsersIDs($data['gamers'])['ids'];
-			$a['gamers_info'] = str_replace('"','\"',$data['gamers']);
+			$a['gamers_info'] = $data['gamers'];
 		}
 		$eveningId = $this->GetNearEveningData();
 		if ($eveningId === false)
@@ -266,7 +266,7 @@ class JSFunc extends SQLBase
 			'e_id'=>$e,
 			'g_ids'=>$ids,
 			'manager'=>$this->GetGamerID($m),
-			'players'=>str_replace('"','\"',json_encode($players,JSON_UNESCAPED_UNICODE)),
+			'players'=>json_encode($players,JSON_UNESCAPED_UNICODE),
 			'rating'=>$this->GetGameRating($ids)));
 		$games = $this->GetEveningGames($e);
 		$games = $games == '' ? $_SESSION['id_game'] : $games.','.$_SESSION['id_game'];
@@ -295,12 +295,6 @@ class JSFunc extends SQLBase
 		if (($r = $this->MakeRawArray($this->Query('SELECT `id` FROM `'.MYSQL_TBLGAMERS.'` WHERE `name` ="'.$n.'" LIMIT 1'))[0]) > 0)
 			return $r;
 		else return $chk === 0 ? $this->InsertRow(array('name'=>$n),MYSQL_TBLGAMERS) : false;
-	}
-	function GetGamerName($id)
-	{
-		if (($r = $this->MakeRawArray($this->Query('SELECT `name` FROM `'.MYSQL_TBLGAMERS.'` WHERE `id` ="'.$id.'" LIMIT 1'))[0]) !== false)
-			return $r;
-		else return '';
 	}
 	function GetGamersNames($ids,$s = false)
 	{
@@ -364,7 +358,7 @@ class JSFunc extends SQLBase
 
 		unset($data['gamers'][$i]);
 		unset($data['gamers_info'][$i]);
-		$this->UpdateRow(['gamers'=>implode(',',$data['gamers']),'gamers_info'=>str_replace('"','\"',json_encode($data['gamers_info'],JSON_UNESCAPED_UNICODE))],['id'=>$data['id']],MYSQL_TBLEVEN);
+		$this->UpdateRow(['gamers'=>implode(',',$data['gamers']),'gamers_info'=>json_encode($data['gamers_info'],JSON_UNESCAPED_UNICODE)],['id'=>$data['id']],MYSQL_TBLEVEN);
 	}
 	function GetGamersIDs($a)
 	{

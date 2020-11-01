@@ -1,5 +1,5 @@
 var callBackReady = false;
-
+let getNewsLogo = false;
 let textareas = document.body.querySelectorAll("textarea");
 textareas.forEach((textarea) => {
 	textarea.id = Math.random(321123);
@@ -194,8 +194,21 @@ actionHandler.showAddNewsForm = function (target) {
 	// Придумать, куда можно это переместить для большей универсальности и удобства
 	addNewsDiv.querySelector("a.cke_button__save").onclick = actionHandler.applyNews;
 };
+actionHandler.setNewsLogo = function (target) {
+	getNewsLogo = target;
+	callBackReady = true;
+	modalEvent('<iframe src="js/kcfinder/browse.php?type=images" style="width:800px;height:500px"></iframe>','setNewsLogo');
+}
 window.callBackForKCFinderBrowser = function (url) {
 	if (callBackReady === false) return false;
+	if (getNewsLogo !== false) {
+		console.log(window.location.protocol + window.location.hostname);
+		console.log((window.location.protocol + window.location.hostname).length);
+		getNewsLogo.value = url.slice((window.location.protocol + window.location.hostname).length+2);
+		getNewsLogo = false;
+		closeModalWindow({ target: document.body.querySelector("div#setNewsLogo") });
+		return true;
+	}
 	let image = document.body.querySelector("div#editSettingsImage div.image-place img");
 	image.src = url;
 	image.onload = function () {

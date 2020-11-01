@@ -25,11 +25,19 @@
                         <input type="text" name="date_remove" class='datepick'>
                     </div>
                     <div class="add-news__content__options-row">
+                        <label>Логотип для новости</label>
+                        <input type="text" name="logo">
+                    </div>
+                    <div class="add-news__content__options-row">
+                        <label>Ключевые слова:</label>
+                        <input type="text" name="keywords">
+                    </div>
+                    <div class="add-news__content__options-row">
                         <label>Тип новости:</label>
-                    <select name="type">
-                        <option value="news">Новость</option>
-                        <option value="attention">Оповещение</option>
-                    </select>
+                        <select name="type">
+                            <option value="news">Новость</option>
+                            <option value="attention">Оповещение</option>
+                        </select>
                     </div>
                 </div>
                 <div class="add-news__content__main-data">
@@ -44,9 +52,10 @@
 $max_news_per_page = 5;
 $news_count = $engine->GetNewsCount();
 $news_on_page = $max_news_per_page * (int) $_GET['page'];
-$newsData = $engine->GetNewsData(['id','title','subtitle','logo','html','date_remove'],'',($news_on_page === 0 ? $max_news_per_page : $news_on_page.','.$max_news_per_page));
+$newsData = $engine->GetNewsData(['id','title','subtitle','logo','html','date_remove','keywords'],'',($news_on_page === 0 ? $max_news_per_page : $news_on_page.','.$max_news_per_page));
 for($x=0; isset($newsData[$x]); $x++):
     ?>
+    <hr>
     <div class="news" data-action-mode="edit" data-news-id="<?=$newsData[$x]['id']?>">
         <h3 class="news__title">
             Редактирование новости
@@ -70,6 +79,14 @@ for($x=0; isset($newsData[$x]); $x++):
                         <input type="text" name="date_remove" class='datepick' value="<?=date('d.m.Y H:i:s', $newsData[$x]['date_remove'])?>">
                     </div>
                     <div class="add-news__content__options-row">
+                        <label>Логотип для новости</label>
+                        <input type="text" name="logo" value="<?=$newsData[$x]['logo']?>" data-action-type="set-news-logo">
+                    </div>
+                    <div class="add-news__content__options-row">
+                        <label>Ключевые слова:</label>
+                        <input type="text" name="keywords" value="<?=$newsData[$x]['keywords']?>">
+                    </div>
+                    <div class="add-news__content__options-row">
                         <label>Тип новости:</label>
                     <select name="type">
                         <option value="news"<?=($newsData[$x]['title'] === 'news' ? ' selected' : '')?>>Новость</option>
@@ -79,7 +96,7 @@ for($x=0; isset($newsData[$x]); $x++):
                 </div>
                 <div class="add-news__content__main-data">
                     <h4>Текст новости</h4>
-                    <textarea name="html" class='news'><?=$newsData[$x]['html']?></textarea>
+                    <textarea name="html" class='news'><?=str_replace('!BR!', '</br>',$newsData[$x]['html'])?></textarea>
                 </div>
             </form>
         </div>

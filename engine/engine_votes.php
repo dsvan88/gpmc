@@ -57,10 +57,4 @@ class VoteSystem extends SQLBase
 			return $this->MakeRawArray($r)[0];
 		else error_log(__METHOD__.': SQL ERROR');
 	}
-	function GetGamerName($id)
-	{
-		if (($r = $this->MakeRawArray($this->Query('SELECT `name` FROM `'.MYSQL_TBLGAMERS.'` WHERE `id` ="'.$id.'" LIMIT 1'))[0]) !== false)
-			return $r;
-		else return '';
-	}
 }

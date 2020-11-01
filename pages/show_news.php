@@ -23,7 +23,7 @@ if (!isset($_GET['nid'])){
 					<h3 class="news-list-row__content__title">
 						<a href='/?trg=news&nid=<?=$newsData[$x]['id']?>'><?=$newsData[$x]['title']?></a>
 					</h3>
-					<div class="news-list-row__content__subtitle"><?=$newsData[$x]['title']?></div>
+					<div class="news-list-row__content__subtitle"><?=$newsData[$x]['subtitle']?></div>
 					<div class="news-list-row__content__text"><?=mb_substr($newsData[$x]['html'],0,200,'UTF-8')?>…</div>
 					<div class="news-list-row__content__read-more">
 						<a href='/?trg=news&nid=<?=$newsData[$x]['id']?>'>Читать дальше…</a>
@@ -59,7 +59,17 @@ if (!isset($_GET['nid'])){
 <?
 }
 else{
-	?><h2><i>Not ready yet!</i></h2><?
+	$newsData = $engine->GetNewsData(['id','title','subtitle','logo','html','date_add','date_remove'],['type'=>'news','id'=>$_GET['nid']],1);
+	?>
+	<h3 class="news__title"><?=$newsData['title']?></h3>
+	<p class="news__subtitle"><?=$newsData['subtitle']?></p>
+	<div class="news__content">
+		<?=$engine->checkAndPutImage($newsData['logo'] === '' ? $settings['img']['news_default']['value'] : $newsData['logo'],['title'=>$settings['img']['news_default']['name'], 'class' => 'news__content__logo'])?>
+		<?=str_replace('!BR!', '</br>',$newsData['html'])?>
+	</div>
+<?
 }
 ?>
 </div>
+
+
