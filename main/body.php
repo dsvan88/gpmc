@@ -1,5 +1,5 @@
 <body style="
-	background-image: radial-gradient(#ffffff42, #b3929242, #f266661c), url(<?=$settings['img']['fon']['value']?>);
+	background-image: radial-gradient(#b59090c4, #11060642, #d3818142, #00000061), url(<?=$settings['img']['fon']['value']?>);
 	background-blend-mode: hard-light;
 <?
 [$x, $y] = getimagesize($root_path.'/'.$settings['img']['fon']['value']);

@@ -1,5 +1,14 @@
 var dblclick_func = null;
-var id_game = <?=isset($_GET['g_id']) && $_GET['g_id']>0 ? $_GET['g_id'] : -1?>;
+var id_game = <?= isset($_GET['g_id']) && $_GET['g_id'] > 0 ? $_GET['g_id'] : -1 ?>;
+if (document.readyState == 'loading') {
+	// ещё загружается, ждём события
+	document.addEventListener('DOMContentLoaded', getGameData);
+} else {
+	// DOM готов!
+	getGameData();
+}
+/* 
+
 $(function(){
 	$('#MainBody').off('click','#StopGame');
 	$('#MainBody').on('click','#StopGame', function(){
@@ -69,4 +78,13 @@ $(function(){
 		}
 		e.preventDefault()
 	});
-});
+}); */
+function getGameData() {
+	let script = document.createElement('script');
+	let gameId = document.body.querySelector('table.content__game__table').dataset.gameId;
+	script.src = window.location.protocol +'//'+ window.location.hostname + "/switcher.php/?need=script&php=game-data&gid=" + gameId;
+	document.head.append(script);
+	script.onload = function () {
+		
+	};
+}

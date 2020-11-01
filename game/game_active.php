@@ -1,4 +1,4 @@
-<table id='Game_<?=$game_id?>' class='content__game__table'>
+<table data-game-id=<?=$game_id?>' class='content__game__table'>
 	<caption>
 		Игра №<?=$a['num']?>. Ведущий: <?=$a['manager']?>. Рейтинговая игра для ранга: <i><?=$enum_rating[$a['rating']]?></i>&nbsp;(<a id='StopGame'>Стоп игра!</a>)
 	</caption>

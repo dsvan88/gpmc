@@ -89,10 +89,8 @@ elseif (in_array($need,$need_autocomplete))
 }
 elseif (in_array($need,$need_gets))
 	require $root_path.'/php_scripts/get/'.(strpos($need,'get_setting_') !== false ? 'get_setting' : $need).'.php';
-elseif ($need === 'logout')
-{
-	if ($engine->LogOut()) exit(json_encode(["error"=> 0]));
-}
+elseif ($need === 'logout' && $engine->LogOut())
+	exit(json_encode(["error"=> 0]));
 elseif ($need === 'gamer-field')
 	require $root_path.'/templates/gamer-field.php';
 elseif ($need === 'game_start')
@@ -101,6 +99,9 @@ elseif ($need === 'save_log' || $need === 'save_game')
 	require $root_path.'/game/tech/save_progress.php';
 elseif ($need === 'show_history')
 	require $root_path.'/pages/show_history.php';
+elseif ($need === 'script'){
+	require $root_path.'/js/get_script.php';
+}
 /* elseif ($need === 'show_voting')
 	require $root_path.'/pages/show_voting.php'; */
 else exit('Wrong `need` type! '.$need);

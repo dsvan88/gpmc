@@ -202,8 +202,6 @@ actionHandler.setNewsLogo = function (target) {
 window.callBackForKCFinderBrowser = function (url) {
 	if (callBackReady === false) return false;
 	if (getNewsLogo !== false) {
-		console.log(window.location.protocol + window.location.hostname);
-		console.log((window.location.protocol + window.location.hostname).length);
 		getNewsLogo.value = url.slice((window.location.protocol + window.location.hostname).length+2);
 		getNewsLogo = false;
 		closeModalWindow({ target: document.body.querySelector("div#setNewsLogo") });
