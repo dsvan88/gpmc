@@ -93,8 +93,8 @@ elseif ($need === 'logout' && $engine->LogOut())
 	exit(json_encode(["error"=> 0]));
 elseif ($need === 'gamer-field')
 	require $root_path.'/templates/gamer-field.php';
-elseif ($need === 'game_start')
-	require $root_path.'/game/game_start.php';
+elseif ($need === 'game-start')
+	require $root_path.'/game/game-start.php';
 elseif ($need === 'save_log' || $need === 'save_game')
 	require $root_path.'/game/tech/save_progress.php';
 elseif ($need === 'show_history')

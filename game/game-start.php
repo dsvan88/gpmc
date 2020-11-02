@@ -5,11 +5,14 @@ if (!defined('JSFUNC_LOAD'))
 	include $root_path.'/engine/engine.php'; 
 	$engine = new JSFunc();
 }
+error_log(json_encode($_POST,JSON_UNESCAPED_UNICODE));
+$_POST['player'] = explode(',',$_POST['player']);
+$_POST['role'] = explode(',',$_POST['role']);
 $players = $engine->GetGamersIDs($engine->SetPlayersDefaults($_POST));
 
 $ids = $players['ids'];
 unset($players['ids']);
 
-$engine->StartGame($_POST['e'],$ids,$players,$_POST['manager']);
+$engine->StartGame($_POST['evening'],$ids,$players,$_POST['manager']);
 $engine->RecordLogFile($_SESSION['id_game'],date('d.m.Y H:i').': Игра успешно начата!');
 echo $_SESSION['id_game'];

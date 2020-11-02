@@ -260,14 +260,40 @@ class JSFunc extends SQLBase
 			$r = substr_count($r[0],',') + 1;
 		return $r;
 	}
+	function getDefaultVars(){
+		return [
+			'timer' => 6000,
+			'stage'  => 'first_night',
+			'prev_stage'  =>  '',
+			'day_count'  =>  -1,
+			'active'  =>  -1,
+			'prev_active'  =>  -1,
+			'kill'  =>  [[]],
+			'last_will'  =>  [],
+			'day_speaker'  =>  -1,
+			'debater'  =>  -1,
+			'b_bm' => false,
+			'make_bm' => -1,
+			'currentVote'  => [],
+			'bm'  =>  [],
+			'dops'  =>  [0=>0.0,1=>0.0,2=>0.0,3=>0.0,4=>0.0,5=>0.0,6=>0.0,7=>0.0,8=>0.0,9=>0.0],
+			'win'  =>  0
+		];
+	}
+	function getDefaultText(){
+		return 'Фаза ночи.<br>Минута договора игроков мафии.<br>Шериф может взглянуть на город.';		
+	}
 	function StartGame(&$e,&$ids,&$players,&$m) 
 	{
-		$_SESSION['id_game'] = $this->InsertRow(array(
+		$_SESSION['id_game'] = $this->InsertRow([
 			'e_id'=>$e,
 			'g_ids'=>$ids,
 			'manager'=>$this->GetGamerID($m),
 			'players'=>json_encode($players,JSON_UNESCAPED_UNICODE),
-			'rating'=>$this->GetGameRating($ids)));
+			'rating'=>$this->GetGameRating($ids),
+			'vars'=>json_encode($this->getDefaultVars(),JSON_UNESCAPED_UNICODE),
+			'txt'=>$this->getDefaultText()
+		]);
 		$games = $this->GetEveningGames($e);
 		$games = $games == '' ? $_SESSION['id_game'] : $games.','.$_SESSION['id_game'];
 		$this->UpdateRow(array('games'=>$games), array('id'=>$e), MYSQL_TBLEVEN);
@@ -275,7 +301,7 @@ class JSFunc extends SQLBase
 	}
 	function SetPlayersDefaults(&$a)
 	{
-		error_log(json_encode($a,JSON_UNESCAPED_UNICODE));
+		// error_log(json_encode($a,JSON_UNESCAPED_UNICODE));
 		$arr=array('enum' => '');
 		$i=-1;
 		while (isset($a['player'][++$i]))

@@ -126,13 +126,15 @@ actionHandler.startGame = function (target) {
 			setupRoles.splice(index, 1);
 		}
 	}
-	if (setupRoles.length > 0) {
-		$.ajax({
-			url: "switcher.php",
-			type: "POST",
-			data: "need=game_start&" + $("#tempForm").serialize() + "&e=" + EveningID,
-			success: function (gameId) {
-				window.location.href = "/?g_id=" + gameId;
+	if (setupRoles.length === 0) {
+		let form = document.body.querySelector("#eveningRegisterForm")
+		let data = serializeForm(form);
+		data['need'] = 'game-start';
+		data['evening'] = form.querySelector("div[data-evening-id]").dataset.eveningId;
+		postAjax({
+			data: data,
+			successFunc: function (gameId) {
+				// window.location.href = "/?g_id=" + gameId;
 			},
 		});
 	}

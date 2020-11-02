@@ -321,8 +321,14 @@ function postAjax({ data, formData, successFunc, errorFunc, ...options }) {
 			alert("Error: Ошибка связи с сервером");
 		};
 	}
-
-	data = formData || simpleObjectToGetString(data);
+	
+	if (formData !== undefined) {
+		data = formData;
+		options['processData'] = false;
+		options['contentType'] = false;
+	}
+	else
+		data = simpleObjectToGetString(data);
 
 	if (debug) {
 		console.log(data);
@@ -359,8 +365,8 @@ function simpleObjectToGetString(obj) {
 }
 function serializeForm(target) {
 
-	if (target.tagName === 'FORM')
-		return new FormData(target);
+	// if (target.tagName === 'FORM')
+	// 	return new FormData(target);
 	
 	let elements = target.querySelectorAll("input, select, textarea");
 	let result = {};
@@ -371,6 +377,17 @@ function serializeForm(target) {
 			return;
 		}
 		if (element.value == '') return;
+		if (result.hasOwnProperty(element.name)) {
+			if (typeof result[element.name] === "string") {
+				result[element.name] = [
+					result[element.name],
+					element.value.replace(/\&/g, "%26")
+				]
+			}
+			else
+				result[element.name][result[element.name].length] = element.value.replace(/\&/g, "%26");
+			return;
+		}
 		result[element.name] = element.value.replace(/\&/g, "%26");
 	});
 	return result;
