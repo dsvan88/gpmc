@@ -1,10 +1,10 @@
-var prev_vars = [];
-var prev_players = [];
-var prev_text = [];
-var max_stepbacks = 10;
-var vars = {};
-var MainTimer;
-var load = false;
+// var prev_vars = [];
+// var prev_players = [];
+// var prev_text = [];
+// var max_stepbacks = 10;
+// var vars = {};
+// var MainTimer;
+// var load = false;
 function check_next_stage(){
 	let shooted = false;
 	if ($('.for_kill').length > 0) shooted = check_shooting();

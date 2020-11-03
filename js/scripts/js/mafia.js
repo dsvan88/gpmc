@@ -1,5 +1,3 @@
-var dblclick_func = null;
-var id_game = <?=isset($_GET['g_id']) && $_GET['g_id']>0 ? $_GET['g_id'] : -1?>;
 $(function(){
 	$('#MainBody').off('click','#StopGame');
 	$('#MainBody').on('click','#StopGame', function(){

@@ -134,7 +134,7 @@ actionHandler.startGame = function (target) {
 		postAjax({
 			data: data,
 			successFunc: function (gameId) {
-				// window.location.href = "/?g_id=" + gameId;
+				window.location.href = "/?g_id=" + gameId;
 			},
 		});
 	}

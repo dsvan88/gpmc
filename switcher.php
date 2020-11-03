@@ -54,6 +54,7 @@ $need_autocomplete = [
 $need_gets = [
 	'edit-points',
 	'edit-user-row',
+	'game-data',
 	'get_place_info',
 	'get-vote-list',
 	// 'show_my_avatar',
@@ -99,9 +100,6 @@ elseif ($need === 'save_log' || $need === 'save_game')
 	require $root_path.'/game/tech/save_progress.php';
 elseif ($need === 'show_history')
 	require $root_path.'/pages/show_history.php';
-elseif ($need === 'script'){
-	require $root_path.'/js/get_script.php';
-}
 /* elseif ($need === 'show_voting')
 	require $root_path.'/pages/show_voting.php'; */
 else exit('Wrong `need` type! '.$need);

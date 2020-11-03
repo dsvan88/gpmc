@@ -6,8 +6,11 @@
 	include $root_path.'/engine/engine.php'; 
 	$engine = new JSFunc();
 	//------------------------------------------------------------------------------- Основные значения
-	require $root_path.'/game/tech/vars_default.php';
-	$players = $gameData = $gameDataAvatar = array();
+	$enum_reasons = ['','Убит','Осуждён','4 Фола','Дисквал.'];
+	$enum_roles = ['red','mafia','don','','sherif'];
+	$enum_roles_rus = ['Мирный','Мафия','Дон','','Шериф'];
+	$enum_rating = ['C','B','A'];
+	$players = $gameData = $avatar = array();
 	//------------------------------------------------------------------------------- Загрузка данных игры
 	$game_id = (int) $_GET['g_id'];
 	$gameData = $engine->ResumeGame($game_id);
@@ -16,13 +19,13 @@
 	$players = json_decode($gameData['players'],true);
 	$vars = json_decode($gameData['vars'],true);
 
-	$gameData['bm'] = $vars['bm'] != '' ? implode(',',$vars['bm']) : '';
+	$gameData['bestMove'] = $vars['bestMove'] != '' ? implode(',',$vars['bestMove']) : '';
 	$gameData['num'] = $engine->GetGameNum($EveningID,$game_id);
 	//------------------------------------------------------------------------------- Получение некоторых данных о пользователях
 	$gameData['manager'] = $engine->GetGamerName($gameData['manager']);
 	$tmp = $engine->GetGamerData(array('id','gender','avatar'),array('id'=>explode(',',$gameData['g_ids'])),0);
 	for($x=0;$x<count($tmp);$x++)
-		$gameDataAvatar[$tmp[$x]['id']] = $tmp[$x]['avatar'] !== '' ? 
+		$avatar[$tmp[$x]['id']] = $tmp[$x]['avatar'] !== '' ? 
 		'/gallery/users/'.$tmp[$x]['id'].'/'.$tmp[$x]['avatar'] : 
 		$img_genders[$tmp[$x]['gender']];
 	//------------------------------------------------------------------------------- Загрузка игровой таблицы
@@ -31,7 +34,7 @@
 		if (isset($_SESSION['id']) && ($_SESSION['id'] == $gameData['manager'] || $_SESSION['status'] > 1))
 		{
 			require $root_path.'/game/tech/timer.php';
-			require $root_path.'/game/game_active.php';
+			require $root_path.'/game/active.php';
 		}
 		elseif (isset($_SESSION['status']) && $_SESSION['status'] < 1)
 			require $root_path.'/game/game_active_user.php';
@@ -41,7 +44,7 @@
 	else
 		require $root_path.'/game/game_history.php';
 	//------------------------------------------------------------------------------- Подгружаем данные игры в саму игру и приводим значения в порядок
-	?>
+	/*?>
 	<script type='text/javascript'>
 	id_game=<?=$game_id?>;
 	<? if (!isset($gameData['players'])) : ?>
@@ -56,6 +59,7 @@
 	load = true;
 	load_state();
 	</script>
+	*/?>
 	<div class='events hide'>
 		<input type="button" id="SaveEnd" class="menu_button" value="Сохранить итог"/>
 	</div>

@@ -640,6 +640,176 @@ template {
   width: 20px;
 }
 
+.content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.content > div {
+  width: 65%;
+}
+
+@media (max-width: 576px) {
+  .content > div {
+    width: 100%;
+  }
+}
+
+.content__game {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 20px;
+}
+
+.content__game .timer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: center;
+}
+
+@media (max-width: 576px) {
+  .content__game .timer {
+    background-color: #fff8dc;
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+  }
+}
+
+.content__game .timer__header__title {
+  font-weight: 100;
+}
+
+@media (max-width: 576px) {
+  .content__game .timer__header {
+    background-color: #eaf3fb;
+    height: 150px;
+    position: fixed;
+    width: 100%;
+    top: -130px;
+    border-bottom: 2px solid #b4bcf2;
+  }
+}
+
+.content__game .timer__header:after {
+  display: none;
+  content: "▼";
+  position: fixed;
+  top: 8px;
+  border: 1px solid #79acac;
+  border-radius: 2px;
+  width: 10%;
+  color: #79acac;
+  background-color: #c6e6f4;
+  margin: 0px 42%;
+}
+
+@media (max-width: 576px) {
+  .content__game .timer__header:after {
+    display: block;
+  }
+}
+
+.content__game .timer__body {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+}
+
+@media (max-width: 576px) {
+  .content__game .timer__body {
+    -ms-grid-columns: 1fr 4fr;
+        grid-template-columns: 1fr 4fr;
+  }
+}
+
+.content__game .timer__body__watchclock {
+  font-size: 25px;
+  font-weight: 100;
+}
+
+.content__game .timer__body__control {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[4];
+      grid-template-columns: repeat(4, 1fr);
+}
+
+.content__game .timer img {
+  width: 50px;
+}
+
+.content__game__table {
+  border: 1px solid black;
+  padding: 20px 0px;
+  border-collapse: collapse;
+  font-weight: 100;
+  width: 100%;
+  background-color: #8e6ea496;
+}
+
+@media (max-width: 576px) {
+  .content__game__table {
+    width: 100%;
+  }
+}
+
+.content__game__table td,
+.content__game__table th {
+  padding: 2px;
+  border: 1px solid #fb37379c;
+  white-space: nowrap;
+}
+
+.content__game__table .player-data {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.content__game__table .player-data__role {
+  display: none;
+}
+
+.content__game__table .player-data img {
+  width: 5vw;
+  height: auto;
+  max-width: 35px;
+}
+
+@media (max-width: 576px) {
+  .content__game__table .player-data img {
+    display: none;
+  }
+}
+
 body {
   font-family: Lobster, Arial, Helvetica, cursive, sans-serif;
   font-size: 12px;
@@ -926,159 +1096,6 @@ header menu li:active a {
 
 .right-panel {
   display: none;
-}
-
-.content {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.content > div {
-  width: 65%;
-}
-
-@media (max-width: 576px) {
-  .content > div {
-    width: 100%;
-  }
-}
-
-.content__game {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  font-size: 20px;
-}
-
-.content__game .timer {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  text-align: center;
-}
-
-@media (max-width: 576px) {
-  .content__game .timer {
-    background-color: #fff8dc;
-    position: fixed;
-    width: 100%;
-    bottom: 0px;
-  }
-}
-
-.content__game .timer__header__title {
-  font-weight: 100;
-}
-
-@media (max-width: 576px) {
-  .content__game .timer__header {
-    background-color: #eaf3fb;
-    height: 150px;
-    position: fixed;
-    width: 100%;
-    top: -130px;
-    border-bottom: 2px solid #b4bcf2;
-  }
-}
-
-.content__game .timer__header:after {
-  display: none;
-  content: "▼";
-  position: fixed;
-  top: 8px;
-  border: 1px solid #79acac;
-  border-radius: 2px;
-  width: 10%;
-  color: #79acac;
-  background-color: #c6e6f4;
-  margin: 0px 42%;
-}
-
-@media (max-width: 576px) {
-  .content__game .timer__header:after {
-    display: block;
-  }
-}
-
-.content__game .timer__body {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 1fr;
-      grid-template-columns: 1fr;
-}
-
-@media (max-width: 576px) {
-  .content__game .timer__body {
-    -ms-grid-columns: 1fr 4fr;
-        grid-template-columns: 1fr 4fr;
-  }
-}
-
-.content__game .timer__body__watchclock {
-  font-size: 25px;
-  font-weight: 100;
-}
-
-.content__game .timer__body__control {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: (1fr)[4];
-      grid-template-columns: repeat(4, 1fr);
-}
-
-.content__game .timer img {
-  width: 50px;
-}
-
-.content__game__table {
-  border: 1px solid black;
-  padding: 20px 0px;
-  border-collapse: collapse;
-  font-weight: 100;
-  width: 100%;
-}
-
-@media (max-width: 576px) {
-  .content__game__table {
-    width: 100%;
-  }
-}
-
-.content__game__table td,
-.content__game__table th {
-  padding: 2px;
-  border: 1px solid black;
-  white-space: nowrap;
-}
-
-.content__game__table .player_avatar img {
-  width: 5vw;
-  height: 6vh;
-  max-width: 35px;
-}
-
-@media (max-width: 576px) {
-  .content__game__table .player_avatar img {
-    display: none;
-  }
 }
 
 .evening-booking {

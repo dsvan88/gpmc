@@ -5,7 +5,7 @@ if (!defined('JSFUNC_LOAD'))
 	include $root_path.'/engine/engine.php'; 
 	$engine = new JSFunc();
 }
-error_log(json_encode($_POST,JSON_UNESCAPED_UNICODE));
+// error_log(json_encode($_POST,JSON_UNESCAPED_UNICODE));
 $_POST['player'] = explode(',',$_POST['player']);
 $_POST['role'] = explode(',',$_POST['role']);
 $players = $engine->GetGamersIDs($engine->SetPlayersDefaults($_POST));

@@ -250,8 +250,8 @@ class JSFunc extends SQLBase
 	}
 	function ResumeGame($g_id) 
 	{
-		if ($r = $this->GetAssoc($this->Query('SELECT `id`,`players`,`vars`,`txt`,`manager`,`rating`,`win`,`g_ids`,`e_id`,`start` FROM `'.MYSQL_TBLGAMES.'` WHERE '.($g_id > 0 ? '`id`="'.$g_id.'"' : '`win`<1 AND `vars` !=""').' ORDER BY `id` DESC LIMIT 1')))
-			$r = str_replace(array('»','}\",\"{','[\"','\"]'),array('\"','}","{','["','"]'),$r);
+		if ($r = $this->GetAssoc($this->Query('SELECT `id`,`players`,`vars`,`manager`,`rating`,`win`,`g_ids`,`e_id`,`start` FROM `'.MYSQL_TBLGAMES.'` WHERE '.($g_id > 0 ? '`id`="'.$g_id.'"' : '`win`<1').' ORDER BY `id` DESC LIMIT 1')))
+			$r = str_replace(array('»','}\",\"{','[\"','\"]'),array('"','}","{','["','"]'),$r);
 		return $r;
 	}
 	function GetGameNum($e,$g)
@@ -263,25 +263,23 @@ class JSFunc extends SQLBase
 	function getDefaultVars(){
 		return [
 			'timer' => 6000,
-			'stage'  => 'first_night',
-			'prev_stage'  =>  '',
-			'day_count'  =>  -1,
-			'active'  =>  -1,
-			'prev_active'  =>  -1,
+			'stage'  => 'firstNight',
+			'prevStage'  =>  '',
+			'daysCount'  =>  -1,
+			'activeSpeaker'  =>  -1,
+			'prevActiveSpeaker'  =>  -1,
 			'kill'  =>  [[]],
-			'last_will'  =>  [],
-			'day_speaker'  =>  -1,
-			'debater'  =>  -1,
-			'b_bm' => false,
-			'make_bm' => -1,
+			'lastWill'  =>  [],
+			'daySpeakers'  =>  -1,
+			'debaters'  =>  -1,
+			'canMakeBestMove' => false,
+			'makeBestMove' => -1,
 			'currentVote'  => [],
-			'bm'  =>  [],
-			'dops'  =>  [0=>0.0,1=>0.0,2=>0.0,3=>0.0,4=>0.0,5=>0.0,6=>0.0,7=>0.0,8=>0.0,9=>0.0],
-			'win'  =>  0
+			'bestMove'  =>  [],
+			'dopsPoints'  =>  [0=>0.0,1=>0.0,2=>0.0,3=>0.0,4=>0.0,5=>0.0,6=>0.0,7=>0.0,8=>0.0,9=>0.0],
+			'winTeam'  =>  0,
+			'caption' => 'Фаза ночи.<br>Минута договора игроков мафии.<br>Шериф может взглянуть на город.'
 		];
-	}
-	function getDefaultText(){
-		return 'Фаза ночи.<br>Минута договора игроков мафии.<br>Шериф может взглянуть на город.';		
 	}
 	function StartGame(&$e,&$ids,&$players,&$m) 
 	{
@@ -292,7 +290,6 @@ class JSFunc extends SQLBase
 			'players'=>json_encode($players,JSON_UNESCAPED_UNICODE),
 			'rating'=>$this->GetGameRating($ids),
 			'vars'=>json_encode($this->getDefaultVars(),JSON_UNESCAPED_UNICODE),
-			'txt'=>$this->getDefaultText()
 		]);
 		$games = $this->GetEveningGames($e);
 		$games = $games == '' ? $_SESSION['id_game'] : $games.','.$_SESSION['id_game'];

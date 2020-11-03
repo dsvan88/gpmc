@@ -1,8 +1,8 @@
 <?
-if (isset($_GET['js'])){
-    header('Content-Type: text/javascript');
-    require './scripts/'.$_GET['js'].'.js';
-}
-if (isset($_GET['php'])){
-    require './scripts/'.$_GET['php'].'.php';
-}
+$scriptName = $_GET['js'] || $_GET['php'];
+$scriptType = isset($_GET['js']) ? 'js' : 'php';
+// if (in_array($scriptName,['game','get-data']))
+//     require_once './php/init.php';
+
+header('Content-Type: text/javascript');
+require "./scripts/$scriptType/{$_GET['js']}.$scriptType";
