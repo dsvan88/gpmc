@@ -1,4 +1,5 @@
 <aside class='left-panel'>
+<?/*
 	<div class='left-panel__button' id='EndedGames'>
 		<a href='/?trg=history'>
 			<?=$engine->checkAndPutImage($settings['img']['history']['value'],['title'=>$settings['img']['history']['name']])?>
@@ -32,4 +33,5 @@
 			<span>О нас</span>
 		</a>
 	</div>
+*/?>
 </aside>

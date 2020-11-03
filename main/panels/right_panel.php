@@ -1,2 +1,2 @@
-<div class='right-panel'>
-</div>
+<aside class='right-panel'>
+</aside>

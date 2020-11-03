@@ -4,7 +4,7 @@
 	if (!isset($_GET['b']))
 	{
 		$_GET['b'] = 'settings';
-		$_GET['p'] = 'texts';
+		$_GET['p'] = 'news';
 	}
 ?>
 	
