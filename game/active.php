@@ -1,6 +1,6 @@
 <table data-game-id=<?=$game_id?>' class='content__game__table'>
 	<caption>
-		Игра №<?=$a['num']?>. Ведущий: <?=$a['manager']?>. Рейтинговая игра для ранга: <i><?=$enum_rating[$a['rating']]?></i>&nbsp;(<a id='StopGame'>Стоп игра!</a>)
+		Игра №<?=$gameData['num']?>. Ведущий: <?=$gameData['manager']?>. Рейтинговая игра для ранга: <i><?=$enum_rating[$gameData['rating']]?></i>&nbsp;(<a data-action-type='stop-game'>Стоп игра!</a>)
 	</caption>
 	<thead>
 		<tr><th rowspan = '2'>№</th><th rowspan = '2'>Игроки:</th><th colspan="4">Фолы:</th><th rowspan = '2'></th><th>Выст.</th><th rowspan = '2'>Прим.</th></tr>
@@ -24,10 +24,10 @@
 				<span class='player-data__points'></span>
 			</td>
 			<?for($x=0;$x<4;$x++):?>
-				<td width=30px id='foul_<?=$x+1?>' class='player-data__fouls'><?=($x===2 ? '<img src="../css/images/muted.png" style="height:15px;display:none" alt="muted" title="muted">' : '')?></td>
+				<td width=30px class='player-data__fouls' data-double-click-action-type="set-player-foul" data-foul-id="<?=$x?>"><?=($x===2 ? '<img src="../css/images/muted.png" style="height:15px;display:none" alt="muted" title="muted">' : '')?></td>
 			<?endfor?>
 			<td></td>
-			<td width=30px class='player-data__puted' id='put_0'></td>
+			<td width=30px class='player-data__puted'></td>
 			<td class="player-data__notes"></td>
 		</tr>
 	<? endwhile;?>

@@ -1,4 +1,4 @@
-let dblclick_func = null;
+let dblclick_func = false;
 let EveningID = <?=isset($EveningData['id']) && $EveningData['id'] > 0 ? $EveningData['id'] : -1?>;
 
 document.body.addEventListener('click', actionHandler.clickCommonHandler);

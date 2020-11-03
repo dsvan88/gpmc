@@ -156,9 +156,40 @@ actionHandler = {
 	clickCommonHandler: function (event) {
 		let target = event.target;
 		let datasetArray = Object.entries(target.dataset);
-		if (datasetArray.length === 0) target = target.closest("*[data-form-type],*[data-action-type]");
+		if (datasetArray.length === 0) target = target.closest("*[data-form-type],*[data-action-type],*[data-double-click-action-type]");
 		if (target === null) return false;
-		
+		if ("doubleClickActionType" in target.dataset) {
+			if (dblclick_func !== false) {
+				clearTimeout(dblclick_func);
+				dblclick_func = false;
+				actionHandler.dblClickFunc({ target, event });
+			}
+			else {
+				dblclick_func = setTimeout(() => {
+					if (dblclick_func !== false) {
+						clearTimeout(dblclick_func);
+						dblclick_func = false;
+						actionHandler.clickFunc({ target, event });
+					};
+				}, 200)
+			}
+		}
+		else
+			actionHandler.clickFunc({ target, event });
+			
+	},
+	dblClickFunc: function ({ target, event }) {
+		let type = camelize(target.dataset.doubleClickActionType);
+		if (debug) console.log(type);
+		try {
+			event.preventDefault();
+			actionHandler[type](target, event);
+		} catch (error) {
+			alert(`Не существует метода для этого double-click-action-type: ${type}... или возникла ошибка. Сообщите администратору!\r\n${error.name}: ${error.message}`);
+			console.log(error);
+		}
+	},
+	clickFunc: function ({ target, event }){
 		if ("formType" in target.dataset) {
 			event.preventDefault();
 			let editTarget = target.dataset.editRow || target.dataset.editImage || target.dataset.editTarget || "";
