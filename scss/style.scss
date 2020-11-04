@@ -6,198 +6,198 @@
 @import "./game";
 
 body {
-	font-family: Lobster, Arial, Helvetica, cursive, sans-serif;
-	font-size: 12px;
-	color: #ce7474;
+  font-family: Lobster, Arial, Helvetica, cursive, sans-serif;
+  font-size: 12px;
+  color: #ce7474;
 }
 .wrapper {
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
-	overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: hidden;
 }
 .span_button {
-	@extend %buttons;
+  @extend %buttons;
 }
 footer {
-	margin-top: auto;
-	padding: 20px;
+  margin-top: auto;
+  padding: 20px;
 }
 a {
-	cursor: pointer;
-	color: #831111;
-	&:hover {
-		color: #5c0828;
-		text-decoration: underline;
-	}
+  cursor: pointer;
+  color: #831111;
+  &:hover {
+    color: #5c0828;
+    text-decoration: underline;
+  }
 }
 hr {
-	width: 100%;
+  width: 100%;
 }
 .header {
-	display: flex;
-	justify-content: space-between;
-	> div {
-		&:nth-child(2) {
-			margin: 10px 20px;
-		}
-		img {
-			width: 100% !important;
-		}
-	}
-	&__main-logo {
-		flex: 1 1 20%;
-		min-width: 150px;
-		@include sm {
-			flex: 1 1 50%;
-			min-width: 100px;
-		}
-	}
-	&__title {
-		@include sm {
-			display: none;
-		}
-		flex: 1 1 50%;
-	}
-	&__login-place {
-		flex: 1 1 10%;
-		border: 3px groove #cac6ff;
-		padding: 5px 10px 10px 15px;
-		background-color: #ced3e647;
-		font-family: franklin gothic medium;
-		font-size: 12px;
-		.info-row {
-			display: flex;
-			justify-content: space-between;
-			font-size: 14px;
-			padding: 1px 10px;
-		}
-		h4 {
-			text-align: center;
-			padding: 0;
-			margin: 10px;
-			font-size: 16px;
-			text-transform: uppercase;
-		}
-		&__inputs {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			input {
-				width: 100%;
-				margin: 3px 5px;
-				text-align: center;
-				font-size: 16px;
-			}
-		}
-		&__links {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			button,
-			a {
-				text-transform: uppercase;
-			}
-		}
-		button,
-		a {
-			border: 0;
-			background-color: transparent;
-			text-decoration: underline;
-			color: #fd5137;
-			font-size: 14px;
-			cursor: pointer;
-		}
-		@include sm {
-			flex: 1 1 50%;
-			min-width: 100px;
-		}
-	}
+  display: flex;
+  justify-content: space-between;
+  > div {
+    &:nth-child(2) {
+      margin: 10px 20px;
+    }
+    img {
+      width: 100% !important;
+    }
+  }
+  &__main-logo {
+    flex: 1 1 20%;
+    min-width: 150px;
+    @include sm {
+      flex: 1 1 50%;
+      min-width: 100px;
+    }
+  }
+  &__title {
+    @include sm {
+      display: none;
+    }
+    flex: 1 1 50%;
+  }
+  &__login-place {
+    flex: 1 1 10%;
+    border: 3px groove #cac6ff;
+    padding: 5px 10px 10px 15px;
+    background-color: #ced3e647;
+    font-family: franklin gothic medium;
+    font-size: 12px;
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      padding: 1px 10px;
+    }
+    h4 {
+      text-align: center;
+      padding: 0;
+      margin: 10px;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+    &__inputs {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      input {
+        width: 100%;
+        margin: 3px 5px;
+        text-align: center;
+        font-size: 16px;
+      }
+    }
+    &__links {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      button,
+      a {
+        text-transform: uppercase;
+      }
+    }
+    button,
+    a {
+      border: 0;
+      background-color: transparent;
+      text-decoration: underline;
+      color: #fd5137;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    @include sm {
+      flex: 1 1 50%;
+      min-width: 100px;
+    }
+  }
 }
 header {
-	menu {
-		list-style: none;
-		display: flex;
-		justify-content: center;
-		li {
-			margin: 5px 20px;
-			padding: 5px 10px;
-			font-size: 22px;
-			border-radius: 5px;
-			text-transform: uppercase;
-			cursor: pointer;
-			a {
-				color: #b27aea;
-			}
-			&:hover {
-				background: linear-gradient(#96c0ff66, #3354fda8);
-				a {
-					color: #66157d;
-				}
-			}
-			&:active {
-				background: linear-gradient(#3354fda8, #96c0ff66);
-				a {
-					color: #221ef0;
-				}
-			}
-		}
-		@include sm {
-			flex-direction: column;
-			position: fixed;
-			top: 0px;
-			left: -70vw;
-			height: 100vh;
-			width: 60vw;
-			background-color: #e7f8f9;
-			border-right: 1px solid #0068c9;
-		}
-	}
+  menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    li {
+      margin: 5px 20px;
+      padding: 5px 10px;
+      font-size: 22px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      a {
+        color: #b27aea;
+      }
+      &:hover {
+        background: linear-gradient(#96c0ff66, #3354fda8);
+        a {
+          color: #66157d;
+        }
+      }
+      &:active {
+        background: linear-gradient(#3354fda8, #96c0ff66);
+        a {
+          color: #221ef0;
+        }
+      }
+    }
+    @include sm {
+      flex-direction: column;
+      position: fixed;
+      top: 0px;
+      left: -70vw;
+      height: 100vh;
+      width: 60vw;
+      background-color: #e7f8f9;
+      border-right: 1px solid #0068c9;
+    }
+  }
 }
 .left-panel {
-	position: fixed;
-	top: 30vh;
-	height: 100%;
-	width: 20px;
-	z-index: 2;
-	&__button {
-		position: relative;
-		cursor: pointer;
-		margin: 25px 0px 20px 5px;
-		border: 5px solid red;
-		width: 50px;
-		border-radius: 35px;
-		padding: 5px;
-		a {
-			text-decoration: none !important;
-			&:hover {
-				text-decoration: none !important;
-			}
-		}
-		&:hover {
-			width: 200px;
-			background-color: #d8bfd8;
-			span {
-				display: inline-block;
-			}
-		}
-		img {
-			width: 50px;
-		}
-		span {
-			width: 70%;
-			display: none;
-			vertical-align: top;
-			margin-top: 15px;
-			font-size: 20px;
-			text-align: center;
-		}
-	}
+  position: fixed;
+  top: 30vh;
+  height: 100%;
+  width: 20px;
+  z-index: 2;
+  &__button {
+    position: relative;
+    cursor: pointer;
+    margin: 25px 0px 20px 5px;
+    border: 5px solid red;
+    width: 50px;
+    border-radius: 35px;
+    padding: 5px;
+    a {
+      text-decoration: none !important;
+      &:hover {
+        text-decoration: none !important;
+      }
+    }
+    &:hover {
+      width: 200px;
+      background-color: #d8bfd8;
+      span {
+        display: inline-block;
+      }
+    }
+    img {
+      width: 50px;
+    }
+    span {
+      width: 70%;
+      display: none;
+      vertical-align: top;
+      margin-top: 15px;
+      font-size: 20px;
+      text-align: center;
+    }
+  }
 }
 .right-panel {
-	display: none;
+  display: none;
 }
 
 @import "./evening-booking";
