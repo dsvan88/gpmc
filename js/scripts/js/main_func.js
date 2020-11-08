@@ -183,7 +183,7 @@ actionHandler = {
 		if (debug) console.log(type);
 		try {
 			event.preventDefault();
-			actionHandler[type](target, event);
+			actionHandler[type]({ target, event });
 		} catch (error) {
 			alert(`Не существует метода для этого double-click-action-type: ${type}... или возникла ошибка. Сообщите администратору!\r\n${error.name}: ${error.message}`);
 			console.log(error);

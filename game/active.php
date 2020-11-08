@@ -11,8 +11,8 @@
 	$i=-1;
 	while (isset($players[++$i])):?>
 		<tr data-player-id="<?=$i?>" data-gamer-id="<?=$players[$i]['id']?>">
-			<td class="vote_num"><?=$i+1?>.</td>
-			<td class='player-data'>
+			<td class="player-num" data-double-click-action-type="game-put-player"><?=$i+1?>.</td>
+			<td class="player-data" data-double-click-action-type="game-put-player">
 				<span class='player-data__avatar'>
 					<?=$engine->checkAndPutImage($avatar[$players[$i]['id']])?>
 				</span>
@@ -24,7 +24,7 @@
 				<span class='player-data__points'></span>
 			</td>
 			<?for($x=0;$x<4;$x++):?>
-				<td width=30px class='player-data__fouls' data-double-click-action-type="set-player-foul" data-foul-id="<?=$x?>"><?=($x===2 ? '<img src="../css/images/muted.png" style="height:15px;display:none" alt="muted" title="muted">' : '')?></td>
+				<td width=30px class='player-data__fouls' data-double-click-action-type="game-set-foul" data-foul-id="<?=$x?>"><?=($x===2 ? '<img src="../css/images/muted.png" style="height:15px;display:none" alt="muted" title="muted">' : '')?></td>
 			<?endfor?>
 			<td></td>
 			<td width=30px class='player-data__puted'></td>
