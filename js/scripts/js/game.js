@@ -31,8 +31,8 @@ function startGame() {
 			'lastWill'  =>  [],
 			'daySpeakers'  =>  -1,
 			'debaters'  =>  -1,
-			'canMakeBestMove' => false,
-			'makeBestMove' => -1,
+			'canownerBestMove' => false,
+			'ownerBestMove' => -1,
 			'currentVote'  => [],
 			'bestMove'  =>  [],
 			'dopsPoints'  =>  [0=>0.0,1=>0.0,2=>0.0,3=>0.0,4=>0.0,5=>0.0,6=>0.0,7=>0.0,8=>0.0,9=>0.0],
@@ -64,12 +64,10 @@ class MafiaGameLogic{
 	}
 	nextStage(){
 		if (MafAct()) return;
-		if (!load)
-		{
+		if (!load){
 			this.prepeareUndo()
 			let nextStage = getNextStage();
-			if (vars['stage'] !== nextStage)
-			{
+			if (vars['stage'] !== nextStage){
 				vars['prevStage'] = vars['stage'];
 				vars['stage'] = nextStage;
 			}
@@ -88,8 +86,7 @@ class MafiaGameLogic{
 			actionSaveProgress();
 	}
 	prepeareUndo(){
-		if (prevVars.length === maxStepBacks)
-		{
+		if (prevVars.length === maxStepBacks){
 			prevVars.shift()
 			prevPlayers.shift()
 		}
@@ -105,7 +102,7 @@ class MafiaGameLogic{
 	actionPutPlayer(playerRow) {
 		if (vars['stage'] === 'finish')
 			this.actionAddPoints(playerRow);
-		else if (vars['stage'] === 'lastWill' && vars['canMakeBestMove'] && vars['bestMove'].length < 3)
+		else if (vars['stage'] === 'lastWill' && vars['canownerBestMove'] && vars['bestMove'].length < 3)
 			this.actionBestMove(playerRow);
 		else if (vars['stage'] === 'daySpeaker' || (vars['stage'] === 'morning' && vars['timer'] < 6000))
 			this.actionPutPlayerOnTheVote(playerRow);
@@ -113,10 +110,36 @@ class MafiaGameLogic{
 			this.actionShootPlayer(playerRow);
 	}
 	actionAddPoints(targetRow) {
-		
+		let targetId = targetRow.dataset.playerId;
+		let points = prompt('Дополнительные баллы!\r\nНа Ваше усмотрение, сколько можно добавить баллов игроку №'+(targetId+1)+' ('+targetRow.textContent+')?','0.0')
+		if (points && points != 0.0)
+		{
+			points = parseFloat(points);
+			alert('Игроку №'+(targetId+1)+(points > 0.0 ? ' добавлено ' : ' назначен штраф в ')+points+' баллов рейтинга');
+			vars['dops'][targetId] += points;
+			save_progress();
+		}
 	}
 	actionBestMove(targetRow) {
-		
+		let targetId = targetRow.dataset.playerId;
+		// if (vars['ownerBestMove'] != $('tr.active').attr('id').split('_')[0]){
+		if (vars['ownerBestMove'] != vars['activeSpeaker']){
+			vars['canownerBestMove'] = false;
+			return false;
+		}
+		e.addClass( 'for_bm' );
+		vars['bestMove'].push(targetId+1);
+		$('#best_move').removeClass('hide');
+		$('#bm').text('Игрока №'+(vars['ownerBestMove']+1)+': '+vars['bestMove'].join(',')+'.');
+		if (vars['bestMove'].length === 3){
+			if (confirm('Игрок №'+(vars['ownerBestMove']+1)+' назвал, игроками мафии, игроков, под номерами: '+vars['bestMove'].join(',')+'?'))
+				vars['ownerBestMove'] = false;
+			else{
+				vars['bestMove'] = [];
+				$('#bm').text('Игрока №'+(vars['ownerBestMove']+1)+': - .');
+			}
+			$('td.for_bm').removeClass('for_bm');
+		}
 	}
 	actionPutPlayerOnTheVote(targetRow) {
 		let targetId = targetRow.dataset.playerId;
@@ -130,37 +153,37 @@ class MafiaGameLogic{
 		if (td.textContent !== '' && playerId !== parseInt(td.textContent)-1) return false;
 		++targetId;
 		let check = vars.currentVote.indexOf(targetId);
-		if (check === -1)
-		{
+		if (check === -1){
 			td.textContent = playerId;
 			targetRow.classList.add( "putted-on-vote" );
 			vars.currentVote.push(i);
 			players[act]['puted'][vars['day_count']] = i;
 			save_log('Игрок №'+(act+1)+' выставил игрока №'+i+' на голосование!');
 		}
-		else
-		{
-			if (players[act]['puted'][vars['day_count']] === i)
-			{
+		else{
+			if (players[act]['puted'][vars['day_count']] === i){
 				td.removeClass( "for_vote" ).text('');
 				e.removeClass( "for_vote" );
 				vars.currentVote.splice(check,1);
 				players[act]['puted'][vars['day_count']] = -1;
 				save_log('Ошибочное выставление. Отмена!');
 			}
-			else
-			{
+			else{
 				alert('Не принято!\r\nУже выстален.');
 				save_log('Игрок №'+(act+1)+' попытался выставить игрока №'+i+' на голосование.BRНе принято - уже выставлен!');
 				return false;
 			}
 		}
 		if (vars.currentVote.length>0)
-			show_courtroom();
-		else hide_courtroom();
+			this.showCourtRoom();
+		else this.hideCourtRoom();
 	}
 	actionShootPlayer(targetRow) {
-		
+		let targetId = targetRow.dataset.playerId;
+		if ($('tr.active').length > 0)
+			return false;
+		vars['kill'][vars['daysCount']].push(targetId);
+		$('tr[id^="'+i+'_"]').addClass('for_kill');
 	}
 }
 
