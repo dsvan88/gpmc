@@ -1,13 +1,13 @@
-<header>
-	<div class="header">
-		<div class="header__main-logo">
+<header class="header">
+	<div class="header__upper">
+		<div class="logo">
 			<a href="http://<?=$_SERVER['SERVER_NAME']?>/">
 				<?=$engine->checkAndPutImage($settings['img']['MainLogo']['value'],['title'=>$settings['img']['MainLogo']['name']])?>
 			</a>
 		</div>
-		<div class="header__title"><?=$settings['txt']['header']['value']?></div>
-		<div class="header__login-place">
-			<h4>Добро пожаловать!</h4>
+		<div class="title"><?=$settings['txt']['header']['value']?></div>
+		<form class="login-place">
+			<h4 class="login-place__title">Добро пожаловать!</h4>
 			<?	if (isset($_SESSION['id'])): 
 				$ranks = array('C', 'B', 'A');
 				?>
@@ -52,30 +52,36 @@
 					</div>
 				</div>
 			<? else: ?>
-				<form>
-					<div class="header__login-place__inputs">
-						<input type="text" name="login" value="" placeholder="Логин/Псевдоним/Почта">
-						<input type="password" name="pass" placeholder="Пароль">
-					</div>
-					<div class="header__login-place__links">
-					<button data-action-type="header-login" href="#">Войдите</button>
-					<br>или<br>
-					<a data-form-type="user-register" href="#">Зарегистрируйтесь</a>
-					</div>
-				</form>
+				<div class="login-place__input-wrapper">
+					<input type="text" name="login" value="" placeholder="Логин/Псевдоним/Почта">
+				</div>
+				<div class="login-place__input-wrapper">
+					<input type="password" name="pass" placeholder="Пароль">
+				</div>
+				<div class="login-place__input-wrapper">
+					<button data-action-type="header-login" href="#">Войти</button>
+				</div>
+				<div class="login-place__input-wrapper">
+					<span>или</span>
+				</div>
+				<div class="login-place__input-wrapper">
+					<a data-form-type="user-register" href="#">Зарегистрироваться</a>
+				</div>
 			<?endif?>
-		</div>
+		</form>
 	</div>
 	<?if (!isset($_SESSION['ba']) || $_SESSION['ba'] < 1):?>
-	<menu>
-		<li><a href='/?trg=news'><span>Новости</span></a></li>
-		<li><a href='/?trg=booking'><span>Запись на игру</span></a></li>
-		<? if ($EveningData['start']) :?>
-			<li><a href='/?trg=evening'><span>Вечер игры!</span></a></li>
-		<?endif?>
-		<li><a href='/?trg=gamers'><span>Игроки</span></a></li>
-		<li><a href='/?trg=rules'><span>Правила</span></a></li>
-		<li><a href='/?trg=about'><span>О нас</span></a></li>
-	</menu>
+	<div class="header__lower">
+		<nav class="menu">
+			<li><a href='/?trg=news'><span>Новости</span></a></li>
+			<li><a href='/?trg=booking'><span>Запись на игру</span></a></li>
+			<? if ($EveningData['start']) :?>
+				<li><a href='/?trg=evening'><span>Вечер игры!</span></a></li>
+			<?endif?>
+			<li><a href='/?trg=gamers'><span>Игроки</span></a></li>
+			<li><a href='/?trg=rules'><span>Правила</span></a></li>
+			<li><a href='/?trg=about'><span>О нас</span></a></li>
+		</nav>
+	</div>
 	<?endif;?>
 </header>

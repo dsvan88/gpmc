@@ -79,7 +79,7 @@ if (in_array($need,$need_forms,true))
 		$output['html'] .= '
 		</div>
 	</div>';
-	echo json_encode($output,JSON_UNESCAPED_UNICODE);
+	exit(json_encode($output,JSON_UNESCAPED_UNICODE));
 }
 elseif (in_array($need,$need_action,true))
 	require $root_path.'/php_scripts/action/'.$need.'.php';
