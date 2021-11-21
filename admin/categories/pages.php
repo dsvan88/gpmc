@@ -6,14 +6,14 @@
 		$engine = new JSFunc();
 		$_GET['p']=$_POST['shname'];
 		$page = array('shname'=>$_POST['shname'],'name'=>$_POST['name'],'value'=>$_POST['html'],'id'=>$_POST['id']);
-		$page['id'] = $engine->SetSettings($page, 'pages');
+		$page['id'] = $engine->settingsSet($page, 'pages');
 	}
 	else
 	{
 		if (!isset($_GET['p']) || $_GET['p'] === 'add')
 			$page = array('id'=>'add','shname'=>'new', 'name'=>'Новая страница', 'value'=>'');
 		else
-			$page = $engine->GetSettings(array('id','shname','name','value'), 'pages', array('shname'=>$_GET['p']))[0];
+			$page = $engine->settingsGet(array('id','shname','name','value'), 'pages', array('shname'=>$_GET['p']))[0];
 	}
 ?>
 <form method='POST' action="/?b=pages<?=isset($_GET['p']) ? '&p='.$_GET['p'] : ''?>">

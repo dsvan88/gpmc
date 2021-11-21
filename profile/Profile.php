@@ -5,7 +5,7 @@
 	$a_statuses = array('Гость клуба', 'Резидент клуба', 'Основатель клуба');
 	$a_cats = array('C', 'B', 'A');
 	$my = $_GET['profile'] == $_SESSION['id'] ? true : false;
-	$user = $engine->GetGamerData(array('name','rank','status','fio','birthday','gender','email','game_credo','live_credo','avatar'),array('id'=>$_GET['profile']));
+	$user = $engine->getGamerData(array('name','rank','status','fio','birthday','gender','email','game_credo','live_credo','avatar'),array('id'=>$_GET['profile']));
 ?>
 	<div class="profile" style="background-color:<?=$a_genders_colors[$user['gender']]?>" data-user-id="<?=$_GET['profile']?>">
 		<h3 class="profile__title">
@@ -110,7 +110,7 @@
 				<? $comments = $engine->GetComments('user',$_GET['profile']);
 				if ($comments !== false)
 					for ($x=0;$x<count($comments);$x++):?>
-						<h4><a href='/?profile=<?=$comments[$x]['author']?>'><b><?=$engine->GetGamerName($comments[$x]['author'])?></b></a>:</h4>
+						<h4><a href='/?profile=<?=$comments[$x]['author']?>'><b><?=$engine->getGamerName($comments[$x]['author'])?></b></a>:</h4>
 						<p><?=str_replace(array('!BR!','«', '»'),array('<br>','"','"'),$comments[$x]['txt'])?></p>
 					<?endfor;
 				else echo $def;?>

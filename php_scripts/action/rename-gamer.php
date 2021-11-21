@@ -4,7 +4,7 @@ $result=array(
 	'txt' => ''
 );
 $_POST['uid'] = (int) $_POST['uid'];
-$userName = $engine->GetGamerName($_POST['uid']);
+$userName = $engine->getGamerName($_POST['uid']);
 if (strpos($userName,'tmp_user') !== false)
 {
 	$result['error'] = 1;
@@ -17,7 +17,7 @@ elseif ($engine->GetGamerID($_POST['new_name'],1) !== false)
 	$result['txt'] = "Користувач з таким псевдонімом вже існує в системі!\r\nОберіть, будь-ласка іншій псевдонім";
 	exit(json_encode($result,JSON_UNESCAPED_UNICODE));
 }
-$engine->UpdateRow(array('name'=>$_POST['new_name']),array('id'=>$_POST['uid']),MYSQL_TBLGAMERS);
+$engine->rowUpdate(array('name'=>$_POST['new_name']),array('id'=>$_POST['uid']),SQL_TBLUSERS);
 $result['txt'] = 'Вдало виконано!';
 $result['newName'] = $_POST['new_name'];
 $result['uid'] = $_POST['uid'];

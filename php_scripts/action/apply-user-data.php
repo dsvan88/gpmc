@@ -17,9 +17,9 @@ foreach($data as $k=>$v)
 	if ($k !== 'birthday') $data[$k] = $_POST[$k];
 	else $data[$k] = $_POST[$k] !== '' ? strtotime($_POST[$k]) : 0;
 }
-$engine->UpdateRow($data,array('id'=>$_POST['id']),MYSQL_TBLGAMERS);
+$engine->rowUpdate($data,array('id'=>$_POST['id']),SQL_TBLUSERS);
 $result['txt'] = 'Успешно изменено!';
-$user = $engine->GetGamerData(array('last_game','username'),['id'=>$_POST['id']],1);
+$user = $engine->getGamerData(array('last_game','username'),['id'=>$_POST['id']],1);
 $genders=array('-','господин','госпожа','некто');
 $statuses = array('', 'Резидент', 'Основатель');
 $cats = array('C', 'B', 'A');

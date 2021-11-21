@@ -1,6 +1,6 @@
 <?php 
 
-$user = $engine->GetGamerData(['avatar','name'],['id'=>$_POST['userId']],1);
+$user = $engine->getGamerData(['avatar','name'],['id'=>$_POST['userId']],1);
 $user['avatar'] = FILE_USRGALL.$_POST['userId'].'/'.$user['avatar'];
 $output['html'] .= '
 <form>

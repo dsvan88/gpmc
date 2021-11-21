@@ -1,5 +1,5 @@
 <?
-$setting = $engine->GetSettings(array('shname','name','value'),'txt',array('id'=>$_POST['id']))[0];
+$setting = $engine->settingsGet(array('shname','name','value'),'txt',array('id'=>$_POST['id']))[0];
 $result = array(
 	'error'	=> 0,
 	'html'	=> ''

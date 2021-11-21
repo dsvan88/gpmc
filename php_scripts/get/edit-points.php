@@ -3,7 +3,7 @@ $result = array(
 	'error'	=> 0,
 	'html'	=> ''
 );
-$point = $engine->GetSettings(array('id','name','value'),'point',array('id'=>$_POST['id']))[0];
+$point = $engine->settingsGet(array('id','name','value'),'point',array('id'=>$_POST['id']))[0];
 $result['html'] = '
 	<span>
 		<input type="text" name="name" value="'.$point['name'].'">

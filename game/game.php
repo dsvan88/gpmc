@@ -22,8 +22,8 @@
 	$gameData['bestMove'] = $vars['bestMove'] != '' ? implode(',',$vars['bestMove']) : '';
 	$gameData['num'] = $engine->GetGameNum($EveningID,$game_id);
 	//------------------------------------------------------------------------------- Получение некоторых данных о пользователях
-	$gameData['manager'] = $engine->GetGamerName($gameData['manager']);
-	$tmp = $engine->GetGamerData(array('id','gender','avatar'),array('id'=>explode(',',$gameData['g_ids'])),0);
+	$gameData['manager'] = $engine->getGamerName($gameData['manager']);
+	$tmp = $engine->getGamerData(array('id','gender','avatar'),array('id'=>explode(',',$gameData['g_ids'])),0);
 	for($x=0;$x<count($tmp);$x++)
 		$avatar[$tmp[$x]['id']] = $tmp[$x]['avatar'] !== '' ? 
 		'/gallery/users/'.$tmp[$x]['id'].'/'.$tmp[$x]['avatar'] : 
@@ -65,7 +65,7 @@
 	</div>
 	<span id="OnVote" class="ingame_event hide">На голосовании игроки под номерами:</span>
 	<div id="ShowLog_<?=$game_id?>" class="LogHeader">+ Открыть лог игры</div>
-	<div id="Log_<?=$game_id?>" class='hide'><?=str_replace(array('BR','HR'),array(' ','<hr>'),$engine->GetGameLog($game_id))?></div>
+	<div id="Log_<?=$game_id?>" class='hide'><?=str_replace(array('BR','HR'),array(' ','<hr>'),$engine->gameLogGet($game_id))?></div>
 	<div id="best_move" class = "ingame_event<?=$bm!='' ? '' : ' hide'?>">
 		<span class="ingame_event">Лучший ход:&nbsp;</span><span id='bm' class="ingame_event">&nbsp;<?=$bm?></span><br>
 	</div>

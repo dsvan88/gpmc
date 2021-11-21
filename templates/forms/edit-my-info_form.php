@@ -1,5 +1,5 @@
 <?
-$user_data = $engine->GetGamerData(array($_POST['editTarget']),array('id'=>$_SESSION['id'])); 
+$user_data = $engine->getGamerData(array($_POST['editTarget']),array('id'=>$_SESSION['id'])); 
 $output['html'] .= '
 	<form class="edit-info-row">
 		<h2 class="title">Изменение данных</h2>

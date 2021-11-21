@@ -1,5 +1,5 @@
 <?php
-$img = $engine->GetSettings(array('shname','name','value'), 'img',array('id'=>$_POST['editTarget']))[0];
+$img = $engine->settingsGet(array('shname','name','value'), 'img',array('id'=>$_POST['editTarget']))[0];
 
 [$x, $y] = getimagesize($root_path.'/'.$img['value']);
 $imgStyle = 'width:100%;height:auto';

@@ -28,7 +28,7 @@
 				</ul>
 				<ul id='pages'>
 					<h4 data-action-type="toggle-list-items">Страницы сайта</h4>
-					<?$pages = $engine->GetSettings(array('shname','name'), 'pages');
+					<?$pages = $engine->settingsGet(array('shname','name'), 'pages');
 					for($x=0;$x<count($pages);$x++):?>
 						<li id='<?=$pages[$x]['shname']?>'><a href='/?b=pages&p=<?=$pages[$x]['shname']?>'><?=$pages[$x]['name']?></a></li>
 					<?endfor?>

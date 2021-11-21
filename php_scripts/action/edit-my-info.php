@@ -39,7 +39,7 @@ if (!isset($_POST['html']))
 		}
 	}
 
-	$engine->UpdateRow(array($col=>$_POST['value']),array('id'=>$_SESSION['id']),MYSQL_TBLGAMERS);
+	$engine->rowUpdate(array($col=>$_POST['value']),array('id'=>$_SESSION['id']),SQL_TBLUSERS);
 
 	$result['txt'] = 'Успешно изменено!';
 	$result['nv'] = '<b>'.$_POST['value'].'</b>';
@@ -47,7 +47,7 @@ if (!isset($_POST['html']))
 }
 else
 {
-	$engine->UpdateRow(array($_POST['editTarget']=>$_POST['html']),array('id'=>$_SESSION['id']),MYSQL_TBLGAMERS);
+	$engine->rowUpdate(array($_POST['editTarget']=>$_POST['html']),array('id'=>$_SESSION['id']),SQL_TBLUSERS);
 	$result['error'] = 0;
 	$result['txt'] = 'Успешно изменено!';
 	exit(json_encode($result,JSON_UNESCAPED_UNICODE));

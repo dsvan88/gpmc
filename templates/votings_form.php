@@ -22,7 +22,7 @@
 				if ($voted[$y]['type'] === '11')
 				{
 					++$i;
-					$positive .= '<div class="user_voted vote_'.($classes[$voted[$y]['type']-10]).'">'.$i.'. <b>'.$engine->GetGamerName($voted[$y]['author']).'</b> : '.$voted[$y]['txt'].'</div>';
+					$positive .= '<div class="user_voted vote_'.($classes[$voted[$y]['type']-10]).'">'.$i.'. <b>'.$engine->getGamerName($voted[$y]['author']).'</b> : '.$voted[$y]['txt'].'</div>';
 				}
 			}
 			$i=0;
@@ -31,7 +31,7 @@
 				if ($voted[$y]['type'] === '10')
 				{
 					++$i;
-					$negative .= '<div class="user_voted vote_'.($classes[$voted[$y]['type']-10]).'">'.$i.'. <b>'.$engine->GetGamerName($voted[$y]['author']).'</b> : '.$voted[$y]['txt'].'</div>';
+					$negative .= '<div class="user_voted vote_'.($classes[$voted[$y]['type']-10]).'">'.$i.'. <b>'.$engine->getGamerName($voted[$y]['author']).'</b> : '.$voted[$y]['txt'].'</div>';
 				}
 			}?>
 			<?=$positive?></div><?=$negative?></div>

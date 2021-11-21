@@ -16,7 +16,7 @@ foreach($data as $k=>$v)
 	if (!isset($_POST[$k])) continue;
 	$data[$k] = trim($k === 'value' ? str_replace(' ','',$_POST[$k]) : $_POST[$k]);
 }
-$engine->SetSettings($data);
+$engine->settingsSet($data);
 $result['txt'] = 'Успешно изменено!';
 $result['html'] = '
 	<label class="points-table__cell-name">

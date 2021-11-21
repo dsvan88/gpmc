@@ -1,4 +1,4 @@
-<?$a_settings = $engine->GetSettings(array('id','name','value'), 'point')?>
+<?$a_settings = $engine->settingsGet(array('id','name','value'), 'point')?>
 	<div class="points-table">
 		<?for($x=0;$x<count($a_settings);$x++):?>
 			<div class="points-table__cell" data-action-type="edit-points" data-points-id="<?=$a_settings[$x]['id']?>">

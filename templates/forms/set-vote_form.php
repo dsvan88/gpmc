@@ -31,7 +31,7 @@ else {
 			$output['vote'] = 2;
 			$output['html'] .='
 				<form>
-				<h2>Голосование за "'.$types[$_POST['editTarget']].' игрока <b>'.$engine->GetGamerName($_POST['userId']).'"</b></h2>
+				<h2>Голосование за "'.$types[$_POST['editTarget']].' игрока <b>'.$engine->getGamerName($_POST['userId']).'"</b></h2>
 				<input type="hidden" name="voteid" value="'.$voteId.'"/>
 				<input type="hidden" name="type" value="'.$_POST['editTarget'].'"/>
 				<div class="info-block">Голосование уже в процессе!<br>
@@ -43,7 +43,7 @@ else {
 			for($x=0;$x<count($voted);$x++)
 				${$voted[$x]['type']} .= '
 					<li>
-						'.$engine->GetGamerName($voted[$x]['author']).': '.($voted[$x]['txt']=== '' ? '<i>Без комментариев</i>' : $voted[$x]['txt']).'
+						'.$engine->getGamerName($voted[$x]['author']).': '.($voted[$x]['txt']=== '' ? '<i>Без комментариев</i>' : $voted[$x]['txt']).'
 					</li>';
 			$output['html'] .= $positive.'</ol>'.$negative.'</ol>
 					</div>
@@ -83,7 +83,7 @@ else {
 		$output['html'] .= '
 		<form>
 		<h2>Голосование за:<br>
-		"'.$types[$_POST['editTarget']].' игрока '.$engine->GetGamerName($_POST['userId']).'"</h2>
+		"'.$types[$_POST['editTarget']].' игрока '.$engine->getGamerName($_POST['userId']).'"</h2>
 		<input type="hidden" name="player_id" value="'.$_POST['userId'].'"/>
 		<input type="hidden" name="type" value="'.$_POST['editTarget'].'"/>
 		<div class="info-row">
