@@ -1,9 +1,9 @@
-<?$users = $engine->GetGamerData(array('id','name','rank','last_game','status','username','fio','birthday','gender','email','ar'),'',0);
+<?$users = $engine->getGamerData(array('id','name','rank','last_game','status','username','fio','birthday','gender','email','ar'),'',0);
 	$genders=array('-','господин','госпожа','некто');
 	$statuses = array('', 'Резидент', 'Основатель');
 	$cats = array('C', 'B', 'A');?>
 	<table class='users-table' style="border-collapse:collapse">
-		<?=$engine->MakeTableHeader(['ID'=>0,'Игровое имя'=>0,'Реальное имя'=>0,'Статус в клубе'=>0,'Ранк в клубе'=>0,'Дата рождения'=>0,'Обращение'=>0,'Регистриция'=>0,'Эл. почта'=>0,'Адм. права'=>0,'Последняя игра'=>0,''=>0])?>
+		<?=$engine->makeTableHeader(['ID'=>0,'Игровое имя'=>0,'Реальное имя'=>0,'Статус в клубе'=>0,'Ранк в клубе'=>0,'Дата рождения'=>0,'Обращение'=>0,'Регистриция'=>0,'Эл. почта'=>0,'Адм. права'=>0,'Последняя игра'=>0,''=>0])?>
 		<tbody>
 		<?for($x=0;$x<count($users);$x++):?>
 			<tr data-user-id='<?=$users[$x]['id']?>'>

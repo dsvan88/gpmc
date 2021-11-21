@@ -6,7 +6,7 @@ $users_count = $engine->GetGamerCount();
 <?
 if ($users_count > 0):
 	$users_on_page = $max_user_per_page * (int) $_GET['page'];
-	$gamersData = $engine->GetGamerData(['id','name','fio','status','gender','avatar'],'',($users_on_page === 0 ? $max_user_per_page : $users_on_page.','.$max_user_per_page));
+	$gamersData = $engine->getGamerData(['id','name','fio','status','gender','avatar'],'',($users_on_page === 0 ? $max_user_per_page : $users_on_page.','.$max_user_per_page));
 	?><h2 class='page-title'>Список игроков клуба <?=MAFCLUB_NAME?></h2><?
 	for($x=0; isset($gamersData[$x]); $x++):
 		?>

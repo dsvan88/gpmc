@@ -25,7 +25,7 @@ $date2= isset($_POST['d2']) ? $_POST['d2'] : date('d.m.Y',strtotime($enum_q_end[
 С&nbsp;<input class='datepick' id='date_from' value="<?=$date?>"/>&nbsp;по&nbsp;<input class='datepick' id='date_to' value="<?=$date2?>"/></div>
 <?
 $evenings = array();
-$evenings = $engine->GetAllEveningsData(strtotime($date),strtotime($date2));
+$evenings = $engine->allEveningsGetData(strtotime($date),strtotime($date2));
 $i = -1;
 $g_IDs = '';
 while(++$i<count($evenings))

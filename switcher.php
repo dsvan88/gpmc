@@ -7,7 +7,7 @@ $_GET = _ft($_GET);
 $need = trim(isset($_GET['need']) ? $_GET['need'] : $_POST['need']);
 // error_log($need);
 if ($need==='') exit('Wrong `need` type!');
-$settings = $engine->ModifySettingsArray($engine->GetSettings(array('shname','name','value','type'),'img'));
+$settings = $engine->modifySettingsArray($engine->settingsGet(array('shname','name','value','type'),'img'));
 
 if ($need === 'upload_file')
 	$need = 're-crop-avatar_form';
@@ -79,7 +79,7 @@ if (in_array($need,$need_forms,true))
 		$output['html'] .= '
 		</div>
 	</div>';
-	echo json_encode($output,JSON_UNESCAPED_UNICODE);
+	exit(json_encode($output,JSON_UNESCAPED_UNICODE));
 }
 elseif (in_array($need,$need_action,true))
 	require $root_path.'/php_scripts/action/'.$need.'.php';
@@ -90,7 +90,7 @@ elseif (in_array($need,$need_autocomplete))
 }
 elseif (in_array($need,$need_gets))
 	require $root_path.'/php_scripts/get/'.(strpos($need,'get_setting_') !== false ? 'get_setting' : $need).'.php';
-elseif ($need === 'logout' && $engine->LogOut())
+elseif ($need === 'logout' && $engine->logout())
 	exit(json_encode(["error"=> 0]));
 elseif ($need === 'gamer-field')
 	require $root_path.'/templates/gamer-field.php';

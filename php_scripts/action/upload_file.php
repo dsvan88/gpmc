@@ -28,7 +28,7 @@ if(isset($_FILES['img']['tmp_name']))
 else
 {
 	$path = FILE_USRGALL.$_SESSION['id'].'/originals/';
-	$user = $engine->GetGamerData(['avatar'],['id'=>$_SESSION['id']],1);
+	$user = $engine->getGamerData(['avatar'],['id'=>$_SESSION['id']],1);
 	$new_name = str_replace('_3,5x4','',$user['avatar']);
 	if (!file_exists($root_path.$path.$new_name))
 	{
@@ -82,7 +82,7 @@ if(isset($_FILES['img']['tmp_name']))
 else
 {
 	$path = FILE_USRGALL.$_SESSION['id'].'/originals/';
-	$user = $engine->GetGamerData(['avatar'],['id'=>$_SESSION['id']],1);
+	$user = $engine->getGamerData(['avatar'],['id'=>$_SESSION['id']],1);
 	$new_name = str_replace('_3,5x4','',$user['avatar']);
 	if (!file_exists($root_path.$path.$new_name))
 	{

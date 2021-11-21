@@ -12,7 +12,7 @@ if ($need === 'save_game')
 		echo $p;
 	}
 	elseif (!isset($_SESSION['id_game']) && $_POST['w'] === 0) $_SESSION['id_game'] = $_POST['i'];
-	$engine->UpdateRow(array('win'=>$_POST['w'],'players'=>str_replace('"','»',$players),'vars'=>$_POST['v'],'txt'=>$_POST['text']),array('id'=>$_POST['i']));
+	$engine->rowUpdate(array('win'=>$_POST['w'],'players'=>str_replace('"','»',$players),'vars'=>$_POST['v'],'txt'=>$_POST['text']),array('id'=>$_POST['i']));
 }
 else
-	$engine->RecordLogFile($_POST['i'],trim($_POST['log']));
+	$engine->gameLogRecordFile($_POST['i'],trim($_POST['log']));

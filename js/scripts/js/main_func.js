@@ -156,7 +156,7 @@ actionHandler = {
 	clickCommonHandler: function (event) {
 		let target = event.target;
 		let datasetArray = Object.entries(target.dataset);
-		if (datasetArray.length === 0) target = target.closest("*[data-form-type],*[data-action-type],*[data-double-click-action-type]");
+		if (datasetArray.length === 0) target = target.closest("*[data-double-click-action-type],*[data-form-type],*[data-action-type]");
 		if (target === null) return false;
 		if ("doubleClickActionType" in target.dataset) {
 			if (dblclick_func !== false) {

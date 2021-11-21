@@ -29,7 +29,7 @@ if ($v_data['id'] > 0)
 		$result['txt'] = "Вы уже проголосовали по этому голосованию!\r\nПовторное голосование возможно только по завершению текущего!";
 		exit(json_encode($result,JSON_UNESCAPED_UNICODE));
 	}
-	$player_name = $engine->GetGamerName($v_data['object']);
+	$player_name = $engine->getGamerName($v_data['object']);
 	$txt = $types[$v_data['type']].' игрока '.$player_name;
 	$result['error'] = 0;
 	$result['txt'] = "Вы успешно проголосовали:\r\n".str_replace(['<b>','</b>'],'',$txt).'!';
@@ -39,7 +39,7 @@ if ($v_data['id'] > 0)
 }
 else
 {
-	$player_name = $engine->GetGamerName($_POST['player_id']);
+	$player_name = $engine->getGamerName($_POST['player_id']);
 	$txt = $types[$_POST['type']].' игрока '.$player_name;
 	$result['error'] = 0;
 	$result['txt'] = "Вы успешно создали голосование:\r\n".str_replace(['<b>','</b>'],'',$txt).'!';

@@ -29,7 +29,7 @@ if ($id === false)
 	$result['wrong'] = 'player_name';
 	exit(json_encode($result,JSON_UNESCAPED_UNICODE));
 }
-$player_data = $engine->GetGamerData(array('username'),array('username'=>$_POST['username']));
+$player_data = $engine->getGamerData(array('username'),array('username'=>$_POST['username']));
 if ($player_data['username'] === $_POST['username'])
 {
 	$result['error'] = 1;
@@ -37,7 +37,7 @@ if ($player_data['username'] === $_POST['username'])
 	$result['wrong'] = 'username';
 	exit(json_encode($result,JSON_UNESCAPED_UNICODE));
 }
-$player_data = $engine->GetGamerData(array('username'),array('id'=>$id));
+$player_data = $engine->getGamerData(array('username'),array('id'=>$id));
 if ($player_data['username'] !== '')
 {
 	$result['error'] = 1;
@@ -47,5 +47,5 @@ if ($player_data['username'] !== '')
 }
 $a = array('username'=>$_POST['username'], 'pass'=>$_POST['pass'], 'email'=>$_POST['email'] !== false ? $_POST['email'] : '');
 
-$engine->UpdateRow($a,array('id'=>$id),MYSQL_TBLGAMERS);
+$engine->rowUpdate($a,array('id'=>$id),SQL_TBLUSERS);
 exit(json_encode($result,JSON_UNESCAPED_UNICODE));

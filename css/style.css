@@ -417,6 +417,8 @@ template {
   background-color: #eee;
   background-size: 60px 60px;
   background-position: 0 0, 30px 30px;
+  background-image: -webkit-linear-gradient(45deg, grey 25%, transparent 25%, transparent 75%, grey 75%, grey), -webkit-linear-gradient(45deg, grey 25%, transparent 25%, transparent 75%, grey 75%, grey);
+  background-image: -o-linear-gradient(45deg, grey 25%, transparent 25%, transparent 75%, grey 75%, grey), -o-linear-gradient(45deg, grey 25%, transparent 25%, transparent 75%, grey 75%, grey);
   background-image: linear-gradient(45deg, grey 25%, transparent 25%, transparent 75%, grey 75%, grey), linear-gradient(45deg, grey 25%, transparent 25%, transparent 75%, grey 75%, grey);
   text-align: center;
   overflow: hidden;
@@ -814,10 +816,6 @@ body {
   color: #ce7474;
 }
 
-body > div:first-child {
-  font-size: 10px !important;
-}
-
 .wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -849,7 +847,7 @@ hr {
   width: 100%;
 }
 
-.header {
+.header__upper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -858,43 +856,49 @@ hr {
           justify-content: space-between;
 }
 
-.header > div:nth-child(2) {
-  margin: 10px 20px;
-}
-
-.header > div img {
-  width: 100% !important;
-}
-
-.header__main-logo {
+.header__upper .logo {
   -webkit-box-flex: 1;
       -ms-flex: 1 1 20%;
           flex: 1 1 20%;
   min-width: 150px;
 }
 
+.header__upper .logo img {
+  width: 100% !important;
+}
+
 @media (max-width: 576px) {
-  .header__main-logo {
+  .header__upper .logo {
     -webkit-box-flex: 1;
         -ms-flex: 1 1 50%;
             flex: 1 1 50%;
     min-width: 100px;
   }
+  .header__upper .logo img {
+    width: 60% !important;
+  }
 }
 
-.header__title {
+.header__upper .title {
   -webkit-box-flex: 1;
       -ms-flex: 1 1 50%;
           flex: 1 1 50%;
+  margin: 10px 20px;
 }
 
-@media (max-width: 576px) {
-  .header__title {
+@media (max-width: 768px) {
+  .header__upper .title {
     display: none;
   }
 }
 
-.header__login-place {
+@media (max-width: 576px) {
+  .header__upper .title {
+    display: none;
+  }
+}
+
+.header__upper .login-place {
   -webkit-box-flex: 1;
       -ms-flex: 1 1 10%;
           flex: 1 1 10%;
@@ -905,7 +909,7 @@ hr {
   font-size: 12px;
 }
 
-.header__login-place .info-row {
+.header__upper .login-place .info-row {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -916,15 +920,16 @@ hr {
   padding: 1px 10px;
 }
 
-.header__login-place h4 {
+.header__upper .login-place__title {
   text-align: center;
   padding: 0;
   margin: 10px;
   font-size: 16px;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
-.header__login-place__inputs {
+.header__upper .login-place__input-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -940,14 +945,14 @@ hr {
           align-items: center;
 }
 
-.header__login-place__inputs input {
+.header__upper .login-place__input-wrapper input {
   width: 100%;
   margin: 3px 5px;
   text-align: center;
   font-size: 16px;
 }
 
-.header__login-place__links {
+.header__upper .login-place__links {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -963,13 +968,13 @@ hr {
           align-items: center;
 }
 
-.header__login-place__links button,
-.header__login-place__links a {
+.header__upper .login-place__links button,
+.header__upper .login-place__links a {
   text-transform: uppercase;
 }
 
-.header__login-place button,
-.header__login-place a {
+.header__upper .login-place button,
+.header__upper .login-place a {
   border: 0;
   background-color: transparent;
   text-decoration: underline;
@@ -979,7 +984,7 @@ hr {
 }
 
 @media (max-width: 576px) {
-  .header__login-place {
+  .header__upper .login-place {
     -webkit-box-flex: 1;
         -ms-flex: 1 1 50%;
             flex: 1 1 50%;
@@ -987,7 +992,7 @@ hr {
   }
 }
 
-header menu {
+.header__lower .menu {
   list-style: none;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -997,7 +1002,7 @@ header menu {
           justify-content: center;
 }
 
-header menu li {
+.header__lower .menu li {
   margin: 5px 20px;
   padding: 5px 10px;
   font-size: 22px;
@@ -1006,30 +1011,35 @@ header menu li {
   cursor: pointer;
 }
 
-header menu li a {
+.header__lower .menu li a {
+  white-space: nowrap;
   color: #b27aea;
 }
 
-header menu li:hover {
+.header__lower .menu li:hover {
   background: -webkit-gradient(linear, left top, left bottom, from(#96c0ff66), to(#3354fda8));
+  background: -webkit-linear-gradient(#96c0ff66, #3354fda8);
+  background: -o-linear-gradient(#96c0ff66, #3354fda8);
   background: linear-gradient(#96c0ff66, #3354fda8);
 }
 
-header menu li:hover a {
+.header__lower .menu li:hover a {
   color: #66157d;
 }
 
-header menu li:active {
+.header__lower .menu li:active {
   background: -webkit-gradient(linear, left top, left bottom, from(#3354fda8), to(#96c0ff66));
+  background: -webkit-linear-gradient(#3354fda8, #96c0ff66);
+  background: -o-linear-gradient(#3354fda8, #96c0ff66);
   background: linear-gradient(#3354fda8, #96c0ff66);
 }
 
-header menu li:active a {
+.header__lower .menu li:active a {
   color: #221ef0;
 }
 
 @media (max-width: 576px) {
-  header menu {
+  .header__lower .menu {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
@@ -1568,6 +1578,8 @@ header menu li:active a {
 
 .users-row__avatar img {
   width: 100%;
+  background-image: -webkit-radial-gradient(#c14848c4, #bf5c5c42, #a489890f);
+  background-image: -o-radial-gradient(#c14848c4, #bf5c5c42, #a489890f);
   background-image: radial-gradient(#c14848c4, #bf5c5c42, #a489890f);
   border-radius: 10px;
 }
@@ -1618,7 +1630,7 @@ header menu li:active a {
       -ms-flex: 1 1 350px;
           flex: 1 1 350px;
   max-width: 8vw;
-  max-height: 10wh;
+  max-height: 10vh;
 }
 
 @media (max-width: 576px) {
@@ -1652,7 +1664,8 @@ header menu li:active a {
   margin: 5px auto 10px 5px;
   font-size: 16px;
   overflow: hidden;
-  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
 }
 
 .news-list-row__content__read-more {

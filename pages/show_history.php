@@ -4,11 +4,11 @@ if (!isset($_GET['e']))
 	if (isset($_GET['d']))
 	{
 		$date = $_GET['d'];
-		$EveningID = $engine->GetEveningID(strtotime($date));
+		$EveningID = $engine->eveningGetId(strtotime($date));
 	}
 	else
 	{
-		$tmp = $engine->GetLastEveningInfo();
+		$tmp = $engine->lastEveningGetInfo();
 		$date = date('d.m.Y',strtotime($tmp['date']));
 		$EveningID = $tmp['id'];
 		$history = $engine->GetAllGames($tmp['games']);
@@ -17,10 +17,17 @@ if (!isset($_GET['e']))
 else 	
 {
 	$EveningID = (int) $_GET['e'];
-	$date = $engine->GetEveningDate($EveningID);
+	$date = $engine->eveningGetDate($EveningID);
 }
-$p_EveningID = $EveningID > 1 ? (int) $engine->CheckEveningID($EveningID-1) : 0;
-$a_EveningID = (int) $engine->CheckEveningID($EveningID+1);
+
+$p_EveningID = $EveningID-1;
+if ($p_EveningID <= 0 || !$engine->eveningCheckId($p_EveningID))
+	$p_EveningID = 0;
+
+$a_EveningID = $EveningID+1;
+if (!$engine->eveningCheckId($a_EveningID))
+	$a_EveningID = 0;
+
 ?>
 <script type='text/javascript'>
 $(function(){
@@ -31,7 +38,7 @@ $(function(){
 <div class='arrows<?=$p_EveningID > 0 ? '' : ' arr_disabled'?>' id='DayBefore_<?=$p_EveningID?>'><<</div><input class='datepick' id='DateGame' value="<?=$date?>"/><div class='arrows<?=$a_EveningID > 0 ? '' : ' arr_disabled'?>' id='DayAfter_<?=$a_EveningID?>'>>></div></div>
 <?
 if (!isset($history))
-	$history = $engine->GetAllEveningGames($EveningID);
+	$history = $engine->allGamesOfEvening($EveningID);
 if ($history === false):
 	?>Игр в этот вечер не найдено!<?
 else :
@@ -50,8 +57,8 @@ else :
 		$a['bm'] = 'Игрока №'.($vars['make_bm']+1).': '.implode(', ',$vars['bm']);
 		$a['rating'] = $game['rating'];
 		//------------------------------------------------------------------------------- Получение некоторых данных о пользователях
-		$a['manager'] = $engine->GetGamerName($game['manager']);
-		$tmp = $engine->GetGamerData(array('id','gender','avatar'),array('id'=>explode(',',$game['g_ids'])),0);
+		$a['manager'] = $engine->getGamerName($game['manager']);
+		$tmp = $engine->getGamerData(array('id','gender','avatar'),array('id'=>explode(',',$game['g_ids'])),0);
 		for($x=0;$x<count($tmp);$x++)
 			$avatar[$tmp[$x]['id']] = $tmp[$x]['avatar'] !== '' ? '/gallery/users/'.$tmp[$x]['id'].'/'.$tmp[$x]['avatar'] : $img_genders[$tmp[$x]['gender']];
 		?>

@@ -1,4 +1,4 @@
-<?$a_settings = $engine->GetSettings(array('id','shname','name','value'), 'img');?>
+<?$a_settings = $engine->settingsGet(array('id','shname','name','value'), 'img');?>
 <div class='images-table'>
 <?for($i=0;$i<count($a_settings);$i++):?>
 	<div class='images-table__cell'>

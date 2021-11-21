@@ -183,7 +183,7 @@ class MafiaGameLogic{
 		if ($('tr.active').length > 0)
 			return false;
 		vars['kill'][vars['daysCount']].push(targetId);
-		$('tr[id^="'+targetId+'_"]').addClass('for_kill');
+		$('tr[id^="'+i+'_"]').addClass('for_kill');
 	}
 }
 

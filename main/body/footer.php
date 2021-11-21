@@ -1,1 +1,0 @@
-<footer><?=$settings['txt']['footer']['value']?></footer>

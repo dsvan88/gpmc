@@ -34,7 +34,7 @@ if ($src !== FALSE)
 	
 	imagedestroy($src);
 	
-	$engine->UpdateRow(array('avatar'=>$new_name),array('id'=>$_SESSION['id']),MYSQL_TBLGAMERS);
+	$engine->rowUpdate(array('avatar'=>$new_name),array('id'=>$_SESSION['id']),SQL_TBLUSERS);
 	$result['error']=0;
 	$result['html']='Успешно!';
 	exit(json_encode($result,JSON_UNESCAPED_UNICODE));
@@ -74,7 +74,7 @@ if ($src !== FALSE)
 	imagewebp($src,$fullPath.'webp');
 	
 	imagedestroy($src);
-	$engine->UpdateRow(array('avatar'=>$new_name),array('id'=>$_SESSION['id']),MYSQL_TBLGAMERS);
+	$engine->rowUpdate(array('avatar'=>$new_name),array('id'=>$_SESSION['id']),SQL_TBLUSERS);
 	$result['error']=0;
 	$result['html']='Успешно!';
 	exit(json_encode($result,JSON_UNESCAPED_UNICODE));

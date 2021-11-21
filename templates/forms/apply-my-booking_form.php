@@ -1,5 +1,5 @@
 <?
-$time = date('H:i',$engine->GetNearEveningData('date'));
+$time = date('H:i',$engine->nearEveningGetData('date'));
 $output['html'] .= '
 <form>
 	<h2 class="title">Запись на вечер</h2>

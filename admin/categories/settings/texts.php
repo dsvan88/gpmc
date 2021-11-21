@@ -1,4 +1,4 @@
-<?$a_settings = $engine->GetSettings(array('id','shname','name','value'), 'txt')?>
+<?$a_settings = $engine->settingsGet(array('id','shname','name','value'), 'txt')?>
 	<div class="texts-table">
 		<?for($x=0;$x<count($a_settings);$x++):?>
 			<div class='texts-table__cell'>
