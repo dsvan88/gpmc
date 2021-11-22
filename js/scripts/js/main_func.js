@@ -1,5 +1,21 @@
 let debug = true;
 actionHandler = {
+	commonFormEventStart: function (event) {
+        return new ModalWindow();
+	},
+	commonFormEventEnd: function ({modal, data, formSubmitAction, ...args}) {
+        let modalWindow;
+        if (data['error'] === 0)
+            modalWindow = modal.fillModalContent(data);
+        else
+            modalWindow = modal.fillModalContent({ html: data['html'], title: 'Error!', buttons: [{ 'text': 'Okay', 'className': 'positive' }] });
+        modalWindow.querySelectorAll('*[data-action]').forEach(block => block.addEventListener('click', (event) => this[camelize(block.dataset.action)](event)));
+        const form = modalWindow.querySelector('form');
+        if (form !== null && formSubmitAction) {
+            console.log(formSubmitAction);
+            form.addEventListener('submit', (event) => this[formSubmitAction](event, args))
+        }
+    },
 	adminPanel: function (target, event) {
 		if (event.ctrlKey || event.metaKey || target.dataset.actionMode === "admin") {
 			postAjax({
@@ -190,35 +206,53 @@ actionHandler = {
 		}
 	},
 	clickFunc: function ({ target, event }){
-		if ("formType" in target.dataset) {
-			event.preventDefault();
-			let editTarget = target.dataset.editRow || target.dataset.editImage || target.dataset.editTarget || "";
-			let data = { need: target.dataset.formType + "_form" };
+		if (!("action" in target.dataset)) return false;
+		event.preventDefault();
+		if (target.dataset.action.endsWith('-form')) {
+			const modal = this.commonFormEventStart();
+			const editTarget = target.dataset.editRow || target.dataset.editImage || target.dataset.editTarget || "";
+			const data = { need: "form-" + target.dataset.action.replace(/-form$/,'') };
 			if (editTarget !== "") data["editTarget"] = editTarget;
+			const defaultKeys = ['editRow', 'editImage', 'editTarget', 'action'];
 			for (let [key, value] of Object.entries(target.dataset)) {
-				if (!['editRow','editImage','editTarget','formType'].includes(key))
+				if (!defaultKeys.includes(key))
 					data[key] = value;
 			}
+
 			if (debug) console.log(data);
+
 			postAjax({
 				data: data,
 				successFunc: function (result) {
-					result = JSON.parse(result);
 					if (result["error"] != 0) {
 						alert(result["html"]);
 						return false;
 					}
-					let type = camelize(target.dataset.formType);
+					const type = camelize(target.dataset.formType);
 					if (debug) console.log(type);
-					let [modalOverlay, modal] = modalEvent(result["html"], type);
-					actionHandler.CommonFormReady({ modal, result, type });
+
+					this.commonFormEventEnd({ modal, result });
+					
+					// actionHandler.CommonFormReady({ modal, result, type });
 					if (actionHandler[type + "FormReady"]) {
 						actionHandler[type + "FormReady"]({ modal, result });
 					}
 				},
 			});
-		} else if ("action" in target.dataset) {
-			event.preventDefault();
+			return true;
+		}
+		event.preventDefault();
+		let type = camelize(target.dataset.actionType);
+		if (debug) console.log(type);
+		if (actionHandler[type] != undefined) {
+			try {
+				actionHandler[type](target, event);
+			} catch (error) {
+				alert(`Не существует метода для этого action-type: ${type}... или возникла ошибка. Сообщите администратору!\r\n${error.name}: ${error.message}`);
+				console.log(error);
+			}
+		}
+		else {
 			postAjax({
 				data: {
 					need: target.dataset.action,
@@ -232,16 +266,6 @@ actionHandler = {
 					location.reload();
 				},
 			});
-		} else if ("actionType" in target.dataset) {
-			let type = camelize(target.dataset.actionType);
-			if (debug) console.log(type);
-			try {
-				event.preventDefault();
-				actionHandler[type](target, event);
-			} catch (error) {
-				alert(`Не существует метода для этого action-type: ${type}... или возникла ошибка. Сообщите администратору!\r\n${error.name}: ${error.message}`);
-				console.log(error);
-			}
 		}
 	},
 };
@@ -278,68 +302,8 @@ function redirectPost(url, data) {
 	document.body.appendChild(form);
 	form.submit();
 }
-function modalEvent(html = "", divId = "modalWindow") {
-	let [modalOverlay, modal, modalBody] = prepeareModalWindow(divId);
-	if (html !== "") modalBody.innerHTML = html;
-	let modalsAll = document.body.querySelectorAll(".modal-body");
-	let overlay = document.body.querySelector("#overlay");
-	$(overlay).fadeIn(
-		400, // снaчaлa плaвнo пoкaзывaем темную пoдлoжку
-		function () {
-			// пoсле выпoлнения предыдущей aнимaции
-			modalOverlay.style.zIndex = 4 + modalsAll.length;
-			$(modal)
-				.css({
-					display: "block",
-				})
-				.animate({ opacity: 1, top: "50%" }, 200); // плaвнo прибaвляем прoзрaчнoсть oднoвременнo сo съезжaнием вниз
-		}
-	);
-	return [modalOverlay, modal];
-}
-function prepeareModalWindow(divId = "modalWindow") {
-	let overlay = document.body.querySelector("#overlay");
-	if (overlay === null) {
-		let overlay = document.createElement("div");
-		overlay.id = "overlay";
-		document.body.append(overlay);
-	}
-	let modalOverlay = document.createElement("div");
-	modalOverlay.className = "modal-overlay modal-close";
-	modalOverlay.id = divId;
 
-	let modal = document.createElement("div");
-	modal.className = "modal";
-
-	let modalBody = document.createElement("div");
-	modalBody.className = "modal-body";
-
-	modal.append(modalBody);
-	modalOverlay.append(modal);
-
-	document.body.append(modalOverlay);
-	modalOverlay.addEventListener("click", closeModalWindow);
-	return [modalOverlay, modal, modalBody];
-}
-function closeModalWindow(event) {
-	if (debug) console.log(event);
-	if (!event.target.classList.contains("modal-close")) return;
-	let modalOverlay = event.target.closest(".modal-overlay");
-	let modalsAll = document.body.querySelectorAll(".modal-body");
-	$(modalOverlay).animate(
-		{ opacity: 0, top: "45%" },
-		200, // плaвнo меняем прoзрaчнoсть нa 0 и oднoвременнo двигaем oкнo вверх
-		function () {
-			// пoсле aнимaции
-			modalOverlay.style.display = "none"; // делaем ему display: none;
-			if (modalsAll.length === 1) $("#overlay").fadeOut(400); // скрывaем пoдлoжку
-			modalOverlay.removeEventListener("click", closeModalWindow);
-			modalOverlay.remove();
-		}
-	);
-}
-
-function postAjax({ data, formData, successFunc, errorFunc, ...options }) {
+async function postAjax({ data, formData, successFunc, errorFunc, method = 'json', ...options }) {
 	if (successFunc == undefined) {
 		successFunc = function (result) {
 			console.log("Not set `successFunc`. Ajax result: " + result);
@@ -352,32 +316,29 @@ function postAjax({ data, formData, successFunc, errorFunc, ...options }) {
 			alert("Error: Ошибка связи с сервером");
 		};
 	}
-	
-	if (formData !== undefined) {
-		data = formData;
-		options['processData'] = false;
-		options['contentType'] = false;
-	}
-	else
-		data = simpleObjectToGetString(data);
 
 	if (debug) {
 		console.log(data);
 		successFunc = catchResult(successFunc);
 		errorFunc = catchResult(errorFunc);
 	}
-	
-	let ajaxObject = {
-		url: "switcher.php",
-		type: "POST",
-		data: data,
-		success: successFunc,
-		error: errorFunc,
+	try {
+		const response = await fetch('switcher.php', {
+			method: 'POST', // или 'PUT'
+			body: JSON.stringify(data), // данные могут быть 'строкой' или {объектом}!
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		if (response.ok) {
+			successFunc(await response[method]());
+		}
+		else {
+			errorFunc(response.status);
+		}
+	} catch (error) {
+		console.error('Ошибка:', error);
 	}
-	for (let [optName, optValue] of Object.entries(options)) {
-		ajaxObject[optName] = optValue;
-	}
-	$.ajax(ajaxObject);
 }
 
 function simpleObjectToFormData(obj) {
@@ -395,9 +356,6 @@ function simpleObjectToGetString(obj) {
 	return strData.slice(0, -1);
 }
 function serializeForm(target) {
-
-	// if (target.tagName === 'FORM')
-	// 	return new FormData(target);
 	
 	let elements = target.querySelectorAll("input, select, textarea");
 	let result = {};
@@ -429,6 +387,26 @@ function camelize(str) {
 		.map((word, index) => (index == 0 ? word : word[0].toUpperCase() + word.slice(1)))
 		.join(""); // соединяет ['my', 'Long', 'Word'] в 'myLongWord'
 }
+
+
+function formDataToJson(data) {
+    const object = {};
+    data.forEach((value, key) => {
+        value = value.replace("'", '’');
+        if (key.includes('[')) {
+			key = key.substr(0, key.indexOf('['));
+			if (!object[key])
+				object[key] = [];
+			object[key][object[key].length] = value;
+			return;
+        }
+        else {
+            object[key] = value;
+        }
+    });
+    return JSON.stringify(object);
+}
+
 function catchResult(func) {
 	return function (args) {
 		console.log(...args);
@@ -451,9 +429,7 @@ function applyAttributes(element, attributes) {
 	}
 }
 Array.prototype.shuffle = function (b) {
-	var i = this.length,
-		j,
-		t;
+	let i = this.length, j,	t;
 	for (let i = this.length - 1; i > 0; i--) {
 		let j = Math.floor(Math.random() * (i + 1)); // случайный индекс от 0 до i
 		[this[i], this[j]] = [this[j], this[i]];
