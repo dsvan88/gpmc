@@ -6,16 +6,16 @@
 		<div class='timer__body__watchclock'>01:00:00</div>
 		<div class='timer__body__control'>
 			<div class='timer__body__control-button disabled' data-action-type="time-control" data-action-mode="undo">
-					<?=$engine->checkAndPutImage('/css/images/undo.png',['title'=>'Отмена'])?>
+					<?=$engine->inputImage('/css/images/undo.png',['title'=>'Отмена'])?>
 			</div>
 			<div class='timer__body__control-button' data-action-type="time-control" data-action-mode="start">
-				<?=$engine->checkAndPutImage('/css/images/start.png',['title'=>'Старт'])?>
+				<?=$engine->inputImage('/css/images/start.png',['title'=>'Старт'])?>
 			</div>
 			<div class='timer__body__control-button' data-action-type="time-control" data-action-mode="reset">
-				<?=$engine->checkAndPutImage('/css/images/reset.png',['title'=>'Сброс'])?>
+				<?=$engine->inputImage('/css/images/reset.png',['title'=>'Сброс'])?>
 			</div>
 			<div class='timer__body__control-button' data-action-type="time-control" data-action-mode="next">
-				<?=$engine->checkAndPutImage('/css/images/next.png',['title'=>'Следующий'])?>
+				<?=$engine->inputImage('/css/images/next.png',['title'=>'Следующий'])?>
 			</div>
 		</div>
 	</div>

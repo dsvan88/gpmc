@@ -25,5 +25,5 @@ $result['html'] = '
 	<span class="points-table__cell-value">'.
 		str_replace(',',', ',$data['value'])
 	.'</span>'.
-	$engine->checkAndPutImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']]);
+	$engine->inputImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']]);
 exit(json_encode($result,JSON_UNESCAPED_UNICODE));

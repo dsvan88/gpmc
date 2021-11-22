@@ -12,11 +12,11 @@
 		</select>
 		<? if (!isset($_POST['id'])):?>
 			<div class='img-delete' id='<?=$i.'_'.$EveningData['gamers'][$i]['id']?>' data-action-type="discharge-gamer">
-			<?=$engine->checkAndPutImage('/css/images/minus.png',['title'=>'Отписать'])?>
+			<?=$engine->inputImage('/css/images/minus.png',['title'=>'Отписать'])?>
 			</div>
 		<?else:?>
 			<div class='img-non-delete'>
-			<?=$engine->checkAndPutImage('/css/images/minus.png',['title'=>'Отписать'])?>
+			<?=$engine->inputImage('/css/images/minus.png',['title'=>'Отписать'])?>
 			</div>
 		<?endif?>
 	</div>

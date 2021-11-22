@@ -32,7 +32,17 @@ class Evenings {
 		if (is_array($c))
 		    $columns = implode(',',$columns);
 		
-        return $this->$action->getColumn($this->$action->prepQuery("SELECT $columns FROM ".SQL_TBLEVEN.' WHERE date >= ? ORDER BY id DESC LIMIT 1', [$_SERVER['REQUEST_TIME']-DATE_MARGE]));
+        $data = $this->$action->getColumn($this->$action->prepQuery("SELECT $columns FROM ".SQL_TBLEVEN.' WHERE date >= ? ORDER BY id DESC LIMIT 1', [$_SERVER['REQUEST_TIME']-DATE_MARGE]));
+		
+		if ($data === false)
+		{
+			$data['ready'] = false;
+			$data['start'] = false;
+		}
+		else 
+			$data['start'] = $data['date']-$_SERVER['REQUEST_TIME'] < TIME_MARGE ? true : false;
+		
+		return $data;
 	}
 	// Получение информации об вечерах игры по заданым критериям:
 	// $from - метка времени с какой даты

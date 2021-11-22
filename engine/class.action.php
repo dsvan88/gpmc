@@ -128,6 +128,7 @@ class Action {
 	// Вибирает значение лишь одной колонки, быстрее, чем getRow($q)[0]
 	function getColumn($q, $n=0)
 	{
+		if (!$q) return false;
 		return $q->fetchColumn($n);
 	}
     // Разбирает результат запроса в простой массив
@@ -344,7 +345,7 @@ class Action {
 					password CHARACTER VARYING(250) NOT NULL DEFAULT '',
 					fio CHARACTER VARYING(250) NOT NULL DEFAULT '',
 					birthday INT NOT NULL DEFAULT '0',
-					gender SMALLINT NOT NULL DEFAULT '0',
+					gender CHARACTER VARYING(25) NOT NULL DEFAULT '',
 					email CHARACTER VARYING(250) NOT NULL DEFAULT '',
 					game_credo TEXT NULL DEFAULT NULL,
 					live_credo TEXT NULL DEFAULT NULL,
@@ -362,6 +363,31 @@ class Action {
 				'admin' => '1'
 			],SQL_TBLUSERS);
 		}
+		if ($this->getColumn($this->query('SELECT COUNT (id) FROM '.SQL_TBLSETTINGS)) < 1){
+			$setting = [
+				[ 'img', 'MainLogo', 'Основний логотип', '/css/images/gpmc_logo.png', '/css/images/gpmc_logo.png'],
+				[ 'img', 'MainFullLogo', 'Логотип', '/css/images/gpmc_full_logo.png', '/css/images/gpmc_full_logo.png'],
+				[ 'img', 'MainLogoMini', 'Основний логотип', '/css/images/gpmc_logo-mini.png', '/css/images/gpmc_logo-mini.png'],
+				[ 'img', 'profile', 'Профиль', '/css/images/profile.png', '/css/images/profile.png'],
+				[ 'img', 'male', 'Профиль', '/css/images/male.png', '/css/images/male.png'],
+				[ 'img', 'female', 'Профиль', '/css/images/female.png', '/css/images/female.png'],
+				[ 'img', 'empty_avatar', 'Нет аватара', '/css/images/empty_avatar.png', '/css/images/empty_avatar.png'],
+				[ 'img', 'news_default', 'Новость', '/css/images/news_default.png', '/css/images/news_default.png'],
+				[ 'point', 'win', 'Балы за победу', '1.0', '1.0'],
+				[ 'point', 'bm', 'Лучший ход', '0.0,0.0,0.25,0.4', '0.0,0.0,0.25,0.4'],
+				[ 'point', 'fk_sheriff', 'Отстрел шерифа первым', '0.3', '0.3'],
+				[ 'point', 'maf_dops', 'Допы живым мафам', '0.0,0.3,0.15,0.3', '0.0,0.3,0.15,0.3'],
+				[ 'point', 'mir_dops', 'Допы живым мирным', '0.0,0.0,0.15,0.1', '0.0,0.0,0.15,0.1'],
+				[ 'point', 'fouls', 'Штраф за дискв. фол', '0.3', '0.3']
+			];
+			$array = [];
+			$keys = [ 'type', 'short_name',	'name',	'value', 'by_default'];
+			for ($i=0; $i < count($setting); $i++) { 
+				$array[] = array_combine($keys, $setting[$i]);
+			}
+			$this->rowInsert($array,SQL_TBLSETTINGS);
+		}
+			
 		return true;
 	}
 }

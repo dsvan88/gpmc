@@ -16,7 +16,7 @@ if (!isset($_GET['nid'])){
 			<div class="news-list-row">
 				<div class="news-list-row__logo">
 					<a href='/?trg=news&nid=<?=$newsData[$x]['id']?>'>
-						<?=$engine->checkAndPutImage($newsData[$x]['logo'] === '' ? $settings['img']['news_default']['value'] : $newsData[$x]['logo'],['title'=>$settings['img']['news_default']['name']])?>
+						<?=$engine->inputImage($newsData[$x]['logo'] === '' ? $settings['img']['news_default']['value'] : $newsData[$x]['logo'],['title'=>$settings['img']['news_default']['name']])?>
 					</a>
 				</div>
 				<div class="news-list-row__content">
@@ -64,7 +64,7 @@ else{
 	<h3 class="news__title"><?=$newsData['title']?></h3>
 	<p class="news__subtitle"><?=$newsData['subtitle']?></p>
 	<div class="news__content">
-		<?=$engine->checkAndPutImage($newsData['logo'] === '' ? $settings['img']['news_default']['value'] : $newsData['logo'],['title'=>$settings['img']['news_default']['name'], 'class' => 'news__content__logo'])?>
+		<?=$engine->inputImage($newsData['logo'] === '' ? $settings['img']['news_default']['value'] : $newsData['logo'],['title'=>$settings['img']['news_default']['name'], 'class' => 'news__content__logo'])?>
 		<?=str_replace('!BR!', '</br>',$newsData['html'])?>
 	</div>
 <?

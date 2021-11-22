@@ -66,11 +66,11 @@ else {
 			<div class="input_row buttons">
 				<button>
 					'
-					.$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']]).
+					.$engine->inputImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']]).
 					'
 					Проголосовать!
 					'
-					.$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']]).
+					.$engine->inputImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']]).
 					'
 				</button>
 			</div>
@@ -108,11 +108,11 @@ else {
 		<div class="input_row buttons">
 			<button>
 				'
-				.$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']]).
+				.$engine->inputImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']]).
 				'
 				Начать!
 				'
-				.$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']]).
+				.$engine->inputImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']]).
 				'
 			</button>
 		</div>

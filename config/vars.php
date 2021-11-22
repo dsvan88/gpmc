@@ -1,4 +1,8 @@
 <?php
+if (!session_id()){
+    session_start();
+}
+
 if (!defined('SQL_HOST'))
 {
 	if (isset($_ENV['DATABASE_URL'])){
@@ -18,7 +22,7 @@ if (!defined('SQL_HOST'))
 	}
 	define('SQL_TBLGAMES', 'games');
 	define('SQL_TBLUSERS', 'users');
-	define('SQL_TBLSTATS', 'statistic');
+	// define('SQL_TBLSTATS', 'statistic');
 	define('SQL_TBLEVEN', 'evenings');
 	define('SQL_TBLPLACES', 'places');
 	define('SQL_TBLSETTINGS', 'settings');
@@ -36,8 +40,4 @@ if (!defined('SQL_HOST'))
 	define('MAFCLUB_SNAME', 'GPMC');
 	define('FILE_USRGALL', '/gallery/users/');
 	define('FILE_MAINGALL', '/gallery/site/images/');
-}
-
-if (!session_id()){
-    session_start();
 }

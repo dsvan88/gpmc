@@ -1,4 +1,4 @@
 git add -A
-git commit -m "v0.16 Crack all! Rebuild it with new experiense"
+git commit -m "v0.16.1 Rebuild in progress"
 git push
 pause

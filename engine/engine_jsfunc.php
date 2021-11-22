@@ -410,7 +410,7 @@ class JSFunc extends SQLBase
 	}
 	function CalculatePoints(&$p,&$v)
 	{
-		$ps = $this->modifySettingsArray($this->settingsGet(['type','shname','name','value'],'point'));
+		$ps = $this->modifySettingsArray($this->settingsGet(['type','short_name','name','value'],'point'));
 		$maf_dops = explode(',',$ps['point']['maf_dops']['value']);
 		$mir_dops = explode(',',$ps['point']['mir_dops']['value']);
 		$bm_dops = explode(',',$ps['point']['bm']['value']);

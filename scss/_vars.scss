@@ -1,0 +1,22 @@
+$font-size-main: 16px;
+$font-size-main-sm: 12px;
+
+$color-text-main: #b3a2a2;
+$color-text-menu: #dfa261;
+
+$bg-color-light: #38244f;
+$bg-color-dark: #221740;
+
+$animation-fast: 0.3s;
+
+%buttonStyle {
+	border: 1px solid $color-text-main;
+	border-radius: 5px;
+	padding: 5px 10px;
+	cursor: pointer;
+	transition: all $animation-fast ease-in;
+	&:hover {
+		background-color: $color-text-main;
+		color: $color-text-menu;
+	}
+}

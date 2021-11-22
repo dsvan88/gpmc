@@ -1,5 +1,5 @@
 <?
-$setting = $engine->settingsGet(array('shname','name','value'),'txt',array('id'=>$_POST['id']))[0];
+$setting = $engine->settingsGet(array('short_name','name','value'),'txt',array('id'=>$_POST['id']))[0];
 $result = array(
 	'error'	=> 0,
 	'html'	=> ''
@@ -9,7 +9,7 @@ $result['html'] = '
 	<input type="hidden" name="id" value="'.$_POST['id'].'">
 	<div class="input_row">
 		<label>Коротка назва:</label>
-		<span>'.$setting['shname'].'</span>
+		<span>'.$setting['short_name'].'</span>
 	</div>
 	<div class="input_row">
 		<label>Опис:</label>

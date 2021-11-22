@@ -8,7 +8,7 @@
 				<span class="points-table__cell-value">
 					<?=str_replace(',',', ',$a_settings[$x]['value'])?>
 				</span>
-				<?=$engine->checkAndPutImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
+				<?=$engine->inputImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
 			</div>
 		<?endfor?>
 	</div>

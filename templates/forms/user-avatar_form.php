@@ -13,14 +13,14 @@ if ($_SESSION['id'] == $_POST['userId'])
 	$output['html'] .= '
 	<div class="input_row">
 		<span class="span_button" data-form-type="re-crop-avatar">
-			'.$engine->checkAndPutImage($settings['img']['edit_pen']['value']).'
+			'.$engine->inputImage($settings['img']['edit_pen']['value']).'
 			Переобрезать
-			'.$engine->checkAndPutImage($settings['img']['edit_pen']['value']).'
+			'.$engine->inputImage($settings['img']['edit_pen']['value']).'
 		</span>
 		<span class="span_button" data-action-type="crop-new-avatar">
-			'.$engine->checkAndPutImage($settings['img']['edit_pen']['value']).'
+			'.$engine->inputImage($settings['img']['edit_pen']['value']).'
 			Новый
-			'.$engine->checkAndPutImage($settings['img']['edit_pen']['value']).'
+			'.$engine->inputImage($settings['img']['edit_pen']['value']).'
 		</span>
 	</div>';
 

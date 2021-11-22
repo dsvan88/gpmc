@@ -19,16 +19,16 @@
 			<? if ($my) : 
 				if ($user['avatar'] === ''):?>
 					<div class="profile__upper-block__photo-block__photo-place" data-action-type="crop-new-avatar">
-						<?=$engine->checkAndPutImage($settings['img']['empty_avatar']['value'],['title'=>$settings['img']['empty_avatar']['name']])?>
+						<?=$engine->inputImage($settings['img']['empty_avatar']['value'],['title'=>$settings['img']['empty_avatar']['name']])?>
 					</div>
 				<?else:?>
 					<div class="profile__upper-block__photo-block__photo-place" data-form-type="user-avatar" data-user-id="<?=$_GET['profile']?>">
-						<?=$engine->checkAndPutImage('/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],['title'=>'Аватар користувача'])?>
+						<?=$engine->inputImage('/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],['title'=>'Аватар користувача'])?>
 					</div>
 				<?endif?>
 			<?else:?>
 					<div class="profile__upper-block__photo-block__photo-place" data-form-type="user-avatar" data-user-id="<?=$_GET['profile']?>">
-						<?=$engine->checkAndPutImage($user['avatar'] === '' ? $img_genders[$user['gender']] : '/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],['title'=>$settings['img']['empty_avatar']['name']])?>
+						<?=$engine->inputImage($user['avatar'] === '' ? $img_genders[$user['gender']] : '/gallery/users/'.$_GET['profile'].'/'.$user['avatar'],['title'=>$settings['img']['empty_avatar']['name']])?>
 					</div>
 			<?endif?>
 				
@@ -58,10 +58,10 @@
 				</span>
 				<?if ($my) :?>
 					<a class='info-row__edit' data-action-type="edit-row" data-edit-row='game_credo'>
-						<?=$engine->checkAndPutImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
+						<?=$engine->inputImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
 					</a>
 					<a class='info-row__apply' data-action-type="save-row" data-save-row='game_credo' title='Принять' alt='Принять'>
-						<?=$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])?>
+						<?=$engine->inputImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])?>
 					</a>
 				<?endif?>
 				<p id="game_credo">
@@ -74,10 +74,10 @@
 				</span>
 				<?if ($my) :?>
 					<a class='info-row__edit' data-action-type="edit-row" data-edit-row='live_credo'>
-						<?=$engine->checkAndPutImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
+						<?=$engine->inputImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
 					</a>
 					<a class='info-row__apply' data-action-type="save-row" data-save-row='live_credo' title='Принять' alt='Принять'>
-						<?=$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])?>
+						<?=$engine->inputImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])?>
 					</a>
 				<?endif?>
 				<p id="live_credo">
@@ -92,17 +92,17 @@
 			<h4>Пара слов об игроке:</h4>
 			<div class='profile__lower-block__buttons'>
 				<span class='span_button' data-action-type='show-comment-form'>
-					<?=$engine->checkAndPutImage($settings['img']['plus']['value'])?>
+					<?=$engine->inputImage($settings['img']['plus']['value'])?>
 					Добавить коментарий
-					<?=$engine->checkAndPutImage($settings['img']['plus']['value'])?>
+					<?=$engine->inputImage($settings['img']['plus']['value'])?>
 				</span>
 			</div>
 			<form id='addComment' style='display:none'>
 				<textarea name='comment'></textarea>
 				<span class='span_button' data-action-type='save-comment'>
-					<?=$engine->checkAndPutImage($settings['img']['apply']['value'])?>
+					<?=$engine->inputImage($settings['img']['apply']['value'])?>
 						Сохранить
-					<?=$engine->checkAndPutImage($settings['img']['apply']['value'])?>
+					<?=$engine->inputImage($settings['img']['apply']['value'])?>
 				</span>
 			</form>
 			<?endif?>

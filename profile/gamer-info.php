@@ -14,7 +14,7 @@ if (!$my && $user['email'] !== '')
 	</span>
 	<? if ($my) :?>
 		<a class='info-row__edit' data-form-type="edit-my-info" data-edit-row='gender'>
-			<?=$engine->checkAndPutImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
+			<?=$engine->inputImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
 		</a>
 	<?endif?>
 </div>
@@ -43,7 +43,7 @@ if (!$my && $user['email'] !== '')
 	</span>
 	<? if ($my) :?>
 		<a class='info-row__edit' data-form-type="edit-my-info" data-edit-row='fio'>
-			<?=$engine->checkAndPutImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
+			<?=$engine->inputImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
 		</a>
 	<?endif?>
 </div>
@@ -54,7 +54,7 @@ if (!$my && $user['email'] !== '')
 	</span>
 	<? if ($my) :?>
 		<a class='info-row__edit' data-form-type="edit-my-info" data-edit-row='birthday'>
-			<?=$engine->checkAndPutImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
+			<?=$engine->inputImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
 		</a>
 	<?endif?>
 </div>
@@ -65,7 +65,7 @@ if (!$my && $user['email'] !== '')
 	</span>
 	<? if ($my) :?>
 		<a class='info-row__edit' data-form-type="edit-my-info" data-edit-row='email'>
-			<?=$engine->checkAndPutImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
+			<?=$engine->inputImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
 		</a>
 	<?endif?>
 </div>
