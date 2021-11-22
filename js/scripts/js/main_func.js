@@ -1,5 +1,105 @@
 let debug = true;
 actionHandler = {
+	clickCommonHandler: function (event) {
+		let target = event.target;
+		let datasetArray = Object.entries(target.dataset);
+		if (datasetArray.length === 0) target = target.closest("*[data-double-click-action],*[data-action]");
+		if (target === null) return false;
+		if ("doubleClickAction" in target.dataset) {
+			if (dblclick_func !== false) {
+				clearTimeout(dblclick_func);
+				dblclick_func = false;
+				actionHandler.dblClickFunc({ target, event });
+			}
+			else {
+				dblclick_func = setTimeout(() => {
+					if (dblclick_func !== false) {
+						clearTimeout(dblclick_func);
+						dblclick_func = false;
+						actionHandler.clickFunc({ target, event });
+					};
+				}, 200)
+			}
+		}
+		else
+			actionHandler.clickFunc({ target, event });
+			
+	},
+	dblClickFunc: function ({ target, event }) {
+		event.preventDefault();
+		const action = camelize(target.dataset.doubleClickAction);
+		if (debug) console.log(action);
+		try {
+			actionHandler[action]({ target, event });
+		} catch (error) {
+			alert(`Не существует метода для этого double-click-action: ${action}... или возникла ошибка. Сообщите администратору!\r\n${error.name}: ${error.message}`);
+			console.log(error);
+		}
+	},
+	clickFunc: function ({ target, event }){
+		if (!("action" in target.dataset)) return false;
+		event.preventDefault();
+		if (target.dataset.action.endsWith('-form'))
+			return this.formGetAction(target);
+
+		const type = camelize(target.dataset.action);
+		if (debug) console.log(type);
+		if (actionHandler[type] != undefined) {
+			try {
+				actionHandler[type](target, event);
+			} catch (error) {
+				alert(`Не существует метода для этого action-type: ${type}... или возникла ошибка. Сообщите администратору!\r\n${error.name}: ${error.message}`);
+				console.log(error);
+			}
+		}
+		else {
+			postAjax({
+				data: {
+					need: target.dataset.action,
+				},
+				successFunc: function (result) {
+					if (result["error"] != 0) {
+						alert(result["html"]);
+						return false;
+					}
+					location.reload();
+				},
+			});
+		}
+	},
+	formGetAction: function (target){
+		const modal = this.commonFormEventStart();
+		const editTarget = target.dataset.editRow || target.dataset.editImage || target.dataset.editTarget || "";
+		const data = { need: "form-" + target.dataset.action.replace(/-form$/,'') };
+		if (editTarget !== "") data["editTarget"] = editTarget;
+		const defaultKeys = ['editRow', 'editImage', 'editTarget', 'action'];
+		for (let [key, value] of Object.entries(target.dataset)) {
+			if (!defaultKeys.includes(key))
+				data[key] = value;
+		}
+
+		if (debug) console.log(data);
+
+		postAjax({
+			data: data,
+			successFunc: function (result) {
+				if (result["error"] != 0) {
+					alert(result["html"]);
+					return false;
+				}
+				const action = camelize(target.dataset.action);
+				if (debug) console.log(action);
+
+				this.commonFormEventEnd({ modal, result });
+				
+				// actionHandler.CommonFormReady({ modal, result, action });
+				if (actionHandler[action + "FormReady"]) {
+					actionHandler[action + "FormReady"]({ modal, result });
+				}
+			},
+		});
+		return true;
+	},
 	commonFormEventStart: function (event) {
         return new ModalWindow();
 	},
@@ -168,105 +268,6 @@ actionHandler = {
 		}
 		if (result["javascript"]) window.eval(result["javascript"]);
 		$(".modal-body textarea").cleditor({ height: 200 });
-	},
-	clickCommonHandler: function (event) {
-		let target = event.target;
-		let datasetArray = Object.entries(target.dataset);
-		if (datasetArray.length === 0) target = target.closest("*[data-double-click-action-type],*[data-form-type],*[data-action-type]");
-		if (target === null) return false;
-		if ("doubleClickActionType" in target.dataset) {
-			if (dblclick_func !== false) {
-				clearTimeout(dblclick_func);
-				dblclick_func = false;
-				actionHandler.dblClickFunc({ target, event });
-			}
-			else {
-				dblclick_func = setTimeout(() => {
-					if (dblclick_func !== false) {
-						clearTimeout(dblclick_func);
-						dblclick_func = false;
-						actionHandler.clickFunc({ target, event });
-					};
-				}, 200)
-			}
-		}
-		else
-			actionHandler.clickFunc({ target, event });
-			
-	},
-	dblClickFunc: function ({ target, event }) {
-		let type = camelize(target.dataset.doubleClickActionType);
-		if (debug) console.log(type);
-		try {
-			event.preventDefault();
-			actionHandler[type]({ target, event });
-		} catch (error) {
-			alert(`Не существует метода для этого double-click-action-type: ${type}... или возникла ошибка. Сообщите администратору!\r\n${error.name}: ${error.message}`);
-			console.log(error);
-		}
-	},
-	clickFunc: function ({ target, event }){
-		if (!("action" in target.dataset)) return false;
-		event.preventDefault();
-		if (target.dataset.action.endsWith('-form')) {
-			const modal = this.commonFormEventStart();
-			const editTarget = target.dataset.editRow || target.dataset.editImage || target.dataset.editTarget || "";
-			const data = { need: "form-" + target.dataset.action.replace(/-form$/,'') };
-			if (editTarget !== "") data["editTarget"] = editTarget;
-			const defaultKeys = ['editRow', 'editImage', 'editTarget', 'action'];
-			for (let [key, value] of Object.entries(target.dataset)) {
-				if (!defaultKeys.includes(key))
-					data[key] = value;
-			}
-
-			if (debug) console.log(data);
-
-			postAjax({
-				data: data,
-				successFunc: function (result) {
-					if (result["error"] != 0) {
-						alert(result["html"]);
-						return false;
-					}
-					const type = camelize(target.dataset.formType);
-					if (debug) console.log(type);
-
-					this.commonFormEventEnd({ modal, result });
-					
-					// actionHandler.CommonFormReady({ modal, result, type });
-					if (actionHandler[type + "FormReady"]) {
-						actionHandler[type + "FormReady"]({ modal, result });
-					}
-				},
-			});
-			return true;
-		}
-		event.preventDefault();
-		let type = camelize(target.dataset.actionType);
-		if (debug) console.log(type);
-		if (actionHandler[type] != undefined) {
-			try {
-				actionHandler[type](target, event);
-			} catch (error) {
-				alert(`Не существует метода для этого action-type: ${type}... или возникла ошибка. Сообщите администратору!\r\n${error.name}: ${error.message}`);
-				console.log(error);
-			}
-		}
-		else {
-			postAjax({
-				data: {
-					need: target.dataset.action,
-				},
-				successFunc: function (result) {
-					result = JSON.parse(result);
-					if (result["error"] != 0) {
-						alert(result["html"]);
-						return false;
-					}
-					location.reload();
-				},
-			});
-		}
 	},
 };
 
