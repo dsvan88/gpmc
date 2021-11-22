@@ -3,10 +3,10 @@
         <h3 class="add-news__title">
             Добавление новости
 			<span class="span_button" data-action-type="show-add-news-form">
-				<?=$engine->checkAndPutImage($settings['img']['plus']['value'])?>
+				<?=$engine->inputImage($settings['img']['plus']['value'])?>
 			</span>
 			<span class="span_button" data-action-type="apply-news" style="display:none">
-				<?=$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])?>
+				<?=$engine->inputImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])?>
 			</span>
         </h3>
         <div class="add-news__content" style="display:none">
@@ -61,7 +61,7 @@ if ($news_count > 0):
             <h3 class="news__title">
                 Редактирование новости
                 <span class="span_button" data-action-type="apply-news">
-                    <?=$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])?>
+                    <?=$engine->inputImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])?>
                 </span>
             </h3>
             <div class="add-news__content">

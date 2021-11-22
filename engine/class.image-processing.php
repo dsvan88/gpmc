@@ -33,7 +33,7 @@ class ImageProcessing {
 		}
 		return PHP_EOL.$output;
 	}
-	function checkAndPutImage($source,$options=[])
+	function inputImage($source,$options=[])
 	{
 		$output = '<picture>';
 		$realPathToSource = $_SERVER['DOCUMENT_ROOT'].$source;

@@ -20,7 +20,7 @@
 				<td><?=$users[$x]['last_game']?></td>
 				<td>
 					<a data-action-type="edit-user-row" title="Изменить" alt="Изменить">
-						<?=$engine->checkAndPutImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
+						<?=$engine->inputImage($settings['img']['edit_pen']['value'],['title'=>$settings['img']['edit_pen']['name']])?>
 					</a>
 				</td>
 			</tr>

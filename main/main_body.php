@@ -2,7 +2,7 @@
 	<div class="header__upper">
 		<div class="logo">
 			<a href="http://<?=$_SERVER['SERVER_NAME']?>/">
-				<?=$engine->checkAndPutImage($settings['img']['MainLogo']['value'],['title'=>$settings['img']['MainLogo']['name']])?>
+				<?=$engine->inputImage($settings['img']['MainLogo']['value'],['title'=>$settings['img']['MainLogo']['name']])?>
 			</a>
 		</div>
 		<div class="title"><?=$settings['txt']['header']['value']?></div>

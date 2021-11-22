@@ -13,7 +13,7 @@ if ($users_count > 0):
 		<div class="users-row">
 			<div class="users-row__avatar">
 				<a href='/?profile=<?=$gamersData[$x]['id']?>'>
-					<?=$engine->checkAndPutImage($gamersData[$x]['avatar'] === '' ? $img_genders[$gamersData[$x]['gender']] : '/gallery/users/'.$gamersData[$x]['id'].'/'.$gamersData[$x]['avatar'],['title'=>$settings['img']['empty_avatar']['name']])?>
+					<?=$engine->inputImage($gamersData[$x]['avatar'] === '' ? $img_genders[$gamersData[$x]['gender']] : '/gallery/users/'.$gamersData[$x]['id'].'/'.$gamersData[$x]['avatar'],['title'=>$settings['img']['empty_avatar']['name']])?>
 				</a>
 			</div>
 			<div class="users-row__content">

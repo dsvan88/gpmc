@@ -1,40 +1,31 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'].'/engine/class.action.php';
-require $_SERVER['DOCUMENT_ROOT'].'/engine/class.settings.php';
-$action = new Action();
+require_once $_SERVER['DOCUMENT_ROOT'].'/engine/engine.start.php';
 
-$settings = new Settings($action);
+$settingsArray = $settings->modifySettingsArray($settings->settingsGet(array('short_name','name','value','type'),['img','txt']));
 
-$settingsArray = $settings->modifySettingsArray($settings->settingsGet(array('shname','name','value','type'),['img','txt']));
-if (!isset($_SESSION['admin']) || $_SESSION['admin'] < 1)
+$output = [
+	'{STYLE}' => '
+		<link rel="stylesheet" href="./css/style.css?v='.$_SERVER['REQUEST_TIME'].'" />
+		<link rel="stylesheet" href="./css/modified-style.css?v='.$_SERVER['REQUEST_TIME'].'" />
+		',
+	'{SCRIPTS}' => '',
+	'{HEADER_CONTENT}' => file_get_contents($_SERVER['DOCUMENT_ROOT'].'/templates/header-content.html'),
+	'{WEBSITE_TITLE}' => 'Mafia Game v'.SCRIPT_VERSION,
+	'{MAIN_CONTENT}' => ''
+];
+
+if (isset($_SESSION['id']))
 {
-	$EveningData = $engine->nearEveningGetData(['id','date','place','games','playes','playes_info']);
-	if ($EveningData === false)
-	{
-		$EveningData['ready'] = false;
-		$EveningData['start'] = false;
-	}
-	else 
-		$EveningData['start'] = $EveningData['date']-$_SERVER['REQUEST_TIME'] < TIME_MARGE ? true : false;
-	$img_genders=array($settingsArray['img']['profile']['value'],$settingsArray['img']['male']['value'],$settingsArray['img']['female']['value'],$settingsArray['img']['profile']['value']);
+	$userData = $users->getUsersData(['name','fio','rank','admin'], ['id'=>$_SESSION['id']]);
+	$userData['status'] = $_SESSION['status'];
+	$output['{PROFILE_BUTTON}'] = '<a class="header__profile-button" data-action="profile-from"><i class="fa fa-user-secret" aria-hidden="true"></i></a>';
+}
+else {
+	$output['{PROFILE_BUTTON}'] = '<a class="header__profile-button" data-action="login-from">Вход</a>';
 }
 
-$genders=['','господин','госпожа','некто'];
-$userData['status'] = 'guest';
-$statuses = ['Гость', 'Резидент', 'Основатель'];
-$user_statuses = ['user','resident','resident'];
-if (isset($_SESSION['status']))
-{
-	$userData = $engine->getGamerData(array('name','fio','rank','ar'), array('id'=>$_SESSION['id']));
-	$userData['status'] = $user_statuses[$_SESSION['status']];
-}
-	
+$output['{HEADER_LOGO}'] = "<a href='http://$_SERVER[SERVER_NAME]/'>".$images->inputImage($settingsArray['img']['MainLogo']['value'],['title'=>$settingsArray['img']['MainLogo']['name']]).'</a>';
 
-?>
-<!DOCTYPE html>
-<html>
-<?
-	require $root_path.'/main/head.php';
-	require $root_path.'/main/body.php';
-?>
-</html>
+require $_SERVER['DOCUMENT_ROOT'].'/views/welcome.php';
+
+echo str_replace(array_keys($output),array_values($output),$template);

@@ -14,11 +14,11 @@
 			<td class="player-num" data-double-click-action-type="game-put-player"><?=$i+1?>.</td>
 			<td class="player-data" data-double-click-action-type="game-put-player">
 				<span class='player-data__avatar'>
-					<?=$engine->checkAndPutImage($avatar[$players[$i]['id']])?>
+					<?=$engine->inputImage($avatar[$players[$i]['id']])?>
 				</span>
 				<span class='player-data__role'>
 					<? if ($players[$i]['role'] > 0) 
-						echo $engine->checkAndPutImage('/css/'.$enum_roles[$players[$i]['role']].'.png',['title'=>$enum_roles_rus[$players[$i]['role']]])?>
+						echo $engine->inputImage('/css/'.$enum_roles[$players[$i]['role']].'.png',['title'=>$enum_roles_rus[$players[$i]['role']]])?>
 				</span>
 				<span class="player-data__name"><?=$players[$i]['name']?></span>
 				<span class='player-data__points'></span>

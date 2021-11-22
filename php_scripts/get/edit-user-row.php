@@ -48,7 +48,7 @@ $result['html'] = '
 	<td></td>
 	<td>
 		<a data-action-type="apply-user-data" title="Принять" alt="Принять">'.
-			$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])
+			$engine->inputImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])
 		.'</a>
 	</td>';
 exit(json_encode($result,JSON_UNESCAPED_UNICODE));

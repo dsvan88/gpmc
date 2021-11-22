@@ -7,7 +7,7 @@ $_GET = _ft($_GET);
 $need = trim(isset($_GET['need']) ? $_GET['need'] : $_POST['need']);
 // error_log($need);
 if ($need==='') exit('Wrong `need` type!');
-$settings = $engine->modifySettingsArray($engine->settingsGet(array('shname','name','value','type'),'img'));
+$settings = $engine->modifySettingsArray($engine->settingsGet(array('short_name','name','value','type'),'img'));
 
 if ($need === 'upload_file')
 	$need = 're-crop-avatar_form';
@@ -72,8 +72,8 @@ if (in_array($need,$need_forms,true))
 	$output['html'] = '
 	<div class="modal-container">
 	'.
-		$engine->checkAndPutImage('/css/images/gmpc_emblem1.png',['title'=>MAFCLUB_SNAME,'class'=>'modal-close left']).
-		$engine->checkAndPutImage('/css/images/gmpc_emblem.png',['title'=>MAFCLUB_SNAME,'class'=>'modal-close right']).
+		$engine->inputImage('/css/images/gmpc_emblem1.png',['title'=>MAFCLUB_SNAME,'class'=>'modal-close left']).
+		$engine->inputImage('/css/images/gmpc_emblem.png',['title'=>MAFCLUB_SNAME,'class'=>'modal-close right']).
 		'<div class="form-maket">';
 		require $root_path.'/templates/forms/'.$need.'.php';
 		$output['html'] .= '

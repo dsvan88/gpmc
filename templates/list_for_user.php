@@ -20,7 +20,7 @@
 			<? if ($me === $x):?>
 				<a href='http://<?=$_SERVER['SERVER_NAME']?>/?profile=<?=$EveningData['gamers'][$x]['id']?>' target='_blank' class="its-me"><?=$EveningData['gamers'][$x]['name']?></a><?=(strlen($dop) > 7 ? $dop : '')?>
 				<a data-action-type='cancel-my-booking'>
-					<?=$engine->checkAndPutImage($settings['img']['cancel']['value'])?>
+					<?=$engine->inputImage($settings['img']['cancel']['value'])?>
 				</a>
 			<?else:?>
 				<a href='http://<?=$_SERVER['SERVER_NAME']?>/?profile=<?=$EveningData['gamers'][$x]['id']?>' target='_blank'><?=$EveningData['gamers'][$x]['name']?></a><?=(strlen($dop) > 7 ? $dop : '')?>
@@ -31,15 +31,15 @@
 	</ol>
 	<? if ($me === -1) :?>
 		<span class='span_button' data-form-type='apply-my-booking'>
-			<?=$engine->checkAndPutImage($settings['img']['plus']['value'])?>
+			<?=$engine->inputImage($settings['img']['plus']['value'])?>
 			Я пойду!
-			<?=$engine->checkAndPutImage($settings['img']['plus']['value'])?>
+			<?=$engine->inputImage($settings['img']['plus']['value'])?>
 		</span>
 	<?else :?>
 		<span class='span_button' data-action-type='cancel-my-booking'>
-			<?=$engine->checkAndPutImage($settings['img']['cancel']['value'])?>
+			<?=$engine->inputImage($settings['img']['cancel']['value'])?>
 			Планы изменились, извините!
-			<?=$engine->checkAndPutImage($settings['img']['cancel']['value'])?>
+			<?=$engine->inputImage($settings['img']['cancel']['value'])?>
 		</span>
 	<?endif?>
 	<div id='PlaceInfo'><?=$EveningData['place']['name'],' (',$EveningData['place']['info'],')'?></div>

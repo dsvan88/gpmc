@@ -1,6 +1,22 @@
 <?php
-session_start();
 define('FUNC_LOAD',true);
+function engineStart(){
+	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.action.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.settings.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.evenings.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.users.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.image-processing.php';
+
+	return [
+		file_get_contents($_SERVER['DOCUMENT_ROOT'].'/templates/main-template.html'),
+		new Action,
+		new Settings,
+		new Evenings,
+		new Users,
+		new ImageProcessing
+	];
+}
+/* 
 function _ft($t)
 {
 	$p = array("|\r\n|", "|\r|", "|\n|", "|\!BR\!\"|", "|^\"|", '|^"|', '|\="|', "| \"|", '| "|', "|\"|", '|"|', "|\'|", "|'|");
@@ -15,9 +31,9 @@ function _ft($t)
 			$t[preg_replace($p,$r,$k)] = preg_replace($p,$r,$v);
 	}
 	return $t;
-}
+} */
 //Фильтруем POST от всего что может сломать базу
-$_POST=_ft($_POST);
+// $_POST=_ft($_POST);
 /*
 	$p = array("|\r\n\"|", "|\r\"|", "|\n\"|", "|^\"|", '|^"|', '|\="|', "| \"|", '| "|', "|\"|", '|"|', "|\'|", "|'|", "|\r\n|", "|\r|", "|\n|");
 	$r = array(' «', ' «', ' «', '«', '«', '=«', ' «', ' «', '»', '»', '’', '’', ' ',' ',' ');

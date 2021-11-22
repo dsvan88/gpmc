@@ -12,6 +12,6 @@ $result['html'] = '
 		<input type="text" name="value" value="'.$point['value'].'">
 	</span>
 	<a title="Принять" alt="Принять" data-action-type="apply-new-points">'.
-		$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])
+		$engine->inputImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']])
 	.'</a>';
 exit(json_encode($result,JSON_UNESCAPED_UNICODE));

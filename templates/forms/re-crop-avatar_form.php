@@ -54,11 +54,11 @@ $output['html'] = '
 		<div class="input_row buttons">
 			<button>
 					'
-					.$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']]).
+					.$engine->inputImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']]).
 					'
 					Применить
 					'
-					.$engine->checkAndPutImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']]).
+					.$engine->inputImage($settings['img']['apply']['value'],['title'=>$settings['img']['apply']['name']]).
 					'
 				</button>
 		</div>

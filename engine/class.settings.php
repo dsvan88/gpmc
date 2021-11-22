@@ -53,8 +53,8 @@ class Settings {
 		$ret = [];
 		for($x=0;$x<count($a);$x++)
 		{
-			$ret[$a[$x]['type']][$a[$x]['shname']]['name'] = $a[$x]['name'];
-			$ret[$a[$x]['type']][$a[$x]['shname']]['value'] = $a[$x]['type'] === 'txt' ? str_replace(array('!BR!','«', '»'),array("\r\n",'"','"'),$a[$x]['value']) : $a[$x]['value'];
+			$ret[$a[$x]['type']][$a[$x]['short_name']]['name'] = $a[$x]['name'];
+			$ret[$a[$x]['type']][$a[$x]['short_name']]['value'] = $a[$x]['type'] === 'txt' ? str_replace(array('!BR!','«', '»'),array("\r\n",'"','"'),$a[$x]['value']) : $a[$x]['value'];
 		}
 		return $ret;
 	}
