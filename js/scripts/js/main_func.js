@@ -53,10 +53,15 @@ actionHandler = {
 			}
 		}
 		else {
+			let action = target.dataset.action;
+			if (action.startsWith('get-')) {
+				action = action.replace(/^get-/, 'get_');
+			}
+			else {
+				action = `do_${action}`;
+			}
 			postAjax({
-				data: {
-					need: target.dataset.action,
-				},
+				data: `{"need":"${action}"}`,
 				successFunc: function (result) {
 					if (result["error"] != 0) {
 						alert(result["html"]);
@@ -67,34 +72,35 @@ actionHandler = {
 			});
 		}
 	},
-	formGetAction: function (target){
+	formGetAction: function (target) {
+		
 		const modal = this.commonFormEventStart();
 		const editTarget = target.dataset.editRow || target.dataset.editImage || target.dataset.editTarget || "";
-		const data = { need: "form-" + target.dataset.action.replace(/-form$/,'') };
-		if (editTarget !== "") data["editTarget"] = editTarget;
+		const data = new FormData();
+		data.append('need', "form_" + target.dataset.action.replace(/-form$/, ''));
+		if (editTarget !== "")
+			data.append("editTarget", editTarget);
 		const defaultKeys = ['editRow', 'editImage', 'editTarget', 'action'];
 		for (let [key, value] of Object.entries(target.dataset)) {
 			if (!defaultKeys.includes(key))
-				data[key] = value;
+				data.append(key, value);
 		}
 
-		if (debug) console.log(data);
-
 		postAjax({
-			data: data,
-			successFunc: function (result) {
-				if (result["error"] != 0) {
-					alert(result["html"]);
+			data: formDataToJson(data),
+			successFunc: function (data) {
+				if (data["error"] != 0) {
+					actionHandler.commonFormEventEnd({ modal, data });
 					return false;
 				}
 				const action = camelize(target.dataset.action);
 				if (debug) console.log(action);
 
-				this.commonFormEventEnd({ modal, result });
+				actionHandler.commonFormEventEnd({ modal, data, formSubmitAction: action+'Submit' });
 				
-				// actionHandler.CommonFormReady({ modal, result, action });
+				// actionHandler.CommonFormReady({ modal, data, action });
 				if (actionHandler[action + "FormReady"]) {
-					actionHandler[action + "FormReady"]({ modal, result });
+					actionHandler[action + "FormReady"]({ modal, data });
 				}
 			},
 		});
@@ -108,14 +114,39 @@ actionHandler = {
         if (data['error'] === 0)
             modalWindow = modal.fillModalContent(data);
         else
-            modalWindow = modal.fillModalContent({ html: data['html'], title: 'Error!', buttons: [{ 'text': 'Okay', 'className': 'positive' }] });
-        modalWindow.querySelectorAll('*[data-action]').forEach(block => block.addEventListener('click', (event) => this[camelize(block.dataset.action)](event)));
+            modalWindow = modal.fillModalContent({ html: data['html'], title: 'Error!', buttons: [{ 'text': 'Okay', 'className': 'modal-close positive' }] });
+        modalWindow.querySelectorAll('*[data-action]').forEach(block => block.addEventListener('click', (event) => actionHandler[camelize(block.dataset.action)](event)));
         const form = modalWindow.querySelector('form');
-        if (form !== null && formSubmitAction) {
-            console.log(formSubmitAction);
-            form.addEventListener('submit', (event) => this[formSubmitAction](event, args))
+        if (form !== null && actionHandler[formSubmitAction]) {
+            form.addEventListener('submit', (event) => actionHandler[formSubmitAction](event, args))
         }
-    },
+	},
+	getParticipantField: function (target) {
+		let newID = document.body.querySelectorAll(".booking__participant").length;
+		postAjax({
+			data: `{"need":"get_participant-field","id":"${newID}" }`,
+			successFunc: function (result) {
+				eveningGamersFields.insertAdjacentHTML("beforeend", result['html']);
+				$("input.input_name").autocomplete({
+					source: "switcher.php?need=autocomplete_names&e=" + EveningID + "&",
+					minLength: 2,
+				});
+				$(".timepicker").datetimepicker({ datepicker: false, format: "H:i" });
+			},
+		});
+	},
+	eveningApprove: function (target, event) {
+		const form = event.target.closest('form');
+		const formData = new FormData(form);
+		formData.append('need', 'do_evening-approve');
+		postAjax({
+			data: formDataToJson(formData),
+			successFunc: function (result) {
+				if (result["error"] == 0) window.location = window.location.href;
+				else alert(result["txt"]);
+			},
+		});
+	},
 	adminPanel: function (target, event) {
 		if (event.ctrlKey || event.metaKey || target.dataset.actionMode === "admin") {
 			postAjax({
@@ -130,14 +161,23 @@ actionHandler = {
 			});
 		} else window.location.href = target.href;
 	},
-	login: function (modal) {
-		let data = serializeForm(modal);
-		data["need"] = "login";
+	userSinginFormSubmit: function (event, args) {
+		event.preventDefault();
+		const formData = new FormData(event.target);
+		formData.append("need", "do_user-singin");
 		postAjax({
-			data: data,
+			data: formDataToJson(formData),
 			successFunc: function (result) {
-				result = JSON.parse(result);
-				if (result["error"] == 0) location.reload();
+				if (result["error"] == 0) window.location = window.location.href;
+				else alert(result["txt"]);
+			},
+		});
+	},
+	userLogout: function (target, event) {
+		postAjax({
+			data: `{"need":"do_user-logout"}`,
+			successFunc: function (result) {
+				if (result["error"] == 0) window.location = window.location.href;
 				else alert(result["txt"]);
 			},
 		});
@@ -174,23 +214,6 @@ actionHandler = {
 					alert(result["txt"]);
 					modal.querySelector(`input[name=${result["wrong"]}]`).focus();
 				}
-			},
-		});
-	},
-	addGamers: function (target) {
-		let newID = document.body.querySelectorAll(".gamer").length;
-		postAjax({
-			data: {
-				need: "gamer-field",
-				id: newID,
-			},
-			successFunc: function (result) {
-				eveningGamersFields.insertAdjacentHTML("beforeend", result);
-				$("input.input_name").autocomplete({
-					source: "switcher.php?need=autocomplete_names&e=" + EveningID + "&",
-					minLength: 2,
-				});
-				$(".timepicker").datetimepicker({ datepicker: false, format: "H:i" });
 			},
 		});
 	},
@@ -326,7 +349,7 @@ async function postAjax({ data, formData, successFunc, errorFunc, method = 'json
 	try {
 		const response = await fetch('switcher.php', {
 			method: 'POST', // или 'PUT'
-			body: JSON.stringify(data), // данные могут быть 'строкой' или {объектом}!
+			body: data, // данные могут быть 'строкой' или {объектом}!
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -410,7 +433,7 @@ function formDataToJson(data) {
 
 function catchResult(func) {
 	return function (args) {
-		console.log(...args);
+		console.log(args);
 		return func.call(this, args);
 	};
 }

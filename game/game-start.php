@@ -8,7 +8,7 @@ if (!defined('JSFUNC_LOAD'))
 // error_log(json_encode($_POST,JSON_UNESCAPED_UNICODE));
 $_POST['player'] = explode(',',$_POST['player']);
 $_POST['role'] = explode(',',$_POST['role']);
-$players = $engine->GetGamersIDs($engine->SetPlayersDefaults($_POST));
+$players = $engine->usersGetIds($engine->SetPlayersDefaults($_POST));
 
 $ids = $players['ids'];
 unset($players['ids']);

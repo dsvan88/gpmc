@@ -135,29 +135,9 @@ class JSFunc extends SQLBase
 			$a[$i]['name'] = $_POST['gamer'][$i];
 		}
 		$a['enum'] = '"'.implode('","',$_POST['gamer']).'"';
-		return $this->GetGamersIDs($a);
+		return $this->usersGetIds($a);
 	}
-	function getUsersIDs($gamers){
-		$a = [];
-		$gamers = json_decode($gamers,true);
-		for ($x=0;$x<count($gamers);$x++){
-			$check = trim($gamers[$x]['name']);
-			if ($check === '')
-			{
-				unset($gamers[$x]);
-				continue;
-			}
-			$gamers[$x]['name'] = $check !== '+1' ? $check : 'tmp_user_'.$x;
-		}
-		$gamers = array_values($gamers);
-		for ($x=0;$x<count($gamers);$x++){
-			$a[$x]['id'] = -1;
-			$a[$x]['name'] = $gamers[$x]['name'];
-			$a['enum'] .= '"'.$gamers[$x]['name'].'",';
-		}
-		$a['enum']= substr($a['enum'],0,-1);
-		return $this->GetGamersIDs($a);
-	}
+
 	function eveningCheckId($i)
 	{
 		if (($r = $this->getRawArray($this->query('SELECT `id` FROM `'.SQL_TBLEVEN.'` WHERE `id` ="'.$i.'" LIMIT 1'))[0]) > 0)
@@ -200,22 +180,6 @@ class JSFunc extends SQLBase
 			return $r;
 		else return false;
 	}
-	function setEveningApproved($data)
-	{
-		if ($data['place']!=='') $r = $this->GetPlaceData($data['place'],$data['p_info']);
-		else $r['id'] = 0;
-		$a = array('date'=>$data['date'],'place'=>$r['id'],'applied'=>1);
-		if (isset($data['gamers']))
-		{
-			$a['gamers'] = $this->getUsersIDs($data['gamers'])['ids'];
-			$a['gamers_info'] = $data['gamers'];
-		}
-		$eveningId = $this->nearEveningGetData();
-		if ($eveningId === false)
-			$this->rowInsert($a,SQL_TBLEVEN);
-		else 
-			$this->rowUpdate($a,array('id'=>$eveningId),SQL_TBLEVEN);
-	}
 	function SetEveningID($d,$p)
 	{
 		if (($r = $this->getRawArray($this->query('SELECT `id` FROM `'.SQL_TBLEVEN.'` WHERE `date` ="'.$d.'" LIMIT 1'))[0]) > 0)
@@ -228,7 +192,7 @@ class JSFunc extends SQLBase
 			return $r;
 		else return false;
 	}
-	function GetPlaceData($p,$i)
+	function placeGetData($p,$i)
 	{
 		if (($r = $this->getAssoc($this->query('SELECT `id`,`pl_name` AS `place`,`pl_info` AS `place_info` FROM `'.SQL_TBLPLACES.'` WHERE `pl_name` = "'.$p.'" LIMIT 1')))['id'] > 0)
 		{
@@ -382,31 +346,6 @@ class JSFunc extends SQLBase
 		unset($data['gamers'][$i]);
 		unset($data['gamers_info'][$i]);
 		$this->rowUpdate(['gamers'=>implode(',',$data['gamers']),'gamers_info'=>json_encode($data['gamers_info'],JSON_UNESCAPED_UNICODE)],['id'=>$data['id']],SQL_TBLEVEN);
-	}
-	function GetGamersIDs($a)
-	{
-		$res = $this->query('SELECT `id`,`name` FROM `'.SQL_TBLUSERS.'` WHERE `name` IN ('.$a['enum'].') LIMIT 25');
-		unset($a['enum']);
-		while ($row = $this->getAssoc($res))
-		{
-			$i = -1;
-			while(isset($a[++$i]))
-				if ($a[$i]['name'] === $row['name'])
-				{
-					$a[$i]['id'] = (int) $row['id'];
-					break;
-				}
-		}
-		$i = -1;
-		while(isset($a[++$i]))
-		{
-			if (trim($a[$i]['name']) === '') continue;
-			if ($a[$i]['id'] === -1)
-				$a[$i]['id'] = $this->rowInsert(array('name'=>$a[$i]['name']),SQL_TBLUSERS);
-			$a['ids'] .= 	$a[$i]['id'].',';
-		}
-		$a['ids'] = substr($a['ids'],0,-1);
-		return $a;
 	}
 	function CalculatePoints(&$p,&$v)
 	{

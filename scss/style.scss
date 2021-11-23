@@ -54,7 +54,15 @@ body {
 		&__profile {
 			margin-left: auto;
 			&-button {
-				@extend %buttonStyle;
+				border: 1px solid $color-text-main;
+				border-radius: 5px;
+				padding: 5px 10px;
+				cursor: pointer;
+				transition: all $animation-fast ease-in;
+				&:hover {
+					background-color: $color-text-main;
+					color: $color-text-menu;
+				}
 			}
 		}
 		&__navigation {
@@ -63,7 +71,7 @@ body {
 			justify-content: space-between;
 			color: $color-text-menu;
 			&-item {
-				margin-right: 10px;
+				margin-right: 20px;
 				cursor: pointer;
 				color: $color-text-menu;
 				font-family: "Underdog", cursive;
@@ -99,6 +107,138 @@ body {
 			&:nth-child(even) {
 				background-color: $bg-color-light;
 			}
+			&.near-evening {
+				.booking {
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					&__title {
+						margin: 10px 0 20px 0;
+						text-align: center;
+						font-size: 2em;
+						text-transform: uppercase;
+					}
+					&__subtitle {
+						margin: 5px 0 10px 0;
+						text-align: center;
+						font-size: 1.6em;
+						text-transform: uppercase;
+					}
+					&__place {
+						&-row {
+							width: 55vw;
+							max-width: 1200px;
+							margin: 10px 0;
+							display: flex;
+							justify-content: space-between;
+							font-size: 1.4em;
+						}
+						&-label {
+							width: 15vw;
+							max-width: 300px;
+							display: flex;
+							justify-content: space-between;
+						}
+						input {
+							width: 40vw;
+							border-radius: 5px;
+						}
+					}
+					&__participant {
+						display: flex;
+						align-items: center;
+						margin: 10px 0;
+						&-num {
+							width: 30px;
+						}
+						&-arrive {
+							width: 75px;
+						}
+						&-duration {
+							width: 120px;
+						}
+					}
+					input,
+					select {
+						background-color: $bg-color-input;
+						text-align: center;
+						border: 0;
+						font-size: 1.4rem;
+						color: $color-text-menu;
+						&[placeholder] {
+							color: $color-text-menu;
+						}
+						option {
+							color: $bg-color-input;
+						}
+					}
+					&__buttons {
+						margin: 20px 0;
+						button {
+							@extend %buttonStyle;
+						}
+					}
+				}
+			}
 		}
+	}
+}
+
+@import "modals";
+
+.modal {
+	.common-form {
+		display: flex;
+		flex-direction: column;
+		justify-content: stretch;
+		max-height: 85vh;
+		&__logo {
+			width: 100px;
+			filter: invert(100%) sepia(100%) saturate(500%) brightness(50%) hue-rotate(180deg);
+		}
+		&__title {
+			margin-top: -0.5em;
+		}
+		&__row-expand_vertical {
+			min-height: 50px;
+			max-height: 15vh;
+			overflow-x: hidden;
+			overflow-y: auto;
+			margin-bottom: 10px;
+			text-align: center;
+			scrollbar-width: thin;
+			margin-top: -5px;
+		}
+		&__input {
+			display: block;
+			width: 40vw;
+			margin: 5px 10px;
+			font-size: 1.3em;
+			text-align: center;
+		}
+		&__textarea {
+			display: block;
+			width: 40vw;
+			margin: 5px 10px;
+			resize: vertical;
+			font-size: 1.3em;
+		}
+		&__divided-block {
+			display: flex;
+			max-width: 70vw;
+			border: 1px solid;
+			border-radius: 5px;
+			padding: 5px;
+			h3 {
+				margin-bottom: 10px;
+			}
+			input {
+				width: 25vw;
+			}
+		}
+	}
+	.modal-buttons {
+		margin: 5px 0px;
 	}
 }

@@ -7,9 +7,10 @@ function engineStart(){
 	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.users.php';
 	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.image-processing.php';
 
+	$GLOBALS['CommonActionObject'] = new Action;
+
 	return [
 		file_get_contents($_SERVER['DOCUMENT_ROOT'].'/templates/main-template.html'),
-		new Action,
 		new Settings,
 		new Evenings,
 		new Users,

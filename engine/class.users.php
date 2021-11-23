@@ -1,37 +1,25 @@
 <?
+require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.action.php';
+
 class Users {
-
-    public function login($login,$password)
-	{
-		$usersArray = $this->getAssocArray($this->prepQuery('SELECT * FROM '.SQL_TBLUSERS.' WHERE name= ? OR username = ? OR email = ? ', array_fill(0,3,$login)));
-		$userArrayCount = count($usersArray);
-		if ($userArrayCount === 0) return false;
-
-		for ($i=0; $i < $userArrayCount; $i++) {
-			if (!password_verify($password, $usersArray[$i]['password'])) continue;
-			unset($usersArray[$i]['password']);
-            $usersArray[$i]['expire'] = $_SERVER['REQUEST_TIME']+CFG_MAX_SESSION_AGE+(mt_rand(0,3600)-1800);
-            setcookie('_token', sha1(sha1($usersArray[$i]['expire'].$usersArray[$i]['login'])));
-            $_SESSION = $usersArray[$i];
-			return true;
-		}
-		return false;
-	}
-	public function adminLogIn($login,$password)
-	{
-		$usersArray = $this->getAssocArray($this->prepQuery('SELECT * FROM '.SQL_TBLUSERS.' WHERE ( name= ? OR username = ? OR email = ? ) AND ar > 0', array_fill(0,3,$login)));
-		$userArrayCount = count($usersArray);
-		if ($userArrayCount === 0) return false;
-
-		for ($i=0; $i < $userArrayCount; $i++) {
-			if (!password_verify($password, $usersArray[$i]['password'])) continue;
-			unset($usersArray[$i]['password']);
-            $_SESSION = $usersArray[$i];
-			$this->prolongSession();
-			return true;
-		}
-		return false;
-	}
+	private $action;
+    function __construct(){
+        $this->action = $GLOBALS['CommonActionObject'];
+    }
+	public function login($data){
+        $data = [
+            'login' => strtolower(trim($data['login'])),
+            'password' => sha1(trim($data['password']))
+        ];
+        $authData = $this->action->getAssoc($this->action->prepQuery(str_replace('{SQL_TBLUSERS}', SQL_TBLUSERS, 'SELECT * FROM {SQL_TBLUSERS} WHERE name = ? OR login = ? OR email = ? LIMIT 1'),array_fill(0,3,$data['login'])));
+        if (password_verify($data['password'], $authData['password'])){
+            unset($authData['password']);
+            $_SESSION = $authData;
+            $this->prolongSession();
+            return true;
+        }
+        return false;
+    }
 	public function logout()
 	{
 		$_SESSION = [];
@@ -49,7 +37,6 @@ class Users {
         session_destroy();
         return true;
 	}
-
 	public function checkToken(){
 
         if (isset($_COOKIE['_token']) && $_COOKIE['_token'] === sha1(sha1($_SESSION['expire'].$_SESSION['login']))){
@@ -66,18 +53,65 @@ class Users {
         setcookie('_token', sha1(sha1($_SESSION['expire'].$_SESSION['login'])));
         return true;
     }
-    
+    // public function getCryptKey(){
+    //     return $this->getColumn($this->query(str_replace('{TABLE_AUTH}', TABLE_AUTH, 'SELECT key FROM {TABLE_AUTH} WHERE id = 1 LIMIT 1')));
+    // }
 	public function checkFreeLogin($string)
 	{
-		if ($this->getColumn($this->prepQuery('SELECT id FROM '.SQL_TBLUSERS.' WHERE username = ? LIMIT 1', [$string])) > 0)
+		if ($this->action->getColumn($this->action->prepQuery('SELECT id FROM '.SQL_TBLUSERS.' WHERE login = ? LIMIT 1', [$string])) > 0)
 			return false;
 		return true;
 	}
-
     function getUsersArray()
 	{
-		if ($r = $this->query('SELECT id,fio FROM '.SQL_TBLUSERS))
+		if ($r = $this->action->query('SELECT id,fio FROM '.SQL_TBLUSERS))
 			return $this->getSimpleArray($r);
 		else error_log(__METHOD__.': SQL ERROR');
+	}
+    function participantsGetIds($participants){
+		$data = [];
+		for ($x=0;$x<count($participants);$x++){
+			$check = trim($participants[$x]['name']);
+			if ($check === '')
+			{
+				unset($participants[$x]);
+				continue;
+			}
+			$participants[$x]['name'] = $check !== '+1' ? $check : 'tmp_user_'.$x;
+		}
+		$participants = array_values($participants);
+		for ($x=0;$x<count($participants);$x++){
+			$data[$x]['id'] = -1;
+			$data[$x]['name'] = $participants[$x]['name'];
+			$data['enum'][] = $participants[$x]['name'];
+		}
+        error_log(json_encode($data));
+		return $this->usersGetIds($data);
+	}
+    function usersGetIds($participants)
+	{
+        $keys = mb_substr(str_repeat(count($participants['enum']), '?,'),0,-1);
+		$res = $this->action->prepQuery('SELECT id,name FROM '.SQL_TBLUSERS." WHERE name IN ($keys) LIMIT 25",  [ $participants['enum'] ]);
+		unset($participants['enum']);
+		while ($row = $this->getAssoc($res))
+		{
+			$i = -1;
+			while(isset($participants[++$i]))
+				if ($participants[$i]['name'] === $row['name'])
+				{
+					$participants[$i]['id'] = (int) $row['id'];
+					break;
+				}
+		}
+		$i = -1;
+		while(isset($participants[++$i]))
+		{
+			if (trim($participants[$i]['name']) === '') continue;
+			if ($participants[$i]['id'] === -1)
+				$participants[$i]['id'] = $this->action->rowInsert([ 'name'=>$participants[$i]['name'] ],SQL_TBLUSERS);
+			$participants['ids'] .= 	$participants[$i]['id'].',';
+		}
+		$participants['ids'] = substr($participants['ids'],0,-1);
+		return $participants;
 	}
 }

@@ -1,0 +1,13 @@
+<div class="booking__participant">
+	<label for="booking__participant-{PARTICIPANT_INDEX}" class="booking__participant-num">{PARTICIPANT_NUMBER}.</label>
+	<div class="booking__participant-info">
+		<input name="participant[]" type="text" value="" class="booking__participant-name" />
+		<input name="arrive[]" type="text" class="timepicker booking__participant-arrive" value="" id="booking__participant-{PARTICIPANT_INDEX}" />
+		<select name="duration[]" class="booking__participant-duration">
+			<option value="0">-</option>
+			<option value="1">1-2 игры</option>
+			<option value="2">2-3 игры</option>
+			<option value="3">3-4 игры</option>
+		</select>
+	</div>
+</div>

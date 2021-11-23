@@ -4,37 +4,62 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.action.php';
 class Evenings {
     private $action;
     function __construct(){
-        $this->$action = new Action();
+        $this->action = $GLOBALS['CommonActionObject'];
     }
     // Получить ID вечера по дате
 	function eveningGetId($d)
 	{
-		return $this->$action->getColumn($this->$action->prepQuery('SELECT id FROM '.SQL_TBLEVEN.' WHERE date = ? LIMIT 1', [$d]));
+		return $this->action->getColumn($this->action->prepQuery('SELECT id FROM '.SQL_TBLEVEN.' WHERE date = ? LIMIT 1', [$d]));
 	}
 	// Получить дату вечера по его ID
 	function eveningGetDate($id)
 	{
-		return $this->$action->getColumn($this->$action->prepQuery('SELECT DATE_FORMAT(DATE(FROM_UNIXTIME(date)),"%d.%m.%Y %H:%i") FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1', [$id]));
+		return $this->action->getColumn($this->action->prepQuery('SELECT DATE_FORMAT(DATE(FROM_UNIXTIME(date)),"%d.%m.%Y %H:%i") FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1', [$id]));
 	}
 	// Простая проверка наличия ID вечера в базе
 	function eveningCheckId($id)
 	{
-        return $this->$action->recordExists(['id'=>$id],SQL_TBLEVEN);
+        return $this->action->recordExists(['id'=>$id],SQL_TBLEVEN);
 	}
 	// Получить информацию про последний состоявшийся вечер игр
 	function lastEveningGetInfo()
 	{
-		return $this->$action->getAssoc($this->$action->query('SELECT id,DATE_FORMAT(DATE(FROM_UNIXTIME(date)),"%d.%m.%Y %H:%i") AS date,games,gamers,gamers_info FROM '.SQL_TBLEVEN.' ORDER BY id DESC LIMIT 1'));
+		return $this->action->getAssoc($this->action->query('SELECT id,DATE_FORMAT(DATE(FROM_UNIXTIME(date)),"%d.%m.%Y %H:%i") AS date,games,gamers,gamers_info FROM '.SQL_TBLEVEN.' ORDER BY id DESC LIMIT 1'));
+	}
+	// Утверждение планируемого вечера
+	function setEveningApproved($data)
+	{
+		
+		if ($data['place']['name'] !== ''){
+			require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.places.php';
+			$places = new Places;
+			$placeData = $places->placeGetData($data['place']);
+		}
+		else $placeData['id'] = 0;
+		
+		$a = ['date'=>$data['date'],'place'=>$placeData['id'],'status'=>'new'];
+
+		if (isset($a['participants']))
+		{
+			$a['participants'] = $this->participantsGetIds($data['participants'])['ids'];
+			$a['participants_info'] = $data['participants'];
+		}
+
+		$eveningId = $this->nearEveningGetData();
+		if (!$eveningId['ready'])
+			$this->action->rowInsert($a,SQL_TBLEVEN);
+		else 
+			$this->action->rowUpdate($a,array('id'=>$eveningId),SQL_TBLEVEN);
 	}
 	// Получение информации об ближайшем вечере игры
 	function nearEveningGetData($columns = 'id')
 	{
-		if (is_array($c))
+		if (is_array($columns))
 		    $columns = implode(',',$columns);
 		
-        $data = $this->$action->getColumn($this->$action->prepQuery("SELECT $columns FROM ".SQL_TBLEVEN.' WHERE date >= ? ORDER BY id DESC LIMIT 1', [$_SERVER['REQUEST_TIME']-DATE_MARGE]));
+        $data = $this->action->getColumn($this->action->prepQuery("SELECT $columns FROM ".SQL_TBLEVEN.' WHERE date >= ? ORDER BY id DESC LIMIT 1', [$_SERVER['REQUEST_TIME']-DATE_MARGE]));
 		
-		if ($data === false)
+		if (!$data)
 		{
 			$data['ready'] = false;
 			$data['start'] = false;
@@ -51,8 +76,8 @@ class Evenings {
 	{
 		if ($from !== 0) $dop = ' AND date >= '.$from;
 		if ($to !== 0) $dop = (isset($dop) ? $dop : '').' AND date <= '.$to;
-		if ($r = $this->$action->query('SELECT games,players FROM '.SQL_TBLEVEN.' WHERE id > 0 '.(isset($dop) ? $dop : '')))
-			return $this->$action->getAssocArray($r);
+		if ($r = $this->action->query('SELECT games,players FROM '.SQL_TBLEVEN.' WHERE id > 0 '.(isset($dop) ? $dop : '')))
+			return $this->action->getAssocArray($r);
 		else 
 		{
 			error_log(__METHOD__.': SQL ERROR');
@@ -67,7 +92,7 @@ class Evenings {
 	// Получение списка игр за конкретный вечер
 	function eveningGetGames($id)
 	{
-		return $this->$action->getColumn($this->$action->prepQuery('SELECT games FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1', [$id]));
+		return $this->action->getColumn($this->action->prepQuery('SELECT games FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1', [$id]));
 	}
 	// Получение информации об вечере игры по заданым критериям:
 	// $columns - обычный массив из полей, которые нас интересуют
@@ -88,13 +113,13 @@ class Evenings {
             $values[] = $value;
         }
 
-		return $this->$action->getAssoc($this->$action->prepQuery("SELECT $columns FROM $table WHERE $conditions LIMIT 1",[$values]));
+		return $this->action->getAssoc($this->action->prepQuery("SELECT $columns FROM $table WHERE $conditions LIMIT 1",[$values]));
 	}
 
 	// Получение списка игроков, учасвстующих в $eid вечере
 	function eveningGetPlayers($eid)
 	{
-		return $this->$action->getColumn($this->$action->prepQuery('SELECT players FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1', [$eid]));
+		return $this->action->getColumn($this->action->prepQuery('SELECT players FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1', [$eid]));
 	}
 	// Получение простого списка игроков, принимающих участие в $e вечере
 	function playersGetAll($eid=-1) 

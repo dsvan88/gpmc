@@ -4,7 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.action.php';
 class Settings {
 	private $action;
     function __construct(){
-        $this->$action = new Action();
+        $this->action = $GLOBALS['CommonActionObject'];
     }
     // Работа с настройками сайта:
 	// $columns - какие колонки выбрать из таблицы настройками
@@ -30,8 +30,8 @@ class Settings {
 			$values[] = $where[$key];
 		}
 
-		if ($r = $this->$action->prepQuery("SELECT $columns FROM $table WHERE $conditions", $values))
-			return $this->$action->getAssocArray($r);
+		if ($r = $this->action->prepQuery("SELECT $columns FROM $table WHERE $conditions", $values))
+			return $this->action->getAssocArray($r);
 		else return false;
 	}
 	// Работа с настройками сайта:
@@ -40,11 +40,11 @@ class Settings {
 	{
 		if ($a['id'] !== 'add')
 		{
-			$this->$action->rowUpdate($a,array('id'=>$a['id']),SQL_TBLSETTINGS);
+			$this->action->rowUpdate($a,array('id'=>$a['id']),SQL_TBLSETTINGS);
 			return $a['id'];
 		}
 		unset($a['id']);
-		return $this->$action->rowInsert($a,SQL_TBLSETTINGS);
+		return $this->action->rowInsert($a,SQL_TBLSETTINGS);
 	}
 	// Изменение массива настроек для более удобного применения.
 	function modifySettingsArray($a)

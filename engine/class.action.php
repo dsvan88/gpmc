@@ -21,7 +21,7 @@ class Action {
 	// Возвращает результат запроса, если таковой имеется
 	function query($q)
     {
-        error_log($q);
+        // error_log($q);
         // error_log(json_encode($a));
         return $this->SQL->query($q);
     }
@@ -259,10 +259,8 @@ class Action {
 					evening_last TIMESTAMP DEFAULT NULL,
 					games CHARACTER VARYING(100) NOT NULL DEFAULT '',
 					participants CHARACTER VARYING(100) NOT NULL DEFAULT '',
-					participants_info TEXT NULL DEFAULT NULL,
-					status CHARACTER VARYING(20) NOT NULL DEFAULT 'new',
-					times CHARACTER VARYING(150) NOT NULL DEFAULT '',
-					tobe CHARACTER VARYING(60) NOT NULL DEFAULT ''
+					participants_info JSON NOT NULL,
+					status CHARACTER VARYING(20) NOT NULL DEFAULT 'new'
 				);"
 			)
 		);
@@ -273,8 +271,8 @@ class Action {
 					eid INT NOT NULL DEFAULT '0',
 					player_ids CHARACTER VARYING(100) NOT NULL DEFAULT '',
 					win INT NOT NULL DEFAULT '0',
-					players TEXT NULL DEFAULT NULL,
-					vars TEXT NULL DEFAULT NULL,
+					players JSON NOT NULL,
+					vars JSON NOT NULL,
 					txt CHARACTER VARYING(100) NOT NULL DEFAULT '',
 					manager INT NOT NULL DEFAULT '0',
 					rating INT NOT NULL DEFAULT '0',
@@ -378,7 +376,8 @@ class Action {
 				[ 'point', 'fk_sheriff', 'Отстрел шерифа первым', '0.3', '0.3'],
 				[ 'point', 'maf_dops', 'Допы живым мафам', '0.0,0.3,0.15,0.3', '0.0,0.3,0.15,0.3'],
 				[ 'point', 'mir_dops', 'Допы живым мирным', '0.0,0.0,0.15,0.1', '0.0,0.0,0.15,0.1'],
-				[ 'point', 'fouls', 'Штраф за дискв. фол', '0.3', '0.3']
+				[ 'point', 'fouls', 'Штраф за дискв. фол', '0.3', '0.3'],
+				[ 'txt', 'about-game', 'Об игре', 'Игра очень интересная! Рекомендую!:)', 'Клубная игра Мафия, в классическом исполнении поражает простотой и одновременной сложностью, ведь от результат всегда зависит не только от игры каждого отдельного игрока, но и в целом команды! И это при том, что команды - не из вестны до самого конца! Прокачайте свои навыки логики, дедукции и интуиции, да что там говорить - и телепатии, вместе с нами!']
 			];
 			$array = [];
 			$keys = [ 'type', 'short_name',	'name',	'value', 'by_default'];

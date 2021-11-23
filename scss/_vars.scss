@@ -6,17 +6,69 @@ $color-text-menu: #dfa261;
 
 $bg-color-light: #38244f;
 $bg-color-dark: #221740;
+$bg-color-input: #0000004a;
 
 $animation-fast: 0.3s;
 
+%nonDeleteTextForInput {
+	position: relative;
+	display: flex;
+	.non-delete-text {
+		pointer-events: none;
+		position: absolute;
+		right: 2%;
+		top: 2px;
+		color: #455ace8a;
+		&.left {
+			left: 2px;
+		}
+	}
+}
+
 %buttonStyle {
+	background: #00abff;
+	font-weight: bold;
+	font-size: 15px;
+	line-height: 18px;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: #04316a;
+	padding: 10px 25px;
+	outline: none;
 	border: 1px solid $color-text-main;
-	border-radius: 5px;
-	padding: 5px 10px;
 	cursor: pointer;
+	text-decoration: none;
 	transition: all $animation-fast ease-in;
 	&:hover {
 		background-color: $color-text-main;
 		color: $color-text-menu;
+	}
+	&.negative {
+		i.fa {
+			pointer-events: none;
+		}
+		&:hover {
+			color: #c41919;
+			background-color: #ffcfdc;
+		}
+	}
+	&.positive {
+		i.fa {
+			pointer-events: none;
+		}
+		&:hover {
+			color: #018ba1;
+			background-color: #99f976;
+		}
+	}
+	&.neutral {
+		i.fa {
+			pointer-events: none;
+		}
+		&:hover {
+			background-color: #7e80ff;
+			border-color: #583966;
+			color: #202e79;
+		}
 	}
 }
