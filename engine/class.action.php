@@ -31,8 +31,8 @@ class Action {
 	// Возвращает результат запроса, если таковой имеется
 	function prepQuery($q,$a)
     {
-        // error_log($q);
-        // error_log(json_encode($a));
+        error_log($q);
+        error_log(json_encode($a));
         try {
             $stmt = $this->SQL->prepare($q);
             $stmt->execute($a);
@@ -224,13 +224,6 @@ class Action {
 		}
 		return $this->$method($this->prepQuery("SELECT $columns FROM $table $where".($limit !== 0 ? ' LIMIT '.$limit : ''), $values));
 	}
-	// Получение имени игрока по его ID в системе
-	function getGamerName($id)
-	{
-		if ($result = $this->getColumn($this->prepQuery('SELECT name FROM '.SQL_TBLUSERS.' WHERE id = ? LIMIT 1')))
-			return $result;
-		else return '';
-	}
 	// Получить количество всех игроков в системе.
 	function GetGamerCount()
 	{
@@ -345,6 +338,7 @@ class Action {
 					birthday INT NOT NULL DEFAULT '0',
 					gender CHARACTER VARYING(25) NOT NULL DEFAULT '',
 					email CHARACTER VARYING(250) NOT NULL DEFAULT '',
+					telegram CHARACTER VARYING(250) NOT NULL DEFAULT '',
 					game_credo TEXT NULL DEFAULT NULL,
 					live_credo TEXT NULL DEFAULT NULL,
 					avatar CHARACTER VARYING(250) NOT NULL DEFAULT '',

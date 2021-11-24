@@ -118,8 +118,27 @@ actionHandler = {
         modalWindow.querySelectorAll('*[data-action]').forEach(block => block.addEventListener('click', (event) => actionHandler[camelize(block.dataset.action)](event)));
         const form = modalWindow.querySelector('form');
         if (form !== null && actionHandler[formSubmitAction]) {
-            form.addEventListener('submit', (event) => actionHandler[formSubmitAction](event, args))
-        }
+            form.addEventListener('submit', (event) => actionHandler[formSubmitAction](event, modal, args))
+		}
+		let autoCompleteInputs = modalWindow.querySelectorAll("*[data-autocomplete]");
+		autoCompleteInputs.forEach(
+			element => {
+				let source = function (request, response) {
+					postAjax({
+						data: `{"need":"get_autocomplete-${element.dataset.autocomplete}","term":"${request.term}"}`,
+						successFunc: function (result) {
+							if (result)
+								response(result['result']);
+						},
+					});
+					// response();
+				}
+				$(element).autocomplete({
+					source: source,
+					minLength: 2
+				});
+			}
+		);
 	},
 	getParticipantField: function (target) {
 		let newID = document.body.querySelectorAll(".booking__participant").length;
@@ -135,6 +154,27 @@ actionHandler = {
 			},
 		});
 	},
+	eveningPlace: function (event) {
+		console.log(event);
+		postAjax({
+			data: `{"need":"get_place-info","place":"${event.target.value}"}`,
+			successFunc: function (result) {
+				document.body.querySelector('input[name="eve_place_info"]').value = result['result'];
+			},
+		});
+	},
+	eveningPrepeare: function (target, event) {
+		const form = event.target.closest('form');
+		const formData = new FormData(form);
+		formData.append('need', 'do_evening-approve');
+		postAjax({
+			data: formDataToJson(formData),
+			successFunc: function (result) {
+				// if (result["error"] == 0) window.location = window.location.href;
+				// else alert(result["txt"]);
+			},
+		});
+	},
 	eveningApprove: function (target, event) {
 		const form = event.target.closest('form');
 		const formData = new FormData(form);
@@ -147,7 +187,7 @@ actionHandler = {
 			},
 		});
 	},
-	userSinginFormSubmit: function (event, args) {
+	userSinginFormSubmit: function (event, modal, args) {
 		event.preventDefault();
 		const formData = new FormData(event.target);
 		formData.append("need", "do_user-singin");
@@ -165,6 +205,29 @@ actionHandler = {
 			successFunc: function (result) {
 				if (result["error"] == 0) window.location = window.location.href;
 				else alert(result["txt"]);
+			},
+		});
+	},
+	userRegisterFormSubmit: function (event, modal, args) {
+		event.preventDefault();
+		const formData = new FormData(event.target);
+		if (formData.get("password") !== formData.get("chk_password")) {
+			event.target.querySelector("input[name=password]").focus();
+			alert("Пароли не співпадають!");
+			return false;
+		}
+		formData.append('need','do_user-registration');
+		postAjax({
+			data: formDataToJson(formData),
+			successFunc: function (result) {
+				if (result["error"] == 0) {
+					alert(result["text"]);
+					modal.modal.querySelector('.modal-close').click();
+				} else {
+					alert(result["text"]);
+					modal.modal.querySelector(`input[name=${result["wrong"]}]`).focus();
+					
+				}
 			},
 		});
 	},
@@ -197,27 +260,6 @@ actionHandler = {
 			},
 		});
 	},
-	userRegister: function (modal) {
-		let data = serializeForm(modal);
-		data["need"] = "user-registration";
-		if (data["chk_pass"] !== data["pass"]) {
-			modal.querySelector("input[name=pass]").focus();
-			alert("Пароли не совпадают!");
-			return false;
-		}
-		postAjax({
-			data: data,
-			successFunc: function (result) {
-				result = JSON.parse(result);
-				if (result["error"] == 0) {
-					alert(result["txt"]);
-				} else {
-					alert(result["txt"]);
-					modal.querySelector(`input[name=${result["wrong"]}]`).focus();
-				}
-			},
-		});
-	},
 	setEveningData: function (target) {
 		postAjax({
 			data: {
@@ -247,17 +289,6 @@ actionHandler = {
 				eve_place: document.body.querySelector("input[name=eve_place]").value,
 				eve_place_info: document.body.querySelector("input[name=eve_place_info]").value,
 				data: JSON.stringify(data),
-			},
-		});
-	},
-	eveningPlace: function (event) {
-		postAjax({
-			data: {
-				need: "get_place_info",
-				place: event.target.value,
-			},
-			successFunc: function (result) {
-				document.body.querySelector('input[name="eve_place_info"]').value = result;
 			},
 		});
 	},

@@ -23,4 +23,17 @@ class Places {
 	{
 		return $this->action->getAssoc($this->action->prepQuery('SELECT id,name,info FROM '.SQL_TBLPLACES.' WHERE id = ? LIMIT 1', [$id]));
 	}
+	//
+	function placeGetNameAutoComplete($name) 
+	{
+		if ($result = $this->action->prepQuery('SELECT name FROM '.SQL_TBLPLACES.' WHERE name LIKE ? ', ["%$name%"]))
+			return $this->action->getRawArray($result);
+		else error_log(__METHOD__.': SQL ERROR');
+	}
+	function placeGetInfo($name) 
+	{
+		if ($result = $this->action->prepQuery('SELECT info FROM '.SQL_TBLPLACES.' WHERE name = ? LIMIT 1', [$name]))
+			return $this->action->getColumn($result);
+		else error_log(__METHOD__.': SQL ERROR');
+	}
 }

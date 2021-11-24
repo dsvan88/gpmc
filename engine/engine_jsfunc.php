@@ -12,18 +12,6 @@ class JSFunc extends SQLBase
 			return $this->getSimpleString($r,'","');
 		else error_log(__METHOD__.': SQL ERROR');
 	}
-	function GetPlacesAutoComplete($s,$z='') 
-	{
-		if ($r = $this->query('SELECT `pl_name` FROM `'.SQL_TBLPLACES.'` WHERE `pl_name` LIKE "%'.$s.'%"'))
-			return $this->getSimpleString($r,'","');
-		else error_log(__METHOD__.': SQL ERROR');
-	}
-	function GetPlacesInfo($s) 
-	{
-		if ($r = $this->query('SELECT `pl_info` FROM `'.SQL_TBLPLACES.'` WHERE `pl_name` = "'.$s.'" LIMIT 1'))
-			return $this->getRawArray($r)[0];
-		else error_log(__METHOD__.': SQL ERROR');
-	}
 	function GetResidentsNames($c=11)
 	{
 		if ($r = $this->query('SELECT `id`,`name` FROM `'.SQL_TBLUSERS.'` WHERE `status` > 0 ORDER BY `id` LIMIT '.$c))

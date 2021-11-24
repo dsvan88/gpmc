@@ -1,22 +1,40 @@
 let dblclick_func = false;
-let EveningID = <?=isset($EveningData['id']) && $EveningData['id'] > 0 ? $EveningData['id'] : -1?>;
-
 document.body.addEventListener('click', actionHandler.clickCommonHandler);
 
-if (typeof eveningPlace != "undefined")
-	eveningPlace.onchange = actionHandler.eveningPlace;
+if (typeof eve_place != "undefined")
+	eve_place.onchange = actionHandler.eveningPlace;
 
 $(function () {
 	$('.datepick').datetimepicker({ format: 'd.m.Y H:i', dayOfWeekStart: 1 });
 	$('.timepicker').datetimepicker({ datepicker: false, format: 'H:i' });
-	$('input.input_name').autocomplete({
-		source: 'switcher.php?need=autocomplete_names&',
-		minLength: 2
-	});
-	$('input[name="eve_place"]').autocomplete({
-		source: 'switcher.php?need=autocomplete_places&',
-		minLength: 2
-	});
+	let autoCompleteInputs = document.body.querySelectorAll("*[data-autocomplete]");
+	autoCompleteInputs.forEach(
+		element => {
+			let source = function (request, response) {
+				postAjax({
+					data: `{"need":"get_autocomplete-${element.dataset.autocomplete}","term":"${request.term}"}`,
+					successFunc: function (result) {
+						if (result)
+							response(result['result']);
+					},
+				});
+				// response();
+			}
+			$(element).autocomplete({
+				source: source,
+				minLength: 2
+			});
+		}
+	);
+
+	// $('input.input_name').autocomplete({
+	// 	source: 'switcher.php?need=autocomplete_names&',
+	// 	minLength: 2
+	// });
+	// $('input[name="eve_place"]').autocomplete({
+	// 	source: 'switcher.php?need=autocomplete_places&',
+	// 	minLength: 2
+	// });
 })
 
 // 	$('#MainHeader').on('click','a#aProfile,a#MainLogo', function(e){

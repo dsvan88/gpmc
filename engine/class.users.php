@@ -56,6 +56,37 @@ class Users {
     // public function getCryptKey(){
     //     return $this->getColumn($this->query(str_replace('{TABLE_AUTH}', TABLE_AUTH, 'SELECT key FROM {TABLE_AUTH} WHERE id = 1 LIMIT 1')));
     // }
+	public function userRegistration($data){
+        if ($this->action->recordExists(['login' => $data['login']],SQL_TBLUSERS))
+            return [
+				'error'=> 1,
+				'text' => 'Користувач з таким логіном - вже існує! Оберіть, будь-ласка, інший',
+				'wrong' => 'login'
+			];
+		
+		$uid = $this->userGetId($data['name'],SQL_TBLUSERS);
+		if ($uid <= 1)
+            return [
+				'error'=> 1,
+				'text' => 'Гравця з таким іменем, у базі не існує! Будь-ласка, відвідайте хоча б одну гру у нашому клубі',
+				'wrong' => 'name'
+			];
+
+        $userData = [
+            'login' => strtolower($data['login']),
+            'password' => password_hash(sha1($data['password']), PASSWORD_DEFAULT),
+            'email' => strtolower($data['email']),
+            'telegram' => strtolower($data['telegram']),
+        ];
+        $userData['id'] = $this->action->rowUpdate($userData,['id'=>$uid],SQL_TBLUSERS);
+
+        if (!$userData['id']) return [
+			'error'=>1,
+			'text' => 'Користувач не був доданий. Перевірте дані або зверніться до адміністратора',
+			'wrong' => 'login'
+		];
+		return true;
+    }
 	public function checkFreeLogin($string)
 	{
 		if ($this->action->getColumn($this->action->prepQuery('SELECT id FROM '.SQL_TBLUSERS.' WHERE login = ? LIMIT 1', [$string])) > 0)
@@ -66,6 +97,15 @@ class Users {
 	{
 		if ($r = $this->action->query('SELECT id,fio FROM '.SQL_TBLUSERS))
 			return $this->getSimpleArray($r);
+		else error_log(__METHOD__.': SQL ERROR');
+	}
+	function usersGetNameAutoComplete($name,$evening=0) 
+	{
+		// $dop = '';
+		// if ($e > 0) $dop = ' AND `id` IN ('.$this->eveningGetPlayers($e).')';
+		// if ($r = $this->query('SELECT `name` FROM `'.SQL_TBLUSERS.'` WHERE `name` LIKE "%'.$s.'%"'.$dop))
+		if ($result = $this->action->prepQuery('SELECT name FROM '.SQL_TBLUSERS.' WHERE name LIKE ? ',["%$name%"]))
+			return $this->action->getRawArray($result);
 		else error_log(__METHOD__.': SQL ERROR');
 	}
     function participantsGetIds($participants){
@@ -116,5 +156,19 @@ class Users {
 		}
 		$participants['ids'] = substr($participants['ids'],0,-1);
 		return $participants;
+	}
+	// Получение имени игрока по его ID в системе
+	function userGetName($id)
+	{
+		if ($result = $this->action->getColumn($this->action->prepQuery('SELECT name FROM '.SQL_TBLUSERS.' WHERE id = ? LIMIT 1',[$id])))
+			return $result;
+		else return '';
+	}
+	// Получение ID в системе по никнейму в игре
+	function userGetId($name)
+	{
+		if ($result = $this->action->getColumn($this->action->prepQuery('SELECT id FROM '.SQL_TBLUSERS.' WHERE name = ? LIMIT 1',[$name])))
+			return $result;
+		else return 0;
 	}
 }

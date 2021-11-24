@@ -48,6 +48,10 @@ class Evenings {
 			unset($data['participants']['ids']);
 			$a['participants_info'] = json_encode($data['participants'],JSON_UNESCAPED_UNICODE);
 		}
+		else{
+			$a['participants'] = '';
+			$a['participants_info'] = '{}';
+		}
 
 		$evening = $this->nearEveningGetData(['id','date']);
 		if (!isset($evening['id']))

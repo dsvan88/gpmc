@@ -8,7 +8,7 @@ $statuses = ['Гость', 'Резидент', 'Мастер'];
 $userData['status'] = 'guest';
 
 $EveningData = $evening->nearEveningGetData(['id','date','place','games','participants','participants_info']);
-if (is_numeric($EveningData['place'])){
+if (isset($EveningData['place']) && is_numeric($EveningData['place'])){
 	$EveningData['place'] = $places->placeGetDataByID($EveningData['place']);
 }
 
