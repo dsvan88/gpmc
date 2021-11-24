@@ -1,11 +1,35 @@
 let isLoadEvening = true;
-actionHandler.shuffleGamers = function (target) {
+actionHandler.playersShuffle = function (target, event) {
 	let players = [],
 		i = -1;
-	let elems = document.body.querySelectorAll("input[name=player]");
+	let elems = document.body.querySelectorAll("input[name='player[]']");
 	elems.forEach((item) => players.push(item.value));
 	players.shuffle().forEach((item, index) => (elems[index].value = item));
 };
+actionHandler.playerRemove = function (target) {
+	let gamer = target.parentElement;
+	let gamerName = gamer.childNodes[0].data;
+	if (
+		confirm(`Точно удалить игрока ${gamerName} из записи?
+    Заработанные им сегодня балы могут не учитываться в статистике!`)
+	) {
+		let gamerId = gamer.dataset.playerId;
+		let playersList = document.body.querySelectorAll('input[name="player[]"],input[name=manager]');
+		for (player of playersList) {
+			if (player.value === gamerName) {
+				player.value = "";
+				break;
+			}
+		}
+		postAjax({
+			data: `{"need":"do_player-remove-from-booking","id":"${gamerId}"}`,
+			successFunc: function (userId) {
+				gamer.remove();
+			},
+		});
+	}
+};
+/*
 actionHandler.addPlayersToArray = function (modal) {
 	let name = document.body.querySelector("form.add-player-to-array-form input.input_name[name=gamer]").value.trim();
 	if (name === "") return false;
@@ -53,32 +77,6 @@ actionHandler.toggleGamerInTable = function (target) {
 				break;
 			}
 		}
-	}
-};
-actionHandler.removeGamer = function (target) {
-	let gamer = target.parentElement;
-	let gamerName = gamer.childNodes[0].data;
-	if (
-		confirm(`Точно удалить игрока ${gamerName} из записи?
-    Заработанные им сегодня балы могут не учитываться в статистике!`)
-	) {
-		let gamerId = gamer.dataset.playerId;
-		let playersList = document.body.querySelectorAll("input[name=player],input[name=manager]");
-		for (player of playersList) {
-			if (player.value === gamerName) {
-				player.value = "";
-				break;
-			}
-		}
-		postAjax({
-			data: {
-				need: "remove-gamer",
-				id: gamerId,
-			},
-			successFunc: function (userId) {
-				gamer.remove();
-			},
-		});
 	}
 };
 //-------------------Проверить!
@@ -141,4 +139,4 @@ actionHandler.startGame = function (target) {
 };
 actionHandler.resumeGame = function (target) {
 	window.location.href = "/?g_id=" + target.dataset.gameId;
-};
+};*/

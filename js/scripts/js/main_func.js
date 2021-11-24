@@ -170,8 +170,8 @@ actionHandler = {
 		postAjax({
 			data: formDataToJson(formData),
 			successFunc: function (result) {
-				// if (result["error"] == 0) window.location = window.location.href;
-				// else alert(result["txt"]);
+				if (result["error"] == 0) window.location = window.location.href;
+				else alert(result["txt"]);
 			},
 		});
 	},

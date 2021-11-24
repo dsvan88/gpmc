@@ -9,7 +9,8 @@ class Evenings {
     // Получить ID вечера по дате
 	function eveningGetId($d)
 	{
-		return $this->action->getColumn($this->action->prepQuery('SELECT id FROM '.SQL_TBLEVEN.' WHERE date = ? LIMIT 1', [$d]));
+		$dates = [$d-DATE_MARGE, $d+DATE_MARGE];
+		return $this->action->getColumn($this->action->prepQuery('SELECT id FROM '.SQL_TBLEVEN.' WHERE date BETWEEN ? AND ? LIMIT 1', $dates));
 	}
 	// Получить дату вечера по его ID
 	function eveningGetDate($id)
@@ -127,7 +128,7 @@ class Evenings {
 	// Получение списка игроков, учасвстующих в $eid вечере
 	function eveningGetPlayers($eid)
 	{
-		return $this->action->getColumn($this->action->prepQuery('SELECT players FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1', [$eid]));
+		return $this->action->getColumn($this->action->prepQuery('SELECT participants FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1', [$eid]));
 	}
 	// Получение простого списка игроков, принимающих участие в $e вечере
 	function playersGetAll($eid=-1) 
@@ -136,5 +137,28 @@ class Evenings {
 		if ($r = $this->query('SELECT id,name FROM '.SQL_TBLUSERS.' '.(isset($dop) ? $dop : '')))
 			return $this->getSimpleArray($r);
 		else error_log(__METHOD__.': SQL ERROR');
+	}
+
+	function playerRemoveFromEvening($e,$id)
+	{
+		$row = $this->action->getAssoc($this->action->prepQuery('SELECT participants,participants_info FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1',[$e]));
+		[$participants, $participantsInfo] = [explode(',',$row['participants']), json_decode($row['participants_info'],true)];
+		
+		unset($participants[$id]);
+		unset($participantsInfo[$id]);
+
+		/* for ($x=0; $x < count($participants); $x++) { 
+			if ($participants[$x] == $id){
+				unset($participants[$x]);
+				unset($participantsInfo[$x]);
+				break;
+			}
+		} */
+
+		$array = [
+			'participants' => implode(',',array_values($participants)),
+			'participants_info' => json_encode(array_values($participantsInfo), JSON_UNESCAPED_UNICODE)
+		];
+		$this->action->rowUpdate($array,['id'=>$e],SQL_TBLEVEN);
 	}
 }

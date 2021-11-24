@@ -1,5 +1,5 @@
 <?
-$output['html'] = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/templates/participant-field.html');
+$output['html'] = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/templates/participant-field-edit.html');
 
 $replace=[
 			'{PARTICIPANT_INDEX}' => $_POST['id'],

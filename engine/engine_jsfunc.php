@@ -303,11 +303,6 @@ class JSFunc extends SQLBase
 		$this->rowUpdate(array('gamers'=>$ids),array('id'=>$e),SQL_TBLEVEN);
 		return $ids;
 	}
-	function RemoveGamerFromEvening($e,$id)
-	{
-		$ids = str_replace(array($id.',',','.$id),array('',''),$this->eveningGetPlayers($e));
-		$this->rowUpdate(array('gamers'=>$ids),array('id'=>$e),SQL_TBLEVEN);
-	}
 	function UnRecordGamerFromEvening($i)
 	{
 		$data = $this->nearEveningGetData(array('id','gamers','gamers_info'));
