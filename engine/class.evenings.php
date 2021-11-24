@@ -33,23 +33,27 @@ class Evenings {
 		if ($data['place']['name'] !== ''){
 			require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.places.php';
 			$places = new Places;
-			$placeData = $places->placeGetData($data['place']);
+			$placeData = $places->placeUpdateData($data['place']);
 		}
 		else $placeData['id'] = 0;
-		
+
 		$a = ['date'=>$data['date'],'place'=>$placeData['id'],'status'=>'new'];
 
-		if (isset($a['participants']))
+		if (isset($data['participants']))
 		{
-			$a['participants'] = $this->participantsGetIds($data['participants'])['ids'];
-			$a['participants_info'] = $data['participants'];
+			require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.users.php';
+			$users = new Users;
+			$data['participants'] = $users->participantsGetIds($data['participants']);
+			$a['participants'] = $data['participants']['ids'];
+			unset($data['participants']['ids']);
+			$a['participants_info'] = json_encode($data['participants'],JSON_UNESCAPED_UNICODE);
 		}
 
-		$eveningId = $this->nearEveningGetData();
-		if (!$eveningId['ready'])
+		$evening = $this->nearEveningGetData(['id','date']);
+		if (!isset($evening['id']))
 			$this->action->rowInsert($a,SQL_TBLEVEN);
 		else 
-			$this->action->rowUpdate($a,array('id'=>$eveningId),SQL_TBLEVEN);
+			$this->action->rowUpdate($a,[ 'id'=>$evening['id'] ],SQL_TBLEVEN);
 	}
 	// Получение информации об ближайшем вечере игры
 	function nearEveningGetData($columns = 'id')
@@ -57,8 +61,8 @@ class Evenings {
 		if (is_array($columns))
 		    $columns = implode(',',$columns);
 		
-        $data = $this->action->getColumn($this->action->prepQuery("SELECT $columns FROM ".SQL_TBLEVEN.' WHERE date >= ? ORDER BY id DESC LIMIT 1', [$_SERVER['REQUEST_TIME']-DATE_MARGE]));
-		
+        $data = $this->action->getAssoc($this->action->prepQuery("SELECT $columns FROM ".SQL_TBLEVEN.' WHERE date >= ? ORDER BY id DESC LIMIT 1', [$_SERVER['REQUEST_TIME']-DATE_MARGE]));
+
 		if (!$data)
 		{
 			$data['ready'] = false;

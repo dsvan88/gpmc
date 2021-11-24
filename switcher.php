@@ -4,7 +4,6 @@ $contentType = isset($_SERVER['CONTENT_TYPE']) ? trim($_SERVER['CONTENT_TYPE']) 
 if (strpos($contentType,'application/json') !==  false) {
 	$_POST = trim(file_get_contents('php://input'));
 	$_POST = json_decode($_POST, true);
-    error_log(json_encode($_POST));
     
 	if(!is_array($_POST)){
 		error_log(json_encode($_POST,JSON_UNESCAPED_UNICODE));

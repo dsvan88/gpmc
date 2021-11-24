@@ -20,7 +20,4 @@ $data['place'] = ['name'=>$_POST['eve_place'], 'info'=>$_POST['eve_place_info']]
 
 $action->setEveningApproved($data);
 
-// file_put_contents($_SERVER['DOCUMENT_ROOT'].'/log.txt',json_encode($_POST,JSON_UNESCAPED_UNICODE));
-
-$output['error'] = 1;
-$output['txt'] = 'Не готово';
+$output['txt'] = 'Затверджено!';

@@ -69,41 +69,44 @@ class Users {
 		else error_log(__METHOD__.': SQL ERROR');
 	}
     function participantsGetIds($participants){
-		$data = [];
+		$data = [
+			'enum' => []
+		];
 		for ($x=0;$x<count($participants);$x++){
-			$check = trim($participants[$x]['name']);
-			if ($check === '')
+			$name = trim($participants[$x]['name']);
+			if ($name === '')
 			{
 				unset($participants[$x]);
 				continue;
 			}
-			$participants[$x]['name'] = $check !== '+1' ? $check : 'tmp_user_'.$x;
+			$participants[$x]['name'] = $name !== '+1' ? $name : 'tmp_user_'.$x;
 		}
 		$participants = array_values($participants);
 		for ($x=0;$x<count($participants);$x++){
+			$data[$x] = $participants[$x];
 			$data[$x]['id'] = -1;
-			$data[$x]['name'] = $participants[$x]['name'];
 			$data['enum'][] = $participants[$x]['name'];
 		}
-        error_log(json_encode($data));
 		return $this->usersGetIds($data);
 	}
     function usersGetIds($participants)
 	{
-        $keys = mb_substr(str_repeat(count($participants['enum']), '?,'),0,-1);
-		$res = $this->action->prepQuery('SELECT id,name FROM '.SQL_TBLUSERS." WHERE name IN ($keys) LIMIT 25",  [ $participants['enum'] ]);
+        $keys = mb_substr(str_repeat('?,',count($participants['enum'])),0,-1);
+		$res = $this->action->prepQuery('SELECT id,name FROM '.SQL_TBLUSERS." WHERE name IN ($keys) LIMIT 25",  $participants['enum']);
 		unset($participants['enum']);
-		while ($row = $this->getAssoc($res))
+		while ($row = $this->action->getAssoc($res))
 		{
 			$i = -1;
-			while(isset($participants[++$i]))
+			while(isset($participants[++$i])){
 				if ($participants[$i]['name'] === $row['name'])
 				{
 					$participants[$i]['id'] = (int) $row['id'];
 					break;
 				}
+			}
 		}
 		$i = -1;
+		$participants['ids'] = '';
 		while(isset($participants[++$i]))
 		{
 			if (trim($participants[$i]['name']) === '') continue;

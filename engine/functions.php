@@ -4,6 +4,7 @@ function engineStart(){
 	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.action.php';
 	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.settings.php';
 	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.evenings.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.places.php';
 	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.users.php';
 	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.image-processing.php';
 
@@ -13,6 +14,7 @@ function engineStart(){
 		file_get_contents($_SERVER['DOCUMENT_ROOT'].'/templates/main-template.html'),
 		new Settings,
 		new Evenings,
+		new Places,
 		new Users,
 		new ImageProcessing
 	];

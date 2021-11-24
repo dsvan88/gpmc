@@ -158,6 +158,15 @@ body {
 						&-duration {
 							width: 120px;
 						}
+						&-info {
+							span {
+								font-size: 1.4em;
+							}
+						}
+						&-name {
+							display: inline-block;
+							width: 20vw;
+						}
 					}
 					input,
 					select {

@@ -24,10 +24,10 @@ class Settings {
 			$values[] = $type;
 		}
 		
-		if (is_array($where)){
-			$key = array_keys($where)[0];
+		if (is_array($by)){
+			$key = array_keys($by)[0];
 			$conditions .= " AND $key = ? ";
-			$values[] = $where[$key];
+			$values[] = $by[$key];
 		}
 
 		if ($r = $this->action->prepQuery("SELECT $columns FROM $table WHERE $conditions", $values))

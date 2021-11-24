@@ -186,22 +186,6 @@ class JSFunc extends SQLBase
 			return $r;
 		else return $this->rowInsert(array('date'=>$d,'gamers'=>$p),SQL_TBLEVEN);
 	}
-	function GetPlaceByID($id)
-	{
-		if ($r = $this->getAssoc($this->query('SELECT `id`,`pl_name` AS `name`,`pl_info` AS `info` FROM `'.SQL_TBLPLACES.'` WHERE `id` = '.$id.' LIMIT 1')))
-			return $r;
-		else return false;
-	}
-	function placeGetData($p,$i)
-	{
-		if (($r = $this->getAssoc($this->query('SELECT `id`,`pl_name` AS `place`,`pl_info` AS `place_info` FROM `'.SQL_TBLPLACES.'` WHERE `pl_name` = "'.$p.'" LIMIT 1')))['id'] > 0)
-		{
-			if ($i !== '' && $i !== $r['place_info'])
-				$this->rowUpdate(array('pl_info'=>$i),array('id'=>$r['id']),SQL_TBLPLACES);
-			return $r;
-		}
-		else return array('id'=>$this->rowInsert(array('pl_name'=>$p,'pl_info'=>$i),SQL_TBLPLACES), 'place'=>$p, 'place_info'=>$i);
-	}
 	function GameExists($id)
 	{
 		if ($this->getRawArray($this->query('SELECT `id` FROM `'.SQL_TBLGAMES.'` WHERE `id` = "'.$id.'" AND `win`<1 AND `players` !="" ORDER BY `id` DESC LIMIT 1'))[0] == $id)

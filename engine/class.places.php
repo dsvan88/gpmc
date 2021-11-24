@@ -4,7 +4,7 @@ class Places {
     function __construct(){
         $this->action = $GLOBALS['CommonActionObject'];
     }
-    function placeGetData($place)
+    public function placeUpdateData($place)
 	{
         $row = $this->action->getAssoc($this->action->prepQuery('SELECT id,name,info FROM '.SQL_TBLPLACES.' WHERE name = ? LIMIT 1',[$place['name']]));
 		if ($row)
@@ -17,5 +17,10 @@ class Places {
             $place['id'] = $this->action->rowInsert($place,SQL_TBLPLACES);
             return $place;
         }
+	}
+    // Получение информации об месте игры по его ID в системе
+    public function placeGetDataByID($id)
+	{
+		return $this->action->getAssoc($this->action->prepQuery('SELECT id,name,info FROM '.SQL_TBLPLACES.' WHERE id = ? LIMIT 1', [$id]));
 	}
 }
