@@ -11,6 +11,7 @@ $EveningData = $evening->nearEveningGetData(['id','date','place','games','partic
 if (isset($EveningData['place']) && is_numeric($EveningData['place'])){
 	$EveningData['place'] = $places->placeGetDataByID($EveningData['place']);
 }
+
 if (isset($EveningData['participants_info']))
 	$EveningData['participants_info'] = json_decode($EveningData['participants_info'],true);
 

@@ -26,7 +26,7 @@ class Places {
 	//
 	function placeGetNameAutoComplete($name) 
 	{
-		if ($result = $this->action->prepQuery('SELECT name FROM '.SQL_TBLPLACES.' WHERE name LIKE ? ', ["%$name%"]))
+		if ($result = $this->action->prepQuery('SELECT name FROM '.SQL_TBLPLACES.' WHERE name ILIKE ? ', ["%$name%"]))
 			return $this->action->getRawArray($result);
 		else error_log(__METHOD__.': SQL ERROR');
 	}

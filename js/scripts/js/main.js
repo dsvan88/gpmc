@@ -1,8 +1,17 @@
 let dblclick_func = false;
 document.body.addEventListener('click', actionHandler.clickCommonHandler);
 
-if (typeof eve_place != "undefined")
+document.body.querySelectorAll('input[data-action-input]').forEach(element =>
+	element.addEventListener('input', (event) => actionHandler.inputCommonHandler.call(actionHandler,event))
+)
+// document.body.querySelectorAll('input[data-action-change]').forEach(element =>
+// 	element.addEventListener('change', (event) => actionHandler.changeCommonHandler.call(actionHandler,event))
+// )
+
+if (typeof eve_place != "undefined") {
 	eve_place.onchange = actionHandler.eveningPlace;
+	console.log(eve_place);
+}
 
 $(function () {
 	$('.datepick').datetimepicker({ format: 'd.m.Y H:i', dayOfWeekStart: 1 });

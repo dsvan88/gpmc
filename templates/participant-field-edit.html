@@ -1,13 +1,29 @@
 <div class="booking__participant">
 	<label for="booking__participant-{PARTICIPANT_INDEX}" class="booking__participant-num">{PARTICIPANT_NUMBER}.</label>
 	<div class="booking__participant-info">
-		<input name="participant[]" type="text" value="{PARTICIPANT_NAME}" class="booking__participant-name" data-autocomplete="user-name" />
-		<input name="arrive[]" type="text" class="timepicker booking__participant-arrive" value="{PARTICIPANT_ARRIVE}" id="booking__participant-{PARTICIPANT_INDEX}" />
+		<!-- <input name="participant[]" type="text" value="{PARTICIPANT_NAME}" class="booking__participant-name" data-autocomplete="user-name" autocomplete="off" /> -->
+		<input name="participant[]" type="text" value="{PARTICIPANT_NAME}" class="booking__participant-name" data-action-input="get-autocomplete-users-names" list="users-names-list" autocomplete="off" />
+		<input name="arrive[]" list="durations-list" type="text" class="booking__participant-arrive" value="{PARTICIPANT_ARRIVE}" id="booking__participant-{PARTICIPANT_INDEX}" autocomplete="off" />
+		<datalist id="durations-list">
+			<option value="17:00"></option>
+			<option value="17:30"></option>
+			<option value="18:00"></option>
+			<option value="18:30"></option>
+			<option value="19:00"></option>
+			<option value="19:30"></option>
+			<option value="20:00"></option>
+			<option value="20:30"></option>
+			<option value="21:00"></option>
+			<option value="21:30"></option>
+			<option value="22:00"></option>
+			<option value="22:30"></option>
+		</datalist>
 		<select name="duration[]" class="booking__participant-duration">
 			<option value="0" {PARTICIPANT_DURATION_0}>-</option>
 			<option value="1" {PARTICIPANT_DURATION_1}>1-2 гри</option>
 			<option value="2" {PARTICIPANT_DURATION_2}>2-3 гри</option>
 			<option value="3" {PARTICIPANT_DURATION_3}>3-4 гри</option>
 		</select>
+		<i class="fa fa-minus-circle booking__participant-remove" data-action="participant-field-remove"></i>
 	</div>
 </div>

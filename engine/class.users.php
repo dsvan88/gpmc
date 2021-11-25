@@ -11,7 +11,7 @@ class Users {
             'login' => strtolower(trim($data['login'])),
             'password' => sha1(trim($data['password']))
         ];
-        $authData = $this->action->getAssoc($this->action->prepQuery(str_replace('{SQL_TBLUSERS}', SQL_TBLUSERS, 'SELECT * FROM {SQL_TBLUSERS} WHERE name = ? OR login = ? OR email = ? LIMIT 1'),array_fill(0,3,$data['login'])));
+        $authData = $this->action->getAssoc($this->action->prepQuery(str_replace('{SQL_TBLUSERS}', SQL_TBLUSERS, 'SELECT * FROM {SQL_TBLUSERS} WHERE name ILIKE ? OR login = ? OR email = ? LIMIT 1'),array_fill(0,3,$data['login'])));
         if (password_verify($data['password'], $authData['password'])){
             unset($authData['password']);
             $_SESSION = $authData;
@@ -104,7 +104,7 @@ class Users {
 		// $dop = '';
 		// if ($e > 0) $dop = ' AND `id` IN ('.$this->eveningGetPlayers($e).')';
 		// if ($r = $this->query('SELECT `name` FROM `'.SQL_TBLUSERS.'` WHERE `name` LIKE "%'.$s.'%"'.$dop))
-		if ($result = $this->action->prepQuery('SELECT name FROM '.SQL_TBLUSERS.' WHERE name LIKE ? ',["%$name%"]))
+		if ($result = $this->action->prepQuery('SELECT name FROM '.SQL_TBLUSERS.' WHERE name ILIKE ? ',["%$name%"]))
 			return $this->action->getRawArray($result);
 		else error_log(__METHOD__.': SQL ERROR');
 	}
@@ -132,7 +132,7 @@ class Users {
     function usersGetIds($participants)
 	{
         $keys = mb_substr(str_repeat('?,',count($participants['enum'])),0,-1);
-		$res = $this->action->prepQuery('SELECT id,name FROM '.SQL_TBLUSERS." WHERE name IN ($keys) LIMIT 25",  $participants['enum']);
+		$res = $this->action->prepQuery('SELECT id,name FROM '.SQL_TBLUSERS." WHERE name ILIKE ANY (ARRAY[$keys]) LIMIT 25",  $participants['enum']);
 		unset($participants['enum']);
 		while ($row = $this->action->getAssoc($res))
 		{
@@ -167,7 +167,7 @@ class Users {
 	// Получение ID в системе по никнейму в игре
 	function userGetId($name)
 	{
-		if ($result = $this->action->getColumn($this->action->prepQuery('SELECT id FROM '.SQL_TBLUSERS.' WHERE name = ? LIMIT 1',[$name])))
+		if ($result = $this->action->getColumn($this->action->prepQuery('SELECT id FROM '.SQL_TBLUSERS.' WHERE name ILIKE ? LIMIT 1',[$name])))
 			return $result;
 		else return 0;
 	}

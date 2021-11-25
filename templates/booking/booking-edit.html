@@ -7,7 +7,10 @@
 		</div>
 		<div class="booking__place-row">
 			<label for="eve_place" class="booking__place-label">Розташування</label>
-			<input type="text" name="eve_place" value="{EVENING_PLACE}" placeholder="Місце проведення ігор" id="eve_place" data-autocomplete="evening-place" />
+			<!-- <input type="text" name="eve_place" value="{EVENING_PLACE}" placeholder="Місце проведення ігор" id="eve_place" data-autocomplete="evening-place" autocomplete="off" /> -->
+			<!-- data-action-change="evening-place" -->
+			<input type="text" name="eve_place" value="{EVENING_PLACE}" placeholder="Місце проведення ігор" id="eve_place" data-action-input="get-autocomplete-places-names" list="places-names-list" autocomplete="off" />
+			<datalist id="places-names-list"></datalist>
 		</div>
 		<div class="booking__place-row">
 			<label for="eve_place_info" class="booking__place-label">Опис місця</label>
@@ -22,7 +25,7 @@
 		{EVENING_PARTICIPANTS}
 	</div>
 	<div class="booking__buttons">
-		<button type="button" data-action="get-participant-field">Додати поле</button>
+		<button type="button" data-action="participant-field-get">Додати поле</button>
 	</div>
 	<div class="booking__buttons">
 		<button type="button" data-action="evening-approve">Розпочати запис</button>

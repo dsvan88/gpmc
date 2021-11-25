@@ -10,7 +10,7 @@ else{
 	}
     else{
         $htmlFiles['booking'] = $_SERVER['DOCUMENT_ROOT'].'/templates/booking/booking-show.html';
-		$htmlFiles['participant_row'] =$_SERVER['DOCUMENT_ROOT'].'/templates/participant-field-show.html';
+		$htmlFiles['participant_row'] = $_SERVER['DOCUMENT_ROOT'].'/templates/participant-field-show.html';
     }
 	$output['{NEAR_EVENING_BLOCK}'] = file_get_contents($htmlFiles['booking']);
 
@@ -49,5 +49,6 @@ else{
 			}
 			$output['{EVENING_PARTICIPANTS}'] .= str_replace(array_keys($replace), array_values($replace), file_get_contents($htmlFiles['participant_row']));
 		}
+		$output['{EVENING_PARTICIPANTS}'] .= '<datalist id="users-names-list"></datalist>';
 	}
 }

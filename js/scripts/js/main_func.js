@@ -1,5 +1,39 @@
 let debug = true;
 actionHandler = {
+	inputCommonHandler: function (event) {
+		let action = event.target.dataset.actionInput;
+		if (action.startsWith('get-autocomplete-')) {
+			if (event.target.value.length > 2 ) {
+				const type = action.replace(/get-autocomplete-/, '');
+				postAjax({
+					data: `{"need":"get_autocomplete-${type}","term":"${event.target.value}"}`,
+					successFunc: function (result) {
+						if (result) {
+							let options = [];
+							const deleteOptions = [];
+							for (var i = 0; i < event.target.list.options.length; i++) {
+								options.push(event.target.list.options[i].value);
+								if (!result['result'].includes(event.target.list.options[i].value))
+									deleteOptions.push(i);
+							}
+							result['result'].map(item => {
+								if (options.includes(item)) return;
+								const option = document.createElement('option');
+								option.value = item;
+								event.target.list.appendChild(option);
+							});
+							deleteOptions.map(index => event.target.list.options[index].remove());
+						}
+					},
+				});
+			}
+		}
+	},
+	// changeCommonHandler: function (event) {
+	// 	let action = event.target.dataset.actionChange;
+	// 	console.log(action);
+		
+	// },
 	clickCommonHandler: function (event) {
 		let target = event.target;
 		let datasetArray = Object.entries(target.dataset);
@@ -140,17 +174,32 @@ actionHandler = {
 			}
 		);
 	},
-	getParticipantField: function (target) {
+	participantFieldGet: function (target) {
 		let newID = document.body.querySelectorAll(".booking__participant").length;
 		postAjax({
 			data: `{"need":"get_participant-field","id":"${newID}" }`,
 			successFunc: function (result) {
 				eveningGamersFields.insertAdjacentHTML("beforeend", result['html']);
-				$("input.input_name").autocomplete({
-					source: "switcher.php?need=autocomplete_names&e=" + EveningID + "&",
-					minLength: 2,
-				});
-				$(".timepicker").datetimepicker({ datepicker: false, format: "H:i" });
+				let autoCompleteInputs = document.body.querySelectorAll("*[data-autocomplete]");
+				autoCompleteInputs.forEach(
+					element => {
+						let source = function (request, response) {
+							postAjax({
+								data: `{"need":"get_autocomplete-${element.dataset.autocomplete}","term":"${request.term}"}`,
+								successFunc: function (result) {
+									if (result)
+										response(result['result']);
+								},
+							});
+							// response();
+						}
+						$(element).autocomplete({
+							source: source,
+							minLength: 3
+						});
+					}
+				);
+				// $(".timepicker").datetimepicker({ datepicker: false, format: "H:i" });
 			},
 		});
 	},
@@ -159,7 +208,8 @@ actionHandler = {
 		postAjax({
 			data: `{"need":"get_place-info","place":"${event.target.value}"}`,
 			successFunc: function (result) {
-				document.body.querySelector('input[name="eve_place_info"]').value = result['result'];
+				if (result['result'])
+					document.body.querySelector('input[name="eve_place_info"]').value = result['result'];
 			},
 		});
 	},
@@ -325,15 +375,15 @@ actionHandler = {
 		$(".modal-body textarea").cleditor({ height: 200 });
 	},
 };
-
-function open_log(id) {
-	$("#Log_" + id).removeClass("hide");
-	$("#ShowLog_" + id).text("- Скрыть лог игры");
-}
-function close_log(id) {
-	$("#Log_" + id).addClass("hide");
-	$("#ShowLog_" + id).text("+ Открыть лог игры");
-}
+// ПЕРЕДЕЛАТЬ НА СВЯЗКУ <details><summary></summary></details>
+// function open_log(id) {
+// 	$("#Log_" + id).removeClass("hide");
+// 	$("#ShowLog_" + id).text("- Скрыть лог игры");
+// }
+// function close_log(id) {
+// 	$("#Log_" + id).addClass("hide");
+// 	$("#ShowLog_" + id).text("+ Открыть лог игры");
+// }
 function inttotime(t) {
 	m = Math.floor(t / 6000);
 	s = Math.floor((t % 6000) / 100);

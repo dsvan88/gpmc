@@ -144,6 +144,9 @@ body {
 						input {
 							width: 40vw;
 							border-radius: 5px;
+							&:focus-visible {
+								outline: none !important;
+							}
 						}
 					}
 					&__participant {
@@ -168,6 +171,15 @@ body {
 							display: inline-block;
 							width: 20vw;
 						}
+						&-remove {
+							font-size: 1.3em;
+							color: $button-remove-color;
+							cursor: pointer;
+							transition: all $animation-fast ease-in-out;
+							&:hover {
+								color: $button-remove-color-hover;
+							}
+						}
 					}
 					input,
 					select {
@@ -181,6 +193,9 @@ body {
 						}
 						option {
 							color: $bg-color-input;
+						}
+						&::-webkit-calendar-picker-indicator {
+							display: none !important;
 						}
 					}
 					&__buttons {
@@ -277,10 +292,10 @@ body {
 							.player__remove {
 								position: absolute;
 								top: -0.5em;
-								color: #c45050;
+								color: $button-remove-color;
 								transition: all $animation-fast ease-in-out;
 								&:hover {
-									color: #aa1414;
+									color: $button-remove-color-hover;
 								}
 							}
 						}
