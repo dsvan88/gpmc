@@ -29,11 +29,17 @@ actionHandler = {
 			}
 		}
 	},
-	// changeCommonHandler: function (event) {
-	// 	let action = event.target.dataset.actionChange;
-	// 	console.log(action);
+	changeCommonHandler: function (event) {
+		const type = camelize(event.target.dataset.actionChange);
+		if (debug) console.log(type);
+		try {
+			actionHandler[type](event.target, event);
+		} catch (error) {
+			alert(`Не существует метода для этого action-type: ${type}... или возникла ошибка. Сообщите администратору!\r\n${error.name}: ${error.message}`);
+			console.log(error);
+		}
 		
-	// },
+	},
 	clickCommonHandler: function (event) {
 		let target = event.target;
 		let datasetArray = Object.entries(target.dataset);

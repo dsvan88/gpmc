@@ -29,6 +29,31 @@ actionHandler.playerRemove = function (target) {
 		});
 	}
 };
+actionHandler.playerToggleInTable = function (target) {
+	const name = target.childNodes[0].data.trim();
+	const playersList = document.body.querySelectorAll("input[name='player[]'],input[name=manager]");
+	if (target.classList.contains("selected")) {
+		for (player of playersList) {
+			if (player.value === name) {
+				player.value = "";
+				target.classList.toggle("selected");
+				break;
+			}
+		}
+	} else {
+		for (player of playersList) {
+			if (player.value === "") {
+				player.value = name;
+				target.classList.toggle("selected");
+				break;
+			}
+		}
+	}
+};
+actionHandler.playerArrayToggle = function (target) {
+	console.log("Ещё подумать над этой диллемой");
+};
+
 /*
 actionHandler.addPlayersToArray = function (modal) {
 	let name = document.body.querySelector("form.add-player-to-array-form input.input_name[name=gamer]").value.trim();
@@ -57,27 +82,6 @@ actionHandler.addPlayersToArray = function (modal) {
 			},
 		});
 	} else alert("Уже зарегистрирован!");
-};
-actionHandler.toggleGamerInTable = function (target) {
-	let name = target.childNodes[0].data;
-	let playersList = document.body.querySelectorAll("input[name=player],input[name=manager]");
-	if (target.classList.contains("selected")) {
-		for (player of playersList) {
-			if (player.value === name) {
-				player.value = "";
-				target.classList.toggle("selected");
-				break;
-			}
-		}
-	} else {
-		for (player of playersList) {
-			if (player.value === "") {
-				player.value = name;
-				target.classList.toggle("selected");
-				break;
-			}
-		}
-	}
 };
 //-------------------Проверить!
 actionHandler.renameGamer = function (modal) {

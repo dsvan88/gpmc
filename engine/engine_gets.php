@@ -5,14 +5,6 @@ if (!defined('GETS_LOAD'))
 class GetDatas extends SQLBase
 {
 	
-	// Получение списка из $c случайних игроков, принимающих участие в $e вечере
-	function GetRandomPlayers($c=10,$e=-1) 
-	{
-		if ($e !== -1) $dop = $this->getRawArray($this->query('SELECT `gamers` FROM `'.SQL_TBLEVEN.'` WHERE `id`="'.$e.'" LIMIT 1'))[0];
-		if ($r = $this->query('SELECT `name` FROM `'.SQL_TBLUSERS.'` '.(isset($dop) ? 'WHERE `id` IN ('.$dop.')' : 'ORDER BY RAND() LIMIT '.$c)))
-			return $this->getRawArray($r);
-		else error_log(__METHOD__.': SQL ERROR');
-	}
 	// Получение информации нескольких игр по их ID, если значение - не передано, то выбираются все игры из базы
 	function GetAllGames($ids=0) 
 	{

@@ -171,4 +171,12 @@ class Users {
 			return $result;
 		else return 0;
 	}
+	// Получение списка из $c случайних игроков, принимающих участие в $e вечере
+	function usersGetRandomNames($count=11,$eveninId=-1) 
+	{
+		if ($eveninId !== -1) $usersIds = $this->action->getColumn($this->action->prepQuery('SELECT participants FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1',[$eveninId]));
+		if ($r = $this->action->query('SELECT name FROM '.SQL_TBLUSERS.(isset($usersIds) ? ' WHERE id IN ('.$usersIds.')' : ' ORDER BY RANDOM() LIMIT '.$count)))
+			return $this->action->getRawArray($r);
+		else error_log(__METHOD__.': SQL ERROR');
+	}
 }
