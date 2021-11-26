@@ -13,7 +13,7 @@
 	$players = $gameData = $avatar = array();
 	//------------------------------------------------------------------------------- Загрузка данных игры
 	$game_id = (int) $_GET['g_id'];
-	$gameData = $engine->ResumeGame($game_id);
+	$gameData = $engine->gameResume($game_id);
 	$EveningID = (int) $gameData['e_id'];
 	
 	$players = json_decode($gameData['players'],true);

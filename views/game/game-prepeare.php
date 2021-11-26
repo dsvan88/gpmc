@@ -1,6 +1,7 @@
 <?php
 $output['{SCRIPTS}'] .= '<script defer type="text/javascript" src="js/get_script.php/?js=evening"></script>';
 $output['{NEAR_EVENING_BLOCK}'] = file_get_contents( $_SERVER['DOCUMENT_ROOT'].'/templates/game/game-prepeare.html');
+$output['{EVENING_ID}'] = $EveningData['id'];
 
 $output['{GAME_PREPEARE_PLAYERS_LIST}'] = '';
 

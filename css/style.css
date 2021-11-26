@@ -3253,8 +3253,8 @@ template {
   left: 2px;
 }
 
-.wrapper .main .section.near-evening .booking__buttons button, .wrapper .main .section.near-evening .game-prepeare__buttons button, .modal button,
-.modal a.anchor-button {
+.wrapper .main .section.near-evening .booking__buttons button, .modal button,
+.modal a.anchor-button, .game-prepeare__buttons button {
   background: #00abff;
   font-weight: bold;
   font-size: 15px;
@@ -3271,38 +3271,38 @@ template {
   transition: all 0.3s ease-in;
 }
 
-.wrapper .main .section.near-evening .booking__buttons button:hover, .wrapper .main .section.near-evening .game-prepeare__buttons button:hover, .modal button:hover,
-.modal a.anchor-button:hover {
+.wrapper .main .section.near-evening .booking__buttons button:hover, .modal button:hover,
+.modal a.anchor-button:hover, .game-prepeare__buttons button:hover {
   background-color: #b3a2a2;
   color: #dfa261;
 }
 
-.wrapper .main .section.near-evening .booking__buttons button.negative i.fa, .wrapper .main .section.near-evening .game-prepeare__buttons button.negative i.fa, .modal button.negative i.fa, .modal a.negative.anchor-button i.fa {
+.wrapper .main .section.near-evening .booking__buttons button.negative i.fa, .modal button.negative i.fa, .modal a.negative.anchor-button i.fa, .game-prepeare__buttons button.negative i.fa {
   pointer-events: none;
 }
 
-.wrapper .main .section.near-evening .booking__buttons button.negative:hover, .wrapper .main .section.near-evening .game-prepeare__buttons button.negative:hover, .modal button.negative:hover,
-.modal a.negative.anchor-button:hover {
+.wrapper .main .section.near-evening .booking__buttons button.negative:hover, .modal button.negative:hover,
+.modal a.negative.anchor-button:hover, .game-prepeare__buttons button.negative:hover {
   color: #c41919;
   background-color: #ffcfdc;
 }
 
-.wrapper .main .section.near-evening .booking__buttons button.positive i.fa, .wrapper .main .section.near-evening .game-prepeare__buttons button.positive i.fa, .modal button.positive i.fa, .modal a.positive.anchor-button i.fa {
+.wrapper .main .section.near-evening .booking__buttons button.positive i.fa, .modal button.positive i.fa, .modal a.positive.anchor-button i.fa, .game-prepeare__buttons button.positive i.fa {
   pointer-events: none;
 }
 
-.wrapper .main .section.near-evening .booking__buttons button.positive:hover, .wrapper .main .section.near-evening .game-prepeare__buttons button.positive:hover, .modal button.positive:hover,
-.modal a.positive.anchor-button:hover {
+.wrapper .main .section.near-evening .booking__buttons button.positive:hover, .modal button.positive:hover,
+.modal a.positive.anchor-button:hover, .game-prepeare__buttons button.positive:hover {
   color: #018ba1;
   background-color: #99f976;
 }
 
-.wrapper .main .section.near-evening .booking__buttons button.neutral i.fa, .wrapper .main .section.near-evening .game-prepeare__buttons button.neutral i.fa, .modal button.neutral i.fa, .modal a.neutral.anchor-button i.fa {
+.wrapper .main .section.near-evening .booking__buttons button.neutral i.fa, .modal button.neutral i.fa, .modal a.neutral.anchor-button i.fa, .game-prepeare__buttons button.neutral i.fa {
   pointer-events: none;
 }
 
-.wrapper .main .section.near-evening .booking__buttons button.neutral:hover, .wrapper .main .section.near-evening .game-prepeare__buttons button.neutral:hover, .modal button.neutral:hover,
-.modal a.neutral.anchor-button:hover {
+.wrapper .main .section.near-evening .booking__buttons button.neutral:hover, .modal button.neutral:hover,
+.modal a.neutral.anchor-button:hover, .game-prepeare__buttons button.neutral:hover {
   background-color: #7e80ff;
   border-color: #583966;
   color: #202e79;
@@ -3446,7 +3446,7 @@ body {
 
 @media (max-width: 576px) {
   .wrapper .main .section {
-    padding: 20px 0;
+    padding: 20px 30px;
   }
 }
 
@@ -3579,162 +3579,6 @@ body {
 }
 
 .wrapper .main .section.near-evening .booking__buttons {
-  margin: 20px 0;
-}
-
-.wrapper .main .section.near-evening .game-prepeare {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__title {
-  margin: 10px 0 20px 0;
-  text-align: center;
-  font-size: 2em;
-  text-transform: uppercase;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__subtitle {
-  margin: 5px 0 10px 0;
-  text-align: center;
-  font-size: 1.6em;
-  text-transform: uppercase;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__manager {
-  width: 25vw;
-  max-width: 1200px;
-  margin: 10px 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  font-size: 1.4em;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__manager-label {
-  width: 15vw;
-  max-width: 300px;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__manager input {
-  width: 30vw;
-  border-radius: 5px;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__players-list {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  margin: 10px 0;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__players-list .player {
-  margin: 5px 0px;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__players-list .player-name {
-  width: 30vw;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__players-list .player select {
-  width: 140px;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__players-array {
-  padding: 20px;
-  text-indent: 0px;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__players-array .player__name {
-  margin: 5px 10px;
-  position: relative;
-  background-color: #0a494d91;
-  border: 1px solid #94d7cd;
-  border-radius: 5px;
-  display: inline-block;
-  padding: 3px 6px;
-  font-size: 1.2em;
-  line-height: 1em;
-  white-space: nowrap;
-  color: #dfa261;
-  cursor: pointer;
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__players-array .player__name:hover {
-  background-color: #0a494d;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__players-array .player__name.temp_username {
-  background-color: #594e1391;
-  border: 1px solid #eeec54;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__players-array .player__name.temp_username:hover {
-  background-color: #594e13;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__players-array .player__name.selected {
-  background-color: #7714149e;
-  border-color: #aa1414;
-  text-decoration: line-through;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__players-array .player__name.selected:hover {
-  background-color: #771414;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__players-array .player__name .player__remove {
-  position: absolute;
-  top: -0.5em;
-  color: #c45050;
-  -webkit-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__players-array .player__name .player__remove:hover {
-  color: #aa1414;
-}
-
-.wrapper .main .section.near-evening .game-prepeare input,
-.wrapper .main .section.near-evening .game-prepeare select {
-  background-color: #0000004a;
-  text-align: center;
-  border: 0;
-  font-size: 1.4rem;
-  color: #dfa261;
-}
-
-.wrapper .main .section.near-evening .game-prepeare input[placeholder],
-.wrapper .main .section.near-evening .game-prepeare select[placeholder] {
-  color: #dfa261;
-}
-
-.wrapper .main .section.near-evening .game-prepeare input option,
-.wrapper .main .section.near-evening .game-prepeare select option {
-  color: #0000004a;
-}
-
-.wrapper .main .section.near-evening .game-prepeare__buttons {
   margin: 20px 0;
 }
 
@@ -3939,4 +3783,175 @@ body {
 
 .modal .modal-buttons {
   margin: 5px 0px;
+}
+
+.game-prepeare {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+@media (max-width: 576px) {
+  .game-prepeare {
+    font-size: 1.1em;
+  }
+  .game-prepeare .player {
+    margin: 5px 0px;
+  }
+  .game-prepeare .player-name {
+    width: 45vw !important;
+  }
+  .game-prepeare .player select {
+    width: 100px !important;
+  }
+}
+
+.game-prepeare__title {
+  margin: 10px 0 20px 0;
+  text-align: center;
+  font-size: 2em;
+  text-transform: uppercase;
+}
+
+.game-prepeare__subtitle {
+  margin: 5px 0 10px 0;
+  text-align: center;
+  font-size: 1.6em;
+  text-transform: uppercase;
+}
+
+.game-prepeare__manager {
+  width: 45vw;
+  max-width: 1200px;
+  margin: 10px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-size: 1.4em;
+}
+
+.game-prepeare__manager-label {
+  width: 15vw;
+  max-width: 300px;
+}
+
+.game-prepeare__manager input {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.game-prepeare__players-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 10px 0;
+}
+
+.game-prepeare__players-list .player {
+  margin: 5px 0px;
+}
+
+.game-prepeare__players-list .player-name {
+  width: 30vw;
+}
+
+.game-prepeare__players-list .player select {
+  width: 140px;
+}
+
+.game-prepeare__players-array {
+  padding: 20px;
+  text-indent: 0px;
+}
+
+.game-prepeare__players-array .player__name {
+  margin: 5px 10px;
+  position: relative;
+  background-color: #0a494d91;
+  border: 1px solid #94d7cd;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 3px 6px;
+  font-size: 1.2em;
+  line-height: 1em;
+  white-space: nowrap;
+  color: #dfa261;
+  cursor: pointer;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.game-prepeare__players-array .player__name:hover {
+  background-color: #0a494d;
+}
+
+.game-prepeare__players-array .player__name.temp_username {
+  background-color: #594e1391;
+  border: 1px solid #eeec54;
+}
+
+.game-prepeare__players-array .player__name.temp_username:hover {
+  background-color: #594e13;
+}
+
+.game-prepeare__players-array .player__name.selected {
+  background-color: #7714149e;
+  border-color: #aa1414;
+  text-decoration: line-through;
+}
+
+.game-prepeare__players-array .player__name.selected:hover {
+  background-color: #771414;
+}
+
+.game-prepeare__players-array .player__name .player__remove {
+  position: absolute;
+  top: -0.5em;
+  color: #c45050;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.game-prepeare__players-array .player__name .player__remove:hover {
+  color: #aa1414;
+}
+
+.game-prepeare input,
+.game-prepeare select {
+  background-color: #0000004a;
+  text-align: center;
+  border: 0;
+  font-size: 1.4em;
+  color: #dfa261;
+}
+
+.game-prepeare input[placeholder],
+.game-prepeare select[placeholder] {
+  color: #dfa261;
+}
+
+.game-prepeare input option,
+.game-prepeare select option {
+  color: #0000004a;
+}
+
+.game-prepeare__buttons {
+  margin: 20px 0;
 }

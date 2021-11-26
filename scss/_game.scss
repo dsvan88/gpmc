@@ -1,0 +1,127 @@
+.game-prepeare {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	@include sm {
+		font-size: 1.1em;
+		.player {
+			margin: 5px 0px;
+			&-name {
+				width: 45vw !important;
+			}
+			select {
+				width: 100px !important;
+			}
+		}
+	}
+	&__title {
+		margin: 10px 0 20px 0;
+		text-align: center;
+		font-size: 2em;
+		text-transform: uppercase;
+	}
+	&__subtitle {
+		margin: 5px 0 10px 0;
+		text-align: center;
+		font-size: 1.6em;
+		text-transform: uppercase;
+	}
+	&__manager {
+		width: 45vw;
+		max-width: 1200px;
+		margin: 10px 0;
+		display: flex;
+		justify-content: space-between;
+		font-size: 1.4em;
+		&-label {
+			width: 15vw;
+			max-width: 300px;
+		}
+		input {
+			width: 100%;
+			border-radius: 5px;
+		}
+	}
+	&__players-list {
+		display: flex;
+		flex-direction: column;
+		margin: 10px 0;
+		.player {
+			margin: 5px 0px;
+			&-name {
+				width: 30vw;
+			}
+			select {
+				width: 140px;
+			}
+		}
+	}
+	&__players-array {
+		padding: 20px;
+
+		text-indent: 0px;
+		.player__name {
+			margin: 5px 10px;
+			position: relative;
+			background-color: #0a494d91;
+			border: 1px solid #94d7cd;
+			border-radius: 5px;
+			display: inline-block;
+			padding: 3px 6px;
+			font-size: 1.2em;
+			line-height: 1em;
+			white-space: nowrap;
+			color: $color-text-menu;
+			cursor: pointer;
+			transition: all $animation-fast ease-in-out;
+			&:hover {
+				background-color: #0a494d;
+			}
+			&.temp_username {
+				background-color: #594e1391;
+				border: 1px solid #eeec54;
+				&:hover {
+					background-color: #594e13;
+				}
+			}
+			&.selected {
+				background-color: #7714149e;
+				border-color: #aa1414;
+				text-decoration: line-through;
+				&:hover {
+					background-color: #771414;
+				}
+			}
+			.player__remove {
+				position: absolute;
+				top: -0.5em;
+				color: $button-remove-color;
+				transition: all $animation-fast ease-in-out;
+				&:hover {
+					color: $button-remove-color-hover;
+				}
+			}
+		}
+	}
+	input,
+	select {
+		background-color: $bg-color-input;
+		text-align: center;
+		border: 0;
+		font-size: 1.4em;
+		color: $color-text-menu;
+		&[placeholder] {
+			color: $color-text-menu;
+		}
+		option {
+			color: $bg-color-input;
+		}
+	}
+	&__buttons {
+		margin: 20px 0;
+		button {
+			@extend %buttonStyle;
+		}
+	}
+}

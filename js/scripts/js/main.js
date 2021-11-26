@@ -265,7 +265,7 @@ $(function () {
 // 			open_log(id)
 // 		else close_log(id);
 // 	});
-// 	$('#ResumeGame').click(function() {
+// 	$('#gameResume').click(function() {
 // 		window.location.href='/?g_id='+$(this).val();
 // 	});
 // 	$('#MainBody').off('click','.arrows');

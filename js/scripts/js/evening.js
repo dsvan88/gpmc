@@ -62,7 +62,41 @@ actionHandler.playerArrayToggle = function (target) {
 			participant.classList.remove('selected');
 	});
 };
-
+actionHandler.gameBegin = function (target) {
+	if (document.body.querySelector("input[name=manager]").value.trim() === "") {
+		alert("Спочатку оберіть ведучого з списку очікування гравців!");
+		return false;
+	}
+	const playersList = document.body.querySelectorAll("input[name='player[]']");
+	const setupRoles = ["1", "1", "2", "4", "0", "0", "0", "0", "0", "0"];
+	let role = 0;
+	for (player of playersList) {
+		if (player.value.trim() === "") {
+			alert("Місце гравця игрока №" + (i + 1) + " - порожнє!");
+			return false;
+		}
+		role = player.nextElementSibling.value;
+		let index = setupRoles.indexOf(role);
+		if (index === -1) {
+			alert("Невірно обрані ролі гравців!\r\n(У колоді всього: Мафії - 2, Дон - 1, Шеріф - 1, Мирні - 6");
+			return false;
+		} else {
+			setupRoles.splice(index, 1);
+		}
+	}
+	if (setupRoles.length === 0) {
+		const form = document.body.querySelector("#beReadyForGame")
+		const formData = new FormData(form);
+		formData.append('need', 'do_game-begin');
+		formData.append('evening', form.querySelector("div[data-evening-id]").dataset.eveningId);
+		postAjax({
+			data: formDataToJson(formData),
+			successFunc: function (result) {
+				window.location.href = "/?gid=" + result['gid'];
+			},
+		});
+	}
+};
 /*
 actionHandler.addPlayersToArray = function (modal) {
 	let name = document.body.querySelector("form.add-player-to-array-form input.input_name[name=gamer]").value.trim();
@@ -115,41 +149,7 @@ actionHandler.renameGamer = function (modal) {
 		},
 	});
 };
-actionHandler.startGame = function (target) {
-	if (document.body.querySelector("input[name=manager]").value.trim() === "") {
-		alert("Сначала выберите ведущего из списка не играющих игроков!");
-		return false;
-	}
-	let playersList = document.body.querySelectorAll("input[name=player]");
-	let setupRoles = ["1", "1", "2", "4", "0", "0", "0", "0", "0", "0"];
-	let role = 0;
-	for (player of playersList) {
-		if (player.value.trim() === "") {
-			alert("Кого-то не хватает! (Нет игрока под №" + (i + 1) + ")");
-			return false;
-		}
-		role = player.nextElementSibling.value;
-		let index = setupRoles.indexOf(role);
-		if (index === -1) {
-			alert("Неправильно распределены роли!\r\n(Ролей всего: Мафии - 2, Дон - 1, Шериф - 1, Мирные - 6");
-			return false;
-		} else {
-			setupRoles.splice(index, 1);
-		}
-	}
-	if (setupRoles.length === 0) {
-		let form = document.body.querySelector("#eveningRegisterForm")
-		let data = serializeForm(form);
-		data['need'] = 'game-start';
-		data['evening'] = form.querySelector("div[data-evening-id]").dataset.eveningId;
-		postAjax({
-			data: data,
-			successFunc: function (gameId) {
-				window.location.href = "/?g_id=" + gameId;
-			},
-		});
-	}
-};
-actionHandler.resumeGame = function (target) {
+
+actionHandler.gameResume = function (target) {
 	window.location.href = "/?g_id=" + target.dataset.gameId;
 };*/

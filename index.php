@@ -35,6 +35,14 @@ else
 
 $output['{HEADER_LOGO}'] = "<a href='http://$_SERVER[SERVER_NAME]/'>".$images->inputImage($settingsArray['img']['MainLogo']['value'],['title'=>$settingsArray['img']['MainLogo']['name']]).'</a>';
 
-require $_SERVER['DOCUMENT_ROOT'].'/views/welcome.php';
+if (isset($_GET['gid'])){
+	require "$_SERVER[DOCUMENT_ROOT]/views/game.php";
+}
+else{
+	if (!isset($_GET['page']))
+		$_GET['page'] = 'welcome';
+
+	require "$_SERVER[DOCUMENT_ROOT]/views/$_GET[page].php";
+}
 
 echo str_replace(array_keys($output),array_values($output),$template);

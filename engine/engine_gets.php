@@ -173,7 +173,7 @@ class GetDatas extends SQLBase
 			return true;
 		else return false;
 	}
-	function TryResumeGame() 
+	function TrygameResume() 
 	{
 		return ($_SESSION['id_game'] = $this->getRow($this->query('SELECT `id` FROM `'.SQL_TBLGAMES.'` WHERE `win`<1 AND `players` !="" ORDER BY `id` DESC LIMIT 1'))[0]);
 	}

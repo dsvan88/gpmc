@@ -179,4 +179,36 @@ class Users {
 			return $this->action->getRawArray($r);
 		else error_log(__METHOD__.': SQL ERROR');
 	}
+	// Получить ассоциативный массив всех игроков, по заданным условиям.
+	function usersGetData($columns = ['*'],$conditions='',$limit=1)
+	{
+		$method = ($limit !== 1) ? 'getAssocArray' : 'getAssoc';
+		$where = '';
+		$columns = implode(',',$columns);
+		$table = SQL_TBLUSERS;
+		$values = [];
+		if ($conditions !== '')
+		{
+			$where = ' WHERE ';
+			foreach($conditions as $key=>$value)
+			{
+				if (!is_array($value)){
+					$where .= "$key = ? AND ";
+					$values[] = $value;
+				}
+				else {
+					$where .= $key.' IN ('.substr(str_repeat('?,', count($value)),0,-1).') AND ';
+					$values[] = array_merge($values, $value);
+				}
+
+			}
+			$where = mb_substr($where,0,-4);
+		}
+		return $this->action->$method($this->action->prepQuery("SELECT $columns FROM $table $where".($limit !== 0 ? ' LIMIT '.$limit : ''), $values));
+	}
+	// Получить количество всех игроков в системе.
+	function GetGamerCount()
+	{
+		return $this->getColumn($this->query('SELECT count(id) FROM '.SQL_TBLUSERS));
+	}
 }

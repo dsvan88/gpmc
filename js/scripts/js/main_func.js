@@ -186,25 +186,28 @@ actionHandler = {
 			data: `{"need":"get_participant-field","id":"${newID}" }`,
 			successFunc: function (result) {
 				eveningGamersFields.insertAdjacentHTML("beforeend", result['html']);
-				let autoCompleteInputs = document.body.querySelectorAll("*[data-autocomplete]");
-				autoCompleteInputs.forEach(
-					element => {
-						let source = function (request, response) {
-							postAjax({
-								data: `{"need":"get_autocomplete-${element.dataset.autocomplete}","term":"${request.term}"}`,
-								successFunc: function (result) {
-									if (result)
-										response(result['result']);
-								},
-							});
-							// response();
-						}
-						$(element).autocomplete({
-							source: source,
-							minLength: 3
-						});
-					}
-				);
+				eveningGamersFields.querySelectorAll('input[data-action-change]').forEach(element =>
+					element.addEventListener('change', (event) => actionHandler.changeCommonHandler.call(actionHandler,event))
+				)
+				// let autoCompleteInputs = document.body.querySelectorAll("*[data-autocomplete]");
+				// autoCompleteInputs.forEach(
+				// 	element => {
+				// 		let source = function (request, response) {
+				// 			postAjax({
+				// 				data: `{"need":"get_autocomplete-${element.dataset.autocomplete}","term":"${request.term}"}`,
+				// 				successFunc: function (result) {
+				// 					if (result)
+				// 						response(result['result']);
+				// 				},
+				// 			});
+				// 			// response();
+				// 		}
+				// 		$(element).autocomplete({
+				// 			source: source,
+				// 			minLength: 3
+				// 		});
+				// 	}
+				// );
 				// $(".timepicker").datetimepicker({ datepicker: false, format: "H:i" });
 			},
 		});
@@ -310,7 +313,8 @@ actionHandler = {
 		});
 	},
 		
-/* 	adminPanel: function (target, event) {
+/* 	
+adminPanel: function (target, event) {
 		if (event.ctrlKey || event.metaKey || target.dataset.actionMode === "admin") {
 			postAjax({
 				data: {
@@ -324,65 +328,7 @@ actionHandler = {
 			});
 		} else window.location.href = target.href;
 	},
-	headerLogin: function (target) {
-		postAjax({
-			data: {
-				need: "login",
-				login: document.body.querySelector("header input[name=login]").value,
-				pass: document.body.querySelector("header input[name=pass]").value,
-			},
-			successFunc: function (result) {
-				result = JSON.parse(result);
-				if (result["error"] == 0) location.reload();
-				else alert(result["txt"]);
-			},
-		});
-	},
-	setEveningData: function (target) {
-		postAjax({
-			data: {
-				need: "apply_evening",
-				eve_date: document.body.querySelector("input[name=eve_date]").value,
-				eve_place: document.body.querySelector("input[name=eve_place]").value,
-				eve_place_info: document.body.querySelector("input[name=eve_place_info]").value,
-			},
-		});
-	},
-	approveEvening: function (target) {
-		let data = [];
-		let names = eveningRegisterForm.querySelectorAll("input[name=gamer]");
-		let arrives = eveningRegisterForm.querySelectorAll("input[name=arrive]");
-		let durations = eveningRegisterForm.querySelectorAll("select[name=duration]");
-		for (let x = 0; x < names.length; x++) {
-			data.push({
-				name: names[x].value,
-				arrive: arrives[x].value,
-				duration: durations[x].value,
-			});
-		}
-		postAjax({
-			data: {
-				need: "apply_evening",
-				eve_date: document.body.querySelector("input[name=eve_date]").value,
-				eve_place: document.body.querySelector("input[name=eve_place]").value,
-				eve_place_info: document.body.querySelector("input[name=eve_place_info]").value,
-				data: JSON.stringify(data),
-			},
-		});
-	},
-	dischargeGamer: function (target) {
-		if (confirm("Точно удалить игрока из записи?")) {
-			postAjax({
-				data: {
-					need: "discharge_gamer",
-					id: target.id.split("_")[0],
-				},
-				successFunc: function () {
-					location.reload();
-				},
-			});
-		}
-	}, */
+	*/
 	CommonFormReady: function ({ modal = null, result = {}, type = null}) {
 		$(".modal-body input.input_name").autocomplete({
 			source: "switcher.php?need=autocomplete_names",

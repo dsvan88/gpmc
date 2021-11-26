@@ -1,4 +1,4 @@
 git add -A
-git commit -m "v0.16.7 Refactoring in progress. Add check for repeated names in Evening Participants Register list"
+git commit -m "v0.16.8 Refactoring in progress. Refactory game-system"
 git push
 pause

@@ -180,74 +180,15 @@ class JSFunc extends SQLBase
 			return true;
 		else return false;
 	}
-	function TryResumeGame() 
+	function TrygameResume() 
 	{
 		return ($_SESSION['id_game'] = $this->getRow($this->query('SELECT `id` FROM `'.SQL_TBLGAMES.'` WHERE `win`<1 AND `players` !="" ORDER BY `id` DESC LIMIT 1'))[0]);
 	}
-	function ResumeGame($g_id) 
+	function gameResume($g_id) 
 	{
 		if ($r = $this->getAssoc($this->query('SELECT `id`,`players`,`vars`,`manager`,`rating`,`win`,`g_ids`,`e_id`,`start` FROM `'.SQL_TBLGAMES.'` WHERE '.($g_id > 0 ? '`id`="'.$g_id.'"' : '`win`<1').' ORDER BY `id` DESC LIMIT 1')))
 			$r = str_replace(array('»','}\",\"{','[\"','\"]'),array('"','}","{','["','"]'),$r);
 		return $r;
-	}
-	function GetGameNum($e,$g)
-	{
-		if (($r = $this->getRawArray($this->query('SELECT `games` FROM `'.SQL_TBLEVEN.'` WHERE `id`="'.$e.'" LIMIT 1'))) !== false)
-			$r = substr_count($r[0],',') + 1;
-		return $r;
-	}
-	function getDefaultVars(){
-		return [
-			'timer' => 6000,
-			'stage'  => 'firstNight',
-			'prevStage'  =>  '',
-			'daysCount'  =>  -1,
-			'activeSpeaker'  =>  -1,
-			'prevActiveSpeaker'  =>  -1,
-			'kill'  =>  [[]],
-			'lastWill'  =>  [],
-			'daySpeakers'  =>  -1,
-			'debaters'  =>  -1,
-			'canMakeBestMove' => false,
-			'makeBestMove' => -1,
-			'currentVote'  => [],
-			'bestMove'  =>  [],
-			'dopsPoints'  =>  [0=>0.0,1=>0.0,2=>0.0,3=>0.0,4=>0.0,5=>0.0,6=>0.0,7=>0.0,8=>0.0,9=>0.0],
-			'winTeam'  =>  0,
-			'caption' => 'Фаза ночи.<br>Минута договора игроков мафии.<br>Шериф может взглянуть на город.'
-		];
-	}
-	function StartGame(&$e,&$ids,&$players,&$m) 
-	{
-		$_SESSION['id_game'] = $this->rowInsert([
-			'e_id'=>$e,
-			'g_ids'=>$ids,
-			'manager'=>$this->GetGamerID($m),
-			'players'=>json_encode($players,JSON_UNESCAPED_UNICODE),
-			'rating'=>$this->GetGameRating($ids),
-			'vars'=>json_encode($this->getDefaultVars(),JSON_UNESCAPED_UNICODE),
-		]);
-		$games = $this->eveningGetGames($e);
-		$games = $games == '' ? $_SESSION['id_game'] : $games.','.$_SESSION['id_game'];
-		$this->rowUpdate(array('games'=>$games), array('id'=>$e), SQL_TBLEVEN);
-		return substr_count($games,',')+1;
-	}
-	function SetPlayersDefaults(&$a)
-	{
-		// error_log(json_encode($a,JSON_UNESCAPED_UNICODE));
-		$arr=array('enum' => '');
-		$i=-1;
-		while (isset($a['player'][++$i]))
-		{
-			$arr[$i]['id']		=	-1;
-			$arr[$i]['role']	=	(int) $a['role'][$i];
-			$arr[$i]['fouls']	=	0;
-			$arr[$i]['out']		=	0;
-			$arr[$i]['puted']	=	array();
-			$arr[$i]['name']	=	$a['player'][$i];
-		}
-		$arr['enum']		= 	'"'.implode('","',$a['player']).'"';
-		return $arr;
 	}
 	function GetGamerID($n,$chk=0)
 	{

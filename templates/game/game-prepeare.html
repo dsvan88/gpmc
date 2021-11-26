@@ -1,6 +1,6 @@
 <form id="beReadyForGame" method="POST" class="game-prepeare">
-	<div class="game-prepeare__manager">
-		<label for="manager" class="game-prepeare__manager-label">Ведучій: </label>
+	<div class="game-prepeare__manager" data-evening-id="{EVENING_ID}">
+		<!-- <label for="manager" class="game-prepeare__manager-label">Ведучій: </label> -->
 		<input id="manager" name="manager" type="text" data-autocomplete="user-name" value="" placeholder="Ведучій" />
 	</div>
 	<div class="game-prepeare__buttons">
@@ -10,7 +10,7 @@
 		{GAME_PREPEARE_PLAYERS_LIST}
 	</ol>
 	<div class="game-prepeare__buttons">
-		<button data-action="game-start">Розпочати гру</button>
+		<button data-action="game-begin">Розпочати гру</button>
 	</div>
 	<!-- <div class='SepDiv'><button id="StartGame" class="menu_button">Начать</button></div> -->
 	<div class="game-prepeare__players-array">{GAME_PREPEARE_PLAYERS_ARRAY}</div>
