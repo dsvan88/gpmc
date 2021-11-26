@@ -2,7 +2,7 @@
 	<label for="booking__participant-{PARTICIPANT_INDEX}" class="booking__participant-num">{PARTICIPANT_NUMBER}.</label>
 	<div class="booking__participant-info">
 		<!-- <input name="participant[]" type="text" value="{PARTICIPANT_NAME}" class="booking__participant-name" data-autocomplete="user-name" autocomplete="off" /> -->
-		<input name="participant[]" type="text" value="{PARTICIPANT_NAME}" class="booking__participant-name" data-action-input="get-autocomplete-users-names" list="users-names-list" autocomplete="off" />
+		<input name="participant[]" type="text" value="{PARTICIPANT_NAME}" class="booking__participant-name" data-action-input="get-autocomplete-users-names" data-action-change="participant-check-change" list="users-names-list" autocomplete="off" />
 		<input name="arrive[]" list="durations-list" type="text" class="booking__participant-arrive" value="{PARTICIPANT_ARRIVE}" id="booking__participant-{PARTICIPANT_INDEX}" autocomplete="off" />
 		<datalist id="durations-list">
 			<option value="17:00"></option>

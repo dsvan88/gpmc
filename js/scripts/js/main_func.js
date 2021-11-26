@@ -209,6 +209,28 @@ actionHandler = {
 			},
 		});
 	},
+	participantFieldRemove: function(target, event) {
+		const parent = target.closest('div');
+		const nameInput = parent.querySelector('input[name="participant[]"]');
+		const arriveInput = parent.querySelector('input[name="arrive[]"]');
+		const durationInput = parent.querySelector('select[name="duration[]"]');
+		if (nameInput.value !== '')
+			nameInput.value = '';
+		if (arriveInput.value !== '')
+			arriveInput.value = '';
+		if (durationInput.value != 0)
+			durationInput.value = 0;
+	},
+	participantCheckChange: function (target, event) {
+		const newName = target.value.trim();
+		if (newName === '') return false;
+		let participantsList = [];
+		document.body.querySelectorAll("input[name='participant[]']").forEach(item => item.value !== '' && item !== target ? participantsList.push(item.value) : false);
+		if (participantsList.includes(newName)) {
+			alert('Гравець з таким іменем - вже зареєстрований на поточний вечір!');
+			target.value = '';
+		}
+	},
 	eveningPlace: function (event) {
 		console.log(event);
 		postAjax({
