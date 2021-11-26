@@ -14,8 +14,8 @@ if (isset($EveningData['place']) && is_numeric($EveningData['place'])){
 
 if (isset($EveningData['participants_info']))
 	$EveningData['participants_info'] = json_decode($EveningData['participants_info'],true);
-if (count($EveningData['participants_info']) === 0){
-	$randomUsers = $users->usersGetRandomNames();
+if ($EveningData['start'] && count($EveningData['participants_info']) === 0){
+	$randomUsers = $users->usersGetRandomNames(13);
 	for ($x=0; $x < count($randomUsers); $x++) { 
 		$EveningData['participants_info'][$x] = [
 			'name' => $randomUsers[$x],

@@ -30,7 +30,7 @@ actionHandler.playerRemove = function (target) {
 	}
 };
 actionHandler.playerToggleInTable = function (target) {
-	const name = target.childNodes[0].data.trim();
+	const name = target.childNodes[0].data;
 	const playersList = document.body.querySelectorAll("input[name='player[]'],input[name=manager]");
 	if (target.classList.contains("selected")) {
 		for (player of playersList) {
@@ -51,7 +51,16 @@ actionHandler.playerToggleInTable = function (target) {
 	}
 };
 actionHandler.playerArrayToggle = function (target) {
-	console.log("Ещё подумать над этой диллемой");
+	let playersList = [];
+	document.body.querySelectorAll("input[name='player[]'],input[name=manager]").forEach(item => item.value !== '' ? playersList.push(item.value) : false);
+	const participantsList = document.body.querySelectorAll(".game-prepeare__players-array .player__name");
+
+	participantsList.forEach(participant => {
+		if (playersList.includes(participant.childNodes[0].data))
+			participant.classList.add('selected');
+		else
+			participant.classList.remove('selected');
+	});
 };
 
 /*

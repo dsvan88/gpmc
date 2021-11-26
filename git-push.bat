@@ -1,4 +1,4 @@
 git add -A
-git commit -m "v0.16.5 Refactoring in progress. Remade JQuery autocomplete functions into HTML5 datalist function"
+git commit -m "v0.16.6 Refactoring in progress. Upgrade reaction of players-spans in playerArray with change values in player-list"
 git push
 pause
