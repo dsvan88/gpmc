@@ -45,6 +45,30 @@ class Games {
 			'caption' => 'Фаза ночи.<br>Минута договора игроков мафии.<br>Шериф может взглянуть на город.'
 		];
 	}
+	function gameLoadData($gameId){
+		return $this->action->getAssoc($this->action->prepQuery('SELECT eid,players,vars FROM '.SQL_TBLGAMES.' WHERE id = ? LIMIT 1', [$gameId]));	
+	}
+	function gameGetDefaultData($gameId){
+
+		$gameData = $this->gameResume($gameId);
+		$players = json_decode($gameData['players'],true);
+		$playersNames = [];
+		for ($x=0; $x < count($players); $x++) {
+			$playersNames[] = $players[$x]['name'];
+		}
+		return [
+			'gid' => $gameId,
+			'gnum' => $this->gameGetNumberOfEvening($gameData['eid'],$gameId),
+			'win' => $gameData['win'],
+			'reasons' => ['','Убит','Осуждён','4 Фола','Дисквал.'],
+			'roles' => ['red','mafia','don','','sherif'],
+			'roles_text' => ['Мирный','Мафия','Дон','','Шериф'],
+			'rating' => ['C','B','A'],
+			'manager' => $gameData['manager'],
+			'players' => $players,
+			'playersNames' => $playersNames
+		];
+	}
     function gameBegin($eveningId,$ids,$players,$manager) 
 	{
         $users = new Users;
@@ -55,29 +79,39 @@ class Games {
 			'player_ids'=>$ids,
 			'manager'=>$users->userGetId($manager),
 			'players'=>json_encode($players,JSON_UNESCAPED_UNICODE),
-			'rating'=> 0,
-			'vars'=>json_encode($this->defaultVarsGet(),JSON_UNESCAPED_UNICODE)
+			'vars'=>json_encode($this->defaultVarsGet(),JSON_UNESCAPED_UNICODE),
+			'rating'=> 0
 		]);
 		$gamesIds = $evenings->eveningGetGames($eveningId);
 
 		$gamesIds = $gamesIds == '' ? $_SESSION['id_game'] : $gamesIds.','.$_SESSION['id_game'];
-		$this->action->rowUpdate(['games'=>$games], ['id'=>$eveningId], SQL_TBLEVEN);
+		$this->action->rowUpdate(['games'=>$gamesIds], ['id'=>$eveningId], SQL_TBLEVEN);
 		return substr_count($gamesIds,',')+1;
 	}
 	function gameResume($gameId) 
 	{
-        $where = '';
-        $values = [];
-        if ($gameId > 0){
-            $where = ' WHERE id= ? ';
-            $values[] = $gameId;
-        }
-		return $this->action->getAssoc($this->action->prepQuery('SELECT id,players,vars,manager,rating,win,player_ids,eid,start FROM '.SQL_TBLGAMES.$where.' ORDER BY id DESC LIMIT 1', $values));
+        $query = 'SELECT 
+			{SQL_TBLGAMES}.id,
+			{SQL_TBLGAMES}.players, 
+			{SQL_TBLGAMES}.vars, 
+			{SQL_TBLGAMES}.start, 
+			{SQL_TBLGAMES}.rating, 
+			{SQL_TBLGAMES}.win, 
+			{SQL_TBLGAMES}.player_ids, 
+			{SQL_TBLGAMES}.eid, 
+			{SQL_TBLUSERS}.name AS manager
+			FROM {SQL_TBLGAMES}
+			LEFT JOIN {SQL_TBLUSERS} ON {SQL_TBLUSERS}.id = {SQL_TBLGAMES}.manager
+			WHERE {SQL_TBLGAMES}.id = ? 
+			LIMIT 1';
+		return $this->action->getAssoc($this->action->prepQuery(str_replace(['{SQL_TBLGAMES}', '{SQL_TBLUSERS}'],[SQL_TBLGAMES, SQL_TBLUSERS],$query), [$gameId]));
 	}
-	function gameGetNumberOfEvening($e,$g)
+	function gameGetNumberOfEvening($eveningId,$gameId)
 	{
-		if (($r = $this->getRawArray($this->query('SELECT `games` FROM `'.SQL_TBLEVEN.'` WHERE `id`="'.$e.'" LIMIT 1'))) !== false)
-			$r = substr_count($r[0],',') + 1;
-		return $r;
+		$games = $this->action->getColumn($this->action->prepQuery('SELECT games FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1', [$eveningId]));
+		if (!$games)
+			return 0;
+		$games = explode(',',$games);
+		return array_search($gameId,$games)+1;
 	}
 }

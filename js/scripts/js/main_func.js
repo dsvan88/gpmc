@@ -187,8 +187,11 @@ actionHandler = {
 			successFunc: function (result) {
 				eveningGamersFields.insertAdjacentHTML("beforeend", result['html']);
 				eveningGamersFields.querySelectorAll('input[data-action-change]').forEach(element =>
-					element.addEventListener('change', (event) => actionHandler.changeCommonHandler.call(actionHandler,event))
-				)
+					element.addEventListener('change', (event) => actionHandler.changeCommonHandler.call(actionHandler, event))
+				);
+				eveningGamersFields.querySelectorAll('input[data-action-input]').forEach(element =>
+					element.addEventListener('input', (event) => actionHandler.inputCommonHandler.call(actionHandler, event))
+				);
 				// let autoCompleteInputs = document.body.querySelectorAll("*[data-autocomplete]");
 				// autoCompleteInputs.forEach(
 				// 	element => {
@@ -437,7 +440,7 @@ function simpleObjectToGetString(obj) {
 }
 function serializeForm(target) {
 	
-	let elements = target.querySelectorAll("input, select, textarea");
+	const elements = target.querySelectorAll("input,select,textarea");
 	let result = {};
 	elements.forEach((element) => {
 		if (element.tagName === "INPUT" && element.type === "checkbox" && !element.checked) return;
@@ -508,10 +511,10 @@ function applyAttributes(element, attributes) {
 		else applyAttributes(element[attName], attrValue);
 	}
 }
-Array.prototype.shuffle = function (b) {
-	let i = this.length, j,	t;
+Array.prototype.shuffle = function () {
+	let j;
 	for (let i = this.length - 1; i > 0; i--) {
-		let j = Math.floor(Math.random() * (i + 1)); // случайный индекс от 0 до i
+		j = Math.floor(Math.random() * (i + 1)); // случайный индекс от 0 до i
 		[this[i], this[j]] = [this[j], this[i]];
 	}
 	return this;

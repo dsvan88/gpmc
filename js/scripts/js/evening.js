@@ -97,6 +97,9 @@ actionHandler.gameBegin = function (target) {
 		});
 	}
 };
+actionHandler.gameResume = function (target) {
+	window.location.href = "/?gid=" + target.dataset.gameId;
+};
 /*
 actionHandler.addPlayersToArray = function (modal) {
 	let name = document.body.querySelector("form.add-player-to-array-form input.input_name[name=gamer]").value.trim();
@@ -150,6 +153,4 @@ actionHandler.renameGamer = function (modal) {
 	});
 };
 
-actionHandler.gameResume = function (target) {
-	window.location.href = "/?g_id=" + target.dataset.gameId;
-};*/
+*/

@@ -16,7 +16,7 @@ if (isset($_POST['participant'])){
     }
 }
 $data['date'] = strtotime($_POST['eve_date']);
-$data['place'] = ['name'=>$_POST['eve_place'], 'info'=>$_POST['eve_place_info']];
+$data['place'] = [ 'name'=>$_POST['eve_place'], 'info'=>$_POST['eve_place_info'] ];
 
 $action->setEveningApproved($data);
 

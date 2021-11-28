@@ -1,3 +1,4 @@
+@import "game-timer";
 .game-prepeare {
 	display: flex;
 	flex-direction: column;
@@ -123,5 +124,66 @@
 		button {
 			@extend %buttonStyle;
 		}
+	}
+}
+.game-in-progress {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	@include sm {
+		font-size: 1.1em;
+	}
+}
+.game {
+	&__table {
+		border-collapse: collapse;
+		font-size: 1.2rem;
+		&-header {
+			padding: 10px 0;
+			font-size: 1.35rem;
+			white-space: nowrap;
+			.text-accent {
+				color: $color-text-menu;
+			}
+		}
+		th {
+			padding: 5px 10px;
+		}
+		.player {
+			&.active {
+				background-color: #0d5023;
+				animation: activeSpeaker 2s ease-out infinite;
+			}
+			&.out {
+			}
+			&__number {
+				cursor: pointer;
+			}
+			&__info {
+				cursor: pointer;
+			}
+			border-bottom: 1px dashed $color-text-main;
+			&__name {
+				padding: 5px 10px;
+			}
+			&-data {
+				&__fouls {
+					border: 1px solid $color-text-main;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}
+.hidden {
+	display: none;
+}
+@keyframes activeSpeaker {
+	50% {
+		background-color: #0d502381;
+	}
+	100% {
+		background-color: #0d5023;
 	}
 }

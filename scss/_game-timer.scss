@@ -1,0 +1,42 @@
+.timer {
+	&__watchclock {
+		padding: 10px;
+		font-size: 2em;
+		text-align: center;
+	}
+	&__control {
+		font-size: 2.5em;
+		&-button {
+			padding: 10px 20px;
+			cursor: pointer;
+			transition: all $animation-fast ease-in;
+			&.hidden {
+				display: none;
+			}
+			&[data-timer-action="undo"] {
+				color: #f7a0ff;
+				&:hover {
+					color: #ee54fc;
+				}
+			}
+			&[data-timer-action="reset"] {
+				color: #b09dff;
+				&:hover {
+					color: #724bff;
+				}
+			}
+			&[data-timer-action="start"] {
+				color: #a2fdc8;
+				&:hover {
+					color: #0ec55b;
+				}
+			}
+			&[data-timer-action="next"] {
+				color: #c8e1f5;
+				&:hover {
+					color: #087ddd;
+				}
+			}
+		}
+	}
+}
