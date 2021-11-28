@@ -25,9 +25,9 @@ class MafiaGameLogic{
 		if (this.playersShooted.length > 0) shooted = this.getShooting();
 		if (this.vars['stage'] === 'firstNight' || this.vars['stage'] === 'night' && !shooted || this.vars['stage'] === 'lastWill' && this.vars['prevStage'] === 'night')
 			return 'morning';
-		else if (this.vars['stage'] === 'morning' || (this.vars['stage'] === 'daySpeaker' && this.vars['daySpeakers'] > 0))
+		else if (this.vars['stage'] === 'morning' || (this.vars['stage'] === 'daySpeaker' && this.vars['daySpeakers'].length > 0))
 			return 'daySpeaker';
-		else if (this.vars['stage'] === 'daySpeaker' && this.vars['daySpeakers'] <= 0)
+		else if (this.vars['stage'] === 'daySpeaker' && this.vars['daySpeakers'].length <= 0)
 			return 'court';
 		// else if ((this.vars['stage'] === 'court' || this.vars['stage'] === 'debate') && this.vars['debaters'] != -1)
 		else if ((this.vars['stage'] === 'court' || this.vars['stage'] === 'debate') && this.vars['currentVote'].length > 0)
@@ -70,8 +70,8 @@ class MafiaGameLogic{
 			let i = -1;
 			while(++i<=9)
 				this.players[i]['puted'][this.vars['daysCount']] = -1;
-			this.vars['daySpeakers'] = this.playerGetActiveCount();
-			this.vars['active'] = this.playerGetNextSpeaker(this.vars['daysCount']);
+			this.vars['daySpeakers'] = this.playersGetSpeakersArray();
+			this.vars['activeSpeaker'] = this.playerGetNextSpeaker();
 			const killed = this.gameTable.querySelectorAll(`tr.for-kill`);
 			if (killed.length !== 1)
 				killed.forEach(playerRow => playerRow.classList.remove('for-kill'));
@@ -79,11 +79,41 @@ class MafiaGameLogic{
 		}
 		else 
 		{
-			this.vars['prev_active'] = this.vars['active'];
-			this.vars['active'] = this.playerGetNextSpeaker(this.vars['active']+1);
+			this.vars['prevActiveSpeaker'] = this.vars['activeSpeaker'];
+			this.vars['activeSpeaker'] = this.playerGetNextSpeaker();
 		}
-		this.activeSpeakerChange(this.vars['active']);
-		// set_PhaseState('Фаза дня.BRДень №'+this.vars['daysCount']+'BRРечь игрока №'+(this.vars['active']+1));
+		this.activeSpeakerChange(this.vars['activeSpeaker']);
+		// set_PhaseState('Фаза дня.BRДень №'+this.vars['daysCount']+'BRРечь игрока №'+(this.vars['activeSpeaker']+1));
+	}
+	stageCourt() {
+		this.activeSpeakerChange();
+		if (!this.playersFoulsCheck())
+		{
+			alert('На данном кругу были получены дисквалифицирующие фолы. Голосование не проводится.');
+			this.courtRoomClear(1);
+		}
+		else if (this.vars.currentVote.length === 0)
+		{
+			alert('На голосование никто не выставлен. Голосование не проводится.');
+			this.courtRoomClear(1);
+		}
+		else if (this.vars.currentVote.length === 1)
+		{
+			string = 'На голосование был выставлен лишь 1 игрок\r\n';
+			if (this.vars['daysCount'] > 0) {
+				string += `Наш город покидает игрок № ${this.vars.currentVote[0]}!\r\nУ вас есть 1 минута для последней речи`;
+				this.playerOut(this.vars.currentVote[0] - 1, 2);
+			}
+			else
+				string += 'Этого недостаточно для проведения голосования. Наступает фаза ночи!';
+			alert(string);
+			this.courtRoomClear(1);
+		}
+		else
+			this.courtRoomAction();
+	}
+	stageNight() {
+
 	}
 	prepeareUndo(){
 		if (this.prevVars.length === this.maxStepBacks){
@@ -143,7 +173,7 @@ class MafiaGameLogic{
 		}
 	}
 	actionPutPlayerOnTheVote(targetRow,playerVotedId=-1) {
-		const targetId = targetRow.dataset.playerId;
+		let targetId = targetRow.dataset.playerId;
 		if (this.players[targetId]['out']>0){
 			alert('Не принято!\r\nЗа столом нет такого игрока.');
 			return false;
@@ -151,20 +181,22 @@ class MafiaGameLogic{
 		let act = playerVotedId;
 		if (act === -1) {
 			if (this.vars['timer'] === 6000)
-				act = this.vars['prevActive'];
+				act = this.vars['prevActiveSpeaker'];
 			else
-				act = this.vars['active'];
+				act = this.vars['activeSpeaker'];
 		}
 		if (act === -1) return false;
-		const td = this.gameTable.querySelector(`tr[data-player-id="${act}"] td.puted`);
-		if (td.textContent !== '' && targetId !== parseInt(td.textContent)-1) return false;
+		console.log(act);
+		const td = this.gameTable.querySelector(`tr[data-player-id="${act}"] td.vote-num`);
+		console.log(td.textContent);
+		if (td.textContent !== '' && targetId != parseInt(td.textContent)-1) return false;
 		++targetId;
 		const check = this.vars.currentVote.indexOf(targetId);
 		if (check === -1){
 			td.textContent = targetId;
-			targetRow.classList.add( "for-vote" );
 			this.vars.currentVote.push(targetId);
 			this.players[act]['puted'][this.vars['daysCount']] = targetId;
+			targetRow.classList.add( "for-vote" );
 			// save_log('Игрок №'+(act+1)+' выставил игрока №'+targetId+' на голосование!');
 		}
 		else{
@@ -182,8 +214,8 @@ class MafiaGameLogic{
 			}
 		}
 		if (this.vars.currentVote.length>0)
-			this.showCourtRoom();
-		else this.hideCourtRoom();
+			this.courtRoomShow();
+		else this.courtRoomHide();
 	}
 	actionShootedPlayer(targetRow) {
 		const targetId = targetRow.dataset.playerId;
@@ -191,6 +223,12 @@ class MafiaGameLogic{
 			return false;
 		this.vars['kill'][this.vars['daysCount']].push(targetId);
 		targetRow.classList.add('for-kill');
+	}
+	gameActionUndo() {
+		load = true; 
+		this.vars = JSON.parse(this.prevVars.pop());
+		this.players = JSON.parse(this.prevPlayers.pop());
+		stateLoad();
 	}
 	stateSave() {
 		this.prepeareUndo();
@@ -205,7 +243,7 @@ class MafiaGameLogic{
 			data: formDataToJson(formData),
 			successFunc: function (result) {
 				if (result["error"] === 0) {
-					console.log(result);
+					// console.log(result);
 				} else alert(result["text"]);
 				/* if (res === '') return false;
 				players = JSON.parse(res);
@@ -214,15 +252,6 @@ class MafiaGameLogic{
 					$('tr#'+i+'_'+players[i]['id']+' td.player_name > span.points').html(players[i]['points']+'&nbsp;').addClass((players[i]['points'] > 0.0 ? 'positive' : 'negative')); */
 			},
 		});
-
-		// $.ajax({
-		// 	url:'switcher.php'
-		// 	, type:'POST'
-		// 	, data:'need=save_game&w='+vars['win']+'&p='+JSON.stringify(players)+'&v='+JSON.stringify(vars)+'&text='+prev_text[prev_text.length-1]+'&i='+id_game+'&t=0'
-		// 	, success: function(res){
-				
-		// 	}
-		// });
 	}
 	stateLoad()
 	{
@@ -261,7 +290,7 @@ class MafiaGameLogic{
 				this.gameTable.querySelector(`tr[data-player-id="${x}"] td.vote-num`).textContent = this.vars.currentVote[i];
 			}
 		}
-		this.gameTable.querySelector(`tr[data-player-id="${this.vars['active']}"]`).classList.add('active');
+		this.gameTable.querySelector(`tr[data-player-id="${this.vars['activeSpeaker']}"]`).classList.add('active');
 		// if (this.prevText.length > 0)
 		// 	set_PhaseState(this.prevText.pop());
 		index = -1;
@@ -289,7 +318,7 @@ class MafiaGameLogic{
 		if (this.prevVars.length === 0)
 			document.body.querySelector('[data-timer-action="undo"]').classList.add('disabled');
 		// save_log('Загрузка состояния выполнена!');
-/* 		if (!load) next();
+/* 		if (!load) nextStage();
 		else load = false; */
 	}
 	gameEnd()	{
@@ -324,25 +353,27 @@ class MafiaGameLogic{
 		while(++i<=9)
 		{
 			if (this.players[i]['fouls'] < 3 || this.players[i]['out'] < 3 || this.players[i]['out'] > 3 && this.players[i]['muted'] !== 1) continue;
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 	courtRoomClear(next=1){
 		if (!load)
 			this.vars.currentVote.length=0;
 		this.courtRoomHide();
-		document.body.querySelectorAll('td.for-vote,td.puted').forEach(td => {
+		document.body.querySelectorAll('td.for-vote,td.vote-num').forEach(td => {
 			if (td.classList.contains('for-vote'))
 				td.classList.remove('for-vote')
-			if (td.classList.contains('puted'))
+			if (td.classList.contains('vote-num'))
 				td.textContent = '';
 		});
 		this.activeSpeakerChange();
 		if (next === 1) this.nextStage();
 	}
 	courtRoomHide() {
-		return true;
+		const courtRoom = document.body.querySelector('.players-on-vote')
+		courtRoom.innerHTML = '';
+		courtRoom.classList.add("hidden");
 	}
 	courtRoomShow() {
 		const courtRoom = document.body.querySelector('.players-on-vote')
@@ -350,34 +381,9 @@ class MafiaGameLogic{
 		courtRoom.classList.remove("hidden");
 	}
 	courtRoomAction(debatesMode=0){
-		this.activeSpeakerChange();
-		if (this.playersFoulsCheck())
-		{
-			this.courtRoomClear(1);
-			return true;
-		}
 		// set_PhaseState('Зал суда.BRПросьба убрать руки от стола, прекратить жестикуляцию и агитацию.BRНа '+(d===0 ? 'голосовании' : 'перестрелке')+' находятся следующие игроки: '+vars.currentVote.join(', '));
 		alert('Уважаемые игроки, переходим в зал суда!\r\nНа '+(debatesMode===0 ? 'голосовании' : 'перестрелке')+' находятся следующие игроки: '+this.vars.currentVote.join(', '));
 		let i=-1,vote_available=0,players_count=0,voted=[],cv=[],prev_max=0,debate=[], string='';
-		if (this.vars.currentVote.length === 0)
-		{
-			alert('На голосование никто не выставлен. Голосование не проводится.');
-			this.courtRoomClear(1);
-			return true;
-		}
-		else if (this.vars.currentVote.length === 1)
-		{
-			string = 'На голосование был выставлен лишь 1 игрок\r\n';
-			if (this.vars['daysCount'] > 0)
-			{
-				alert(`${string} Наш город покидает игрок № ${this.vars.currentVote[0]}!\r\nУ вас есть 1 минута для последней речи`);
-				this.playerOut(this.vars.currentVote[0]-1,2);
-			}
-			else
-				alert(string+'Этого недостаточно для проведения голосования. Наступает фаза ночи!')
-			this.courtRoomClear(1);
-			return true;
-		}
 		votes_available = players_count = this.playerGetActiveCount();
 		i=-1;
 		while(++i<this.vars.currentVote.length)
@@ -533,43 +539,49 @@ class MafiaGameLogic{
 		}
 		return false;
 	}
-	playerGetNextSpeaker(start)
-	{
-		console.log(start);
-		let index = start-1;
+	playersGetSpeakersArray() {
+		let index = this.vars['daysCount'], circle = 0, playerId = 0;
 		for(;;)
 		{
-			console.log(index);
-			console.log(this.players[index]);
-			if (++index > 9) index = 0;
-			if (index === this.vars['active']) continue;
-			else if (this.players[index]['out'] > 2 && this.players[index]['muted'] === 1)
-			{
-				--this.vars['daySpeakers'];
-				this.playerUnmute(index);
-				continue;
+			if (++index > 10) {
+				index = 0;
+				++circle;
 			}
-			else if (this.players[index]['out'] > 0) continue;
-			else
-			{
-				--this.vars['daySpeakers'];
-				if (this.players[index]['muted'] !== 1) break;
-				else 
-				{
-					if (this.playerGetActiveCount() < 5) 
-					{
-						this.vars['timer'] = 3000;
-						this.playerUnmute(index);
-						break;
-					}
-					let put = parseInt(prompt('Игрок №'+(index+1)+' молчит, но может выставить кандидатуру: ','0'));
-					if (put > 0)
-						this.actionPutPlayerOnTheVote(document.body.querySelector(`tr[data-player-id="${(put - 1)}"]`), index);
-					continue;
-				}
-			}	
+			if (index === this.vars['daysCount']) break;
+			playerId = index - 1 + circle;
+			if (this.players[playerId]['out'] > 0) continue;
+			this.vars['daySpeakers'].push(playerId);
 		}
-		return index;
+		return this.vars['daySpeakers'];
+	}
+	playerGetNextSpeaker()
+	{
+		let index = this.vars['daySpeakers'].shift();
+		if (this.players[index]['out'] > 2 && this.players[index]['muted'] === 1)
+		{
+			this.playerUnmute(index);
+			return this.playerGetNextSpeaker();
+		}
+		else if (this.players[index]['out'] > 0)
+			return this.playerGetNextSpeaker();
+		else
+		{
+			if (this.players[index]['muted'] !== 1)
+				return index;
+			else 
+			{
+				if (this.playerGetActiveCount() < 5) 
+				{
+					this.vars['timer'] = 3000;
+					this.playerUnmute(index);
+					return index;
+				}
+				let put = parseInt(prompt('Игрок №'+(index+1)+' молчит, но может выставить кандидатуру: ','0'));
+				if (put > 0)
+					this.actionPutPlayerOnTheVote(document.body.querySelector(`tr[data-player-id="${(put - 1)}"]`), index);
+				return this.playerGetNextSpeaker();
+			}
+		}	
 	}
 	playerUnmute(id)
 	{

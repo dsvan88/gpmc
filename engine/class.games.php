@@ -34,7 +34,7 @@ class Games {
 			'prevActiveSpeaker'  =>  -1,
 			'kill'  =>  [[]],
 			'lastWill'  =>  [],
-			'daySpeakers'  =>  -1,
+			'daySpeakers'  =>  [],
 			'debaters'  =>  -1,
 			'canMakeBestMove' => false,
 			'makeBestMove' => -1,

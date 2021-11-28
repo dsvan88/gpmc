@@ -151,11 +151,19 @@
 			padding: 5px 10px;
 		}
 		.player {
+			&.out {
+			}
+			&.for-vote {
+				background-color: #06409d;
+				animation: rowVotedFor 4s ease-out infinite;
+			}
+			&.for-kill {
+				background-color: #97003f;
+				animation: rowShootedPlayer 1s ease-out infinite;
+			}
 			&.active {
 				background-color: #0d5023;
-				animation: activeSpeaker 2s ease-out infinite;
-			}
-			&.out {
+				animation: activeSpeaker 1.5s ease-out infinite;
 			}
 			&__number {
 				cursor: pointer;
@@ -187,3 +195,35 @@
 		background-color: #0d5023;
 	}
 }
+@keyframes rowVotedFor {
+	50% {
+		background-color: #06409d88;
+	}
+	100% {
+		background-color: #06409d;
+	}
+}
+@keyframes rowShootedPlayer {
+	50% {
+		background-color: #97003f8a;
+	}
+	100% {
+		background-color: #97003f;
+	}
+}
+
+/* @keyframes rowVotedFor {
+	0% {
+		background-color: #6694df;
+		color: $bg-color-dark;
+	}
+	50% {
+		background-color: #6694df6b;
+		color: $color-text-main;
+	}
+	100% {
+		background-color: #6694df;
+		color: $bg-color-dark;
+	}
+}
+ */

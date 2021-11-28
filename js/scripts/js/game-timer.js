@@ -1,5 +1,5 @@
 class GameTimer {
-	default_interval = 6000;
+	defaultInterval = 6000;
 	MainTimer = false;
 	status = 'stop';
 	contols = {};
@@ -21,10 +21,11 @@ class GameTimer {
 
 		this.MainTimer = setInterval(() => {
 			if (this.game.vars["timer"] > 0) {
-				this.caption.innerText = this.inttotime((this.game.vars["timer"] -= 500));
+				this.caption.innerText = this.inttotime((this.game.vars["timer"] -= 100));
 				if (this.game.vars["timer"] < 1100 && [1000, 500, 300, 200, 100].indexOf(this.game.vars["timer"]) !== -1) this.beep();
 			} else {
-				this.reset(1);
+				this.pause();
+				this.forward();
 				this.beep();
 			}
 		}, 50);
@@ -35,11 +36,18 @@ class GameTimer {
 		this.contols['pause'].classList.add('hidden');
 		this.contols['start'].classList.remove('hidden');
 	}
-	reset(n = 0) {
-		this.pause();
-		this.game.vars["timer"] = this.default_interval;
+	reset(nextStage) {
+		this.pause()
+		this.game.vars["timer"] = this.defaultInterval;
 		this.caption.innerText = this.inttotime((this.game.vars["timer"]));
-		if (n !== 0) this.game.nextStage();
+		if (nextStage !== 0) this.game.nextStage();
+	}
+	forward() {
+		this.reset(1);
+	}
+	undo(event) {
+		if (event.target.classList.contains('disabled')) return false;
+		this.game.gameActionUndo();
 	}
 	beep() {
 		new Audio(
