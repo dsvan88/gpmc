@@ -32,8 +32,16 @@ class News {
 	{
 		return $this->action->getAssocArray($this->action->query('SELECT * FROM '.SQL_TBLNEWS));
 	}
-    function newsGetData($where)
+    function newsGetData($id)
 	{
-		return $this->action->getAssoc($this->action->prepQuery('SELECT * FROM '.SQL_TBLNEWS.' WHERE id = :id', $where));
+		return $this->action->getAssoc($this->action->prepQuery('SELECT * FROM '.SQL_TBLNEWS.' WHERE id = :id', [$id]));
+	}
+    function newsUpdate($data,$id)
+	{
+		return $this->action->rowUpdate($data,['id'=>$id],SQL_TBLNEWS);
+	}
+    function newsDelete($id)
+	{
+		return $this->action->rowDelete($id,SQL_TBLNEWS);
 	}
 }

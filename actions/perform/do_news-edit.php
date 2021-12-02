@@ -26,7 +26,6 @@ if ($_POST['type'] === 'tg-info'){
             break;
         }
     }
-    file_put_contents($_SERVER['DOCUMENT_ROOT'].'/telegram_results.txt',print_r($result,false));
 }
 else{
     require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.news.php';
@@ -43,6 +42,6 @@ else{
         copy($_FILES['logo']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].$newFilename);
         $array['logo'] = $newFilename;
     }
-    $result = $news->newsCreate($array);
+    $result = $news->newsUpdate($array,$_POST['id']);
     $output['text'] = 'Новина успішно зафіксована';
 }

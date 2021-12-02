@@ -80,6 +80,7 @@ body {
 				}
 				img {
 					max-height: 40px;
+					border-radius: 3px;
 				}
 			}
 			&-caret {
@@ -367,7 +368,7 @@ body {
 	}
 	.header,
 	.footer,
-	.section {
+	.section:not(.news-preview) {
 		padding: 40px 15vw !important;
 	}
 	.setting-text-dashboard {
@@ -380,7 +381,7 @@ body {
 	}
 	.header,
 	.footer,
-	.section {
+	.section:not(.news-preview) {
 		padding: 40px 20vw !important;
 	}
 	.setting-text-dashboard {

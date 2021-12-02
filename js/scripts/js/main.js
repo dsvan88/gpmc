@@ -17,7 +17,7 @@ if (menuCheckbox){
 	document.body.addEventListener('mousemove', (event) => {
 
 		if (menuCheckbox.checked){
-			if (document.documentElement.clientWidth - event.clientX > document.documentElement.clientWidth / 4
+			if (document.documentElement.clientWidth - event.clientX > document.documentElement.clientWidth / 3
 				|| document.documentElement.clientHeight - event.clientY < document.documentElement.clientHeight / 2)
 				menuCheckbox.checked = false;
 		}

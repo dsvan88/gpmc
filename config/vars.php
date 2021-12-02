@@ -41,7 +41,7 @@ if (!defined('SQL_HOST'))
 	define('MAFCLUB_NAME', 'Good People Mafia Club');
 	define('MAFCLUB_SNAME', 'GPMC');
 	define('FILE_USRGALL', '/gallery/users/');
-	define('FILE_MAINGALL', '/gallery/site/images/');
+	define('FILE_MAINGALL', '/gallery/site/');
 }
 
 if (CFG_DEBUG){

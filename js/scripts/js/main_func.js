@@ -100,11 +100,18 @@ actionHandler = {
 			else {
 				action = `do_${action}`;
 			}
+			const formData = new FormData;
+			formData.append('need', action);
+			for (let [key, value] of Object.entries(target.dataset)) {
+				if (key !== 'action')
+					formData.append(key, value);
+			}
+			console.log(formDataToJson(formData));
 			postAjax({
-				data: `{"need":"${action}"}`,
+				data: formDataToJson(formData),
 				successFunc: function (result) {
 					if (result["error"] != 0) {
-						alert(result["html"]);
+						alert(result["text"] || result["html"]);
 						return false;
 					}
 					location.reload();

@@ -1,6 +1,6 @@
 <?
 // $output['{SCRIPTS}'] .= '';
-$newsAll = $news->newsGetData(['id'=>$_GET['news']]);
+$newsAll = $news->newsGetData($_GET['news']);
 
 $output['{MAIN_CONTENT}'] = "
     <section class='section news'>
