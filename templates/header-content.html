@@ -1,24 +1,21 @@
 <div class="header__logo">{HEADER_LOGO}</div>
-<nav class="header__navigation">
-	<li class="header__navigation-item">
-		<a href="/#about-game">Про гру</a>
-		<div class="bar"></div>
-	</li>
-	<li class="header__navigation-item">
-		<a href="#near-evening">Записатись</a>
-		<div class="bar"></div>
-	</li>
-	<li class="header__navigation-item">
-		<a href="#news">Новини</a>
-		<div class="bar"></div>
-	</li>
-	<li class="header__navigation-item">
-		NavigationItem4
-		<div class="bar"></div>
-	</li>
-	<li class="header__navigation-item">
-		NavigationItem5
-		<div class="bar"></div>
-	</li>
-</nav>
+<div class="header__menu">
+	<label for="header__navigation-checkbox" class="navigation-for-small-display menu-show"><i class="fa fa-bars"></i></label>
+	<input type="checkbox" name="toggle-navigation" id="header__navigation-checkbox" class="navigation-for-small-display" autocomplete="off" />
+	<nav class="header__navigation" id="header__navigation">
+		<label for="header__navigation-checkbox" class="navigation-for-small-display menu-hide"><i class="fa fa-times"></i></label>
+		<li class="header__navigation-item">
+			<a href="/#start-page">Про гру</a>
+			<div class="bar"></div>
+		</li>
+		<li class="header__navigation-item">
+			<a href="/#news-preview">Новини</a>
+			<div class="bar"></div>
+		</li>
+		<li class="header__navigation-item">
+			<a href="/?page=near-evening">Записатись</a>
+			<div class="bar"></div>
+		</li>
+	</nav>
+</div>
 <div class="header__profile">{PROFILE_BUTTON}</div>

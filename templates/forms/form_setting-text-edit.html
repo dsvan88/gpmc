@@ -1,0 +1,15 @@
+<form class="common-form" method="POST">
+	<h1 class="common-form__title">Налаштування тексту: {SETTING_SHORTNAME}</h1>
+	<div class="common-form__row">
+		<input class="common-form__input" type="text" name="name" placeholder="Назва налаштування" value="{SETTING_NAME}" />
+		<input type="hidden" name="id" value="{SETTING_INDEX}" />
+		<input type="hidden" name="short_name" value="{SETTING_SHORTNAME}" />
+	</div>
+	<div class="common-form__row">
+		<textarea class="common-form__textarea news" name="html" placeholder="Значення налаштування">{SETTING_VALUE}</textarea>
+	</div>
+	<div class="modal-buttons">
+		<button type="submit" class="positive">Зберегти</button>
+		<button type="button" class="modal-close negative">Відміна</button>
+	</div>
+</form>

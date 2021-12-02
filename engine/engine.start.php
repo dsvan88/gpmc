@@ -1,7 +1,7 @@
 <?
 require_once $_SERVER['DOCUMENT_ROOT'].'/engine/functions.php';
 
-[$template,$settings,$evening,$places,$users,$images] = engineStart();
+[$template,$settings,$evening,$places,$users,$images, $news] = engineStart();
 
 $genders=['','господин','госпожа','некто'];
 $statuses = ['Гость', 'Резидент', 'Мастер'];

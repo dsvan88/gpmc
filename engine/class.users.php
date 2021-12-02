@@ -18,7 +18,7 @@ class Users {
             $this->prolongSession();
             return true;
         }
-        return false;
+        return 'Wrong login or password! Check it again!';
     }
 	public function logout()
 	{
@@ -205,6 +205,10 @@ class Users {
 			$where = mb_substr($where,0,-4);
 		}
 		return $this->action->$method($this->action->prepQuery("SELECT $columns FROM $table $where".($limit !== 0 ? ' LIMIT '.$limit : ''), $values));
+	}
+	function userUpdateData($data,$where)
+	{
+		return $this->action->rowUpdate($data,$where,SQL_TBLUSERS);
 	}
 	// Получить количество всех игроков в системе.
 	function GetGamerCount()

@@ -24,7 +24,10 @@ body {
 		font-size: $font-size-main-sm;
 	}
 }
-
+.header-for-auto-scroll {
+	position: absolute;
+	top: 0;
+}
 .wrapper {
 	width: 100vw;
 	@include sm {
@@ -45,9 +48,7 @@ body {
 		align-items: center;
 		box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.5);
 		font-size: 1.3em;
-		@include sm {
-			padding-left: 0;
-		}
+		z-index: 2;
 		&__logo {
 			margin-right: 5vw;
 			height: 100%;
@@ -58,15 +59,76 @@ body {
 		}
 		&__profile {
 			margin-left: auto;
+			display: flex;
+			position: relative;
+			align-items: center;
 			&-button {
 				border: 1px solid $color-text-main;
 				border-radius: 5px;
 				padding: 5px 10px;
+				max-height: 40px;
 				cursor: pointer;
 				transition: all $animation-fast ease-in;
 				&:hover {
 					background-color: $color-text-main;
 					color: $color-text-menu;
+				}
+				img {
+					max-height: 40px;
+				}
+			}
+			&-caret {
+				margin-left: 5px;
+				cursor: pointer;
+			}
+			&-checkbox {
+				display: none;
+				&:checked {
+					& ~ .header__profile-menu {
+						display: block;
+					}
+				}
+			}
+			&-menu {
+				display: none;
+				position: absolute;
+				top: 30px;
+				right: 0;
+				background-color: #150551;
+				list-style: none;
+				border-radius: 5px;
+				&-item {
+					margin: 5px;
+					padding: 3px 10px;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					font-size: 1rem;
+					color: $color-text-menu;
+					white-space: nowrap;
+					cursor: pointer;
+					a {
+						color: $color-text-menu;
+						text-decoration: none;
+					}
+					&:last-of-type {
+						margin-top: 15px;
+					}
+					&:hover {
+						& .header__profile-menu-bar {
+							width: 100%;
+							border-radius: 0 0 25px 25px;
+							opacity: 1;
+						}
+					}
+				}
+				&-bar {
+					width: 0px;
+					height: 2px;
+					opacity: 0;
+					background-color: $color-text-menu;
+					transition: all $animation-fast ease-in-out;
 				}
 			}
 		}
@@ -100,6 +162,54 @@ body {
 				}
 			}
 		}
+		.navigation-for-small-display {
+			display: none;
+			cursor: pointer;
+			font-size: 2em;
+			&.menu-hide {
+				position: absolute;
+				top: 20px;
+				left: 15px;
+			}
+			&.menu-show {
+				margin: 0px 15px;
+			}
+		}
+		@include sm {
+			padding-left: 0;
+			justify-content: space-between;
+			label.navigation-for-small-display {
+				display: block;
+			}
+			&__logo {
+				order: 2;
+			}
+			&__menu {
+				order: 1;
+			}
+			&__profile {
+				order: 3;
+				margin-left: 0;
+			}
+			&__navigation {
+				flex-direction: column;
+				justify-content: center;
+				height: 100vh;
+				position: fixed;
+				top: 0;
+				left: -100%;
+				background-color: $bg-color-dark;
+				&-item {
+					margin: 5px 20px;
+					font-size: 1.5em;
+				}
+			}
+			#header__navigation-checkbox:checked {
+				~ #header__navigation {
+					left: 0px;
+				}
+			}
+		}
 	}
 	.main {
 		.section {
@@ -109,8 +219,11 @@ body {
 			@include sm {
 				padding: 20px 30px;
 			}
-			&:nth-child(even) {
+			&:nth-child(odd) {
 				background-color: $bg-color-light;
+			}
+			&.about-game {
+				padding: 30px 8vw 40px 5vw;
 			}
 			&.near-evening {
 				.booking {
@@ -142,8 +255,6 @@ body {
 						&-label {
 							width: 15vw;
 							max-width: 300px;
-							// display: flex;
-							// justify-content: space-between;
 						}
 						input {
 							width: 40vw;
@@ -157,6 +268,7 @@ body {
 						display: flex;
 						align-items: center;
 						margin: 10px 0;
+						white-space: nowrap;
 						&-num {
 							width: 30px;
 						}
@@ -209,14 +321,69 @@ body {
 						}
 					}
 				}
+				@include sm {
+					padding: 20px 10px;
+					.booking {
+						&__place {
+							&-row {
+								width: 95vw;
+							}
+							input {
+								width: 100%;
+							}
+						}
+						label {
+							display: none;
+						}
+						&__participant {
+							&-name {
+								width: 30vw;
+							}
+						}
+					}
+				}
 			}
 		}
 	}
 }
-
+.footer {
+	background: linear-gradient($bg-color-dark, $bg-color-light);
+	height: 12vh;
+	min-height: 60px;
+	max-height: 80px;
+	padding: 2vw 3vw 30px 5vw;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.5);
+	font-size: 0.8em;
+	&__copyrights {
+		margin: 5px 0px 5px 0px;
+	}
+	&__links {
+		margin-top: 5px;
+	}
+	&__link {
+		margin: 0px 3px;
+		font-size: 1.3rem;
+		color: $color-text-blur;
+	}
+	.setting-text-dashboard {
+		width: 80vw;
+	}
+}
 @import "modals";
 
 .modal {
+	// @include sm {
+	// 	// .modal-container {
+	// 	height: 99vh;
+	// 	width: 100vw;
+	// 	// }
+	// }
+	.modal-container {
+	}
 	.common-form {
 		display: flex;
 		flex-direction: column;
@@ -229,6 +396,12 @@ body {
 		&__title {
 			margin-top: -0.5em;
 		}
+		.cke_contents {
+			max-height: 38vh;
+			@include sm {
+				max-height: 25vh;
+			}
+		}
 		&__row-expand_vertical {
 			min-height: 50px;
 			max-height: 15vh;
@@ -239,12 +412,26 @@ body {
 			scrollbar-width: thin;
 			margin-top: -5px;
 		}
+		&__label {
+			font-size: 1.2em;
+			margin: 10px 0 0 10px;
+		}
+		&__select {
+			display: block;
+			width: 40vw;
+			margin: 5px 10px;
+			font-size: 1.3em;
+			text-align: center;
+		}
 		&__input {
 			display: block;
 			width: 40vw;
 			margin: 5px 10px;
 			font-size: 1.3em;
 			text-align: center;
+			&[type="file"] {
+				font-size: 1.1rem;
+			}
 		}
 		&__textarea {
 			display: block;
@@ -252,24 +439,38 @@ body {
 			margin: 5px 10px;
 			resize: vertical;
 			font-size: 1.3em;
+			&[name="html"] {
+				width: 80vw;
+				height: 50vh;
+			}
 		}
 		&__divided-block {
 			display: flex;
-			max-width: 70vw;
 			border: 1px solid;
 			border-radius: 5px;
 			padding: 5px;
 			h3 {
 				margin-bottom: 10px;
 			}
-			input {
-				width: 25vw;
+		}
+		.profile {
+			&__avatar-place {
+				display: inline-block;
+				width: 10vw;
+				padding: 5px;
+				border: 1px solid $bg-color-dark;
+				border-radius: 5px;
+				img {
+					width: 100%;
+				}
 			}
 		}
+		font-size: 0.8em;
 	}
 	.modal-buttons {
 		margin: 5px 0px;
 	}
 }
 
+@import "news";
 @import "game";

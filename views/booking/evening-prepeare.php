@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($EveningData['participants_info']) && !(isset($_SESSION['status']) && in_array($_SESSION['status'],['admin','manager','founder','master']))){
-	$output['{NEAR_EVENING_BLOCK}'] = file_get_contents( $_SERVER['DOCUMENT_ROOT'].'/templates/booking/booking-none.html');
+	$output['{MAIN_CONTENT}'] = file_get_contents( $_SERVER['DOCUMENT_ROOT'].'/templates/booking/booking-none.html');
 }
 else{
 	if (isset($_SESSION['status']) && in_array($_SESSION['status'],['admin','manager','founder','master'])){
@@ -12,7 +12,7 @@ else{
         $htmlFiles['booking'] = $_SERVER['DOCUMENT_ROOT'].'/templates/booking/booking-show.html';
 		$htmlFiles['participant_row'] = $_SERVER['DOCUMENT_ROOT'].'/templates/participant-field-show.html';
     }
-	$output['{NEAR_EVENING_BLOCK}'] = file_get_contents($htmlFiles['booking']);
+	$output['{MAIN_CONTENT}'] = file_get_contents($htmlFiles['booking']);
 
 	$output['{EVENING_PLACE}'] = '';
 	$output['{EVENING_PLACE_INFO}'] = '';

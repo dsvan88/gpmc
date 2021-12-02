@@ -1,4 +1,4 @@
 git add -A
-git commit -m "v0.16.9 Refactoring in progress. Refactory game-system. Upgrade for better method control day's speakers"
+git commit -m "v0.17 Refactoring in progress. Refactory common base. Massive update"
 git push
 pause

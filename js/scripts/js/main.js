@@ -12,6 +12,17 @@ if (typeof eve_place != "undefined") {
 	eve_place.onchange = actionHandler.eveningPlace;
 	console.log(eve_place);
 }
+let menuCheckbox = document.body.querySelector('#profile-menu-checkbox');
+if (menuCheckbox){
+	document.body.addEventListener('mousemove', (event) => {
+
+		if (menuCheckbox.checked){
+			if (document.documentElement.clientWidth - event.clientX > document.documentElement.clientWidth / 4
+				|| document.documentElement.clientHeight - event.clientY < document.documentElement.clientHeight / 2)
+				menuCheckbox.checked = false;
+		}
+	});
+}
 
 $(function () {
 	$('.datepick').datetimepicker({ format: 'd.m.Y H:i', dayOfWeekStart: 1 });

@@ -54,7 +54,7 @@ class ImageProcessing {
 			}
 		}
 		return str_ireplace($_SERVER['DOCUMENT_ROOT'],'.', $output.PHP_EOL.
-			'<img '.$attrs.' src="'.$source.'">
-		 </picture>');
+			"<img $attrs src='$source' loading='lazy'>
+		 </picture>");
 	}
 }

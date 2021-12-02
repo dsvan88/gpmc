@@ -35,16 +35,19 @@ class Settings {
 		else return false;
 	}
 	// Работа с настройками сайта:
-	// pages - Html код страниц сайта, txt - тексты сайта (типа приветствия, футера, ещё какой-то лабуды), img - пути к основным картинкам сайта (лого, история, приветствия)
-	function settingsSet($a)
+	// pages - Html код страниц сайта;
+	// txt - тексты сайта (типа приветствия, футера, ещё какой-то лабуды)
+	// img - пути к основным картинкам сайта (лого, мб добавим что-то ещё позднее)
+	// point - дополнительные баллы игрокам за какие-либо действия в игре
+	// tg-bot - токен телеграм бота, куда слать сообщения
+	function settingsSet($data,$id='add')
 	{
-		if ($a['id'] !== 'add')
+		if ($id !== 'add')
 		{
-			$this->action->rowUpdate($a,array('id'=>$a['id']),SQL_TBLSETTINGS);
-			return $a['id'];
+			$this->action->rowUpdate($data,['id'=>$id],SQL_TBLSETTINGS);
+			return $id;
 		}
-		unset($a['id']);
-		return $this->action->rowInsert($a,SQL_TBLSETTINGS);
+		return $this->action->rowInsert($data,SQL_TBLSETTINGS);
 	}
 	// Изменение массива настроек для более удобного применения.
 	function modifySettingsArray($a)

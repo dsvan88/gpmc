@@ -7,6 +7,7 @@ function engineStart(){
 	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.places.php';
 	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.users.php';
 	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.image-processing.php';
+	require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.news.php';
 
 	$GLOBALS['CommonActionObject'] = new Action;
 
@@ -16,7 +17,8 @@ function engineStart(){
 		new Evenings,
 		new Places,
 		new Users,
-		new ImageProcessing
+		new ImageProcessing,
+		new News
 	];
 }
 /* 

@@ -1,0 +1,36 @@
+<form class="common-form" method="POST">
+	<!-- <picture>
+		<source srcset="../images/logo.webp" type="image/webp" />
+		<img class="common-form__logo" title="My logo" alt="My logo" src="./images/logo.png" />
+	</picture> -->
+	<h1 class="common-form__title">Створення новини</h1>
+	<div class="common-form__divided-block">
+		<div class="common-form__column">
+			<div class="common-form__row">
+				<select name="type" id="news-type" class="common-form__select">
+					<option value="news">Новина (У блоці новин та має окрему сторінку)</option>
+					<option value="attention">Сповіщення (для користувачів при їх аторизації)</option>
+					<option value="tg-info">Телеграм сповіщення (не зберігається у системі)</option>
+				</select>
+			</div>
+			<div class="common-form__row">
+				<input class="common-form__input" type="text" name="title" placeholder="Заголовок" />
+			</div>
+		</div>
+		<div class="common-form__column">
+			<div class="common-form__row">
+				<input class="common-form__input" type="file" name="logo" placeholder="Logo" />
+			</div>
+			<div class="common-form__row">
+				<input class="common-form__input" type="text" name="subtitle" placeholder="Підзаголовок" />
+			</div>
+		</div>
+	</div>
+	<div class="common-form__row">
+		<textarea class="common-form__textarea news" name="html" placeholder="Текст новини"></textarea>
+	</div>
+	<div class="modal-buttons">
+		<button type="submit" class="positive">Створити</button>
+		<button type="button" class="modal-close negative">Відміна</button>
+	</div>
+</form>

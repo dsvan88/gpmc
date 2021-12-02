@@ -1,14 +1,14 @@
 <?php
-$output['{SCRIPTS}'] .= '
-    <script defer type="text/javascript" src="js/jquery.cleditor.min.js"></script>
-';
-$htmlFiles=[
-	'welcome'=>$_SERVER['DOCUMENT_ROOT'].'/templates/welcome.html',
-	'booking'=>$_SERVER['DOCUMENT_ROOT'].'/templates/booking/booking-show.html',
-	'participant_row'=>$_SERVER['DOCUMENT_ROOT'].'/templates/participant-field-show.html',
-];
-$output['{MAIN_CONTENT}'] = file_get_contents($htmlFiles['welcome']);
-$output['{ABOUT_GAME}'] =  $settingsArray['txt']['about-game']['value'];
-$output['{NEWS_BLOCK}'] = '';
+$output['{SCRIPTS}'] .= '';
+$output['{MAIN_CONTENT}'] = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/templates/welcome.html');
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/views/booking/booking.php';
+$output['{ABOUT_GAME}'] =  $settingsArray['txt']['about-game']['value'];
+if (isset($_SESSION['id']) && $_SESSION['status'] === 'admin' && $users->checkToken()){
+	$output['{ABOUT_GAME}'] = '
+		<div class="setting-text-dashboard">
+			<i class="fa fa-pencil-square-o setting-text-dashboard__button" data-action="setting-text-edit-form" data-setting-name="about-game"></i>
+		</div>
+		'.$output['{ABOUT_GAME}'];
+}
+
+require_once $_SERVER['DOCUMENT_ROOT'].'/views/news-preview.php';

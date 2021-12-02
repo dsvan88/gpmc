@@ -1,4 +1,4 @@
-let debug = true;
+let debug = false;
 actionHandler = {
 	inputCommonHandler: function (event) {
 		let action = event.target.dataset.actionInput;
@@ -155,11 +155,39 @@ actionHandler = {
             modalWindow = modal.fillModalContent(data);
         else
             modalWindow = modal.fillModalContent({ html: data['html'], title: 'Error!', buttons: [{ 'text': 'Okay', 'className': 'modal-close positive' }] });
-        modalWindow.querySelectorAll('*[data-action]').forEach(block => block.addEventListener('click', (event) => actionHandler[camelize(block.dataset.action)](event)));
+		modalWindow.querySelectorAll('*[data-action]').forEach(block => block.addEventListener('click', (event) => actionHandler[camelize(block.dataset.action)](event)));
+		if (data["jsFile"]) addScriptFile(data["jsFile"]);
+		if (data["cssFile"]) addCssFile(data["cssFile"]);
+
+		$(".modal-container .datepick").datetimepicker({ timepicker: false, format: "d.m.Y", dayOfWeekStart: 1 });
+
         const form = modalWindow.querySelector('form');
         if (form !== null && actionHandler[formSubmitAction]) {
             form.addEventListener('submit', (event) => actionHandler[formSubmitAction](event, modal, args))
 		}
+		let textareas = modalWindow.querySelectorAll("textarea");
+		if (textareas.length > 0) {
+			addScriptFile('/js/ckeditor/ckeditor.js');
+			setTimeout(() => {
+				let textareas = modalWindow.querySelectorAll("textarea");
+				textareas.forEach((textarea) => {
+					textarea.id = Math.random(321123);
+					CKEDITOR.replace(textarea, {
+						height: 300,
+						filebrowserImageBrowseUrl: "js/kcfinder/browse.php?type=images",
+						filebrowserImageUploadUrl: "js/kcfinder/upload.php?type=images",
+					});
+					CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;
+				
+					if (textarea.classList.contains('news')) {
+						CKEDITOR.on("instanceReady", function (event) {
+							textarea.nextElementSibling.querySelector("a.cke_button__save").onclick = actionHandler.currentFormSubmit;
+						});
+					}
+				});
+			}, 500)
+		}
+
 		let autoCompleteInputs = modalWindow.querySelectorAll("*[data-autocomplete]");
 		autoCompleteInputs.forEach(
 			element => {
@@ -238,7 +266,6 @@ actionHandler = {
 		}
 	},
 	eveningPlace: function (event) {
-		console.log(event);
 		postAjax({
 			data: `{"need":"get_place-info","place":"${event.target.value}"}`,
 			successFunc: function (result) {
@@ -254,7 +281,7 @@ actionHandler = {
 		postAjax({
 			data: formDataToJson(formData),
 			successFunc: function (result) {
-				if (result["error"] == 0) window.location = window.location.href;
+				if (result["error"] == 0) window.location = window.location.origin;
 				else alert(result["txt"]);
 			},
 		});
@@ -266,8 +293,23 @@ actionHandler = {
 		postAjax({
 			data: formDataToJson(formData),
 			successFunc: function (result) {
-				if (result["error"] == 0) window.location = window.location.href;
+				if (result["error"] == 0) window.location = window.location.origin;
 				else alert(result["txt"]);
+			},
+		});
+	},
+	settingsEditFormSubmit: function (event, modal, args) {
+		event.preventDefault();
+		const formData = new FormData(event.target);
+		formData.append("need", "do_settings-edit");
+		postAjax({
+			data: formDataToJson(formData),
+			successFunc: function (result) {
+				if (result["error"] == 0){
+					alert(result["text"])
+					window.location = window.location.origin;
+				}
+				else alert(result["text"]);
 			},
 		});
 	},
@@ -278,8 +320,9 @@ actionHandler = {
 		postAjax({
 			data: formDataToJson(formData),
 			successFunc: function (result) {
-				if (result["error"] == 0) window.location = window.location.href;
-				else alert(result["txt"]);
+				if (result["error"] == 0)
+					window.location = window.location.origin;
+				else alert(result["text"]);
 			},
 		});
 	},
@@ -287,7 +330,7 @@ actionHandler = {
 		postAjax({
 			data: `{"need":"do_user-logout"}`,
 			successFunc: function (result) {
-				if (result["error"] == 0) window.location = window.location.href;
+				if (result["error"] == 0) window.location = window.location.origin;
 				else alert(result["txt"]);
 			},
 		});
@@ -315,23 +358,19 @@ actionHandler = {
 			},
 		});
 	},
-		
-/* 	
-adminPanel: function (target, event) {
-		if (event.ctrlKey || event.metaKey || target.dataset.actionMode === "admin") {
-			postAjax({
-				data: {
-					need: "admin-panel",
-				},
-				successFunc: function (result) {
-					result = JSON.parse(result);
-					if (result["error"] == 0) location.reload();
-					else alert(result["txt"]);
-				},
-			});
-		} else window.location.href = target.href;
+	userProfileFormSubmit: function (event, modal, args) {
+		event.preventDefault();
+		let formData = new FormData(event.target);
+		formData.append('need', 'do_user-profile-edit');
+		postAjax({
+			data: formData,
+			successFunc: function (result) {
+				if (result["error"] === 0) {
+					location.reload();
+				} else alert(result["text"]);
+			},
+		});
 	},
-	*/
 	CommonFormReady: function ({ modal = null, result = {}, type = null}) {
 		$(".modal-body input.input_name").autocomplete({
 			source: "switcher.php?need=autocomplete_names",
@@ -406,13 +445,21 @@ async function postAjax({ data, formData, successFunc, errorFunc, method = 'json
 		errorFunc = catchResult(errorFunc);
 	}
 	try {
-		const response = await fetch('switcher.php', {
+		// console.log(typeof data == 'string' ? 'application/json' : 'multipart/form-data');
+		$options = {
 			method: 'POST', // или 'PUT'
 			body: data, // данные могут быть 'строкой' или {объектом}!
-			headers: {
+		}
+		if (typeof data == 'string'){
+			$options['headers'] = {
 				'Content-Type': 'application/json'
 			}
-		});
+		}
+		const response = await fetch('switcher.php', $options)
+		// 	headers: {
+		// 		'Content-Type': typeof data == 'string' ? 'application/json' : 'multipart/form-data'
+		// 	}
+		// });
 		if (response.ok) {
 			successFunc(await response[method]());
 		}
@@ -471,6 +518,38 @@ function camelize(str) {
 		.join(""); // соединяет ['my', 'Long', 'Word'] в 'myLongWord'
 }
 
+function addScriptFile(src) {
+	if (Array.isArray(src)){
+		for (let index = 0; index < src.length; index++) {
+			addScriptFile(src[index])
+		}
+	}
+	else{
+		if (document.head.querySelector(`script[src="${src}"]`))
+			return false;
+		let script = document.createElement('script');
+		script.src = src;
+		script.async = true; // чтобы гарантировать порядок
+		document.head.appendChild(script);
+	}
+}
+function addCssFile(src) {
+	if (Array.isArray(src)){
+		for (let index = 0; index < src.length; index++) {
+			addCssFile(src[index])
+		}
+	}
+	else{
+		if (document.head.querySelector(`link[href="${src}"]`))
+			return false;
+		let link  = document.createElement('link');
+		link.rel  = 'stylesheet';
+		link.type = 'text/css';
+		link.href = src;
+		link.media = 'all';
+		document.head.appendChild(link);
+	}
+}
 
 function formDataToJson(data) {
     const object = {};

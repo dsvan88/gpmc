@@ -1,0 +1,13 @@
+<form class="common-form" method="POST">
+	<h1 class="common-form__title">Налаштування аватара</h1>
+	<div class="common-form__row">
+		<div class="input_row cropped-image-place" {IMAGE_STYLE}>
+			<img src="{IMAGE_FULLPATH}" {IMAGE_STYLE} />
+			<input type="hidden" name="filename" value="{IMAGE_FILENAME}" />
+		</div>
+	</div>
+	<div class="modal-buttons">
+		<button type="submit" class="positive">Затвердити</button>
+		<button type="button" class="modal-close negative">Відміна</button>
+	</div>
+</form>

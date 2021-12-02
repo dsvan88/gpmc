@@ -136,22 +136,48 @@
 	}
 }
 .game {
+	&__content {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 10px;
+		margin: 10px;
+		@include sm {
+			margin-bottom: 200px;
+		}
+	}
+	&__stage-text {
+		font-size: 1.2rem;
+		text-align: center;
+	}
 	&__table {
 		border-collapse: collapse;
 		font-size: 1.2rem;
+
 		&-header {
 			padding: 10px 0;
-			font-size: 1.35rem;
+			font-size: 1.05rem;
 			white-space: nowrap;
 			.text-accent {
 				color: $color-text-menu;
+			}
+		}
+		@include sm {
+			font-size: 0.9rem;
+			&-header {
+				font-size: 0.8rem;
 			}
 		}
 		th {
 			padding: 5px 10px;
 		}
 		.player {
+			height: 5vh;
+			min-height: 50px;
 			&.out {
+				background-color: #d92020;
+				color: $bg-color-dark;
+				text-decoration: line-through;
 			}
 			&.for-vote {
 				background-color: #06409d;
@@ -161,9 +187,29 @@
 				background-color: #97003f;
 				animation: rowShootedPlayer 1s ease-out infinite;
 			}
+			&.for-best-move {
+				background-color: #6c4010;
+				animation: rowForBestMove 1s ease-out infinite;
+			}
 			&.active {
 				background-color: #0d5023;
 				animation: activeSpeaker 1.5s ease-out infinite;
+			}
+			&-data__fouls {
+				position: relative;
+				&[data-foul-id="0"].fail {
+					background-color: #6cbf6ccc;
+				}
+				&[data-foul-id="1"].fail {
+					background-color: #ececabe0;
+				}
+				&[data-foul-id="2"].fail {
+					background-color: #f97f7f;
+					text-align: center;
+				}
+				&[data-foul-id="3"].fail {
+					background-color: #393939;
+				}
 			}
 			&__number {
 				cursor: pointer;
@@ -174,6 +220,8 @@
 			border-bottom: 1px dashed $color-text-main;
 			&__name {
 				padding: 5px 10px;
+				white-space: nowrap;
+				user-select: none;
 			}
 			&-data {
 				&__fouls {
@@ -211,19 +259,11 @@
 		background-color: #97003f;
 	}
 }
-
-/* @keyframes rowVotedFor {
-	0% {
-		background-color: #6694df;
-		color: $bg-color-dark;
-	}
+@keyframes rowForBestMove {
 	50% {
-		background-color: #6694df6b;
-		color: $color-text-main;
+		background-color: #6c40108a;
 	}
 	100% {
-		background-color: #6694df;
-		color: $bg-color-dark;
+		background-color: #6c4010;
 	}
 }
- */

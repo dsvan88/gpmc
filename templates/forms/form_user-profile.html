@@ -1,0 +1,44 @@
+<form class="common-form" method="POST">
+	<h1 class="common-form__title">Профіль користувача {PROFILE_NAME}</h1>
+		<div class="common-form__divided-block">
+			<div class="common-form__column">
+				<div class="common-form__row">
+					<a class="profile__avatar-place" data-action="user-avatar-crop">
+						{PROFILE_AVATAR}
+					</a>
+				</div>
+			</div>
+			<div class="common-form__column">
+				<div class="common-form__row">
+					<label class="common-form__label" for="profile-fio">Прізвище, Ім’я та по-батькові</label>
+					<input class="common-form__input" id="profile-fio" type="text" name="fio" placeholder="П.І.Б." value="{PROFILE_FIO}"/>
+				</div>
+				<div class="common-form__row">
+					<label class="common-form__label" for="profile-birthday">Дата народження</label>
+					<input class="common-form__input datepick" id="profile-birthday" type="text" name="birthday" placeholder="Підзаголовок" value="{PROFILE_BIRTHDAY}"/>
+				</div>
+				<div class="common-form__row">
+					<label class="common-form__label" for="profile-gender">Гендер</label>
+					<select name="gender" id="profile-gender" class="common-form__select">
+						<option value=""{PROFILE_GENDER_UNSET}></option>
+						<option value="male"{PROFILE_GENDER_MALE}>Господин</option>
+						<option value="female"{PROFILE_GENDER_FEMALE}>Госпожа</option>
+						<option value="unknow"{PROFILE_GENDER_UNKNOW}>Інші</option>
+					</select>
+				</div>
+				<div class="common-form__row">
+					<label class="common-form__label" for="profile-email">Електонна пошта</label>
+					<input class="common-form__input" id="profile-email" type="email" name="email" placeholder="E-mail" value="{PROFILE_EMAIL}"/>
+				</div>
+				<div class="common-form__row">
+					<label class="common-form__label" for="profile-email">Телеграм</label>
+					<input class="common-form__input" id="profile-telegram" type="text" name="telegram" placeholder="Telegram Username" value="{PROFILE_TELEGRAM}"/>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-buttons">
+		<button type="submit" class="positive">Зберегти</button>
+		<button type="button" class="modal-close negative">Відміна</button>
+	</div>
+</form>

@@ -1,3 +1,8 @@
+<details class="game__caption">
+	<summary>Поточна стадія</summary>
+	<div class="game__stage-text"></div>
+</details>
+
 <table data-game-id="{GAME_INDEX}" class="game__table">
 	<caption class="game__table-header">
 		<div class="game__number">Игра № <span class="text-accent">{GAME_NUMBER}</span>.</div>
@@ -25,9 +30,15 @@
 	</tbody>
 </table>
 <div class="game__tech-messages">
-	<div class="players-on-vote"></div>
+	<div class="game__players-on-vote"></div>
+	<div class="game__best-move">
+		<caption class="best-move__caption">
+			Лучший ход
+		</caption>
+		<span class="best-move__text"></span>
+	</div>
 </div>
 <details class="game__log">
 	<summary>Ігрова історія</summary>
-	Початок нової гри!
+	<div class="game__log-text">
 </details>

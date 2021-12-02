@@ -2,6 +2,8 @@ $font-size-main: 16px;
 $font-size-main-sm: 12px;
 $font-size-main-md: 14px;
 
+$color-text-dark: #30324d;
+$color-text-blur: #5e4343;
 $color-text-main: #b3a2a2;
 $color-text-menu: #dfa261;
 
@@ -73,6 +75,17 @@ $animation-fast: 0.3s;
 			background-color: #7e80ff;
 			border-color: #583966;
 			color: #202e79;
+		}
+	}
+}
+.setting-text-dashboard {
+	font-size: 2em;
+	text-align: right;
+	&__button {
+		cursor: pointer;
+		transition: all $animation-fast ease-in-out;
+		&:hover {
+			color: $color-text-menu;
 		}
 	}
 }
