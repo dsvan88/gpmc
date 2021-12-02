@@ -7,6 +7,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Underdog&display=swap");
 
 body {
+	min-height: 100vh;
 	margin: 0;
 	background-color: #221740;
 	padding: 0;
@@ -30,6 +31,10 @@ body {
 }
 .wrapper {
 	width: 100vw;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+
 	@include sm {
 		grid-template-rows: auto 1fr auto;
 		grid-template-columns: auto;
@@ -142,6 +147,7 @@ body {
 				cursor: pointer;
 				color: $color-text-menu;
 				font-family: "Underdog", cursive;
+				white-space: nowrap;
 				a {
 					color: $color-text-menu;
 					text-decoration: none;
@@ -212,15 +218,16 @@ body {
 		}
 	}
 	.main {
+		flex: 1 0 auto;
 		.section {
 			padding: 20px 5vw;
 			text-align: justify;
 			text-indent: 25px;
-			@include sm {
-				padding: 20px 30px;
-			}
 			&:nth-child(odd) {
 				background-color: $bg-color-light;
+			}
+			&__title {
+				color: $color-text-section-title;
 			}
 			&.about-game {
 				padding: 30px 8vw 40px 5vw;
@@ -321,27 +328,6 @@ body {
 						}
 					}
 				}
-				@include sm {
-					padding: 20px 10px;
-					.booking {
-						&__place {
-							&-row {
-								width: 95vw;
-							}
-							input {
-								width: 100%;
-							}
-						}
-						label {
-							display: none;
-						}
-						&__participant {
-							&-name {
-								width: 30vw;
-							}
-						}
-					}
-				}
 			}
 		}
 	}
@@ -352,6 +338,7 @@ body {
 	min-height: 60px;
 	max-height: 80px;
 	padding: 2vw 3vw 30px 5vw;
+	flex: 0 0 auto;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -373,6 +360,57 @@ body {
 		width: 80vw;
 	}
 }
+
+@include lg {
+	body {
+		font-size: 1.2em;
+	}
+	.header,
+	.footer,
+	.section {
+		padding: 40px 15vw !important;
+	}
+	.setting-text-dashboard {
+		width: 70vw !important;
+	}
+}
+@include xl {
+	body {
+		font-size: 1.3em;
+	}
+	.header,
+	.footer,
+	.section {
+		padding: 40px 20vw !important;
+	}
+	.setting-text-dashboard {
+		width: 60vw !important;
+	}
+}
+@include sm {
+	.section {
+		padding: 20px 10px;
+		.booking {
+			&__place {
+				&-row {
+					width: 95vw;
+				}
+				input {
+					width: 100%;
+				}
+			}
+			label {
+				display: none;
+			}
+			&__participant {
+				&-name {
+					width: 30vw;
+				}
+			}
+		}
+	}
+}
+
 @import "modals";
 
 .modal {

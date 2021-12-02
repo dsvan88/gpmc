@@ -1,5 +1,4 @@
 <?
-
 require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.users.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.image-processing.php';
 

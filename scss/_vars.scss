@@ -6,6 +6,7 @@ $color-text-dark: #30324d;
 $color-text-blur: #5e4343;
 $color-text-main: #b3a2a2;
 $color-text-menu: #dfa261;
+$color-text-section-title: #f2ce91;
 
 $button-remove-color: #c45050;
 $button-remove-color-hover: #aa1414;
@@ -79,7 +80,7 @@ $animation-fast: 0.3s;
 	}
 }
 .setting-text-dashboard {
-	font-size: 2em;
+	font-size: 2rem;
 	text-align: right;
 	&__button {
 		cursor: pointer;

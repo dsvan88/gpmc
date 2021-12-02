@@ -1,6 +1,6 @@
 <?
 $output['{NEWS_BLOCK}'] = '
-	<h2 class="news-preview__title">Новини</h2>
+	<h2 class="news-preview__title section__title">Новини</h2>
 	<div class="news-preview__list">';
 
 $page = 0;
@@ -22,7 +22,7 @@ for ($i=0; $i < count($newsAll); $i++) {
 	$replace['{NEWS_ITEM_LOGO}'] = ($newsAll[$i]['logo'] != '' ? $images->inputImage($newsAll[$i]['logo'],['title'=>'News logo']) : $images->inputImage($settingsArray['img']['news_default']['value'],['title'=>$settingsArray['img']['news_default']['name']]));
 	$replace['{NEWS_ITEM_TITLE}'] = $newsAll[$i]['title'];
 	$replace['{NEWS_ITEM_SUBTITLE}'] = $newsAll[$i]['subtitle'];
-	$replace['{NEWS_ITEM_HTML}'] = $newsAll[$i]['html'];
+	$replace['{NEWS_ITEM_HTML}'] = mb_strlen($newsAll[$i]['html'], 'UTF-8') > 150 ? mb_substr(preg_replace('/<[^>]+?>/i','', $newsAll[$i]['html']),0, 250).'...' : $newsAll[$i]['html'];
 	$replace['{NEWS_ITEM_INDEX}'] = $newsAll[$i]['id'];
 	$output['{NEWS_BLOCK}'] .= str_replace(array_keys($replace),array_values($replace),file_get_contents($_SERVER['DOCUMENT_ROOT'].'/templates/news-item.html'));
 }

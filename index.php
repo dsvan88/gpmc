@@ -59,6 +59,10 @@ if (isset($_SESSION['id'])){
 				<div class='header__profile-menu-bar'></div>
 			</li>
 			<li class='header__profile-menu-item'>
+				<span data-action='users-list-form'>Користувачі</span>
+				<div class='header__profile-menu-bar'></div>
+			</li>
+			<li class='header__profile-menu-item'>
 				<span data-action='user-profile-form'>Профіль</span>
 				<div class='header__profile-menu-bar'></div>
 			</li>
@@ -73,7 +77,7 @@ if (isset($_SESSION['id'])){
 	}
 }
 else
-	$output['{PROFILE_BUTTON}'] = '<a class="header__profile-button" data-action="user-singin-form">Вход</a>';
+	$output['{PROFILE_BUTTON}'] = '<a class="header__profile-button" data-action="user-singin-form">Вхід</a>';
 
 $output['{HEADER_LOGO}'] = "<a href='http://$_SERVER[SERVER_NAME]/'>".$images->inputImage($settingsArray['img']['MainLogo']['value'],['title'=>$settingsArray['img']['MainLogo']['name']]).'</a>';
 
