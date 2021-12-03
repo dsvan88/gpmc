@@ -318,7 +318,7 @@ class Action {
 		if (!$this->recordExists(['id'=>1],SQL_TBLUSERS)){
 			$this->rowInsert([
 				'login'=> 'admin',
-				'password' => '$2y$10$lnQt.d21/mEIJQzWpjRbTuSCXlWlrlEEhCTJ4RK1Rm8oigKYRNhk6', //admin1234
+				'password' => '$2y$10$QXBH7fo4T152f.Tfy6zBwOZF54VdfX6uGhK7DAgm/kFXLS/gtI5zK', //admin1234
 				'status' => 'admin',
 				'admin' => '1'
 			],SQL_TBLUSERS);
