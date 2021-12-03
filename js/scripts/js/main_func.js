@@ -175,7 +175,9 @@ actionHandler = {
 		let textareas = modalWindow.querySelectorAll("textarea");
 		if (textareas.length > 0) {
 			addScriptFile('/js/ckeditor/ckeditor.js');
-			setTimeout(() => {
+			let applyCKeditor = setInterval(() => {
+				if (!CKEDITOR)
+					return;
 				let textareas = modalWindow.querySelectorAll("textarea");
 				textareas.forEach((textarea) => {
 					textarea.id = Math.random(321123);
@@ -192,7 +194,8 @@ actionHandler = {
 						});
 					}
 				});
-			}, 500)
+				clearInterval(applyCKeditor);
+			}, 100)
 		}
 
 		let autoCompleteInputs = modalWindow.querySelectorAll("*[data-autocomplete]");

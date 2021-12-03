@@ -32,7 +32,7 @@ if ($newsCount > CFG_NEWS_PER_PAGE){
 	$pagesLinks = '';
 	$pagesCount = ceil($newsCount/CFG_NEWS_PER_PAGE);
 	for($x=0;$x<$pagesCount;$x++){
-		$pagesLinks .= "<a href='/?news-list-page=$x".($x==$page ? ' class="active"' : '').'>'.($x+1).'</a>';
+		$pagesLinks .= "<a href='/?news-list-page=$x'".($x==$page ? ' class="active"' : '').'>'.($x+1).'</a>';
 	}
 	if ($page > 0){
 		$pagesLinks = '<a href="/?news-list-page='.($page-1).'"><i class="fa fa-angle-left"></i></a>'.$pagesLinks;

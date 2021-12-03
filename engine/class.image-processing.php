@@ -37,6 +37,9 @@ class ImageProcessing {
 	{
 		$output = '<picture>';
 		$realPathToSource = $_SERVER['DOCUMENT_ROOT'].$source;
+		
+		if (!file_exists($realPathToSource)) return false;
+		
 		$format = str_replace('image/','',mime_content_type($realPathToSource));
 		
 		$output .= $this->getAdditionalImage($realPathToSource,$format,'mini');

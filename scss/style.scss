@@ -367,12 +367,14 @@ body {
 		font-size: 1.2em;
 	}
 	.header,
-	.footer,
 	.section:not(.news-preview) {
 		padding: 40px 15vw !important;
 	}
 	.setting-text-dashboard {
 		width: 70vw !important;
+	}
+	.footer {
+		padding: 20px 15vw !important;
 	}
 }
 @include xl {
@@ -380,12 +382,14 @@ body {
 		font-size: 1.3em;
 	}
 	.header,
-	.footer,
 	.section:not(.news-preview) {
 		padding: 40px 20vw !important;
 	}
 	.setting-text-dashboard {
 		width: 60vw !important;
+	}
+	.footer {
+		padding: 30px 20vw !important;
 	}
 }
 @include sm {

@@ -48,7 +48,7 @@ $animation-fast: 0.3s;
 	transition: all $animation-fast ease-in;
 	&:hover {
 		background-color: $color-text-main;
-		color: $color-text-menu;
+		color: $color-text-dark;
 	}
 	&.negative {
 		i.fa {
