@@ -202,7 +202,7 @@ class Users {
 				}
 
 			}
-			$where = mb_substr($where,0,-4);
+			$where = substr($where,0,-4);
 		}
 		return $this->action->$method($this->action->prepQuery("SELECT $columns FROM $table $where".($limit !== 0 ? ' LIMIT '.$limit : ''), $values));
 	}
