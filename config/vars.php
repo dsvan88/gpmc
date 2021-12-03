@@ -38,8 +38,8 @@ if (!defined('SQL_HOST'))
 	define('CFG_MAX_SESSION_AGE', 604800); // 60*60*24*7 == 1 week
 	define('LOG_PREFIX', 'LogFile_');
 	define('SCRIPT_VERSION', '0.16');
-	define('MAFCLUB_NAME', 'Good People Mafia Club');
-	define('MAFCLUB_SNAME', 'GPMC');
+	define('MAFCLUB_NAME', 'Kriviy Rih Mafia Club');
+	define('MAFCLUB_SNAME', 'KRMC');
 	define('FILE_USRGALL', '/gallery/users/');
 	define('FILE_MAINGALL', '/gallery/site/');
 }
