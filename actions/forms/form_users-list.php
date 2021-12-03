@@ -19,35 +19,36 @@ else{
 }
 
 $replace['{PROFILE_AVATAR}'] = $images->inputImage($avatar,['title'=>'Player avatar']); */
-$replace['{USERS_LIST}'] = '
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Псевдонім</th>
-                <th>Логін</th>
-                <th>Статус</th>
-                <th>E-mail</th>
-                <th>Telegram</th>
-                <th>Меню</th>
-            </tr>
-        </thead>
-        </tbody>
-            <tr>
-                <td>1.</td>
-                <td>Джокер</td>
-                <td>demon</td>
-                <td>admin</td>
-                <td>dsvan88@gmail.com</td>
-                <td>dsvan88</td>
-                <td>
-                    <i class="fa fa-pencil-square-o news-dashboard__button" data-action="news-edit-form" data-news-id="{NEWS_ITEM_INDEX}" title="Редагувати"></i>
-                </td>
-            </tr>
-        <tbody>
-    </table>
-';
-$output['html'] = str_replace('{USERS_LIST}',$replace['{USERS_LIST}'], file_get_contents($_SERVER['DOCUMENT_ROOT'].'/templates/forms/form_users-list.html'));
+// $replace['{USERS_LIST}'] = '
+//     <table>
+//         <thead>
+//             <tr>
+//                 <th>#</th>
+//                 <th>Псевдонім</th>
+//                 <th>Логін</th>
+//                 <th>Статус</th>
+//                 <th>E-mail</th>
+//                 <th>Telegram</th>
+//                 <th>Меню</th>
+//             </tr>
+//         </thead>
+//         </tbody>
+//             <tr>
+//                 <td>1.</td>
+//                 <td>Джокер</td>
+//                 <td>demon</td>
+//                 <td>admin</td>
+//                 <td>dsvan88@gmail.com</td>
+//                 <td>dsvan88</td>
+//                 <td>
+//                     <i class="fa fa-pencil-square-o news-dashboard__button" data-action="news-edit-form" data-news-id="{NEWS_ITEM_INDEX}" title="Редагувати"></i>
+//                 </td>
+//             </tr>
+//         <tbody>
+//     </table>
+// ';
+// $output['html'] = str_replace('{USERS_LIST}',$replace['{USERS_LIST}'], file_get_contents($_SERVER['DOCUMENT_ROOT'].'/templates/forms/form_users-list.html'));
+$output['html'] = str_replace('{USERS_LIST}','Скоро будет готово', file_get_contents($_SERVER['DOCUMENT_ROOT'].'/templates/forms/form_users-list.html'));
 
 
 // $replace['{PROFILE_NAME}'] = $userData['name'];
