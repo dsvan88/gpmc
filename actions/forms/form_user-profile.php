@@ -5,7 +5,10 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.image-processing.php';
 $users = new Users;
 $images = new ImageProcessing;
 
-$userData = $users->usersGetData(['*'],['id'=>$_SESSION['id']]);
+$userId = $_SESSION['id'];
+if (isset($_POST['userId']))
+    $userId = $_POST['userId'];
+$userData = $users->usersGetData(['*'],['id'=>$userId]);
 
 $avatar = $userData['avatar'];
 if ($avatar === ''){
@@ -15,10 +18,11 @@ if ($avatar === ''){
     $avatar = $settingsArray['img']['empty_avatar']['value'];
 }
 else{
-   $avatar = FILE_USRGALL.$_SESSION['id'].'/'.$avatar;
+   $avatar = FILE_USRGALL."$userId/$avatar";
 }
 
 $replace['{PROFILE_AVATAR}'] = $images->inputImage($avatar,['title'=>'Player avatar']);
+$replace['{PROFILE_INDEX}'] = $userId;
 $replace['{PROFILE_NAME}'] = $userData['name'];
 $replace['{PROFILE_FIO}'] = $userData['fio'];
 $replace['{PROFILE_BIRTHDAY}'] = $userData['birthday'] === 0 ? date('d.m.Y') : date('d.m.Y',$userData['birthday']);

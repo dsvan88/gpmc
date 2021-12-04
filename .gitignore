@@ -6,3 +6,4 @@ git-stash.bat
 .htaccess
 composer.phar
 /vendor/*
+/gallery/*

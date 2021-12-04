@@ -365,7 +365,7 @@ body {
 
 @include lg {
 	body {
-		font-size: 1.2em;
+		font-size: 1.05em;
 	}
 	.header,
 	.section:not(.news-preview) {
@@ -380,7 +380,7 @@ body {
 }
 @include xl {
 	body {
-		font-size: 1.3em;
+		font-size: 1.1em;
 	}
 	.header,
 	.section:not(.news-preview) {
@@ -427,6 +427,25 @@ body {
 	// 	// }
 	// }
 	.modal-container {
+		.users-list {
+			td,
+			th {
+				padding: 2px 5px;
+			}
+			[data-action] {
+				cursor: pointer;
+				&:hover {
+					color: $color-text-menu;
+				}
+			}
+		}
+		.big-list {
+			max-height: 70vh;
+			padding-right: 10px;
+			scrollbar-width: thin;
+			overflow-x: none;
+			overflow-y: auto;
+		}
 	}
 	.common-form {
 		display: flex;
@@ -509,6 +528,7 @@ body {
 				}
 			}
 		}
+
 		font-size: 0.8em;
 	}
 	.modal-buttons {

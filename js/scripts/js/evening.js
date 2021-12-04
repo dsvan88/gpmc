@@ -1,5 +1,5 @@
 let isLoadEvening = true;
-actionHandler.playersShuffle = function (target, event) {
+actionHandler.playersShuffle = function () {
 	let players = [],
 		i = -1;
 	let elems = document.body.querySelectorAll("input[name='player[]']");
@@ -29,7 +29,7 @@ actionHandler.playerRemove = function (target) {
 		});
 	}
 };
-actionHandler.playerToggleInTable = function (target) {
+actionHandler.playerToggleInTable = function ({target}) {
 	const name = target.childNodes[0].data;
 	const playersList = document.body.querySelectorAll("input[name='player[]'],input[name=manager]");
 	if (target.classList.contains("selected")) {
@@ -50,7 +50,7 @@ actionHandler.playerToggleInTable = function (target) {
 		}
 	}
 };
-actionHandler.playerArrayToggle = function (target) {
+actionHandler.playerArrayToggle = function () {
 	let playersList = [];
 	document.body.querySelectorAll("input[name='player[]'],input[name=manager]").forEach(item => item.value !== '' ? playersList.push(item.value) : false);
 	const participantsList = document.body.querySelectorAll(".game-prepeare__players-array .player__name");
@@ -62,7 +62,7 @@ actionHandler.playerArrayToggle = function (target) {
 			participant.classList.remove('selected');
 	});
 };
-actionHandler.gameBegin = function (target) {
+actionHandler.gameBegin = function () {
 	if (document.body.querySelector("input[name=manager]").value.trim() === "") {
 		alert("Спочатку оберіть ведучого з списку очікування гравців!");
 		return false;
@@ -97,9 +97,9 @@ actionHandler.gameBegin = function (target) {
 		});
 	}
 };
-actionHandler.gameResume = function (target) {
+/* actionHandler.gameResume = function ({target}) {
 	window.location.href = "/?gid=" + target.dataset.gameId;
-};
+}; */
 /*
 actionHandler.addPlayersToArray = function (modal) {
 	let name = document.body.querySelector("form.add-player-to-array-form input.input_name[name=gamer]").value.trim();

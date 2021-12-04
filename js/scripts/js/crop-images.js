@@ -9,21 +9,26 @@ actionHandler.userAvatarCropFormReady = function ({ modal, result }) {
 }
 actionHandler.userAvatarCropSubmit = function (event) {
 	event.preventDefault();
-	let img = event.target.querySelector('div.cropped-image-place>img');
-	let formData = new FormData;
+	const img = event.target.querySelector('div.cropped-image-place>img');
+	const formData = new FormData;
 	formData.append('need', 'do_user-avatar-save-croped');
 	formData.append('image', img.src);
+	formData.append('uid', event.target.dataset.uid);
 	formData.append('data', JSON.stringify($(img).data("cropper").getData(true)));
 	postAjax({
 		data: formData,
 		successFunc: function (result) {
 			if (result["error"] === 0) {
-				window.location = window.location.origin
+				event.target.querySelector('.modal-close').click();
+				console.log(document.body.querySelector(`.modal form[data-uid="${event.target.dataset.uid}"] .profile__avatar-place`));
+				const userAvatarPlace = document.body.querySelector(`.modal form[data-uid="${event.target.dataset.uid}"] .profile__avatar-place`);
+				userAvatarPlace.innerHTML = result['html'];
+				// window.location = window.location.origin
 			} else alert(result["text"]);
 		},
 	});
 }
-actionHandler.userAvatarCrop = function (target,event) {
+actionHandler.userAvatarCrop = function ({target,event}) {
 	let input = createNewElement({
 		tag: 'input',
 		type: 'file',
@@ -33,12 +38,14 @@ actionHandler.userAvatarCrop = function (target,event) {
 	document.body.append(input);
 	
 	input.click();
+	let userId = target.closest('form').dataset.uid;
 
-    input.onchange = function (event) {
+    input.onchange = function (newEvent) {
         const modal = new ModalWindow;
 		let data = new FormData;
 		data.append('img', input.files[0]);
 		data.append('need', 'do_user-avatar-upload-raw');
+		data.append('uid', userId);
 		postAjax({
 			data: data,
 			successFunc: function (result) {

@@ -86,7 +86,7 @@ actionHandler = {
 		if (debug) console.log(type);
 		if (actionHandler[type] != undefined) {
 			try {
-				actionHandler[type](target, event);
+				actionHandler[type]({ target, event });
 			} catch (error) {
 				alert(`Не существует метода для этого action-type: ${type}... или возникла ошибка. Сообщите администратору!\r\n${error.name}: ${error.message}`);
 				console.log(error);
@@ -161,8 +161,10 @@ actionHandler = {
         if (data['error'] === 0)
             modalWindow = modal.fillModalContent(data);
         else
-            modalWindow = modal.fillModalContent({ html: data['html'], title: 'Error!', buttons: [{ 'text': 'Okay', 'className': 'modal-close positive' }] });
-		modalWindow.querySelectorAll('*[data-action]').forEach(block => block.addEventListener('click', (event) => actionHandler[camelize(block.dataset.action)](event)));
+			modalWindow = modal.fillModalContent({ html: data['html'], title: 'Error!', buttons: [{ 'text': 'Okay', 'className': 'modal-close positive' }] });
+		
+		// modalWindow.querySelectorAll('*[data-action]').forEach(block => block.addEventListener('click', actionHandler.clickCommonHandler));
+
 		if (data["jsFile"]) addScriptFile(data["jsFile"]);
 		if (data["cssFile"]) addCssFile(data["cssFile"]);
 
@@ -218,7 +220,7 @@ actionHandler = {
 			}
 		);
 	},
-	participantFieldGet: function (target) {
+	participantFieldGet: function ({target}) {
 		let newID = document.body.querySelectorAll(".booking__participant").length;
 		postAjax({
 			data: `{"need":"get_participant-field","id":"${newID}" }`,
@@ -253,7 +255,7 @@ actionHandler = {
 			},
 		});
 	},
-	participantFieldRemove: function(target, event) {
+	participantFieldRemove: function({target}) {
 		const parent = target.closest('div');
 		const nameInput = parent.querySelector('input[name="participant[]"]');
 		const arriveInput = parent.querySelector('input[name="arrive[]"]');
@@ -265,7 +267,7 @@ actionHandler = {
 		if (durationInput.value != 0)
 			durationInput.value = 0;
 	},
-	participantCheckChange: function (target, event) {
+	participantCheckChange: function ({target}) {
 		const newName = target.value.trim();
 		if (newName === '') return false;
 		let participantsList = [];
@@ -284,8 +286,8 @@ actionHandler = {
 			},
 		});
 	},
-	eveningPrepeare: function (target, event) {
-		const form = event.target.closest('form');
+	eveningPrepeare: function ({target}) {
+		const form = target.closest('form');
 		const formData = new FormData(form);
 		formData.append('need', 'do_evening-approve');
 		postAjax({
@@ -296,8 +298,8 @@ actionHandler = {
 			},
 		});
 	},
-	eveningApprove: function (target, event) {
-		const form = event.target.closest('form');
+	eveningApprove: function ({target}) {
+		const form = target.closest('form');
 		const formData = new FormData(form);
 		formData.append('need', 'do_evening-approve');
 		postAjax({
@@ -336,7 +338,7 @@ actionHandler = {
 			},
 		});
 	},
-	userLogout: function (target, event) {
+	userLogout: function () {
 		postAjax({
 			data: `{"need":"do_user-logout"}`,
 			successFunc: function (result) {
@@ -376,7 +378,8 @@ actionHandler = {
 			data: formData,
 			successFunc: function (result) {
 				if (result["error"] === 0) {
-					location.reload();
+					alert(result["text"]);
+					event.target.querySelector('.modal-close').click();
 				} else alert(result["text"]);
 			},
 		});
