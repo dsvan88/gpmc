@@ -7,21 +7,28 @@ $genders=['','господин','госпожа','некто'];
 $statuses = ['Гость', 'Резидент', 'Мастер'];
 $userData['status'] = 'guest';
 
-$EveningData = $evening->nearEveningGetData(['id','date','place','games','participants','participants_info']);
-if (isset($EveningData['place']) && is_numeric($EveningData['place'])){
-	$EveningData['place'] = $places->placeGetDataByID($EveningData['place']);
-}
+// $eveningsBooked = $evening->nearEveningGetData(['id','date','place','games','participants','participants_info']);
+$eveningsBooked = $evening->eveningsGetBooked();
+if ($eveningsBooked){
 
-if (isset($EveningData['participants_info']))
-	$EveningData['participants_info'] = json_decode($EveningData['participants_info'],true);
-if ($EveningData['start'] && count($EveningData['participants_info']) === 0){
-	$randomUsers = $users->usersGetRandomNames(13);
-	for ($x=0; $x < count($randomUsers); $x++) { 
-		$EveningData['participants_info'][$x] = [
-			'name' => $randomUsers[$x],
-			'arrive' => '',
-			'duration' => 0
-		];
+	for ($i=0; $i < count($eveningsBooked); $i++) { 
+
+		if (isset($eveningsBooked[$i]['place']) && is_numeric($eveningsBooked[$i]['place'])){
+			$eveningsBooked[$i]['place'] = $places->placeGetDataByID($eveningsBooked[$i]['place']);
+		}
+
+		if (isset($eveningsBooked[$i]['participants_info']))
+			$eveningsBooked[$i]['participants_info'] = json_decode($eveningsBooked[$i]['participants_info'],true);
+		if (isset($eveningsBooked[$i]['start']) && $eveningsBooked[$i]['start'] && count($eveningsBooked[$i]['participants_info']) === 0){
+			$randomUsers = $users->usersGetRandomNames(13);
+			for ($x=0; $x < count($randomUsers); $x++) { 
+				$eveningsBooked[$i]['participants_info'][$x] = [
+					'name' => $randomUsers[$x],
+					'arrive' => '',
+					'duration' => 0
+				];
+			}
+		}
 	}
 }
 $settingsArray = $settings->modifySettingsArray($settings->settingsGet(array('short_name','name','value','type'),['img','txt']));

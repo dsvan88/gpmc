@@ -7,5 +7,5 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/views/booking/booking.php';
 
 $output['{MAIN_CONTENT}'] = '
     <main class="main">
-        <section class="section near-evening">'.$output['{MAIN_CONTENT}'].'</section>
+        <section class="section near-evening">'.$output['{EVENING_SECTION}'].'</section>
     </main>';

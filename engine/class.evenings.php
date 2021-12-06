@@ -78,6 +78,11 @@ class Evenings {
 		
 		return $data;
 	}
+	// Получение информации об запланированных вечерах игры
+	function eveningsGetBooked()
+	{
+		return $this->action->getAssocArray($this->action->prepQuery("SELECT * FROM ".SQL_TBLEVEN.' WHERE date >= ? ORDER BY date', [$_SERVER['REQUEST_TIME']-DATE_MARGE]));
+	}
 	// Получение информации об вечерах игры по заданым критериям:
 	// $from - метка времени с какой даты
 	// $to - метка времени по какую дату

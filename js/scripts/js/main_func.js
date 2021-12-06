@@ -3,7 +3,7 @@ actionHandler = {
 	inputCommonHandler: function (event) {
 		let action = event.target.dataset.actionInput;
 		if (action.startsWith('get-autocomplete-')) {
-			if (event.target.value.length > 2 ) {
+			if (event.target.value.length > 2) {
 				const type = action.replace(/get-autocomplete-/, '');
 				postAjax({
 					data: `{"need":"get_autocomplete-${type}","term":"${event.target.value}"}`,
@@ -33,7 +33,7 @@ actionHandler = {
 		const type = camelize(event.target.dataset.actionChange);
 		if (debug) console.log(type);
 		try {
-			actionHandler[type](event.target, event);
+			actionHandler[type](event);
 		} catch (error) {
 			alert(`Не существует метода для этого action-type: ${type}... или возникла ошибка. Сообщите администратору!\r\n${error.name}: ${error.message}`);
 			console.log(error);
@@ -76,7 +76,7 @@ actionHandler = {
 			console.log(error);
 		}
 	},
-	clickFunc: function ({ target, event }){
+	clickFunc: function ({ target, event }) {
 		if (!("action" in target.dataset)) return false;
 		event.preventDefault();
 		if (target.dataset.action.endsWith('-form'))
@@ -106,7 +106,6 @@ actionHandler = {
 				if (key !== 'action')
 					formData.append(key, value);
 			}
-			console.log(formDataToJson(formData));
 			postAjax({
 				data: formDataToJson(formData),
 				successFunc: function (result) {
@@ -143,7 +142,7 @@ actionHandler = {
 				const action = camelize(target.dataset.action);
 				if (debug) console.log(action);
 
-				actionHandler.commonFormEventEnd({ modal, data, formSubmitAction: action+'Submit' });
+				actionHandler.commonFormEventEnd({ modal, data, formSubmitAction: action + 'Submit' });
 				
 				// actionHandler.CommonFormReady({ modal, data, action });
 				if (actionHandler[action + "FormReady"]) {
@@ -154,13 +153,13 @@ actionHandler = {
 		return true;
 	},
 	commonFormEventStart: function (event) {
-        return new ModalWindow();
+		return new ModalWindow();
 	},
-	commonFormEventEnd: function ({modal, data, formSubmitAction, ...args}) {
-        let modalWindow;
-        if (data['error'] === 0)
-            modalWindow = modal.fillModalContent(data);
-        else
+	commonFormEventEnd: function ({ modal, data, formSubmitAction, ...args }) {
+		let modalWindow;
+		if (data['error'] === 0)
+			modalWindow = modal.fillModalContent(data);
+		else
 			modalWindow = modal.fillModalContent({ html: data['html'], title: 'Error!', buttons: [{ 'text': 'Okay', 'className': 'modal-close positive' }] });
 		
 		// modalWindow.querySelectorAll('*[data-action]').forEach(block => block.addEventListener('click', actionHandler.clickCommonHandler));
@@ -170,9 +169,9 @@ actionHandler = {
 
 		$(".modal-container .datepick").datetimepicker({ timepicker: false, format: "d.m.Y", dayOfWeekStart: 1 });
 
-        const form = modalWindow.querySelector('form');
-        if (form !== null && actionHandler[formSubmitAction]) {
-            form.addEventListener('submit', (event) => actionHandler[formSubmitAction](event, modal, args))
+		const form = modalWindow.querySelector('form');
+		if (form !== null && actionHandler[formSubmitAction]) {
+			form.addEventListener('submit', (event) => actionHandler[formSubmitAction](event, modal, args))
 		}
 		let textareas = modalWindow.querySelectorAll("textarea");
 		if (textareas.length > 0) {
@@ -220,7 +219,7 @@ actionHandler = {
 			}
 		);
 	},
-	participantFieldGet: function ({target}) {
+	participantFieldGet: function ({ target }) {
 		let newID = document.body.querySelectorAll(".booking__participant").length;
 		postAjax({
 			data: `{"need":"get_participant-field","id":"${newID}" }`,
@@ -255,7 +254,7 @@ actionHandler = {
 			},
 		});
 	},
-	participantFieldRemove: function({target}) {
+	participantFieldRemove: function ({ target }) {
 		const parent = target.closest('div');
 		const nameInput = parent.querySelector('input[name="participant[]"]');
 		const arriveInput = parent.querySelector('input[name="arrive[]"]');
@@ -267,7 +266,7 @@ actionHandler = {
 		if (durationInput.value != 0)
 			durationInput.value = 0;
 	},
-	participantCheckChange: function ({target}) {
+	participantCheckChange: function ({ target }) {
 		const newName = target.value.trim();
 		if (newName === '') return false;
 		let participantsList = [];
@@ -282,11 +281,24 @@ actionHandler = {
 			data: `{"need":"get_place-info","place":"${event.target.value}"}`,
 			successFunc: function (result) {
 				if (result['result'])
-					document.body.querySelector('input[name="eve_place_info"]').value = result['result'];
+					event.target.closest('form').querySelector('input[name="eve_place_info"]').value = result['result'];
 			},
 		});
 	},
-	eveningPrepeare: function ({target}) {
+	eveningPrepeare: function ({ target }) {
+		const form = target.closest('form');
+		const formData = new FormData(form);
+		formData.append('need', 'do_evening-approve');
+		postAjax({
+			data: formDataToJson(formData),
+			successFunc: function (result) {
+				if (result["error"] == 0)
+					window.location = window.location.href;
+				else alert(result["txt"]);
+			},
+		});
+	},
+	eveningApprove: function ({ target }) {
 		const form = target.closest('form');
 		const formData = new FormData(form);
 		formData.append('need', 'do_evening-approve');
@@ -298,15 +310,23 @@ actionHandler = {
 			},
 		});
 	},
-	eveningApprove: function ({target}) {
-		const form = target.closest('form');
-		const formData = new FormData(form);
-		formData.append('need', 'do_evening-approve');
+	eveningAddBookingTable: function ({ target }) {
+		const targetParent = target.closest('.booking__additional-evening');
 		postAjax({
-			data: formDataToJson(formData),
+			data: `{"need":"get_evening-add-booking-table"}`,
 			successFunc: function (result) {
-				if (result["error"] == 0) window.location = window.location.origin;
-				else alert(result["txt"]);
+				if (result['error'] == 0){
+					targetParent.insertAdjacentHTML('beforebegin', result['html']);
+					targetParent.previousElementSibling.previousElementSibling.querySelectorAll('input[data-action-input]').forEach(element =>
+						element.addEventListener('input', (event) => actionHandler.inputCommonHandler.call(actionHandler, event))
+					);
+					targetParent.previousElementSibling.previousElementSibling.querySelectorAll('input[data-action-change]').forEach(element => {
+							console.log(element)
+							element.addEventListener('change', (event) => actionHandler.changeCommonHandler.call(actionHandler, event))
+						}
+					);
+					$('.datepick').datetimepicker({ format: 'd.m.Y H:i', dayOfWeekStart: 1 });
+				}
 			},
 		});
 	},
