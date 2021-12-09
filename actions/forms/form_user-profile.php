@@ -21,6 +21,19 @@ else{
    $avatar = FILE_USRGALL."$userId/$avatar";
 }
 
+$replace['{PROFILE_STATUS}'] = '';
+
+if ($_SESSION['status'] === 'admin'){
+    $replace['{PROFILE_STATUS}'] = '
+        <div class="common-form__row">
+            <label class="common-form__label" for="profile-status">Статус</label>
+            <select class="common-form__select" id="profile-status" name="status"/>
+                <option value="user" '.($userData['status'] === 'user' ? ' selected' : '').'>Користувач</option>
+                <option value="admin" '.($userData['status'] === 'admin' ? ' selected' : '').'>Админ</option>
+                <option value="manager" '.($userData['status'] === 'manager' ? ' selected' : '').'>Менеджер</option>
+            </select>
+        </div>';
+}
 $replace['{PROFILE_AVATAR}'] = $images->inputImage($avatar,['title'=>'Player avatar']);
 $replace['{PROFILE_INDEX}'] = $userId;
 $replace['{PROFILE_NAME}'] = $userData['name'];

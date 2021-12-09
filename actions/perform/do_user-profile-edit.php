@@ -19,6 +19,9 @@ $array=[
     'telegram' => trim($_POST['telegram'])
 ];
 
+if (isset($_POST['status']))
+    $array['status'] = trim($_POST['status']);
+
 $user->userUpdateData($array, ['id'=>$userId]);
 
 $output['text'] = 'Дані збережено!';
