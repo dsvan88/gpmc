@@ -10,7 +10,6 @@ $userData['status'] = 'guest';
 // $eveningsBooked = $evening->nearEveningGetData(['id','date','place','games','participants','participants_info']);
 $eveningsBooked = $evening->eveningsGetBooked();
 if ($eveningsBooked){
-
 	for ($i=0; $i < count($eveningsBooked); $i++) { 
 
 		if (isset($eveningsBooked[$i]['place']) && is_numeric($eveningsBooked[$i]['place'])){
@@ -31,7 +30,7 @@ if ($eveningsBooked){
 		}
 	}
 }
-$settingsArray = $settings->modifySettingsArray($settings->settingsGet(array('short_name','name','value','type'),['img','txt']));
+$settingsArray = $settings->modifySettingsArray($settings->settingsGet(['short_name','name','value','type'],['img','txt']));
 
 $gendersImages = [
 	'none' => $settingsArray['img']['profile']['value'],

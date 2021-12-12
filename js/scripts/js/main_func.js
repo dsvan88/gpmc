@@ -220,15 +220,17 @@ actionHandler = {
 		);
 	},
 	participantFieldGet: function ({ target }) {
-		let newID = document.body.querySelectorAll(".booking__participant").length;
+		const form = target.closest('form');
+		const newID = form.querySelectorAll(".booking__participant").length;
+		const participantsFields = form.querySelector(".booking__participants");
 		postAjax({
 			data: `{"need":"get_participant-field","id":"${newID}" }`,
 			successFunc: function (result) {
-				eveningGamersFields.insertAdjacentHTML("beforeend", result['html']);
-				eveningGamersFields.querySelectorAll('input[data-action-change]').forEach(element =>
+				participantsFields.insertAdjacentHTML("beforeend", result['html']);
+				participantsFields.querySelectorAll('input[data-action-change]').forEach(element =>
 					element.addEventListener('change', (event) => actionHandler.changeCommonHandler.call(actionHandler, event))
 				);
-				eveningGamersFields.querySelectorAll('input[data-action-input]').forEach(element =>
+				participantsFields.querySelectorAll('input[data-action-input]').forEach(element =>
 					element.addEventListener('input', (event) => actionHandler.inputCommonHandler.call(actionHandler, event))
 				);
 				// let autoCompleteInputs = document.body.querySelectorAll("*[data-autocomplete]");
@@ -269,8 +271,9 @@ actionHandler = {
 	participantCheckChange: function ({ target }) {
 		const newName = target.value.trim();
 		if (newName === '') return false;
+
 		let participantsList = [];
-		document.body.querySelectorAll("input[name='participant[]']").forEach(item => item.value !== '' && item !== target ? participantsList.push(item.value) : false);
+		target.closest('form').querySelectorAll("input[name='participant[]']").forEach(item => item.value !== '' && item !== target ? participantsList.push(item.value) : false);
 		if (participantsList.includes(newName)) {
 			alert('Гравець з таким іменем - вже зареєстрований на поточний вечір!');
 			target.value = '';
@@ -289,6 +292,7 @@ actionHandler = {
 		const form = target.closest('form');
 		const formData = new FormData(form);
 		formData.append('need', 'do_evening-approve');
+		formData.append('eid', form.dataset.eid);
 		postAjax({
 			data: formDataToJson(formData),
 			successFunc: function (result) {
@@ -302,10 +306,12 @@ actionHandler = {
 		const form = target.closest('form');
 		const formData = new FormData(form);
 		formData.append('need', 'do_evening-approve');
+		formData.append('eid', form.dataset.eid);
 		postAjax({
 			data: formDataToJson(formData),
 			successFunc: function (result) {
-				if (result["error"] == 0) window.location = window.location.origin;
+				if (result["error"] == 0)
+					window.location = window.location.href;
 				else alert(result["txt"]);
 			},
 		});

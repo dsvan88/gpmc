@@ -1,10 +1,14 @@
 <?php
 if ($eveningsBooked){
-    for ($i=0; $i < count($eveningsBooked); $i++) { 
+    $output['{EVENING_SECTION}'] = '';
+    for ($i=0; $i < count($eveningsBooked); $i++) {
+        $eveningHtml = '';
         $EveningData = $eveningsBooked[$i];
-        require_once $_SERVER['DOCUMENT_ROOT'].'/views/booking/evening-prepeare.php';
+        require $_SERVER['DOCUMENT_ROOT'].'/views/booking/evening-prepeare.php';
+        $output['{EVENING_SECTION}'] .= $eveningHtml;
     }
     $output['{EVENING_SECTION}'] .= '
+    <datalist id="users-names-list"></datalist>
     <div class="booking__additional-evening">
         <div class="booking__buttons">
             <button type="button" title="Додати вечір гри" data-action="evening-add-booking-table"><i class="fa fa-plus-square"></i></button>

@@ -39,37 +39,7 @@ $jsonString = '{
     }
 }';
 $_POST = json_decode($jsonString,true);
-// Array
-// (
-//     [update_id] => 834263384
-//     [message] => Array
-//         (
-//             [message_id] => 41
-//             [from] => Array
-//                 (
-//                     [id] => 900669168
-//                     [is_bot] => 
-//                     [first_name] => Dmytro
-//                     [last_name] => Vankevych
-//                     [username] => dsvan88
-//                     [language_code] => ru
-//                 )
 
-//             [chat] => Array
-//                 (
-//                     [id] => -626874720
-//                     [title] => TestGroup
-//                     [type] => group
-//                     [all_members_are_administrators] => 1
-//                 )
-
-//             [date] => 1637502053
-//             [text] => Ð¢ÐµÑÑ‚Ð¾Ð²Ð¾Ðµ Ð¿Ñ€Ð¸Ð²Ð°Ñ‚Ð½Ð¾Ðµ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ Ð´Ð»Ñ Ñ‚ÐµÐ»ÐµÐ³Ñ€Ð°Ð¼ Ð±Ð¾Ñ‚Ð°. 4
-//         )
-
-// )
-print_r($jsonString);
-print_r($_POST);
 require $_SERVER['DOCUMENT_ROOT'].'/engine/class.action.php';
 require $_SERVER['DOCUMENT_ROOT'].'/engine/class.bot.php';
 $GLOBALS['CommonActionObject'] = new Action;

@@ -38,7 +38,7 @@ class Evenings {
 		}
 		else $placeData['id'] = 0;
 
-		$a = ['date'=>$data['date'],'place'=>$placeData['id'],'status'=>'new'];
+		$a = ['date'=>$data['date'],'place'=>$placeData['id'],'status'=>'new','game'=>$data['game']];
 
 		if (isset($data['participants']))
 		{
@@ -54,11 +54,14 @@ class Evenings {
 			$a['participants_info'] = '{}';
 		}
 
-		$evening = $this->nearEveningGetData(['id','date']);
-		if (!isset($evening['id']))
+		$eveningId = $data['eid'];
+
+		unset($data['eid']);
+		
+		if ($eveningId == 0)
 			$this->action->rowInsert($a,SQL_TBLEVEN);
 		else 
-			$this->action->rowUpdate($a,[ 'id'=>$evening['id'] ],SQL_TBLEVEN);
+			$this->action->rowUpdate($a,[ 'id'=>$eveningId ],SQL_TBLEVEN);
 	}
 	// Получение информации об ближайшем вечере игры
 	function nearEveningGetData($columns = 'id')
@@ -81,7 +84,7 @@ class Evenings {
 	// Получение информации об запланированных вечерах игры
 	function eveningsGetBooked()
 	{
-		return $this->action->getAssocArray($this->action->prepQuery("SELECT * FROM ".SQL_TBLEVEN.' WHERE date >= ? ORDER BY date', [$_SERVER['REQUEST_TIME']-DATE_MARGE]));
+		return $this->action->getAssocArray($this->action->prepQuery('SELECT * FROM '.SQL_TBLEVEN.' WHERE date >= ? ORDER BY date', [$_SERVER['REQUEST_TIME']-DATE_MARGE]));
 	}
 	// Получение информации об вечерах игры по заданым критериям:
 	// $from - метка времени с какой даты

@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/engine/engine.start.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/engine/autoload.php';
 
 if ( isset($_SESSION['id']) && ( $_SESSION['expire'] < $_SERVER['REQUEST_TIME'] || !$users->checkToken() )){
     $users->logout();
