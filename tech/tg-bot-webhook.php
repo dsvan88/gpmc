@@ -16,6 +16,12 @@ $contentType = isset($_SERVER['CONTENT_TYPE']) ? trim($_SERVER['CONTENT_TYPE']) 
 //     'name'=>"{$_POST['message']['from']['first_name']} {$_POST['message']['from']['last_name']} (@{$_POST['message']['from']['username']}, id:{$_POST['message']['from']['id']})",
 //     'message'=> $_POST['message']['text']
 // ];
+
+require $_SERVER['DOCUMENT_ROOT'].'/engine/class.action.php';
+// require $_SERVER['DOCUMENT_ROOT'].'/engine/class.bot.php';
+$GLOBALS['CommonActionObject'] = new Action;
+// $bot = new MessageBot();
+
 $jsonString = '{
     "update_id":834263384,
     "message":{
@@ -25,7 +31,7 @@ $jsonString = '{
             "is_bot":"",
             "first_name":"Dmytro",
             "last_name":"Vankevych",
-            "username":"dsvan88",
+            "username":"dsvan881",
             "language_code":"ru"
         },
         "chat":{
@@ -35,24 +41,40 @@ $jsonString = '{
             "all_members_are_administrators":1
         },
         "date":1637502053,
-        "text":"Тестовое сообщение"
+        "text":"/mafia + планирую прибить Джокера и прибыть на 18:30"
     }
 }';
+
 $_POST = json_decode($jsonString,true);
 
-require $_SERVER['DOCUMENT_ROOT'].'/engine/class.action.php';
-require $_SERVER['DOCUMENT_ROOT'].'/engine/class.bot.php';
-$GLOBALS['CommonActionObject'] = new Action;
-$bot = new MessageBot();
+$_POST['message']['text'] = trim($_POST['message']['text']);
 
-/* $bot->prepMessage("I catch your message Mr. $array[name], you said: $array[message]");
+if (strpos($_POST['message']['text'],'/') === 0){
+    $command = mb_substr($_POST['message']['text'], 1, NULL, 'UTF-8');
+
+    $spacePos = mb_strpos($command, ' ', 0, 'UTF-8');
+    if ($spacePos !== false){
+        $command = mb_substr($command, 0, $spacePos, 'UTF-8');
+    }
+
+    if (in_array($command,['mafia','poker','cash'])){
+        preg_match_all('/(\+|\-)|(\d{2}\:\d{2})/',mb_substr($_POST['message']['text'],mb_strlen($command),NULL,'UTF-8'), $matches);
+        $args = $matches[0];
+        require_once $_SERVER['DOCUMENT_ROOT'].'/actions/tg-commands/game.php';
+    }
+}
+print_r($output);
+/* 
+
+
+$bot->prepMessage("I catch your message Mr. $array[name], you said: $array[message]");
 
 try {
     $bot->sendToTelegramBot($_POST['message']['chat']['id']);
 }
 catch (Exception $e) {
     file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tg-error.txt',print_r($POST,true));
-} */
+}
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.settings.php';
 
@@ -70,4 +92,4 @@ if (!isset($chatId[0])){
         ];
     print_r($array);
     // $settings->settingsSet($array,$id);
-}
+} */
