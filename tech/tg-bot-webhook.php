@@ -75,4 +75,31 @@ try {
 catch (Exception $e) {
     file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tg-error.txt',print_r($_POST,true));
 }
+
 // file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tg-message.txt',print_r($_POST,true).' '.$command);
+/* $bot->prepMessage("I catch your message Mr. $array[name], you said: $array[message]");
+
+try {
+    $bot->sendToTelegramBot($_POST['message']['chat']['id']);
+}
+catch (Exception $e) {
+    file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tg-error.txt',print_r($POST,true));
+}
+
+require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.settings.php';
+
+$settings = new Settings();
+$chatId = $settings->settingsGet(['id','value'],['tg-chat'],['value'=>$_POST['message']['chat']['id']]);
+
+if (!isset($chatId[0])){
+    $id = "add";
+    $array=[
+            'type' => 'tg-chat',
+            'short_name' => 'tg-chat-id',
+            'name' => 'Телеграм чат з '.(isset($_POST['message']['chat']['title']) ? $_POST['message']['chat']['title'] : $array['name']),
+            'value' => $_POST['message']['chat']['id'],
+            'by_default' => $_POST['message']['chat']['id']
+        ];
+    print_r($array);
+    // $settings->settingsSet($array,$id);
+} */

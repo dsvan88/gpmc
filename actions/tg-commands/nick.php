@@ -28,8 +28,14 @@ else{
             $output['message'] = "Я запомнил Вас под именем <b>$username</b>!\r\nЕсли это не Ваш псевдоним - обратитесь к администраторам!";
         }
     }
-    else{
-        $users->userUpdateData([ 'name'=>$username ],[ 'id'=>$userData['id'] ]);
+    else
+    {
+        if (isset($userData['id'])){
+            $users->userUpdateData([ 'name'=>$username ],[ 'id'=>$userData['id'] ]);
+        }
+        else{
+            $users->usersSaveNameFromTelegram([ 'name'=>$username, 'telegram'=>$telegramId ]);
+        }
         $output['message'] = "Я запомнил Вас под именем <b>$username</b>!\r\nЕсли это не Ваш псевдоним - обратитесь к администраторам!";
     }
 }

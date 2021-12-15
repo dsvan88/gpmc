@@ -225,6 +225,9 @@ class Users {
 	{
 		return $this->getColumn($this->query('SELECT count(id) FROM '.SQL_TBLUSERS));
 	}
+	public function usersSaveNameFromTelegram($data){
+		$this->action->rowInsert($data,SQL_TBLUSERS);
+	}
 	public function usersSaveUnknowTelegram($telegramId){
 		$this->action->rowInsert([ 'name'=>'tmp_telegram_user', 'telegram' => $telegramId ],SQL_TBLUSERS);
 	}
