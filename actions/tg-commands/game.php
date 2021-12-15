@@ -30,7 +30,7 @@ else{
         }
     }
     if ($buffer[0] === '-'){
-        $output['message'] = $evenings->eveningsParticipantBookedByTelegram($command,$userData['id']);
+        $output['message'] = $evenings->eveningsParticipantUnbookedByTelegram($command,$userData['id']);
     }
     else{
         $userData['arrive'] = '';
