@@ -16,7 +16,8 @@ require $_SERVER['DOCUMENT_ROOT'].'/engine/class.bot.php';
 $GLOBALS['CommonActionObject'] = new Action;
 $bot = new MessageBot();
 
-/* $jsonString = '{
+/*
+$jsonString = '{
     "update_id":834263384,
     "message":{
         "message_id":41,
@@ -69,6 +70,6 @@ try {
     $bot->sendToTelegramBot('900669168');
 }
 catch (Exception $e) {
-    file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tg-error.txt',print_r($POST,true));
+    file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tg-error.txt',print_r($_POST,true));
 }
-file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tg-message.txt',print_r($POST,true));
+file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tg-message.txt',print_r($_POST,true));
