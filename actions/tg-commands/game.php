@@ -20,10 +20,14 @@ else{
     $evenings = new Evenings;
 
     $buffer = [ '+' ];
-    for ($x=0; $x < count($args); $x++) { 
-        if ($args[$x] === '-')
+    for ($x=0; $x < count($args); $x++) {
+        $args[$x] = trim($args[$x]);
+        if ($args[$x] === '-'){
             $buffer[0] = '-';
-        else $buffer[1] = $args[$x];
+        }
+        else {
+            $buffer[1] = $args[$x];
+        }
     }
     if ($buffer[0] === '-'){
         $output['message'] = "Игрок $userData[name] успешно отписался с ближайшего вечер игры в $command!:(";

@@ -1,6 +1,6 @@
 <?
 
-$contentType = isset($_SERVER['CONTENT_TYPE']) ? trim($_SERVER['CONTENT_TYPE']) : '';
+/* $contentType = isset($_SERVER['CONTENT_TYPE']) ? trim($_SERVER['CONTENT_TYPE']) : '';
 if (strpos($contentType,'application/json') !==  false) {
 	$_POST = trim(file_get_contents('php://input'));
 	$_POST = json_decode($_POST, true);
@@ -9,7 +9,7 @@ if (strpos($contentType,'application/json') !==  false) {
 		error_log(json_encode($_POST,JSON_UNESCAPED_UNICODE));
         die('{"error":"1","title":"Error!","text":"Error: Nothing to send."}');
     }
-}
+} */
 
 require $_SERVER['DOCUMENT_ROOT'].'/engine/class.action.php';
 require $_SERVER['DOCUMENT_ROOT'].'/engine/class.bot.php';
@@ -27,7 +27,7 @@ if (strpos($_POST['message']['text'],'/') === 0){
     }
 
     if (in_array($command,['mafia','poker','cash'])){
-        preg_match_all('/\s(\+|\-)\s|(\d{2}\:\d{2})/',mb_substr($_POST['message']['text'],mb_strlen($command),NULL,'UTF-8'), $matches);
+        preg_match_all('/\s(\+|-)|(\d{2}\:\d{2})/',mb_substr($_POST['message']['text'],mb_strlen($command),NULL,'UTF-8'), $matches);
         $args = $matches[0];
         require_once $_SERVER['DOCUMENT_ROOT'].'/actions/tg-commands/game.php';
     }
