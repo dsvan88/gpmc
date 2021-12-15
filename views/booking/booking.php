@@ -15,8 +15,10 @@ if ($eveningsBooked){
         </div>
     </div>';
 }
-else
+else{
     require_once $_SERVER['DOCUMENT_ROOT'].'/views/booking/evening-prepeare.php';
+    $output['{EVENING_SECTION}'] = $eveningHtml;
+}
 
 /* <?php
 if ($eveningsBooked){
