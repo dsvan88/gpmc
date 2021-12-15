@@ -25,7 +25,6 @@ if (isset($_POST['tg-bot']) && $_POST['tg-bot'] != ''){
         if ($bot->webhookSet($_POST['tg-bot'])){
             $output['text'] .= "WebHook налаштовано!\r\n";
         }
-        file_put_contents($_SERVER['DOCUMENT_ROOT'].'/log.txt',print_r($_SERVER,true)."https://api.telegram.org/bot{$_POST['tg-bot']}/setWebhook?url=https://$_SERVER[HTTP_HOST]/tech/tg-bot-webhook.php");
     }
     $output['text'] .= 'Дані збережено!';
 }

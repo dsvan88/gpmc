@@ -72,6 +72,8 @@ class MessageBot{
         return false;
     }
     public function webhookSet($botToken){
+        if (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) !== 'https')
+            return false;
         $curl = curl_init();
 
         $options = array(
