@@ -29,5 +29,4 @@ else{
         $userData['duration'] = 0;
         $output['message'] = $evenings->eveningsParticipantBookedByTelegram($command,$userData);
     }
-        
 }
