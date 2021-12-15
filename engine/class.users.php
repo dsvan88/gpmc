@@ -112,15 +112,21 @@ class Users {
 		$data = [
 			'enum' => []
 		];
-		for ($x=0;$x<count($participants);$x++){
-			$name = trim($participants[$x]['name']);
+		foreach ($participants as $key => $value) {
+
+			$name = trim($participants[$key]['name']);
 			if ($name === '')
 			{
-				unset($participants[$x]);
+				error_log(json_encode($participants[$key]));
+				unset($participants[$key]);
 				continue;
 			}
-			$participants[$x]['name'] = $name !== '+1' ? $name : 'tmp_user_'.$x;
+			$participants[$key]['name'] = $name !== '+1' ? $name : 'tmp_user_'.$x;
 		}
+
+		if (count($participants) === 0)
+			return false;
+			
 		$participants = array_values($participants);
 		for ($x=0;$x<count($participants);$x++){
 			$data[$x] = $participants[$x];

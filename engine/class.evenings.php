@@ -45,9 +45,11 @@ class Evenings {
 			require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.users.php';
 			$users = new Users;
 			$data['participants'] = $users->participantsGetIds($data['participants']);
-			$a['participants'] = $data['participants']['ids'];
-			unset($data['participants']['ids']);
-			$a['participants_info'] = json_encode($data['participants'],JSON_UNESCAPED_UNICODE);
+			if ($data['participants'] !== false){
+				$a['participants'] = $data['participants']['ids'];
+				unset($data['participants']['ids']);
+				$a['participants_info'] = json_encode($data['participants'],JSON_UNESCAPED_UNICODE);
+			}
 		}
 		else{
 			$a['participants'] = '';
