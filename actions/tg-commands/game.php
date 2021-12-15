@@ -30,7 +30,7 @@ else{
         }
     }
     if ($buffer[0] === '-'){
-        $output['message'] = "Игрок $userData[name] успешно отписался с ближайшего вечер игры в $command!:(";
+        $output['message'] = $evenings->eveningsParticipantBookedByTelegram($command,$userData['id']);
     }
     else{
         $userData['arrive'] = '';

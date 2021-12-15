@@ -218,7 +218,7 @@ class Evenings {
 
 		if (!$eveningData)
 			return "Вечер игры в $game, пока - не запланирован!\r\nДождитесь начала регистрации!";
-        if (!$this->playerAddToEvening($eveningData[0]['id'],$userData))
+        if (!$this->playerRemoveFromEvening($eveningData[0]['id'],$userData['id']))
 			return "Игрок $userData[name] отписался с ближайшего вечера игры в $game :(";
 	}
 }
