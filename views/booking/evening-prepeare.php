@@ -1,34 +1,47 @@
 <?php
+$eveningHtmlData = [
+	'{EVENING_DATE}' => date('d.m.Y H:i',$_SERVER['REQUEST_TIME']),
+	'{EVENING_PLACE}' => '',
+	'{EVENING_PLACE_INFO}' => '',
+	'{EVENING_INDEX}' => 0,
+	'{EVENING_GAME_MAFIA}' => '',
+	'{EVENING_GAME_POKER}' => '',
+	'{EVENING_GAME_CASH}' => ''
 
-if (!isset($EveningData['participants_info']) && !(isset($_SESSION['status']) && in_array($_SESSION['status'],['admin','manager','founder','master']))){
-	$output['{MAIN_CONTENT}'] = file_get_contents( $_SERVER['DOCUMENT_ROOT'].'/templates/booking/booking-none.html');
+];
+
+if (!isset($EveningData['participants_info']) && !(isset($_SESSION['status']) && in_array($_SESSION['status'],['admin','manager','founder']))){
+	$eveningHtml = file_get_contents( $_SERVER['DOCUMENT_ROOT'].'/templates/booking/booking-none.html');
 }
 else{
-	if (isset($_SESSION['status']) && in_array($_SESSION['status'],['admin','manager','founder','master'])){
-		$htmlFiles['booking'] = $_SERVER['DOCUMENT_ROOT'].'/templates/booking/booking-edit.html';
-		$htmlFiles['participant_row'] =$_SERVER['DOCUMENT_ROOT'].'/templates/participant-field-edit.html';
+	if (isset($_SESSION['status']) && in_array($_SESSION['status'],['admin','manager','founder'])){
+		$htmlFiles = [
+			'booking' => $_SERVER['DOCUMENT_ROOT'].'/templates/booking/booking-edit.html',
+			'participant_row' => $_SERVER['DOCUMENT_ROOT'].'/templates/participant-field-edit.html'
+		];
 	}
     else{
-        $htmlFiles['booking'] = $_SERVER['DOCUMENT_ROOT'].'/templates/booking/booking-show.html';
-		$htmlFiles['participant_row'] = $_SERVER['DOCUMENT_ROOT'].'/templates/participant-field-show.html';
-    }
-	$output['{MAIN_CONTENT}'] = file_get_contents($htmlFiles['booking']);
-
-	$output['{EVENING_PLACE}'] = '';
-	$output['{EVENING_PLACE_INFO}'] = '';
+		$htmlFiles = [
+			'booking' => $_SERVER['DOCUMENT_ROOT'].'/templates/booking/booking-show.html',
+			'participant_row' => $_SERVER['DOCUMENT_ROOT'].'/templates/participant-field-show.html'
+		];
+	}
 
 	if (isset($EveningData['place'])){
-		$output['{EVENING_DATE}'] = date('d.m.Y H:i',$EveningData['date']);
-		$output['{EVENING_PLACE}'] = $EveningData['place']['name'];
-		$output['{EVENING_PLACE_INFO}'] = $EveningData['place']['info'];
+		$eveningHtmlData['{EVENING_DATE}'] = date('d.m.Y H:i',$EveningData['date']);
+		$eveningHtmlData['{EVENING_PLACE}'] = $EveningData['place']['name'];
+		$eveningHtmlData['{EVENING_PLACE_INFO}'] = $EveningData['place']['info'];
+		$eveningHtmlData['{EVENING_INDEX}'] = $EveningData['id'];
+		$eveningHtmlData['{EVENING_GAME_MAFIA}'] = $EveningData['game'] === 'mafia' ? 'selected' : '';
+		$eveningHtmlData['{EVENING_GAME_POKER}'] = $EveningData['game'] === 'poker' ? 'selected' : '';
+		$eveningHtmlData['{EVENING_GAME_CASH}'] = $EveningData['game'] === 'cash' ? 'selected' : '';
 	}
-	else{
-		$output['{EVENING_DATE}'] = date('d.m.Y H:i');
-	}
-	$output['{EVENING_PARTICIPANTS}'] = '';
+
+	$eveningHtmlData['{EVENING_PARTICIPANTS}'] = '';
+
 	if (isset($EveningData['participants_info']) && $EveningData['participants_info'] != ''){
 		$playersCount = max(count($EveningData['participants_info']), 11);
-		$durations = ['',' (на 1-2 гри)',' (на 2-3 гри)',' (на 3-4 гри)'];
+		$durations = [ '',' (на 1-2 гри)',' (на 2-3 гри)',' (на 3-4 гри)' ];
 		for ($x=0; $x < $playersCount; $x++) {
 			$replace=[
 				'{PARTICIPANT_INDEX}' => $x,
@@ -47,8 +60,8 @@ else{
 				$replace['{PARTICIPANT_DURATION}'] = $durations[$EveningData['participants_info'][$x]['duration']];
 				$replace['{PARTICIPANT_DURATION_'.$EveningData['participants_info'][$x]['duration'].'}'] = ' selected ';
 			}
-			$output['{EVENING_PARTICIPANTS}'] .= str_replace(array_keys($replace), array_values($replace), file_get_contents($htmlFiles['participant_row']));
+			$eveningHtmlData['{EVENING_PARTICIPANTS}'] .= str_replace(array_keys($replace), array_values($replace), file_get_contents($htmlFiles['participant_row']));
 		}
-		$output['{EVENING_PARTICIPANTS}'] .= '<datalist id="users-names-list"></datalist>';
 	}
+	$eveningHtml = str_replace(array_keys($eveningHtmlData), array_values($eveningHtmlData), file_get_contents($htmlFiles['booking']));
 }

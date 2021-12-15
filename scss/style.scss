@@ -234,11 +234,15 @@ body {
 				padding: 30px 8vw 40px 5vw;
 			}
 			&.near-evening {
+				text-indent: 0;
 				.booking {
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
 					align-items: center;
+					margin: 20px 0px;
+					border: 1px solid $color-text-blur;
+					border-radius: 5px;
 					&__title {
 						margin: 10px 0 20px 0;
 						text-align: center;
@@ -264,7 +268,8 @@ body {
 							width: 15vw;
 							max-width: 300px;
 						}
-						input {
+						input,
+						select {
 							width: 40vw;
 							border-radius: 5px;
 							&:focus-visible {
@@ -327,6 +332,12 @@ body {
 						button {
 							@extend %buttonStyle;
 						}
+					}
+					&__additional-evening {
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						align-items: center;
 					}
 				}
 			}
@@ -399,10 +410,10 @@ body {
 		.booking {
 			&__place {
 				&-row {
-					width: 95vw;
+					width: 85vw !important;
 				}
 				input {
-					width: 100%;
+					width: 100% !important;
 				}
 			}
 			label {
@@ -410,7 +421,7 @@ body {
 			}
 			&__participant {
 				&-name {
-					width: 30vw;
+					width: 30vw !important;
 				}
 			}
 		}

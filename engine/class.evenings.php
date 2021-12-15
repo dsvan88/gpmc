@@ -38,7 +38,7 @@ class Evenings {
 		}
 		else $placeData['id'] = 0;
 
-		$a = ['date'=>$data['date'],'place'=>$placeData['id'],'status'=>'new'];
+		$a = ['date'=>$data['date'],'place'=>$placeData['id'],'status'=>'new','game'=>$data['game']];
 
 		if (isset($data['participants']))
 		{
@@ -54,11 +54,14 @@ class Evenings {
 			$a['participants_info'] = '{}';
 		}
 
-		$evening = $this->nearEveningGetData(['id','date']);
-		if (!isset($evening['id']))
+		$eveningId = $data['eid'];
+
+		unset($data['eid']);
+		
+		if ($eveningId == 0)
 			$this->action->rowInsert($a,SQL_TBLEVEN);
 		else 
-			$this->action->rowUpdate($a,[ 'id'=>$evening['id'] ],SQL_TBLEVEN);
+			$this->action->rowUpdate($a,[ 'id'=>$eveningId ],SQL_TBLEVEN);
 	}
 	// Получение информации об ближайшем вечере игры
 	function nearEveningGetData($columns = 'id')
@@ -77,6 +80,18 @@ class Evenings {
 			$data['start'] = $data['date']-$_SERVER['REQUEST_TIME'] < TIME_MARGE ? true : false;
 		
 		return $data;
+	}
+	// Получение информации об запланированных вечерах игры
+	function eveningsGetBooked($type='')
+	{
+		$where = 'WHERE date >= ?';
+		$values = [$_SERVER['REQUEST_TIME']-DATE_MARGE];
+		if ($type != ''){
+			$where .= 'AND game = ?';
+			$values[] = $type;
+		}
+
+		return $this->action->getAssocArray($this->action->prepQuery('SELECT * FROM '.SQL_TBLEVEN." $where ORDER BY date", $values));
 	}
 	// Получение информации об вечерах игры по заданым критериям:
 	// $from - метка времени с какой даты
@@ -139,26 +154,69 @@ class Evenings {
 		else error_log(__METHOD__.': SQL ERROR');
 	}
 
-	function playerRemoveFromEvening($e,$id)
+	function playerRemoveFromEvening($eveningId,$id)
 	{
-		$row = $this->action->getAssoc($this->action->prepQuery('SELECT participants,participants_info FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1',[$e]));
+		$row = $this->action->getAssoc($this->action->prepQuery('SELECT participants,participants_info FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1',[$eveningId]));
 		[$participants, $participantsInfo] = [explode(',',$row['participants']), json_decode($row['participants_info'],true)];
-		
-		unset($participants[$id]);
-		unset($participantsInfo[$id]);
 
-		/* for ($x=0; $x < count($participants); $x++) { 
-			if ($participants[$x] == $id){
-				unset($participants[$x]);
-				unset($participantsInfo[$x]);
-				break;
-			}
-		} */
+		$index = array_search($id,$participants);
+		unset($participants[$index]);
+		unset($participantsInfo[$index]);
 
 		$array = [
 			'participants' => implode(',',array_values($participants)),
 			'participants_info' => json_encode(array_values($participantsInfo), JSON_UNESCAPED_UNICODE)
 		];
-		$this->action->rowUpdate($array,['id'=>$e],SQL_TBLEVEN);
+		$this->action->rowUpdate($array,['id'=>$eveningId],SQL_TBLEVEN);
+	}
+	function playerAddToEvening($eveningId,$userData)
+	{
+		$row = $this->action->getAssoc($this->action->prepQuery('SELECT participants,participants_info FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1',[$eveningId]));
+		[$participants, $participantsInfo] = [explode(',',$row['participants']), json_decode($row['participants_info'],true)];
+		
+		$index = array_search($userData['id'],$participants);
+		if ($index !== false){
+			if ($participantsInfo[$index]['arrive'] === $userData['arrive'])
+				return false;
+			$participantsInfo[$index]['arrive'] = $userData['arrive'];
+		}
+		else{
+			if ($participants[0] === '')
+				$participants = [$userData['id']];
+			else 
+				$participants[] = $userData['id'];
+			$participantsInfo[] = [
+				'name' => $userData['name'],
+				'arrive' => $userData['arrive'],
+				'duration' => $userData['duration'],
+				'id' => $userData['id']
+			];
+		}
+		$array = [
+			'participants' => implode(',',array_values($participants)),
+			'participants_info' => json_encode(array_values($participantsInfo), JSON_UNESCAPED_UNICODE)
+		];
+		$this->action->rowUpdate($array,['id'=>$eveningId],SQL_TBLEVEN);
+		return true;
+	}
+	public function eveningsParticipantBookedByTelegram($game,$userData){
+
+		$eveningData = $this->eveningsGetBooked($game);
+
+		if (!$eveningData)
+			return "Вечер игры в $game, пока - не запланирован!\r\nДождитесь начала регистрации!";
+        if (!$this->playerAddToEvening($eveningData[0]['id'],$userData))
+			return "Игрок $userData[name] уже зарегистрирован на ближайший вечер игры в $game! Планирует быть на $userData[arrive]";
+        
+		return "Игрок $userData[name] успешно зарегистрирован на ближайший вечер игры в $game! Планирует быть на $userData[arrive]";
+	}
+	public function eveningsParticipantUnbookedByTelegram($game,$userData){
+
+		$eveningData = $this->eveningsGetBooked($game);
+
+		if (!$eveningData)
+			return "Вечер игры в $game, пока - не запланирован!\r\nДождитесь начала регистрации!";
+        if (!$this->playerAddToEvening($eveningData[0]['id'],$userData))
+			return "Игрок $userData[name] отписался с ближайшего вечера игры в $game :(";
 	}
 }

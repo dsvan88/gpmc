@@ -1,4 +1,5 @@
 let dblclick_func = false;
+// console.log(window.location);
 document.body.addEventListener('click', actionHandler.clickCommonHandler);
 
 document.body.querySelectorAll('input[data-action-input]').forEach(element =>
@@ -8,19 +9,15 @@ document.body.querySelectorAll('input[data-action-change]').forEach(element =>
 	element.addEventListener('change', (event) => actionHandler.changeCommonHandler.call(actionHandler,event))
 )
 
-if (typeof eve_place != "undefined") {
-	eve_place.onchange = actionHandler.eveningPlace;
-	console.log(eve_place);
-}
 let menuCheckbox = document.body.querySelector('#profile-menu-checkbox');
 if (menuCheckbox){
 	document.body.addEventListener('mousemove', (event) => {
 
-		if (menuCheckbox.checked){
-			if (document.documentElement.clientWidth - event.clientX > document.documentElement.clientWidth / 3
-				|| document.documentElement.clientHeight - event.clientY < document.documentElement.clientHeight / 2)
-				menuCheckbox.checked = false;
-		}
+		if (!menuCheckbox.checked) return false;
+		if (document.documentElement.clientWidth - event.clientX > document.documentElement.clientWidth / 3
+			|| document.documentElement.clientHeight - event.clientY < document.documentElement.clientHeight / 2.5)
+			menuCheckbox.checked = false;
+
 	});
 }
 

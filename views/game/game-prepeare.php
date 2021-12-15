@@ -26,7 +26,7 @@ $output['{GAME_PREPEARE_PLAYERS_ARRAY}'] = $output['{GAME_PREPEARE_PLAYERS_DATAL
 for ($x=0;$x<count($EveningData['participants_info']);$x++){
 		if (strpos($EveningData['participants_info'][$x]['name'],'tmp_user') !== false){
 			$output['{GAME_PREPEARE_PLAYERS_ARRAY}'] .= "
-				<span data-action='participant-rename-form' data-edit-target='$x' class='player__name temp_username'>
+				<span data-action='participant-rename-form' data-edit-target='{$EveningData['participants_info'][$x]['id']}' class='player__name temp_username'>
 					{$EveningData['participants_info'][$x]['name']}
 					<span data-action='player-remove' class='player__remove'><i class='fa fa-times-circle'></i></span>
 				</span>";
