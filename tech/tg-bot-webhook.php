@@ -57,7 +57,7 @@ if (strpos($_POST['message']['text'],'/') === 0){
         $args = $matches[0];
         require_once $_SERVER['DOCUMENT_ROOT'].'/actions/tg-commands/game.php';
     }
-    if (file_exists("$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/$command.php"))
+    elseif (file_exists("$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/$command.php"))
         require_once "$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/$command.php";
     else
         $output['message'] = 'Команда не знайдена';
