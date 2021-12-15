@@ -66,14 +66,14 @@ class MessageBot{
 			// CURLOPT_SSL_VERIFYPEER => 0,
 		);
 		curl_setopt_array($curl , $options);
-        $result = json_decode(curl_exec($curl));
+        $result = json_decode(curl_exec($curl),true);
         if ($result['ok'])
             return true;
         return false;
     }
     public function webhookSet($botToken){
         $curl = curl_init();
-        
+
         $options = array(
 			CURLOPT_URL => "https://api.telegram.org/bot$botToken/setWebhook?url=https://$_SERVER[HTTP_HOST]/tech/tg-bot-webhook.php", // адрес api телеграмм-бота
 			CURLOPT_RETURNTRANSFER => true,
@@ -86,7 +86,7 @@ class MessageBot{
 			// CURLOPT_SSL_VERIFYPEER => 0,
 		);
 		curl_setopt_array($curl , $options);
-        $result = json_decode(curl_exec($curl));
+        $result = json_decode(curl_exec($curl),true);
         if ($result['ok'])
             return true;
         return false;
