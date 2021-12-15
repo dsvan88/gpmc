@@ -212,13 +212,13 @@ class Evenings {
         
 		return "Игрок $userData[name] успешно зарегистрирован на ближайший вечер игры в $game! Планирует быть на $userData[arrive]";
 	}
-	public function eveningsParticipantUnbookedByTelegram($game,$userData){
+	public function eveningsParticipantUnbookedByTelegram($game,$id){
 
 		$eveningData = $this->eveningsGetBooked($game);
 
 		if (!$eveningData)
 			return "Вечер игры в $game, пока - не запланирован!\r\nДождитесь начала регистрации!";
-        if (!$this->playerRemoveFromEvening($eveningData[0]['id'],$userData['id']))
+        if (!$this->playerRemoveFromEvening($eveningData[0]['id'],$id))
 			return "Игрок $userData[name] отписался с ближайшего вечера игры в $game :(";
 	}
 }
