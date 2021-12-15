@@ -72,4 +72,4 @@ try {
 catch (Exception $e) {
     file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tg-error.txt',print_r($_POST,true));
 }
-file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tg-message.txt',print_r($_POST,true));
+file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tg-message.txt',print_r($_POST,true).' '.$command);
