@@ -63,8 +63,8 @@ if (strpos($_POST['message']['text'],'/') === 0){
         $output['message'] = 'Команда не знайдена';
 }
 
-$bot->prepMessage(print_r($output,true));
-// $bot->prepMessage($output['message']);
+// $bot->prepMessage(print_r($output,true));
+$bot->prepMessage($output['message']);
 try {
     // $bot->sendToTelegramBot($_POST['message']['chat']['id']);
     $bot->sendToTelegramBot('900669168');

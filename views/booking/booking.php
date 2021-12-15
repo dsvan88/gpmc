@@ -1,5 +1,6 @@
 <?php
 if ($eveningsBooked){
+    print_r($eveningsBooked[0]['participants_info']);
     $output['{EVENING_SECTION}'] = '';
     for ($i=0; $i < count($eveningsBooked); $i++) {
         $eveningHtml = '';
