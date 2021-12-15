@@ -16,9 +16,6 @@ require $_SERVER['DOCUMENT_ROOT'].'/engine/class.bot.php';
 $GLOBALS['CommonActionObject'] = new Action;
 $bot = new MessageBot(); 
 
-$_POST = json_decode($jsonString,true);
-
-
 $_POST['message']['text'] = trim($_POST['message']['text']);
 
 if (strpos($_POST['message']['text'],'/') === 0){
