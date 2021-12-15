@@ -1,6 +1,6 @@
 <?
 
-/* $contentType = isset($_SERVER['CONTENT_TYPE']) ? trim($_SERVER['CONTENT_TYPE']) : '';
+$contentType = isset($_SERVER['CONTENT_TYPE']) ? trim($_SERVER['CONTENT_TYPE']) : '';
 if (strpos($contentType,'application/json') !==  false) {
 	$_POST = trim(file_get_contents('php://input'));
 	$_POST = json_decode($_POST, true);
@@ -9,7 +9,7 @@ if (strpos($contentType,'application/json') !==  false) {
 		error_log(json_encode($_POST,JSON_UNESCAPED_UNICODE));
         die('{"error":"1","title":"Error!","text":"Error: Nothing to send."}');
     }
-} */
+}
 
 require $_SERVER['DOCUMENT_ROOT'].'/engine/class.action.php';
 require $_SERVER['DOCUMENT_ROOT'].'/engine/class.bot.php';
@@ -17,29 +17,29 @@ $GLOBALS['CommonActionObject'] = new Action;
 $bot = new MessageBot();
 
 
-$jsonString = '{
-    "update_id":834263384,
-    "message":{
-        "message_id":41,
-        "from":{
-            "id":620991421,
-            "is_bot":"",
-            "first_name":"Иван",
-            "last_name":"Фрай",
-            "username":"",
-            "language_code":"ru"
-        },
-        "chat":{
-            "id":900669168,
-            "title":"TestGroup",
-            "type":"group",
-            "all_members_are_administrators":1
-        },
-        "date":1637502053,
-        "text":"/?"
-    }
-}'; 
-$_POST = json_decode($jsonString,true);
+// $jsonString = '{
+//     "update_id":834263384,
+//     "message":{
+//         "message_id":41,
+//         "from":{
+//             "id":620991421,
+//             "is_bot":"",
+//             "first_name":"Иван",
+//             "last_name":"Фрай",
+//             "username":"",
+//             "language_code":"ru"
+//         },
+//         "chat":{
+//             "id":900669168,
+//             "title":"TestGroup",
+//             "type":"group",
+//             "all_members_are_administrators":1
+//         },
+//         "date":1637502053,
+//         "text":"/?"
+//     }
+// }'; 
+// $_POST = json_decode($jsonString,true);
 
 
 $_POST['message']['text'] = trim($_POST['message']['text']);
