@@ -3,6 +3,8 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.settings.php';
 
 $settings = new Settings();
 
+$output['text'] = '';
+
 if (isset($_POST['tg-bot']) && $_POST['tg-bot'] != ''){
     $setting = $settings->settingsGet(['id','value'],['tg-bot'])[0];
     $id = "add";
@@ -17,8 +19,15 @@ if (isset($_POST['tg-bot']) && $_POST['tg-bot'] != ''){
         $id = $setting['id'];
     if ($_POST['tg-bot'] !== $setting['value']){
         $settings->settingsSet($array,$id);
+        require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.bot.php';
+        $bot = new MessageBot;
+        $bot->webhookDelete($setting['value']);
+        if ($bot->webhookSet($_POST['tg-bot'])){
+            $output['text'] .= "WebHook налаштовано!\r\n";
+        }
+        file_put_contents('log.txt',print_r($_SERVER,true)."https://api.telegram.org/bot{$_POST['tg-bot']}/setWebhook?url=https://$_SERVER[HTTP_HOST]/tech/tg-bot-webhook.php");
     }
-    $output['text'] = 'Дані збережено!';
+    $output['text'] .= 'Дані збережено!';
 }
 else{
     $output['error'] = 1;
