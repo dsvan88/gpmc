@@ -216,9 +216,16 @@ class Users {
 	{
 		return $this->action->rowUpdate($data,$where,SQL_TBLUSERS);
 	}
+	function userDelete($uid)
+	{
+		return $this->action->rowDelete($uid,SQL_TBLUSERS);
+	}
 	// Получить количество всех игроков в системе.
 	function GetGamerCount()
 	{
 		return $this->getColumn($this->query('SELECT count(id) FROM '.SQL_TBLUSERS));
+	}
+	public function usersSaveUnknowTelegram($telegramId){
+		$this->action->rowInsert([ 'name'=>'tmp_telegram_user', 'telegram' => $telegramId ],SQL_TBLUSERS);
 	}
 }

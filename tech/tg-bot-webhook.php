@@ -1,6 +1,6 @@
 <?
 
-$contentType = isset($_SERVER['CONTENT_TYPE']) ? trim($_SERVER['CONTENT_TYPE']) : '';
+/* $contentType = isset($_SERVER['CONTENT_TYPE']) ? trim($_SERVER['CONTENT_TYPE']) : '';
 if (strpos($contentType,'application/json') !==  false) {
 	$_POST = trim(file_get_contents('php://input'));
 	$_POST = json_decode($_POST, true);
@@ -9,14 +9,14 @@ if (strpos($contentType,'application/json') !==  false) {
 		error_log(json_encode($_POST,JSON_UNESCAPED_UNICODE));
         die('{"error":"1","title":"Error!","text":"Error: Nothing to send."}');
     }
-}
+} */
 
 require $_SERVER['DOCUMENT_ROOT'].'/engine/class.action.php';
 require $_SERVER['DOCUMENT_ROOT'].'/engine/class.bot.php';
 $GLOBALS['CommonActionObject'] = new Action;
 $bot = new MessageBot();
 
-/*
+
 $jsonString = '{
     "update_id":834263384,
     "message":{
@@ -30,17 +30,17 @@ $jsonString = '{
             "language_code":"ru"
         },
         "chat":{
-            "id":-626874720,
+            "id":900669168,
             "title":"TestGroup",
             "type":"group",
             "all_members_are_administrators":1
         },
         "date":1637502053,
-        "text":"/mafia + yf 19:00"
+        "text":"/?"
     }
 }'; 
 $_POST = json_decode($jsonString,true);
-*/
+
 
 $_POST['message']['text'] = trim($_POST['message']['text']);
 
@@ -57,19 +57,22 @@ if (strpos($_POST['message']['text'],'/') === 0){
         $args = $matches[0];
         require_once $_SERVER['DOCUMENT_ROOT'].'/actions/tg-commands/game.php';
     }
-    elseif (file_exists("$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/$command.php"))
+    elseif (in_array($command,['?','help'])){
+        require_once $_SERVER['DOCUMENT_ROOT'].'/actions/tg-commands/help.php';
+    }
+    elseif (file_exists("$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/$command.php")){
+        preg_match_all('/([a-zA-Zа-яА-ЯрРсСтТуУфФчЧхХШшЩщЪъЫыЬьЭэЮюЄєІіЇїҐґ]+)/',mb_substr($_POST['message']['text'],mb_strlen($command)+1,NULL,'UTF-8'), $matches);
+        $args = $matches[0];
         require_once "$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/$command.php";
-    else
+    }else
         $output['message'] = 'Команда не знайдена';
 }
 
-// $bot->prepMessage(print_r($output,true));
 $bot->prepMessage($output['message']);
 try {
-    // $bot->sendToTelegramBot($_POST['message']['chat']['id']);
-    $bot->sendToTelegramBot('900669168');
+    $bot->sendToTelegramBot($_POST['message']['chat']['id']);
 }
 catch (Exception $e) {
     file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tg-error.txt',print_r($_POST,true));
 }
-file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tg-message.txt',print_r($_POST,true).' '.$command);
+// file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tg-message.txt',print_r($_POST,true).' '.$command);

@@ -3,10 +3,16 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.users.php';
 
 $users = new Users;
 
-$userData = $users->usersGetData(['id','name'],[ 'telegram' => $_POST['message']['from']['username'] === '' ? $_POST['message']['from']['id'] : $_POST['message']['from']['username'] ]);
+$telegramId = $_POST['message']['from']['username'] === '' ? $_POST['message']['from']['id'] : $_POST['message']['from']['username'];
+
+$userData = $users->usersGetData(['id','name'],[ 'telegram' => $telegramId ]);
 
 if (!isset($userData['id'])){
-    $output['message'] = "Извините! Не узнаю вас в гриме:(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил!";
+    $output['message'] = "Извините! Не узнаю вас в гриме:(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш_псевдоним";
+    $users->usersSaveUnknowTelegram($telegramId);
+}
+elseif ($userData['name'] === 'tmp_telegram_user'){
+    $output['message'] = "Извините! Не узнаю вас в гриме :(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш_псевдоним";
 }
 else{
     require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.evenings.php';

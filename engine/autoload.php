@@ -10,7 +10,6 @@ $userData['status'] = 'guest';
 // $eveningsBooked = $evening->nearEveningGetData(['id','date','place','games','participants','participants_info']);
 $eveningsBooked = $evening->eveningsGetBooked();
 if ($eveningsBooked){
-	// print_r($eveningsBooked);
 	for ($i=0; $i < count($eveningsBooked); $i++) { 
 
 		if (isset($eveningsBooked[$i]['place']) && is_numeric($eveningsBooked[$i]['place'])){
