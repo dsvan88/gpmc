@@ -103,8 +103,8 @@ if (isset($_SESSION['id']) && $_SESSION['status'] === 'admin' && $users->checkTo
 }
 
 $outputHtml = str_replace(array_keys($output),array_values($output),$template);
-// header('Content-Encoding: gzip');
-// header('Vary: Accept-Encoding');
+header('Content-Encoding: gzip');
+header('Vary: Accept-Encoding');
 header('Content-Length: ' . mb_strlen($outputHtml,'UTF-8'));
 
 $test = gzencode($outputHtml,1);
