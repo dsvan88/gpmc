@@ -107,4 +107,4 @@ header('Content-Encoding: gzip');
 header('Vary: Accept-Encoding');
 header('Content-Length: ' . strlen($outputHtml));
 
-echo gzencode($outputHtml,9);
+echo gzencode($outputHtml);
