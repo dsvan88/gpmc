@@ -25,6 +25,9 @@ if (isset($_POST['tg-bot']) && $_POST['tg-bot'] != ''){
         if ($bot->webhookSet($_POST['tg-bot'])){
             $output['text'] .= "WebHook налаштовано!\r\n";
         }
+        else{
+            $output['text'] .= "Помилка! WebHook не налаштовано!\r\n";
+        }
     }
     $output['text'] .= 'Дані збережено!';
 }
