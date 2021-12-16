@@ -108,4 +108,5 @@ $outputHtml = str_replace(array_keys($output),array_values($output),$template);
 // header('Content-Length: ' . mb_strlen($outputHtml,'UTF-8'));
 $test = gzencode($outputHtml,1);
 file_put_contents($_SERVER['DOCUMENT_ROOT'].'/gzipped.txt', $test);
+file_put_contents($_SERVER['DOCUMENT_ROOT'].'/not_gzipped.txt', $outputHtml);
 echo $outputHtml;
