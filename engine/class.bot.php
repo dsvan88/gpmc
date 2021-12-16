@@ -29,7 +29,7 @@ class MessageBot{
 			// CURLOPT_SSL_VERIFYPEER => 0,
 		);
 		curl_setopt_array($curl , $options);
-        // $result = curl_exec($curl);
+        // $result = json_decode(curl_exec($curl), true);
         
         if (is_array($userId) && isset($userId[1])){
             $newParams = $params;
