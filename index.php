@@ -108,4 +108,4 @@ header('Vary: Accept-Encoding');
 header('Content-Length: ' . mb_strlen($outputHtml,'UTF-8'));
 
 $test = gzencode($outputHtml,1);
-echo str_replace(array_keys($output),array_values($output),$template);
+echo $test;
