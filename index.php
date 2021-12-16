@@ -101,10 +101,10 @@ if (isset($_SESSION['id']) && $_SESSION['status'] === 'admin' && $users->checkTo
 		</div>
 		'.$output['{FOOTER_CONTENT}'];
 }
-echo str_replace(array_keys($output),array_values($output),$template);
-/* $outputHtml = str_replace(array_keys($output),array_values($output),$template);
+// echo str_replace(array_keys($output),array_values($output),$template);
+$outputHtml = str_replace(array_keys($output),array_values($output),$template);
 header('Content-Encoding: gzip');
 header('Vary: Accept-Encoding');
-header('Content-Length: ' . strlen($outputHtml));
+header('Content-Length: ' . mb_strlen($outputHtml,'UTF-8'));
 
-echo gzencode($outputHtml,1); */
+echo gzencode($outputHtml,1);
