@@ -92,8 +92,9 @@ class MafiaMainFuncs {
             while (++i < check) {
                 this.gameTable.querySelector(`tr[data-player-id="${this.vars.currentVote[index] - 1}"]`).classList.add('for-vote');
                 let x = -1;
-                while (++x <= 9)
+                while (++x <= 9){
                     if (this.players[x]['puted'][this.vars['daysCount']] == this.vars.currentVote[index]) break;
+                }
                 this.gameTable.querySelector(`tr[data-player-id="${x}"] td.vote-num`).classList.add('for-vote');
                 this.gameTable.querySelector(`tr[data-player-id="${x}"] td.vote-num`).textContent = this.vars.currentVote[index];
             }

@@ -25,8 +25,9 @@ class ModalWindow {
 			modalContainer = this.modal.querySelector('.modal-container');
 			modalContainer.innerHTML = html;
 		}
-		if (title !== "")
+		if (title !== ""){
 			this.modal.querySelector('.modal-title').innerText = title;
+		}
 		if (buttons.length !== 0) {
 			modalContainer = modalContainer || this.modal.querySelector('.modal-container');
 			const modalButtons = document.createElement('div');
@@ -37,7 +38,7 @@ class ModalWindow {
 				element.className = button.className;
 				modalButtons.append(element);
 				
-			})
+			});
 			modalContainer.append(modalButtons)
 		}
 		return this.modal;
@@ -83,18 +84,18 @@ class ModalWindow {
 		this.modal.style.opacity = 0;
 		this.modal.style.display = 'block';
 		setTimeout(() => {
-			this.modal.style.opacity = 1
+			this.modal.style.opacity = 1;
 			this.modal.style.transform = 'translateY(-2%)';
 		}, 100);
 
 	};
 	closeModalWindow(event) {
-		if (!event.target.classList.contains("modal-close"))
+		if (!event.target.classList.contains("modal-close")){
 			return;
-
-		if (this.currentOverlay === event.target && !confirm('Ви впевнені, що бажаєте закрити поточне вікно?'))
+		}
+		if (this.currentOverlay === event.target && !confirm('Ви впевнені, що бажаєте закрити поточне вікно?')){
 			return;
-
+		}
 		if (event.target.classList.contains("modal-reload-page")) {
 			window.location = window.location.href;
 			return;
@@ -111,7 +112,8 @@ class ModalWindow {
 		this.modal.style.transform = 'translateY(2%)';
 		setTimeout(() => this.currentOverlay.remove(), 300);
 
-		if (event.target.classList.contains("modal-reload-page"))
+		if (event.target.classList.contains("modal-reload-page")) {
 			window.location = window.location.href;
+		}
 	}
 }

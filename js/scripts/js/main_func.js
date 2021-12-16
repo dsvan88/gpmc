@@ -61,9 +61,9 @@ actionHandler = {
 				}, 200)
 			}
 		}
-		else
+		else{
 			actionHandler.clickFunc({ target, event });
-			
+		}
 	},
 	dblClickFunc: function ({ target, event }) {
 		event.preventDefault();
@@ -128,8 +128,9 @@ actionHandler = {
 			data.append("editTarget", editTarget);
 		const defaultKeys = ['editRow', 'editImage', 'editTarget', 'action'];
 		for (let [key, value] of Object.entries(target.dataset)) {
-			if (!defaultKeys.includes(key))
+			if (!defaultKeys.includes(key)){
 				data.append(key, value);
+			}
 		}
 
 		postAjax({
@@ -138,10 +139,11 @@ actionHandler = {
 				if (data["error"] != 0) {
 					actionHandler.commonFormEventEnd({ modal, data });
 					return false;
-				}
+				};
 				const action = camelize(target.dataset.action);
-				if (debug) console.log(action);
-
+				if (debug) {
+					console.log(action);
+				};
 				actionHandler.commonFormEventEnd({ modal, data, formSubmitAction: action + 'Submit' });
 				
 				// actionHandler.CommonFormReady({ modal, data, action });
@@ -157,15 +159,19 @@ actionHandler = {
 	},
 	commonFormEventEnd: function ({ modal, data, formSubmitAction, ...args }) {
 		let modalWindow;
-		if (data['error'] === 0)
+		if (data['error'] === 0){
 			modalWindow = modal.fillModalContent(data);
-		else
+		}else{
 			modalWindow = modal.fillModalContent({ html: data['html'], title: 'Error!', buttons: [{ 'text': 'Okay', 'className': 'modal-close positive' }] });
-		
+		};
 		// modalWindow.querySelectorAll('*[data-action]').forEach(block => block.addEventListener('click', actionHandler.clickCommonHandler));
 
-		if (data["jsFile"]) addScriptFile(data["jsFile"]);
-		if (data["cssFile"]) addCssFile(data["cssFile"]);
+		if (data["jsFile"]) {
+			addScriptFile(data["jsFile"]);
+		};
+		if (data["cssFile"]) {
+			addCssFile(data["cssFile"]);
+		};
 
 		$(".modal-container .datepick").datetimepicker({ timepicker: false, format: "d.m.Y", dayOfWeekStart: 1 });
 
@@ -177,8 +183,9 @@ actionHandler = {
 		if (textareas.length > 0) {
 			addScriptFile('/js/ckeditor/ckeditor.js');
 			let applyCKeditor = setInterval(() => {
-				if (!CKEDITOR)
+				if (!CKEDITOR){
 					return;
+				}
 				let textareas = modalWindow.querySelectorAll("textarea");
 				textareas.forEach((textarea) => {
 					textarea.id = Math.random(321123);
@@ -206,12 +213,13 @@ actionHandler = {
 					postAjax({
 						data: `{"need":"get_autocomplete-${element.dataset.autocomplete}","term":"${request.term}"}`,
 						successFunc: function (result) {
-							if (result)
+							if (result) {
 								response(result['result']);
+							}
 						},
 					});
 					// response();
-				}
+				};
 				$(element).autocomplete({
 					source: source,
 					minLength: 2
@@ -261,16 +269,21 @@ actionHandler = {
 		const nameInput = parent.querySelector('input[name="participant[]"]');
 		const arriveInput = parent.querySelector('input[name="arrive[]"]');
 		const durationInput = parent.querySelector('select[name="duration[]"]');
-		if (nameInput.value !== '')
+		if (nameInput.value !== ''){
 			nameInput.value = '';
-		if (arriveInput.value !== '')
+		}
+		if (arriveInput.value !== ''){
 			arriveInput.value = '';
-		if (durationInput.value != 0)
+		}
+		if (durationInput.value != 0){
 			durationInput.value = 0;
+		}
 	},
 	participantCheckChange: function ({ target }) {
 		const newName = target.value.trim();
-		if (newName === '') return false;
+		if (newName === '') {
+			return false;
+		}
 
 		let participantsList = [];
 		target.closest('form').querySelectorAll("input[name='participant[]']").forEach(item => item.value !== '' && item !== target ? participantsList.push(item.value) : false);
@@ -283,8 +296,9 @@ actionHandler = {
 		postAjax({
 			data: `{"need":"get_place-info","place":"${event.target.value}"}`,
 			successFunc: function (result) {
-				if (result['result'])
+				if (result['result']){
 					event.target.closest('form').querySelector('input[name="eve_place_info"]').value = result['result'];
+				}
 			},
 		});
 	},
@@ -296,9 +310,12 @@ actionHandler = {
 		postAjax({
 			data: formDataToJson(formData),
 			successFunc: function (result) {
-				if (result["error"] == 0)
+				if (result["error"] == 0){
 					window.location = window.location.href;
-				else alert(result["txt"]);
+				}
+				else {
+					alert(result["txt"]);
+				}
 			},
 		});
 	},
@@ -310,9 +327,11 @@ actionHandler = {
 		postAjax({
 			data: formDataToJson(formData),
 			successFunc: function (result) {
-				if (result["error"] == 0)
+				if (result["error"] == 0){
 					window.location = window.location.href;
-				else alert(result["txt"]);
+				} else {
+					alert(result["txt"]);
+				}
 			},
 		});
 	},
@@ -327,7 +346,7 @@ actionHandler = {
 						element.addEventListener('input', (event) => actionHandler.inputCommonHandler.call(actionHandler, event))
 					);
 					targetParent.previousElementSibling.previousElementSibling.querySelectorAll('input[data-action-change]').forEach(element => {
-							console.log(element)
+							console.log(element);
 							element.addEventListener('change', (event) => actionHandler.changeCommonHandler.call(actionHandler, event))
 						}
 					);
@@ -344,10 +363,12 @@ actionHandler = {
 			data: formDataToJson(formData),
 			successFunc: function (result) {
 				if (result["error"] == 0){
-					alert(result["text"])
+					alert(result["text"]);
 					window.location = window.location.origin;
 				}
-				else alert(result["text"]);
+				else {
+					alert(result["text"]);
+				}
 			},
 		});
 	},
@@ -358,9 +379,11 @@ actionHandler = {
 		postAjax({
 			data: formDataToJson(formData),
 			successFunc: function (result) {
-				if (result["error"] == 0)
+				if (result["error"] == 0){
 					window.location = window.location.origin;
-				else alert(result["text"]);
+				}else {
+					alert(result["text"]);
+				}
 			},
 		});
 	},
@@ -368,8 +391,12 @@ actionHandler = {
 		postAjax({
 			data: `{"need":"do_user-logout"}`,
 			successFunc: function (result) {
-				if (result["error"] == 0) window.location = window.location.origin;
-				else alert(result["txt"]);
+				if (result["error"] == 0) {
+					window.location = window.location.origin;
+				}
+				else {
+					alert(result["txt"]);
+				}
 			},
 		});
 	},
@@ -391,7 +418,6 @@ actionHandler = {
 				} else {
 					alert(result["text"]);
 					modal.modal.querySelector(`input[name=${result["wrong"]}]`).focus();
-					
 				}
 			},
 		});
@@ -406,7 +432,9 @@ actionHandler = {
 				if (result["error"] === 0) {
 					alert(result["text"]);
 					event.target.querySelector('.modal-close').click();
-				} else alert(result["text"]);
+				} else {
+					alert(result["text"]);
+				}
 			},
 		});
 	},
@@ -418,7 +446,9 @@ actionHandler = {
 		$(".modal-body .datepick").datetimepicker({ timepicker: false, format: "d.m.Y", dayOfWeekStart: 1 });
 		$(".modal-body .timepicker").datetimepicker({ datepicker: false, format: "H:i" });
 		let firstInput = modal.querySelector("input");
-		if (firstInput !== null) firstInput.focus();
+		if (firstInput !== null) {
+			firstInput.focus();
+		}
 		let form = modal.querySelector("form");
 		if (form !== null) {
 			form.addEventListener("submit", (submitEvent) => {
@@ -426,7 +456,9 @@ actionHandler = {
 				actionHandler[type](modal);
 			});
 		}
-		if (result["javascript"]) window.eval(result["javascript"]);
+		if (result["javascript"]) {
+			window.eval(result["javascript"]);
+		}
 		$(".modal-body textarea").cleditor({ height: 200 });
 	},
 };
@@ -488,13 +520,13 @@ async function postAjax({ data, formData, successFunc, errorFunc, method = 'json
 		$options = {
 			method: 'POST', // или 'PUT'
 			body: data, // данные могут быть 'строкой' или {объектом}!
-		}
+		};
 		if (typeof data == 'string'){
 			$options['headers'] = {
 				'Content-Type': 'application/json'
 			}
-		}
-		const response = await fetch('switcher.php', $options)
+		};
+		const response = await fetch('switcher.php', $options);
 		// 	headers: {
 		// 		'Content-Type': typeof data == 'string' ? 'application/json' : 'multipart/form-data'
 		// 	}
@@ -512,8 +544,9 @@ async function postAjax({ data, formData, successFunc, errorFunc, method = 'json
 
 function simpleObjectToFormData(obj) {
 	let formData = new FormData();
-	for (let item in obj)
-		formData.append(item,obj[item]);
+	for (let item in obj){
+		formData.append(item, obj[item]);
+	}
 	return formData;
 
 }
@@ -529,12 +562,16 @@ function serializeForm(target) {
 	const elements = target.querySelectorAll("input,select,textarea");
 	let result = {};
 	elements.forEach((element) => {
-		if (element.tagName === "INPUT" && element.type === "checkbox" && !element.checked) return;
+		if (element.tagName === "INPUT" && element.type === "checkbox" && !element.checked) {
+			return;
+		};
 		if (element.tagName === "TEXTAREA" && element.name === "html" && element.id !== undefined && CKEDITOR.instances[element.id]){
 			result[element.name] = CKEDITOR.instances[element.id].getData().replace(/\&/g, "%26");
 			return;
-		}
-		if (element.value == '') return;
+		};
+		if (element.value == '') {
+			return;
+		};
 		if (result.hasOwnProperty(element.name)) {
 			if (typeof result[element.name] === "string") {
 				result[element.name] = [
@@ -542,8 +579,9 @@ function serializeForm(target) {
 					element.value.replace(/\&/g, "%26")
 				]
 			}
-			else
+			else{
 				result[element.name][result[element.name].length] = element.value.replace(/\&/g, "%26");
+			}
 			return;
 		}
 		result[element.name] = element.value.replace(/\&/g, "%26");
@@ -564,8 +602,9 @@ function addScriptFile(src) {
 		}
 	}
 	else{
-		if (document.head.querySelector(`script[src="${src}"]`))
+		if (document.head.querySelector(`script[src="${src}"]`)){
 			return false;
+		}
 		let script = document.createElement('script');
 		script.src = src;
 		script.async = true; // чтобы гарантировать порядок
@@ -579,8 +618,9 @@ function addCssFile(src) {
 		}
 	}
 	else{
-		if (document.head.querySelector(`link[href="${src}"]`))
+		if (document.head.querySelector(`link[href="${src}"]`)){
 			return false;
+		}
 		let link  = document.createElement('link');
 		link.rel  = 'stylesheet';
 		link.type = 'text/css';
@@ -596,8 +636,9 @@ function formDataToJson(data) {
         value = value.replace("'", '’');
         if (key.includes('[')) {
 			key = key.substr(0, key.indexOf('['));
-			if (!object[key])
+			if (!object[key]){
 				object[key] = [];
+			}
 			object[key][object[key].length] = value;
 			return;
         }
@@ -618,15 +659,21 @@ function clearBlock(block) {
 	while (block.firstChild && block.removeChild(block.firstChild));
 }
 function createNewElement({ tag: tagName = "div", ...attributes }) {
-	if (debug) console.log(attributes);
+	if (debug) {
+		console.log(attributes);
+	}
 	let element = document.createElement(tagName);
 	applyAttributes(element, attributes);
 	return element;
 }
 function applyAttributes(element, attributes) {
 	for (let [attName, attrValue] of Object.entries(attributes)) {
-		if (typeof attrValue !== "object") element[attName] = attrValue;
-		else applyAttributes(element[attName], attrValue);
+		if (typeof attrValue !== "object") {
+			element[attName] = attrValue;
+		}
+		else {
+			applyAttributes(element[attName], attrValue);
+		}
 	}
 }
 Array.prototype.shuffle = function () {

@@ -10,8 +10,7 @@ actionHandler.playerRemove = function (target) {
 	let gamer = target.parentElement;
 	let gamerName = gamer.childNodes[0].data;
 	if (
-		confirm(`Точно удалить игрока ${gamerName} из записи?
-    Заработанные им сегодня балы могут не учитываться в статистике!`)
+		confirm(`Точно удалить игрока ${gamerName} из записи?\r\nЗаработанные им сегодня балы могут не учитываться в статистике!`)
 	) {
 		let gamerId = gamer.dataset.playerId;
 		let playersList = document.body.querySelectorAll('input[name="player[]"],input[name=manager]');
@@ -20,7 +19,7 @@ actionHandler.playerRemove = function (target) {
 				player.value = "";
 				break;
 			}
-		}
+		};
 		postAjax({
 			data: `{"need":"do_player-remove-from-booking","id":"${gamerId}"}`,
 			successFunc: function (userId) {
@@ -58,8 +57,9 @@ actionHandler.playerArrayToggle = function () {
 	participantsList.forEach(participant => {
 		if (playersList.includes(participant.childNodes[0].data))
 			participant.classList.add('selected');
-		else
+		else {
 			participant.classList.remove('selected');
+		}
 	});
 };
 actionHandler.gameBegin = function () {
@@ -83,7 +83,7 @@ actionHandler.gameBegin = function () {
 		} else {
 			setupRoles.splice(index, 1);
 		}
-	}
+	};
 	if (setupRoles.length === 0) {
 		const form = document.body.querySelector("#beReadyForGame")
 		const formData = new FormData(form);

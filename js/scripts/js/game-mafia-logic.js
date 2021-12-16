@@ -1,7 +1,7 @@
 
 class MafiaGameLogic extends MafiaMainFuncs {
 	constructor(...args) {
-		super(...args)
+		super(...args);
 		this.gameTable = document.body.querySelector('table[data-game-id]');
 		this.gameId = this.gameTable.dataset.gameId;
 		this.timerDiv = document.body.querySelector('div.timer');
@@ -13,7 +13,7 @@ class MafiaGameLogic extends MafiaMainFuncs {
 		let shooted = false;
 		if (this.gameTable.querySelectorAll('tr.for-kill').length > 0) {
 			shooted = this.playerGetShooted();
-		}
+		};
 		if (this.vars['stage'] === 'firstNight' || this.vars['stage'] === 'night' && !shooted || this.vars['stage'] === 'lastWill' && this.vars['prevStage'] === 'night')
 			return 'morning';
 		else if (this.vars['stage'] === 'morning' || (this.vars['stage'] === 'daySpeaker' && this.vars['daySpeakers'].length > 0))
@@ -31,7 +31,7 @@ class MafiaGameLogic extends MafiaMainFuncs {
 	nextStage() {
 		if (this.checkWinner()) return false;
 		if (!load){
-			this.gamePrepeareUndo()
+			this.gamePrepeareUndo();
 			let nextStage = this.checkNextStage();
 			if (this.vars['stage'] !== nextStage){
 				this.vars['prevStage'] = this.vars['stage'];
@@ -42,14 +42,12 @@ class MafiaGameLogic extends MafiaMainFuncs {
 			this.stageDay();
 		}
 		else if (this.vars['stage'] === 'court') {
-			if (!this.stageCourt())
-				this.courtRoomClear(1);
-			else
-				this.courtRoomAction(0);
+			if (!this.stageCourt())	this.courtRoomClear(1);
+			else this.courtRoomAction(0);
 		}
-		else if (this.vars['stage'] === 'debate')
+		else if (this.vars['stage'] === 'debate'){
 			this.courtRoomDebate(1);
-		else if (this.vars['stage'] === 'lastWill') {
+		}else if (this.vars['stage'] === 'lastWill') {
 			this.stageLastWill(this.vars['lastWill'].shift());
 		}
 		else if (this.vars['stage'] === 'night')
@@ -114,8 +112,7 @@ class MafiaGameLogic extends MafiaMainFuncs {
 			str = 'BRУ вас есть право лучшего хода!';
 		this.activeSpeakerChange(index);
 		index = +index + 1;
-		alert(`Игрок № ${index} покидает стол.
-Прощальная минута игрока №${index}${str}`);
+		alert(`Игрок № ${index} покидает стол.\r\nПрощальная минута игрока №${index}${str}`);
 		this.gameSetStatePhrase(`Игрок № ${index} покидает стол.BRПрощальная минута игрока №${index}${str}`);
 	}
 	actionPutPlayer(event) {
@@ -131,8 +128,7 @@ class MafiaGameLogic extends MafiaMainFuncs {
 	}
 	actionAddPoints(targetRow) {
 		const targetId = targetRow.dataset.playerId;
-		const points = prompt(`Дополнительные баллы!
-На Ваше усмотрение, сколько можно добавить баллов игроку №${targetId+1} (${targetRow.textContent})?`,'0.0')
+		const points = prompt(`Дополнительные баллы!\r\nНа Ваше усмотрение, сколько можно добавить баллов игроку №${targetId+1} (${targetRow.textContent})?`,'0.0')
 		if (points && points != 0.0)
 		{
 			points = parseFloat(points);
@@ -175,8 +171,9 @@ class MafiaGameLogic extends MafiaMainFuncs {
 		if (act === -1) {
 			if (this.vars['timer'] === 6000)
 				act = this.vars['prevActiveSpeaker'];
-			else
+			else{
 				act = this.vars['activeSpeaker'];
+			}
 		}
 		if (act === -1) return false;
 		const td = this.gameTable.querySelector(`tr[data-player-id="${act}"] td.vote-num`);
@@ -312,7 +309,7 @@ class MafiaGameLogic extends MafiaMainFuncs {
 			cv.push(this.vars.currentVote[i]);
 			if (votes_available < 1) 
 			{
-				voted.push(0)
+				voted.push(0);
 				string+=`Игрок  №${this.vars.currentVote[i]}\tГолоса: 0BR`;
 				continue;
 			}
@@ -355,22 +352,18 @@ class MafiaGameLogic extends MafiaMainFuncs {
 					while(++i<debate.length)
 						this.playerOut(debate[i]-1,2);
 				}
-				else 
-					string=`Большинство (${vote} из ${players_count}) - - против!BRНикто не покидает стол.`;
+				else string=`Большинство (${vote} из ${players_count}) - - против!BRНикто не покидает стол.`;
 			}
-			else 
-				string='При количестве игроков менее 5 нельзя поднять 2 и более игроков.BRНикто не покидает стол.';
+			else string='При количестве игроков менее 5 нельзя поднять 2 и более игроков.BRНикто не покидает стол.';
 			alert(string.replace(/BR/g, '\r\n'));
 			this.gameSaveLog(string);
 			debate.length=0;
 		}
-		if (debate.length > 0)
-		{
+		if (debate.length > 0) {
 			this.vars.currentVote = Array.from(debate);
 			this.courtRoomDebate();
 		}
-		else
-			this.courtRoomClear(1)
+		else this.courtRoomClear(1);
 	}
 	courtRoomDebate() {
 
@@ -385,10 +378,7 @@ class MafiaGameLogic extends MafiaMainFuncs {
 				document.body.querySelector('div.timer__watchclock').textContent = inttotime(this.vars['timer']);
 			}
 		}
-		else
-		{
-			this.courtRoomAction(1);
-		}
+		else this.courtRoomAction(1);
 	}
 	playerOut(id, reason) {
 		let tableRow = this.gameTable.querySelector(`tr[data-player-id="${id}"]`);
