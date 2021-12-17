@@ -38,7 +38,10 @@ class Users {
         return true;
 	}
 	public function checkToken(){
-
+		if (!isset($_SESSION['expire'])){
+			$this->logout();
+			return false;
+		}
         if (isset($_COOKIE['_token']) && $_COOKIE['_token'] === sha1(sha1($_SESSION['expire'].$_SESSION['login']))){
             if ($_SESSION['expire'] - $_SERVER['REQUEST_TIME'] < CFG_MAX_SESSION_AGE/3){
                 $this->prolongSession();
@@ -53,9 +56,6 @@ class Users {
         setcookie('_token', sha1(sha1($_SESSION['expire'].$_SESSION['login'])));
         return true;
     }
-    // public function getCryptKey(){
-    //     return $this->getColumn($this->query(str_replace('{TABLE_AUTH}', TABLE_AUTH, 'SELECT key FROM {TABLE_AUTH} WHERE id = 1 LIMIT 1')));
-    // }
 	public function userRegistration($data){
         if ($this->action->recordExists(['login' => $data['login']],SQL_TBLUSERS))
             return [
@@ -99,11 +99,8 @@ class Users {
 			return $this->getSimpleArray($r);
 		else error_log(__METHOD__.': SQL ERROR');
 	}
-	function usersGetNameAutoComplete($name,$evening=0) 
+	function usersGetNameAutoComplete($name)
 	{
-		// $dop = '';
-		// if ($e > 0) $dop = ' AND `id` IN ('.$this->eveningGetPlayers($e).')';
-		// if ($r = $this->query('SELECT `name` FROM `'.SQL_TBLUSERS.'` WHERE `name` LIKE "%'.$s.'%"'.$dop))
 		if ($result = $this->action->prepQuery('SELECT name FROM '.SQL_TBLUSERS.' WHERE name ILIKE ? ',["%$name%"]))
 			return $this->action->getRawArray($result);
 		else error_log(__METHOD__.': SQL ERROR');
@@ -181,8 +178,8 @@ class Users {
 	function usersGetRandomNames($count=11,$eveninId=-1) 
 	{
 		if ($eveninId !== -1) $usersIds = $this->action->getColumn($this->action->prepQuery('SELECT participants FROM '.SQL_TBLEVEN.' WHERE id = ? LIMIT 1',[$eveninId]));
-		if ($r = $this->action->query('SELECT name FROM '.SQL_TBLUSERS.(isset($usersIds) ? ' WHERE id IN ('.$usersIds.')' : ' ORDER BY RANDOM() LIMIT '.$count)))
-			return $this->action->getRawArray($r);
+		if ($result = $this->action->query('SELECT name FROM '.SQL_TBLUSERS.(isset($usersIds) ? ' WHERE id IN ('.$usersIds.')' : ' ORDER BY RANDOM() LIMIT '.$count)))
+			return $this->action->getRawArray($result);
 		else error_log(__METHOD__.': SQL ERROR');
 	}
 	// Получить ассоциативный массив всех игроков, по заданным условиям.
