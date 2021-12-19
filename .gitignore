@@ -3,7 +3,6 @@ git-get.bat
 git-push.bat
 git-stash.bat
 .prettierrc.json
-.htaccess
 composer.phar
 /vendor/*
 /gallery/*
