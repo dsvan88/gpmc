@@ -1,6 +1,5 @@
 <?
 $output['{SCRIPTS}'] .= '
-    <script defer type="text/javascript" src="js/jquery.cleditor.min.js"></script>
     <script defer type="text/javascript" src="js/get_script.php/?js=game-mafia-main-funcs"></script>
     <script defer type="text/javascript" src="js/get_script.php/?js=game-mafia-logic"></script>
     <script defer type="text/javascript" src="js/get_script.php/?js=game-timer"></script>

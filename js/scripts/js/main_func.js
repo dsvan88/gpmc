@@ -179,10 +179,12 @@ actionHandler = {
 		if (form !== null && actionHandler[formSubmitAction]) {
 			form.addEventListener('submit', (event) => actionHandler[formSubmitAction](event, modal, args))
 		}
-		let textareas = modalWindow.querySelectorAll("textarea");
-		if (textareas.length > 0) {
-			addScriptFile('/js/ckeditor/ckeditor.js');
-			let applyCKeditor = setInterval(() => {
+		let editors = modalWindow.querySelectorAll("div.editor-block");
+		if (editors.length > 0) {
+			if (!addScriptFile('/js/ckeditor.js', () => CKEditorApply(editors))) {
+				CKEditorApply(editors);
+			}
+			/* let applyCKeditor = setInterval(() => {
 				if (!CKEDITOR){
 					return;
 				}
@@ -203,7 +205,7 @@ actionHandler = {
 					}
 				});
 				clearInterval(applyCKeditor);
-			}, 100)
+			}, 100) */
 		}
 
 		let autoCompleteInputs = modalWindow.querySelectorAll("*[data-autocomplete]");
@@ -218,7 +220,6 @@ actionHandler = {
 							}
 						},
 					});
-					// response();
 				};
 				$(element).autocomplete({
 					source: source,
@@ -241,26 +242,6 @@ actionHandler = {
 				participantsFields.querySelectorAll('input[data-action-input]').forEach(element =>
 					element.addEventListener('input', (event) => actionHandler.inputCommonHandler.call(actionHandler, event))
 				);
-				// let autoCompleteInputs = document.body.querySelectorAll("*[data-autocomplete]");
-				// autoCompleteInputs.forEach(
-				// 	element => {
-				// 		let source = function (request, response) {
-				// 			postAjax({
-				// 				data: `{"need":"get_autocomplete-${element.dataset.autocomplete}","term":"${request.term}"}`,
-				// 				successFunc: function (result) {
-				// 					if (result)
-				// 						response(result['result']);
-				// 				},
-				// 			});
-				// 			// response();
-				// 		}
-				// 		$(element).autocomplete({
-				// 			source: source,
-				// 			minLength: 3
-				// 		});
-				// 	}
-				// );
-				// $(".timepicker").datetimepicker({ datepicker: false, format: "H:i" });
 			},
 		});
 	},
@@ -462,15 +443,6 @@ actionHandler = {
 		$(".modal-body textarea").cleditor({ height: 200 });
 	},
 };
-// ПЕРЕДЕЛАТЬ НА СВЯЗКУ <details><summary></summary></details>
-// function open_log(id) {
-// 	$("#Log_" + id).removeClass("hide");
-// 	$("#ShowLog_" + id).text("- Скрыть лог игры");
-// }
-// function close_log(id) {
-// 	$("#Log_" + id).addClass("hide");
-// 	$("#ShowLog_" + id).text("+ Открыть лог игры");
-// }
 function inttotime(t) {
 	m = Math.floor(t / 6000);
 	s = Math.floor((t % 6000) / 100);
@@ -565,10 +537,10 @@ function serializeForm(target) {
 		if (element.tagName === "INPUT" && element.type === "checkbox" && !element.checked) {
 			return;
 		};
-		if (element.tagName === "TEXTAREA" && element.name === "html" && element.id !== undefined && CKEDITOR.instances[element.id]){
+		/* if (element.tagName === "TEXTAREA" && element.name === "html" && element.id !== undefined && CKEDITOR.instances[element.id]){
 			result[element.name] = CKEDITOR.instances[element.id].getData().replace(/\&/g, "%26");
 			return;
-		};
+		}; */
 		if (element.value == '') {
 			return;
 		};
@@ -595,10 +567,10 @@ function camelize(str) {
 		.join(""); // соединяет ['my', 'Long', 'Word'] в 'myLongWord'
 }
 
-function addScriptFile(src) {
+function addScriptFile(src,callback = '') {
 	if (Array.isArray(src)){
 		for (let index = 0; index < src.length; index++) {
-			addScriptFile(src[index])
+			addScriptFile(src[index], callback)
 		}
 	}
 	else{
@@ -607,8 +579,11 @@ function addScriptFile(src) {
 		}
 		let script = document.createElement('script');
 		script.src = src;
-		script.async = true; // чтобы гарантировать порядок
+		script.async = true;
 		document.head.appendChild(script);
+		if (callback !== '')
+			script.onload = callback;
+		return true;
 	}
 }
 function addCssFile(src) {
@@ -674,6 +649,26 @@ function applyAttributes(element, attributes) {
 		else {
 			applyAttributes(element[attName], attrValue);
 		}
+	}
+}
+function CKEditorApply(editors) {
+	for (let index = 0; index < editors.length; index++) {
+		let randomIndex = Math.random(321123);
+		editors[index].id = randomIndex;
+		DecoupledEditor.create(
+			editors[index].querySelector('.editor')
+		).then(
+			editor => {
+				const toolbarContainer = editors[index].querySelector('.toolbar-container');
+				toolbarContainer.prepend(editor.ui.view.toolbar.element);
+				if (!window.CKEDITOR) {
+					window.CKEDITOR = {
+						'instances' : {}
+					};
+				}
+				window.CKEDITOR.instances[randomIndex] = editor;
+			}
+		)
 	}
 }
 Array.prototype.shuffle = function () {
