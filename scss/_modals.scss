@@ -119,28 +119,26 @@ $modal-color: $modal-hd-start;
 		z-index: 1;
 		position: relative;
 		box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.05);
-	}
-
-	.toolbar-container .ck.ck-toolbar {
-		border-top-width: 0;
-		border-left-width: 0;
-		border-right-width: 0;
-		border-radius: 0;
+		.ck.ck-toolbar {
+			border-top-width: 0;
+			border-left-width: 0;
+			border-right-width: 0;
+			border-radius: 0;
+		}
 	}
 
 	.content-container {
 		padding: 2em;
 		background: #eee;
 		overflow-y: scroll;
-	}
-
-	.content-container #editor {
-		border-top-left-radius: 0;
-		border-top-right-radius: 0;
-		width: 15.8cm;
-		min-height: 21cm;
-		padding: 1cm 1cm 2cm;
-		margin: 0 auto;
-		box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.05);
+		.editor {
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+			width: 15.8cm;
+			min-height: 200px;
+			padding: 1cm 1cm 2cm;
+			margin: 0 auto;
+			box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.05);
+		}
 	}
 }
