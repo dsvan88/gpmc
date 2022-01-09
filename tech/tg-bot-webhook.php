@@ -20,6 +20,8 @@ $_POST['message']['text'] = trim($_POST['message']['text']);
 
 if (preg_match('/^(\+|-)[^\s]/', $_POST['message']['text']) === 1) {
     preg_match_all('/(\+|-)(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})/i', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
+    $method = $time = $date = '';
+    $dayNum = -1;
     foreach ($matches[0] as $value) {
         if (preg_match('/^(\+|-)/', $value)) {
             $method = $value[0];
@@ -33,7 +35,7 @@ if (preg_match('/^(\+|-)[^\s]/', $_POST['message']['text']) === 1) {
                 ['сб', 'суб'],
                 ['вс', 'вос']
             ];
-            $dayNum = -1;
+
             foreach ($daysArray as $num => $daysNames) {
                 if (in_array($dayName, $daysNames, true)) {
                     $dayNum = $num;
@@ -46,7 +48,14 @@ if (preg_match('/^(\+|-)[^\s]/', $_POST['message']['text']) === 1) {
             $date = $value;
         }
     }
-    $output['message'] = json_encode($matches) . ' ' . $method . ' ' . $dayName . ' ' . $time . ' ' . $date . ' ' . $dayNum;
+    $requestData = [
+        'method' => $method,
+        'time' => $time,
+        'date' => $date,
+        'dayNum' => $dayNum
+    ];
+    $output['message'] = json_encode($requestData);
+    // require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/game.php';
 } elseif (strpos($_POST['message']['text'], '/') === 0) {
     $command = mb_substr($_POST['message']['text'], 1, NULL, 'UTF-8');
 
