@@ -47,7 +47,7 @@ if (strpos($_POST['message']['text'], '+') === 0) {
 $bot->prepMessage($output['message']);
 try {
     $bot->sendToTelegramBot($_POST['message']['chat']['id']);
-    // file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-message.txt', print_r($_POST, true));
+    file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-message.txt', print_r($_POST, true));
 } catch (Exception $e) {
     file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-error.txt', print_r($_POST, true));
 }
