@@ -19,7 +19,7 @@ $bot = new MessageBot();
 $_POST['message']['text'] = trim($_POST['message']['text']);
 
 if (strpos($_POST['message']['text'], '+') === 0) {
-    preg_match_all('/(\+|-)(пн|понед|вт|ср|чт|четв|пт|пятн|сб|суб|вс|воскресенье|\s)|(\d{2}\:\d{2})||(\d{1,2}\.\d{1,2})/i', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
+    preg_match_all('/(+|-)(пн|понед|вт|ср|чт|четв|пт|пятн|сб|суб|вс|воскресенье|\s)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})/i', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
     $output['message'] = json_encode($matches);
 } elseif (strpos($_POST['message']['text'], '/') === 0) {
     $command = mb_substr($_POST['message']['text'], 1, NULL, 'UTF-8');
