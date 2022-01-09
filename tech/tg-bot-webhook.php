@@ -18,7 +18,7 @@ $bot = new MessageBot();
 
 $_POST['message']['text'] = trim($_POST['message']['text']);
 
-if (preg_match('/^(\+|-)/', $_POST['message']['text']) === 1) {
+if (preg_match('/^(\+|-)[^\s]/', $_POST['message']['text']) === 1) {
     preg_match_all('/(\+|-)(пн|понед|вт|ср|чт|четв|пт|пятн|сб|суб|вс|воскресенье)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})/i', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
     foreach ($matches[0] as $value) {
         if (preg_match('/^(\+|-)/', $value)) {
