@@ -19,11 +19,11 @@ $bot = new MessageBot();
 $_POST['message']['text'] = trim($_POST['message']['text']);
 
 if (preg_match('/^(\+|-)[^\s]/', $_POST['message']['text']) === 1) {
-    preg_match_all('/(\+|-)(пн|понед|вт|ср|чт|четв|пт|пятн|сб|суб|вс|воскресенье)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})/i', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
+    preg_match_all('/(\+|-)(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})/i', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
     foreach ($matches[0] as $value) {
         if (preg_match('/^(\+|-)/', $value)) {
             $method = $value[0];
-            $dayName = substr($value, 1);
+            $dayName = mb_substr($value, 1, 3, 'UTF-8');
         } elseif (preg_match('/\d{2}\:\d{2}/', $value)) {
             $time = $value;
         } elseif (preg_match('/\d{1,2}\.\d{1,2}/', $value)) {
