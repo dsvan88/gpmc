@@ -15,14 +15,16 @@ if (isset($userData['name']) && $userData['name'] !== 'tmp_telegram_user') {
     $userExistsData = $users->usersGetData(['id', 'name', 'telegram'], ['id' => $userId]);
     if (isset($userExistsData['id'])) {
         if ($userExistsData['telegram'] !== '') {
-            if ($userExistsData['telegram'] !== $telegramId)
+            if ($userExistsData['telegram'] !== $telegramId) {
                 $output['message'] = "Игрок с этим псевдонимом - уже <b>зарегистрировал</b> себе телеграм!\r\nЕсли это Ваш псевдоним - обратитесь к администраторам!";
-            else
+            } else {
                 $output['message'] = 'Ваша информация - уже успешно сохранена!';
+            }
         } else {
             $users->userUpdateData(['telegram' => $telegramId], ['id' => $userExistsData['id']]);
-            if (isset($userData['id']))
+            if (isset($userData['id'])) {
                 $users->userDelete($userData['id']);
+            }
             $output['message'] = "Я запомнил Вас под именем <b>$username</b>!\r\nЕсли это не Ваш псевдоним - обратитесь к администраторам!";
         }
     } else {
@@ -34,4 +36,3 @@ if (isset($userData['name']) && $userData['name'] !== 'tmp_telegram_user') {
         $output['message'] = "Я запомнил Вас под именем <b>$username</b>!\r\nЕсли это не Ваш псевдоним - обратитесь к администраторам!";
     }
 }
-$output['message'] .= "\r\n$telegramId";
