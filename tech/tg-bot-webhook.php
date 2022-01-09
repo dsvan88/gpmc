@@ -23,7 +23,7 @@ if (preg_match('/^(\+|-)[^\s]/', $_POST['message']['text']) === 1) {
     foreach ($matches[0] as $value) {
         if (preg_match('/^(\+|-)/', $value)) {
             $method = $value[0];
-            $dayName = mb_substr($value, 1, 3, 'UTF-8');
+            $dayName = mb_strtolower(mb_substr($value, 1, 3, 'UTF-8'));
             $daysArray = [
                 ['пн', 'пон'],
                 ['вт'],
@@ -35,7 +35,7 @@ if (preg_match('/^(\+|-)[^\s]/', $_POST['message']['text']) === 1) {
             ];
             $dayNum = -1;
             foreach ($daysArray as $num => $daysNames) {
-                if (array_search(mb_strtolower($dayName), $daysNames)) {
+                if (in_array($dayName, $daysNames, true)) {
                     $dayNum = $num;
                     break;
                 }
