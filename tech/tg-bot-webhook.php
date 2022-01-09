@@ -24,13 +24,29 @@ if (preg_match('/^(\+|-)[^\s]/', $_POST['message']['text']) === 1) {
         if (preg_match('/^(\+|-)/', $value)) {
             $method = $value[0];
             $dayName = mb_substr($value, 1, 3, 'UTF-8');
+            $daysArray = [
+                ['пн', 'пон'],
+                ['вт'],
+                ['ср'],
+                ['чт', 'чет'],
+                ['пт', 'пят'],
+                ['сб', 'суб'],
+                ['вс', 'вос']
+            ];
+            $dayNum = -1;
+            foreach ($daysArray as $num => $daysNames) {
+                if (array_search(mb_strtolower($dayName), $daysNames)) {
+                    $dayNum = $num;
+                    break;
+                }
+            }
         } elseif (preg_match('/\d{2}\:\d{2}/', $value)) {
             $time = $value;
         } elseif (preg_match('/\d{1,2}\.\d{1,2}/', $value)) {
             $date = $value;
         }
     }
-    $output['message'] = json_encode($matches) . ' ' . $method . ' ' . $dayName . ' ' . $time . ' ' . $date;
+    $output['message'] = json_encode($matches) . ' ' . $method . ' ' . $dayName . ' ' . $time . ' ' . $date . ' ' . $dayNum;
 } elseif (strpos($_POST['message']['text'], '/') === 0) {
     $command = mb_substr($_POST['message']['text'], 1, NULL, 'UTF-8');
 
