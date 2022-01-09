@@ -20,42 +20,7 @@ $_POST['message']['text'] = trim($_POST['message']['text']);
 
 if (preg_match('/^(\+|-)[^\s]/', $_POST['message']['text']) === 1) {
     preg_match_all('/(\+|-)(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})/i', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
-    $method = $time = $date = '';
-    $dayNum = -1;
-    foreach ($matches[0] as $value) {
-        if (preg_match('/^(\+|-)/', $value)) {
-            $method = $value[0];
-            $dayName = mb_strtolower(mb_substr($value, 1, 3, 'UTF-8'));
-            $daysArray = [
-                ['пн', 'пон'],
-                ['вт'],
-                ['ср'],
-                ['чт', 'чет'],
-                ['пт', 'пят'],
-                ['сб', 'суб'],
-                ['вс', 'вос']
-            ];
-
-            foreach ($daysArray as $num => $daysNames) {
-                if (in_array($dayName, $daysNames, true)) {
-                    $dayNum = $num;
-                    break;
-                }
-            }
-        } elseif (preg_match('/\d{2}\:\d{2}/', $value)) {
-            $time = $value;
-        } elseif (preg_match('/\d{1,2}\.\d{1,2}/', $value)) {
-            $date = $value;
-        }
-    }
-    $requestData = [
-        'method' => $method,
-        'time' => $time,
-        'date' => $date,
-        'dayNum' => $dayNum
-    ];
-    $output['message'] = json_encode($requestData);
-    // require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/game.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/game.php';
 } elseif (strpos($_POST['message']['text'], '/') === 0) {
     $command = mb_substr($_POST['message']['text'], 1, NULL, 'UTF-8');
 
@@ -65,8 +30,7 @@ if (preg_match('/^(\+|-)[^\s]/', $_POST['message']['text']) === 1) {
     }
 
     if (in_array($command, ['mafia', 'poker', 'cash'])) {
-        preg_match_all('/\s(\+|-)|(\d{2}\:\d{2})/', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
-        $args = $matches[0];
+        preg_match_all('/\s(\+|-)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})/', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
         require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/game.php';
     } elseif (in_array($command, ['?', 'help'])) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/help.php';
