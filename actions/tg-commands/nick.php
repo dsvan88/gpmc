@@ -19,7 +19,7 @@ else{
             if ($userExistsData['telegram'] !== $telegramId)
                 $output['message'] = "Игрок с этим псевдонимом - уже <b>зарегистрировал</b> себе телеграм!\r\nЕсли это Ваш псевдоним - обратитесь к администраторам!";
             else
-                $output['message'] = "Ваша информация - уже успешно сохранена!";
+                $output['message'] = 'Ваша информация - уже успешно сохранена!';
         }
         else{
             $users->userUpdateData([ 'telegram'=>$telegramId ],[ 'id'=>$userExistsData['id'] ]);
