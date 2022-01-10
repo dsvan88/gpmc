@@ -255,16 +255,18 @@ body {
 						font-size: 1.6em;
 						text-transform: uppercase;
 					}
-					&__place {
+					&__settings {
 						&-row {
 							width: 55vw;
 							max-width: 1200px;
-							margin: 10px 0;
-							display: flex;
-							justify-content: center;
-							font-size: 1.4em;
+							display: grid;
+							grid-gap: 2em;
+							margin-top: 10px;
+							&.multiple-elements {
+								grid-template-columns: 2fr repeat(2, 1fr);
+							}
 						}
-						&-label {
+						/* &-label {
 							width: 15vw;
 							max-width: 300px;
 						}
@@ -275,7 +277,7 @@ body {
 							&:focus-visible {
 								outline: none !important;
 							}
-						}
+						} */
 					}
 					&__participant {
 						display: flex;
@@ -416,9 +418,6 @@ body {
 					width: 100% !important;
 				}
 			}
-			label {
-				display: none;
-			}
 			&__participant {
 				&-name {
 					width: 30vw !important;
@@ -548,6 +547,7 @@ body {
 }
 
 @import "news";
+@import "weeks";
 @import "game";
 
 .ck-body {

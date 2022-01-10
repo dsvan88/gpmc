@@ -1,0 +1,8 @@
+Array
+(
+    [message] => Array
+        (
+            [text] => 
+        )
+
+)

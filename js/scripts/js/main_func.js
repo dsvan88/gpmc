@@ -228,6 +228,26 @@ actionHandler = {
 			}
 		);
 	},
+	weekDayEdit: function ({ target }) {
+		window.location = `/?wid=${target.dataset.week}&did=${target.dataset.day}`;
+	},
+	dayApprove: function ({ target }) {
+		const form = target.closest('form');
+		const formData = new FormData(form);
+		formData.append('need', 'do_day-approve');
+		formData.append('weekId', form.dataset.wid);
+		formData.append('dayId', form.dataset.did);
+		postAjax({
+			data: formDataToJson(formData),
+			successFunc: function (result) {
+				if (result["error"] == 0){
+					window.location = window.location.href;
+				} else {
+					alert(result["txt"]);
+				}
+			},
+		});
+	},
 	participantFieldGet: function ({ target }) {
 		const form = target.closest('form');
 		const newID = form.querySelectorAll(".booking__participant").length;

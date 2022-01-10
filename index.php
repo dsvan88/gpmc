@@ -82,12 +82,17 @@ $output['{HEADER_LOGO}'] = "<a href='http://$_SERVER[SERVER_NAME]/'>" . $images-
 
 if (isset($_GET['gid'])) {
 	require "$_SERVER[DOCUMENT_ROOT]/views/game.php";
+}
+if (isset($_GET['wid'])) {
+	if (isset($_GET['did'])) {
+		require "$_SERVER[DOCUMENT_ROOT]/views/day-edit.php";
+	}
 } elseif (isset($_GET['news'])) {
 	require "$_SERVER[DOCUMENT_ROOT]/views/news.php";
 } else {
-	if (!isset($_GET['page']))
+	if (!isset($_GET['page'])) {
 		$_GET['page'] = 'welcome';
-
+	}
 	require "$_SERVER[DOCUMENT_ROOT]/views/$_GET[page].php";
 }
 
