@@ -3,7 +3,7 @@
 $weekId = (int) $_GET['wid'];
 $dayId = (int) $_GET['did'];
 
-$weekData = $weeks->getDataByTime();
+$weekData = $weeks->getDataById($weekId);
 
 if (!$weekData) {
 	$weekData = $weeks->getDataDefault();
@@ -14,6 +14,7 @@ $dayData = $weekData['data'][$dayId];
 $dayHtmlData = [
 	'{DAY_TIME}' => $dayData['time'],
 	'{DAY_INDEX}' => $dayId,
+	'{WEEK_INDEX}' => $weekId,
 	'{DAY_GAME_MAFIA}' => '',
 	'{DAY_GAME_POKER}' => '',
 	'{DAY_GAME_CASH}' => ''
@@ -40,7 +41,6 @@ if (count($dayData['participants']) === 0 && !(isset($_SESSION['status']) && in_
 
 	$dayHtmlData['{DAY_PARTICIPANTS}'] = '';
 	$durations = ['', ' (на 1-2 гри)', ' (на 2-3 гри)', ' (на 3-4 гри)'];
-
 	$playersCount = max(count($dayData['participants']), 11);
 	for ($x = 0; $x < $playersCount; $x++) {
 		$replace = [

@@ -11,10 +11,11 @@ actionHandler = {
 						if (result) {
 							let options = [];
 							const deleteOptions = [];
-							for (var i = 0; i < event.target.list.options.length; i++) {
+							for (let i = 0; i < event.target.list.options.length; i++) {
 								options.push(event.target.list.options[i].value);
-								if (!result['result'].includes(event.target.list.options[i].value))
+								if (!result['result'].includes(event.target.list.options[i].value)){
 									deleteOptions.push(i);
+								}
 							}
 							result['result'].map(item => {
 								if (options.includes(item)) return;
@@ -240,10 +241,12 @@ actionHandler = {
 		postAjax({
 			data: formDataToJson(formData),
 			successFunc: function (result) {
-				if (result["error"] == 0){
-					window.location = window.location.href;
+				if (result["error"] == 0) {
+					alert(result["message"]);
+					if (form.dataset.wid != result['weekId'])
+						window.location = `${window.location.origin}/?wid=${result['weekId']}&did=${form.dataset.did}`;
 				} else {
-					alert(result["txt"]);
+					alert(result["message"]);
 				}
 			},
 		});

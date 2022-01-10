@@ -35,6 +35,6 @@ if (isset($_POST['participant'])) {
     }
 }
 
-$result = $weeks->daySetApproved($data);
+$output['weekId'] = $weeks->daySetApproved($data);
 
-$output['txt'] = $result ? 'Затверджено!' : 'Помилка!';
+$output['message'] = $output['weekId'] ? 'Затверджено!' : 'Помилка!';
