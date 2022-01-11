@@ -53,7 +53,7 @@ if (!isset($userData['id'])) {
         }
     }
 
-    $currentDay = getdate()['wday']--;
+    $currentDay = getdate()['wday'] - 1;
 
     if ($currentDay === -1)
         $currentDay = 6;
