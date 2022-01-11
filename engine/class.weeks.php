@@ -123,9 +123,10 @@ class Weeks
 		$weekData['data'][$data['dayNum']]['participants'][$freeSlot] = [
 			'id'	=>	$data['userId'],
 			'name'	=>	$data['userName'],
-			'arrive'	=>	$data['arrive'],
+			''	=>	$data['arrive'],
 			'duration'	=> 	$data['duration']
 		];
+
 		$weekData['weekId'] = $weekData['id'];
 		$weekData['dayId'] = $data['dayNum'];
 
