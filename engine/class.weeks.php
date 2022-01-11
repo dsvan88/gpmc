@@ -101,6 +101,7 @@ class Weeks
 	public function dayUserUnregistrationByTelegram($requestData)
 	{
 
+
 		// $eveningData = $this->eveningsGetBooked($game);
 
 		// if (!$eveningData)
