@@ -128,9 +128,6 @@ class Weeks
 		$freeSlot = -1;
 		while (isset($newData['participants'][++$freeSlot])) {
 		}
-
-
-
 		$newData['participants'][$freeSlot] = [
 			'id'	=>	$data['userId'],
 			'name'	=>	$data['userName'],
@@ -138,12 +135,12 @@ class Weeks
 			'duration'	=> 	$data['duration']
 		];
 
-		// return json_encode($newData, JSON_UNESCAPED_UNICODE);
+		return json_encode($newData, JSON_UNESCAPED_UNICODE);
 
 		$result = $this->daySetApproved($newData);
 
 		if (!$result) {
-			return json_encode($weekData, JSON_UNESCAPED_UNICODE);
+			return json_encode($newData, JSON_UNESCAPED_UNICODE);
 		}
 		return 'Вы успешно зарегистрированны на игру в ' . ($data['dayNum'] + 1) . ' день недели.';
 	}
