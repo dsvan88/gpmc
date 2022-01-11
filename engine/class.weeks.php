@@ -129,7 +129,10 @@ class Weeks
 			'duration'	=> 	$data['duration']
 		];
 
-		return print_r($weekData, true) . json_encode($newData, JSON_UNESCAPED_UNICODE);
+		$text = print_r($weekData, true);
+		$text .= json_encode($newData, JSON_UNESCAPED_UNICODE);
+
+		return $text;
 
 		$result = $this->daySetApproved($newData);
 
