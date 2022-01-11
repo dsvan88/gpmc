@@ -116,7 +116,7 @@ class Weeks
 			return 'Вы уже зарегистрированны за этот день!';
 
 		$newData = $weekData['data'][$data['dayNum']];
-		$newData['weekId'] = $weekData['weekId'];
+		$newData['weekId'] = $weekData['id'];
 		$newData['dayId'] = $data['dayNum'];
 
 		$freeSlot = -1;
