@@ -122,14 +122,13 @@ class Weeks
 		$freeSlot = -1;
 		while (isset($newData['participants'][++$freeSlot])) {
 		}
+
 		$newData['participants'][$freeSlot] = [
 			'id'	=>	$data['userId'],
 			'name'	=>	$data['userName'],
 			'arrive'	=>	$data['arrive'],
 			'duration'	=> 	$data['duration']
 		];
-
-		return json_encode($weekData, JSON_UNESCAPED_UNICODE) . "\r\n\r\n" . json_encode($newData, JSON_UNESCAPED_UNICODE);
 
 		$result = $this->daySetApproved($newData);
 
