@@ -98,18 +98,44 @@ class Weeks
 			return false;
 		}
 	}
-	public function dayUserUnregistrationByTelegram($requestData)
+	public function dayUserUnregistrationByTelegram($data)
 	{
 
+		$weekData = $this->getDataByTime();
 
-		// $eveningData = $this->eveningsGetBooked($game);
+		if (!isset($weekData['data'][$data['dayNum']]))
+			return 'Игр на указанный день, пока не запланировано! Попробуйте позднее!';
 
-		// if (!$eveningData)
-		// 	return "Вечер игры в $game, пока - не запланирован!\r\nДождитесь начала регистрации!";
-		// if (!$this->playerAddToEvening($eveningData[0]['id'], $userData))
-		// 	return "Игрок $userData[name] уже зарегистрирован на ближайший вечер игры в $game! Планирует быть на $userData[arrive]";
+		$id = -1;
+		foreach ($weekData['data'][$data['dayNum']]['participants'] as $index => $userData) {
+			if ($userData['id'] === $data['userId']) {
+				$id = $index;
+				break;
+			}
+		}
+		if ($id !== -1)
+			return 'Вы уже зарегистрированны за этот день!';
 
-		// return "Игрок $userData[name] успешно зарегистрирован на ближайший вечер игры в $game! Планирует быть на $userData[arrive]";
+		$freeSlot = -1;
+		while (isset($weekData['data'][$data['dayNum']]['participants'][$freeSlot++])) {
+		}
+
+		$weekData['data'][$data['dayNum']]['participants'][$freeSlot] = [
+			'id'	=>	$data['userId'],
+			'name'	=>	$data['userName'],
+			'arrive'	=>	$data['userName'],
+			'duration'	=> 	$data['duration']
+		];
+
+		$weekData['weekId'] = $weekData['id'];
+		$weekData['dayId'] = $data['dayNum'];
+
+		$result = $this->daySetApproved($weekData);
+
+		if (!$result) {
+			return json_encode($weekData, JSON_UNESCAPED_UNICODE);
+		}
+		return 'Вы успешно зарегистрированны на игру в ' . ($data['dayNum'] + 1) . ' день недели.';
 	}
 	public function dayUserRegistrationByTelegram($requestData)
 	{
