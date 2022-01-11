@@ -23,7 +23,9 @@ if (!isset($userData['id'])) {
         'method' => '+',
         'time' => '',
         'date' => '',
-        'dayNum' => -1
+        'dayNum' => -1,
+        'userId' => $userData['id'],
+        'userName' => $userData['name']
     ];
     foreach ($matches[0] as $value) {
         if (preg_match('/^(\+|-)/', $value)) {
