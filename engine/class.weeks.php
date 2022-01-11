@@ -127,7 +127,7 @@ class Weeks
 			'id'	=>	$data['userId'],
 			'name'	=>	$data['userName'],
 			'arrive'	=>	$data['arrive'],
-			'duration'	=> 	$data['duration']
+			'duration'	=> 	(int) $data['duration']
 		];
 
 		$result = $this->daySetApproved($newData);

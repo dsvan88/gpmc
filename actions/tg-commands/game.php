@@ -52,9 +52,9 @@ if (!isset($userData['id'])) {
         } elseif (strpos($value, ':') !== false) {
             $requestData['arrive'] = $value;
         } elseif (strpos($value, '.') !== false) {
-            $requestData['date'] = substr($value, 0, 1);
+            $requestData['date'] = $value;
         } elseif (strpos($value, '-') !== false) {
-            $requestData['duration'] = $value;
+            $requestData['duration'] = substr($value, 0, 1);
         }
     }
 
