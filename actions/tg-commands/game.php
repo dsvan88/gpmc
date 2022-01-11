@@ -13,9 +13,9 @@ if (!isset($userData['id'])) {
 } elseif ($userData['name'] === 'tmp_telegram_user') {
     $output['message'] = "Извините! Не узнаю вас в гриме :(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш_псевдоним";
 } else {
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.evenings.php';
+    // require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.evenings.php';
 
-    $evenings = new Evenings;
+    // $evenings = new Evenings;
 
     $requestData = [
         'method' => '+',

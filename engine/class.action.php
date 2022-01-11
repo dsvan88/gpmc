@@ -331,16 +331,23 @@ class Action
 					name CHARACTER VARYING(250) NOT NULL DEFAULT '',
 					rank SMALLINT NOT NULL DEFAULT '0',
 					status CHARACTER VARYING(50) NOT NULL DEFAULT '',
-					last_game SMALLINT NOT NULL DEFAULT '0',
+					last_game SMALLINT NOT NULL DEFAULT '0', 
 					login CHARACTER VARYING(250) NOT NULL DEFAULT '',
 					password CHARACTER VARYING(250) NOT NULL DEFAULT '',
+					fio CHARACTER VARYING(250) NOT NULL DEFAULT '',
+					birthday INT NOT NULL DEFAULT '0',
+					gender CHARACTER VARYING(25) NOT NULL DEFAULT '',
 					email CHARACTER VARYING(250) NOT NULL DEFAULT '',
+					telegramId CHARACTER VARYING(250) NOT NULL DEFAULT '',
+					telegramName CHARACTER VARYING(250) NOT NULL DEFAULT '',
+					game_credo TEXT,
+					live_credo TEXT,
 					avatar CHARACTER VARYING(250) NOT NULL DEFAULT '',
-					personal JSON NULL DEFAULT NULL,
 					admin SMALLINT NOT NULL DEFAULT '0'
 				);"
 			)
 		);
+
 
 		if (!$this->recordExists(['id' => 1], SQL_TBLUSERS)) {
 			$this->rowInsert([

@@ -207,10 +207,10 @@ class Users
 			$where = ' WHERE ';
 			foreach ($conditions as $key => $value) {
 				if (!is_array($value)) {
-					$where .= "$key = ? AND ";
+					$where .= "$key = ? OR ";
 					$values[] = $value;
 				} else {
-					$where .= $key . ' IN (' . substr(str_repeat('?,', count($value)), 0, -1) . ') AND ';
+					$where .= $key . ' IN (' . substr(str_repeat('?,', count($value)), 0, -1) . ') OR ';
 					$values[] = array_merge($values, $value);
 				}
 			}
