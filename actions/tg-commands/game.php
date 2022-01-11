@@ -3,7 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.users.php';
 
 $users = new Users;
 
-$telegramId = $_POST['message']['from']['username'] === '' ? $_POST['message']['from']['id'] : $_POST['message']['from']['username'];
+$telegramId = isset($_POST['message']['from']['username']) ? $_POST['message']['from']['id'] : $_POST['message']['from']['username'];
 
 $userData = $users->usersGetData(['id', 'name'], ['telegram' => $telegramId]);
 
