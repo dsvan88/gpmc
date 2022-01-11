@@ -39,6 +39,9 @@ class Weeks
 		if ($result) {
 			$weekData = $result;
 			$weekData['data'] = json_decode($weekData['data'], true);
+			for ($i = 0; $i < 7; $i++) {
+				$weekData['data']['participants'] = [];
+			}
 		} else {
 			$weekData = [
 				'id' => 0,
