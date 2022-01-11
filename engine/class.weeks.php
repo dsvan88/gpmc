@@ -13,7 +13,7 @@ class Weeks
 	{
 		if ($time === 0)
 			$time = time();
-		$result = $this->action->getAssocArray($this->action->prepQuery('SELECT id,data FROM ' . SQL_TBLWEEKS . ' WHERE start < :time AND finish > :time LIMIT 1', ['time' => $time]));
+		$result = $this->action->getAssocArray($this->action->prepQuery('SELECT id,data,start FROM ' . SQL_TBLWEEKS . ' WHERE start < :time AND finish > :time LIMIT 1', ['time' => $time]));
 		if ($result !== []) {
 			$result = $result[0];
 			$result['data'] = json_decode($result['data'], true);
