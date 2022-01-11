@@ -123,10 +123,10 @@ class Weeks
 		$weekData['data'][$data['dayNum']]['participants'][$freeSlot] = [
 			'id'	=>	$data['userId'],
 			'name'	=>	$data['userName'],
-			'arrive'	=>	$data['userName'],
+			'arrive'	=>	$data['arrive'],
 			'duration'	=> 	$data['duration']
 		];
-		return json_encode($weekData, JSON_UNESCAPED_UNICODE);
+		return json_encode($weekData['data'][$data['dayNum']], JSON_UNESCAPED_UNICODE);
 		$weekData['weekId'] = $weekData['id'];
 		$weekData['dayId'] = $data['dayNum'];
 
