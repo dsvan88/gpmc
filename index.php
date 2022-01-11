@@ -51,10 +51,6 @@ if (isset($_SESSION['id'])) {
 				<div class='header__profile-menu-bar'></div>
 			</li>
 			<li class='header__profile-menu-item'>
-				<a href='/?page=near-evening'>Налаштувати вечір</a>
-				<div class='header__profile-menu-bar'></div>
-			</li>
-			<li class='header__profile-menu-item'>
 				<span data-action='settings-edit-form'>Налаштування</span>
 				<div class='header__profile-menu-bar'></div>
 			</li>
@@ -72,6 +68,11 @@ if (isset($_SESSION['id'])) {
 			</li>
 		</menu>
 	</div>";
+
+	/* <li class='header__profile-menu-item'>
+			<a href='/?page=near-evening'>Налаштувати вечір</a>
+			<div class='header__profile-menu-bar'></div>
+		</li> */
 	if (isset($_SESSION['id']) && $_SESSION['status'] === 'admin' && $users->checkToken()) {
 		$output['{SCRIPTS}'] .= '<script defer type="text/javascript" src="js/get_script.php/?js=admin-func"></script>';
 	}

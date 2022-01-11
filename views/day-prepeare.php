@@ -35,7 +35,7 @@ if (count($dayData['participants']) === 0 && !(isset($_SESSION['status']) && in_
 	} else {
 		$htmlFiles = [
 			'booking' => $_SERVER['DOCUMENT_ROOT'] . '/templates/booking-show.html',
-			'participant_row' => $_SERVER['DOCUMENT_ROOT'] . '/templates/participant-field-show.html'
+			'participant_row' => $_SERVER['DOCUMENT_ROOT'] . '/templates/layouts/participant-field-show.html'
 		];
 	}
 	$dayHtmlData['{DAY_INDEX}'] = $dayId;

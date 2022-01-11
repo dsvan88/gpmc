@@ -1,6 +1,6 @@
 <?
 $output['{WEEK_LIST}'] = '
-	<h2 class="week-preview__title section__title">Розклад ігор</h2>
+	<h2 class="week-preview__title section__title">Тижневий розклад ігор</h2>
 	<div class="week-preview__list">';
 
 $weekData = $weeks->getDataByTime();
