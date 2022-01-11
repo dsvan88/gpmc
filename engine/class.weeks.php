@@ -12,7 +12,7 @@ class Weeks
 	public function getDataByTime($time = 0)
 	{
 		if ($time === 0)
-			$time = time();
+			$time = $_SERVER['REQUEST_TIME'];
 		$result = $this->action->getAssocArray($this->action->prepQuery('SELECT id,data,start FROM ' . SQL_TBLWEEKS . ' WHERE start < :time AND finish > :time LIMIT 1', ['time' => $time]));
 		if ($result !== []) {
 			$result = $result[0];
@@ -34,7 +34,7 @@ class Weeks
 	}
 	public function getDataDefault()
 	{
-		$time = time() - 604800;
+		$time = $_SERVER['REQUEST_TIME'] - 604800;
 		$result = $this->getDataByTime($time);
 		if ($result) {
 			$weekData = $result;
