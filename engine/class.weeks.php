@@ -126,7 +126,7 @@ class Weeks
 			'arrive'	=>	$data['userName'],
 			'duration'	=> 	$data['duration']
 		];
-
+		return json_encode($weekData, JSON_UNESCAPED_UNICODE);
 		$weekData['weekId'] = $weekData['id'];
 		$weekData['dayId'] = $data['dayNum'];
 
