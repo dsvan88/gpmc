@@ -129,8 +129,6 @@ class Weeks
 		$weekData['weekId'] = $weekData['id'];
 		$weekData['dayId'] = $data['dayNum'];
 
-		return json_encode($weekData['data'][$data['dayNum']], JSON_UNESCAPED_UNICODE) . ' ' . $freeSlot;
-
 		$result = $this->daySetApproved($weekData);
 
 		if (!$result) {
