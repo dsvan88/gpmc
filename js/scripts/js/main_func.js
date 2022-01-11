@@ -251,6 +251,20 @@ actionHandler = {
 			},
 		});
 	},
+	userDelete: function ({ target }) { 
+		postAjax({
+			data: `{"need":"do_user-delete","uid":"${target.dataset.userId}"}`,
+			successFunc: function (result) {
+				if (result["error"] == 0) {
+					alert(result["message"]);
+					if (form.dataset.wid != result['weekId'])
+						window.location = `${window.location.origin}/?wid=${result['weekId']}&did=${form.dataset.did}`;
+				} else {
+					alert(result["message"]);
+				}
+			},
+		});
+	},
 	participantFieldGet: function ({ target }) {
 		const form = target.closest('form');
 		const newID = form.querySelectorAll(".booking__participant").length;

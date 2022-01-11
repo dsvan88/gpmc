@@ -17,7 +17,6 @@ if (isset($userData['name']) && $userData['name'] !== 'tmp_telegram_user') {
 
     $output['message'] = "Я уже запомнил Вас под именем <b>$userData[name]</b>!\r\nЕсли это не Вы - обратитесь к администраторам!";
 } else {
-
     $username = trim(implode(' ', $args));
     $userId = $users->userGetId($username);
     $userExistsData = $users->usersGetData(['id', 'name', 'telegramid'], ['id' => $userId]);
