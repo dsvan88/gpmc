@@ -239,8 +239,8 @@ class Users
 	{
 		$this->action->rowInsert($data, SQL_TBLUSERS);
 	}
-	public function usersSaveUnknowTelegram($telegramId)
+	public function usersSaveUnknowTelegram($data)
 	{
-		$this->action->rowInsert(['name' => 'tmp_telegram_user', 'telegram' => $telegramId], SQL_TBLUSERS);
+		$this->action->rowInsert(['name' => 'tmp_telegram_user', 'telegram' => $data['telegram'], 'telegramId' => $data['telegramId']], SQL_TBLUSERS);
 	}
 }

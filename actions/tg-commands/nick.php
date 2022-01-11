@@ -7,7 +7,7 @@ $telegram = isset($_POST['message']['from']['username']) ? $_POST['message']['fr
 
 $telegramId = $_POST['message']['from']['id'];
 
-$userData = $users->usersGetData(['id', 'name', 'telegram'], ['telegramId' => $telegramId]);
+$userData = $users->usersGetData(['id', 'name', 'telegram'], ['telegramid' => $telegramId]);
 
 if (isset($userData['name']) && $userData['name'] !== 'tmp_telegram_user') {
 
@@ -20,16 +20,16 @@ if (isset($userData['name']) && $userData['name'] !== 'tmp_telegram_user') {
 
     $username = trim(implode(' ', $args));
     $userId = $users->userGetId($username);
-    $userExistsData = $users->usersGetData(['id', 'name', 'telegramId'], ['id' => $userId]);
+    $userExistsData = $users->usersGetData(['id', 'name', 'telegramid'], ['id' => $userId]);
     if (isset($userExistsData['id'])) {
-        if ($userExistsData['telegramId'] !== '') {
-            if ($userExistsData['telegramId'] !== $telegramId) {
+        if ($userExistsData['telegramid'] !== '') {
+            if ($userExistsData['telegramid'] !== $telegramId) {
                 $output['message'] = "Игрок с этим псевдонимом - уже <b>зарегистрировал</b> себе телеграм!\r\nЕсли это Ваш псевдоним - обратитесь к администраторам!";
             } else {
                 $output['message'] = 'Ваша информация - уже успешно сохранена!';
             }
         } else {
-            $users->userUpdateData(['telegram' => $telegram, 'telegramId' => $telegramId], ['id' => $userExistsData['id']]);
+            $users->userUpdateData(['telegram' => $telegram, 'telegramid' => $telegramId], ['id' => $userExistsData['id']]);
             if (isset($userData['id'])) {
                 $users->userDelete($userData['id']);
             }
@@ -39,7 +39,7 @@ if (isset($userData['name']) && $userData['name'] !== 'tmp_telegram_user') {
         if (isset($userData['id'])) {
             $users->userUpdateData(['name' => $username], ['id' => $userData['id']]);
         } else {
-            $users->usersSaveNameFromTelegram(['name' => $username, 'telegram' => $telegram, 'telegramId' => $telegramId]);
+            $users->usersSaveNameFromTelegram(['name' => $username, 'telegram' => $telegram, 'telegramid' => $telegramId]);
         }
         $output['message'] = "Я запомнил Вас под именем <b>$username</b>!\r\nЕсли это не Ваш псевдоним - обратитесь к администраторам!";
     }

@@ -41,6 +41,7 @@ $replace['{PROFILE_BIRTHDAY}'] = $userData['birthday'] === 0 ? date('d.m.Y') : d
 $replace['{PROFILE_GENDER}'] = $userData['gender'];
 $replace['{PROFILE_EMAIL}'] = $userData['email'];
 $replace['{PROFILE_TELEGRAM}'] = $userData['telegram'];
+$replace['{PROFILE_TELEGRAM_ID}'] = $userData['telegramid'];
 $replace['{PROFILE_GENDER_UNSET}'] = $userData['gender'] == '' ? ' selected ' : '';
 $replace['{PROFILE_GENDER_MALE}'] = $userData['gender'] == 'male' ? ' selected ' : '';
 $replace['{PROFILE_GENDER_FEMALE}'] = $userData['gender'] == 'female' ? ' selected ' : '';

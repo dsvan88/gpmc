@@ -3,13 +3,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.users.php';
 
 $users = new Users;
 
-$telegramId = isset($_POST['message']['from']['username']) ? $_POST['message']['from']['id'] : $_POST['message']['from']['username'];
+$telegram = isset($_POST['message']['from']['username']) ? $_POST['message']['from']['username'] : '';
 
-$userData = $users->usersGetData(['id', 'name'], ['telegram' => $telegramId]);
+$telegramId = $_POST['message']['from']['id'];
+
+$userData = $users->usersGetData(['id', 'name', 'telegram'], ['telegramid' => $telegramId]);
 
 if (!isset($userData['id'])) {
     $output['message'] = "Извините! Не узнаю вас в гриме:(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш_псевдоним";
-    $users->usersSaveUnknowTelegram($telegramId);
+    $users->usersSaveUnknowTelegram(['telegram' => $telegram, 'telegramid' => $telegramId]);
 } elseif ($userData['name'] === 'tmp_telegram_user') {
     $output['message'] = "Извините! Не узнаю вас в гриме :(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш_псевдоним";
 } else {
