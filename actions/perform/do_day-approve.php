@@ -32,7 +32,7 @@ if (isset($_POST['participant'])) {
         $userId = $users->userGetId($userName);
 
         if ($userId === 0) {
-            $userId = $this->action->userAdd($userName);
+            $userId = $users->userAdd($userName);
         }
 
         $data['participants'][] = [
