@@ -380,47 +380,6 @@ body {
 		width: 80vw;
 	}
 }
-@include xl {
-	body {
-		font-size: 1.1em;
-	}
-	.header {
-		padding: 15px 30vw 20px 30vw !important;
-	}
-	.section:not(.news-preview) {
-		padding: 40px 20vw !important;
-	}
-	.setting-text-dashboard {
-		width: 60vw !important;
-	}
-	.footer {
-		padding: 30px 20vw !important;
-	}
-}
-
-@include lg {
-	body {
-		font-size: 1.05em;
-	}
-	.header {
-		padding: 15px 20vw 20px 20vw;
-	}
-	.section:not(.news-preview) {
-		padding: 40px 15vw !important;
-	}
-	.setting-text-dashboard {
-		width: 70vw !important;
-	}
-	.footer {
-		padding: 20px 15vw !important;
-	}
-}
-
-@include md {
-	.header {
-		padding: 15px 10vw 20px 10vw !important;
-	}
-}
 
 @include sm {
 	.section {
@@ -445,6 +404,46 @@ body {
 		padding: 15px 5vw 20px 5vw !important;
 	}
 }
+@include md {
+	.header {
+		padding: 15px 10vw 20px 10vw !important;
+	}
+}
+@include lg {
+	body {
+		font-size: 1.05em;
+	}
+	.header {
+		padding: 15px 20vw 20px 20vw;
+	}
+	.section:not(.news-preview) {
+		padding: 40px 15vw !important;
+	}
+	.setting-text-dashboard {
+		width: 70vw !important;
+	}
+	.footer {
+		padding: 20px 15vw !important;
+	}
+}
+@include xl {
+	body {
+		font-size: 1.1em;
+	}
+	.header {
+		padding: 15px 20vw 20px 20vw !important;
+	}
+	.section:not(.news-preview) {
+		padding: 40px 20vw !important;
+	}
+	.setting-text-dashboard {
+		width: 60vw !important;
+	}
+	.footer {
+		padding: 30px 20vw !important;
+	}
+}
+
 @import "modals";
 
 .modal {
