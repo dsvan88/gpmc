@@ -116,23 +116,31 @@ class Weeks
 		if ($id !== -1)
 			return 'Вы уже зарегистрированны за этот день!';
 
+		$newData = [
+			'weekId' => $weekData['weekId'],
+			'dayId' => $data['dayNum'],
+			'game' => $weekData['data'][$data['dayNum']]['game'],
+			'mods' => $weekData['data'][$data['dayNum']]['mods'],
+			'time' => $weekData['data'][$data['dayNum']]['time'],
+			'participants' => $weekData['data'][$data['dayNum']]['participants']
+		];
+
 		$freeSlot = -1;
-		while (isset($weekData['data'][$data['dayNum']]['participants'][++$freeSlot])) {
+		while (isset($newData['participants'][++$freeSlot])) {
 		}
 
-		$weekData['data'][$data['dayNum']]['participants'][$freeSlot] = [
+
+
+		$newData['participants'][$freeSlot] = [
 			'id'	=>	$data['userId'],
 			'name'	=>	$data['userName'],
 			'arrive'	=>	$data['arrive'],
 			'duration'	=> 	$data['duration']
 		];
 
-		return json_encode($weekData['data'][$data['dayNum']], JSON_UNESCAPED_UNICODE);
+		return json_encode($newData, JSON_UNESCAPED_UNICODE);
 
-		$weekData['weekId'] = $weekData['id'];
-		$weekData['dayId'] = $data['dayNum'];
-
-		$result = $this->daySetApproved($weekData);
+		$result = $this->daySetApproved($newData);
 
 		if (!$result) {
 			return json_encode($weekData, JSON_UNESCAPED_UNICODE);
