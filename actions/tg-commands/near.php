@@ -15,7 +15,7 @@ $gameNames = [
 if ($weekData) {
     $output['message'] = '';
     for ($i = 0; $i < 7; $i++) {
-        if (!isset($weekData['data'][$i])) {
+        if (!isset($weekData['data'][$i]) || time() > $weekData['start'] + 43200) {
             continue;
         }
         $date = str_replace(
