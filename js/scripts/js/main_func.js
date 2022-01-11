@@ -11,10 +11,11 @@ actionHandler = {
 						if (result) {
 							let options = [];
 							const deleteOptions = [];
-							for (var i = 0; i < event.target.list.options.length; i++) {
+							for (let i = 0; i < event.target.list.options.length; i++) {
 								options.push(event.target.list.options[i].value);
-								if (!result['result'].includes(event.target.list.options[i].value))
+								if (!result['result'].includes(event.target.list.options[i].value)){
 									deleteOptions.push(i);
+								}
 							}
 							result['result'].map(item => {
 								if (options.includes(item)) return;
@@ -227,6 +228,28 @@ actionHandler = {
 				});
 			}
 		);
+	},
+	weekDayEdit: function ({ target }) {
+		window.location = `/?wid=${target.dataset.week}&did=${target.dataset.day}`;
+	},
+	dayApprove: function ({ target }) {
+		const form = target.closest('form');
+		const formData = new FormData(form);
+		formData.append('need', 'do_day-approve');
+		formData.append('weekId', form.dataset.wid);
+		formData.append('dayId', form.dataset.did);
+		postAjax({
+			data: formDataToJson(formData),
+			successFunc: function (result) {
+				if (result["error"] == 0) {
+					alert(result["message"]);
+					if (form.dataset.wid != result['weekId'])
+						window.location = `${window.location.origin}/?wid=${result['weekId']}&did=${form.dataset.did}`;
+				} else {
+					alert(result["message"]);
+				}
+			},
+		});
 	},
 	participantFieldGet: function ({ target }) {
 		const form = target.closest('form');

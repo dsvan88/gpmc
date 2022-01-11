@@ -1,0 +1,42 @@
+<form class="booking" data-eid="{EVENING_INDEX}">
+	<h3 class="booking__title">Налаштування вечора гри</h3>
+	<div class="booking__place">
+		<div class="booking__place-row">
+			<!-- <label for="eve_place" class="booking__place-label">Час початку</label> -->
+			<select name="game">
+				<option value="mafia" {EVENING_GAME_MAFIA}>Мафія</option>
+				<option value="poker" {EVENING_GAME_POKER}>Покер</option>
+				<option value="cash" {EVENING_GAME_CASH}>Кеш-покер</option>
+			</select>
+		</div>
+		<div class="booking__place-row">
+			<!-- <label for="eve_place" class="booking__place-label">Час початку</label> -->
+			<input class="datepick" type="text" name="eve_date" value="{EVENING_DATE}" placeholder="Час початку першої гри" />
+		</div>
+		<div class="booking__place-row">
+			<!-- <label for="eve_place" class="booking__place-label">Розташування</label> -->
+			<!-- <input type="text" name="eve_place" value="{EVENING_PLACE}" placeholder="Місце проведення ігор" id="eve_place" data-autocomplete="evening-place" autocomplete="off" /> -->
+			<!-- data-action-change="evening-place" -->
+			<input type="text" name="eve_place" value="{EVENING_PLACE}" placeholder="Місце проведення ігор" id="eve_place" data-action-input="get-autocomplete-places-names" data-action-change="evening-place" list="places-names-list" autocomplete="off" />
+			<datalist id="places-names-list"></datalist>
+		</div>
+		<div class="booking__place-row">
+			<!-- <label for="eve_place_info" class="booking__place-label">Опис місця</label> -->
+			<input type="text" name="eve_place_info" value="{EVENING_PLACE_INFO}" placeholder="Адреса, веб-сайт" id="eve_place_info" />
+		</div>
+	</div>
+	<div class="booking__buttons">
+		<button type="button" data-action="evening-prepeare">Затвердити</button>
+	</div>
+	<div class="booking__participants">
+		<h2 class="booking__subtitle">Учасники:</h2>
+		{EVENING_PARTICIPANTS}
+	</div>
+	<div class="booking__buttons">
+		<button type="button" data-action="participant-field-get">Додати поле</button>
+	</div>
+	<div class="booking__buttons">
+		<button type="button" data-action="evening-approve">Розпочати запис</button>
+	</div>
+</form>
+<hr />

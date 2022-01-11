@@ -11,7 +11,10 @@ $color-text-section-title: #f2ce91;
 $button-remove-color: #c45050;
 $button-remove-color-hover: #aa1414;
 
+$color-item-border-hover: #803827;
+
 $bg-color-light: #38244f;
+$bg-color-light-odd: #4f2058;
 $bg-color-dark: #221740;
 $bg-color-input: #0000004a;
 
@@ -90,7 +93,7 @@ $animation-fast: 0.3s;
 		}
 	}
 }
-#cke_21,
+/* #cke_21,
 #cke_28,
 #cke_31,
 #cke_36,
@@ -100,4 +103,20 @@ $animation-fast: 0.3s;
 #cke_81,
 #cke_90 {
 	display: none;
+}
+ */
+.checkbox-styled {
+	text-align: center;
+	color: $color-text-blur;
+	&__label {
+		text-transform: uppercase;
+		cursor: pointer;
+	}
+	&-checkbox {
+		display: none;
+	}
+	&-checkbox:checked + &__label {
+		color: $color-text-menu;
+		filter: drop-shadow(0px 0px 0.5rem #ecccb0) drop-shadow(0px 0px 0.5rem #ecccb0);
+	}
 }
