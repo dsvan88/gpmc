@@ -3,25 +3,33 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.users.php';
 
 $users = new Users;
 
-$telegramId = isset($_POST['message']['from']['username']) ? $_POST['message']['from']['username'] : $_POST['message']['from']['id'];
+$telegram = isset($_POST['message']['from']['username']) ? $_POST['message']['from']['username'] : '';
 
-$userData = $users->usersGetData(['id', 'name'], ['telegram' => $telegramId]);
+$telegramId = $_POST['message']['from']['id'];
+
+$userData = $users->usersGetData(['id', 'name', 'telegram'], ['telegramId' => $telegramId]);
 
 if (isset($userData['name']) && $userData['name'] !== 'tmp_telegram_user') {
+
+    if ($telegram !== '' && $userData['telegram'] !== $telegram) {
+        $users->userUpdateData(['telegram' => $telegram], ['id' => $userExistsData['id']]);
+    }
+
     $output['message'] = "Я уже запомнил Вас под именем <b>$userData[name]</b>!\r\nЕсли это не Вы - обратитесь к администраторам!";
 } else {
+
     $username = trim(implode(' ', $args));
     $userId = $users->userGetId($username);
-    $userExistsData = $users->usersGetData(['id', 'name', 'telegram'], ['id' => $userId]);
+    $userExistsData = $users->usersGetData(['id', 'name', 'telegramId'], ['id' => $userId]);
     if (isset($userExistsData['id'])) {
-        if ($userExistsData['telegram'] !== '') {
-            if ($userExistsData['telegram'] !== $telegramId) {
+        if ($userExistsData['telegramId'] !== '') {
+            if ($userExistsData['telegramId'] !== $telegramId) {
                 $output['message'] = "Игрок с этим псевдонимом - уже <b>зарегистрировал</b> себе телеграм!\r\nЕсли это Ваш псевдоним - обратитесь к администраторам!";
             } else {
                 $output['message'] = 'Ваша информация - уже успешно сохранена!';
             }
         } else {
-            $users->userUpdateData(['telegram' => $telegramId], ['id' => $userExistsData['id']]);
+            $users->userUpdateData(['telegram' => $telegram, 'telegramId' => $telegramId], ['id' => $userExistsData['id']]);
             if (isset($userData['id'])) {
                 $users->userDelete($userData['id']);
             }
@@ -31,7 +39,7 @@ if (isset($userData['name']) && $userData['name'] !== 'tmp_telegram_user') {
         if (isset($userData['id'])) {
             $users->userUpdateData(['name' => $username], ['id' => $userData['id']]);
         } else {
-            $users->usersSaveNameFromTelegram(['name' => $username, 'telegram' => $telegramId]);
+            $users->usersSaveNameFromTelegram(['name' => $username, 'telegram' => $telegram, 'telegramId' => $telegramId]);
         }
         $output['message'] = "Я запомнил Вас под именем <b>$username</b>!\r\nЕсли это не Ваш псевдоним - обратитесь к администраторам!";
     }
