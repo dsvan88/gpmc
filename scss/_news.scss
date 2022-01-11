@@ -8,21 +8,27 @@
 			text-align: center;
 		}
 		&__list {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: center;
+			display: grid;
+			grid-auto-rows: 250px;
+			grid-gap: 0.5em;
+			@include sm {
+				grid-template-columns: 1fr;
+			}
+			@include md {
+				grid-template-columns: repeat(2, 1fr);
+			}
+			@include lg {
+				grid-template-columns: repeat(3, 1fr);
+			}
 		}
 		&__item {
-			height: 250px;
-			flex: 0 1 350px;
-			position: relative;
-			margin: 10px;
 			background-color: $bg-color-light;
 			border-radius: 5px;
 			padding: 15px 20px;
 			border: 1px solid $color-text-menu;
 			font-size: 1.3em;
 			text-indent: 0;
+			position: relative;
 			&-title {
 				font-size: 1.4em;
 				margin-bottom: 10px;
@@ -47,8 +53,8 @@
 		&__read-more {
 			position: absolute;
 			bottom: 20px;
-			width: 88%;
 			font-size: 0.7em;
+			width: 90%;
 			&-link {
 				float: right;
 				color: $color-text-main;

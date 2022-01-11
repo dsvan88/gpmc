@@ -24,7 +24,7 @@ for ($i = 0; $i < count($newsAll); $i++) {
 	$replace['{NEWS_ITEM_SUBTITLE}'] = $newsAll[$i]['subtitle'];
 	$replace['{NEWS_ITEM_HTML}'] = mb_strlen($newsAll[$i]['html'], 'UTF-8') > 150 ? mb_substr(preg_replace('/<[^>]+?>/i', '', $newsAll[$i]['html']), 0, 250) . '...' : $newsAll[$i]['html'];
 	$replace['{NEWS_ITEM_INDEX}'] = $newsAll[$i]['id'];
-	$output['{NEWS_PREVIEW}'] .= str_replace(array_keys($replace), array_values($replace), file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/templates/news-item.html'));
+	$output['{NEWS_PREVIEW}'] .= str_replace(array_keys($replace), array_values($replace), file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/templates/layouts/item-news.html'));
 }
 $output['{NEWS_PREVIEW}'] .= '
 	</div>';

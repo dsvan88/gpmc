@@ -9,7 +9,9 @@ if (!$weekData) {
 	$weekData = $weeks->getDataDefault();
 }
 
-$dayData = $weekData['data'][$dayId];
+if (isset($weekData['data'][$dayId]))
+	$dayData = $weekData['data'][$dayId];
+else $dayData = $weeks->getDayDataDefault();
 
 $dayHtmlData = [
 	'{DAY_TIME}' => $dayData['time'],
@@ -17,7 +19,9 @@ $dayHtmlData = [
 	'{WEEK_INDEX}' => $weekId,
 	'{DAY_GAME_MAFIA}' => '',
 	'{DAY_GAME_POKER}' => '',
-	'{DAY_GAME_CASH}' => ''
+	'{DAY_GAME_CASH}' => '',
+	'{DAY_GAME_MODS_FANS}' => '',
+	'{DAY_GAME_MODS_TOURNAMENT}' => ''
 ];
 
 if (count($dayData['participants']) === 0 && !(isset($_SESSION['status']) && in_array($_SESSION['status'], ['admin', 'manager', 'founder']))) {
@@ -25,12 +29,12 @@ if (count($dayData['participants']) === 0 && !(isset($_SESSION['status']) && in_
 } else {
 	if (isset($_SESSION['status']) && in_array($_SESSION['status'], ['admin', 'manager', 'founder'])) {
 		$htmlFiles = [
-			'booking' => $_SERVER['DOCUMENT_ROOT'] . '/templates/booking/booking-edit.html',
-			'participant_row' => $_SERVER['DOCUMENT_ROOT'] . '/templates/participant-field-edit.html'
+			'booking' => $_SERVER['DOCUMENT_ROOT'] . '/templates/booking-edit.html',
+			'participant_row' => $_SERVER['DOCUMENT_ROOT'] . '/templates/layouts/participant-field-edit.html'
 		];
 	} else {
 		$htmlFiles = [
-			'booking' => $_SERVER['DOCUMENT_ROOT'] . '/templates/booking/booking-show.html',
+			'booking' => $_SERVER['DOCUMENT_ROOT'] . '/templates/booking-show.html',
 			'participant_row' => $_SERVER['DOCUMENT_ROOT'] . '/templates/participant-field-show.html'
 		];
 	}
@@ -38,6 +42,9 @@ if (count($dayData['participants']) === 0 && !(isset($_SESSION['status']) && in_
 	$dayHtmlData['{DAY_GAME_MAFIA}'] = $dayData['game'] === 'mafia' ? 'selected' : '';
 	$dayHtmlData['{DAY_GAME_POKER}'] = $dayData['game'] === 'poker' ? 'selected' : '';
 	$dayHtmlData['{DAY_GAME_CASH}'] = $dayData['game'] === 'cash' ? 'selected' : '';
+
+	$dayHtmlData['{DAY_GAME_MODS_FANS}'] = in_array('fans', $dayData['mods']) ? 'checked' : '';
+	$dayHtmlData['{DAY_GAME_MODS_TOURNAMENT}'] = in_array('tournament', $dayData['mods']) ? 'checked' : '';
 
 	$dayHtmlData['{DAY_PARTICIPANTS}'] = '';
 	$durations = ['', ' (на 1-2 гри)', ' (на 2-3 гри)', ' (на 3-4 гри)'];

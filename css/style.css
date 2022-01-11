@@ -3420,7 +3420,7 @@ body {
   height: 12vh;
   min-height: 60px;
   max-height: 80px;
-  padding: 10px 3vw 20px 5vw;
+  padding: 15px 20vw 20px 20vw;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -3476,7 +3476,8 @@ body {
 }
 
 .wrapper .header__profile-caret {
-  margin-left: 5px;
+  margin-left: 10px;
+  font-size: 1.3em !important;
   cursor: pointer;
 }
 
@@ -3878,7 +3879,9 @@ body {
   body {
     font-size: 1.05em;
   }
-  .header,
+  .header {
+    padding: 15px 20vw 20px 20vw;
+  }
   .section:not(.news-preview) {
     padding: 40px 15vw !important;
   }
@@ -3894,7 +3897,9 @@ body {
   body {
     font-size: 1.1em;
   }
-  .header,
+  .header {
+    padding: 15px 30vw 20px 30vw !important;
+  }
   .section:not(.news-preview) {
     padding: 40px 20vw !important;
   }
@@ -3903,6 +3908,12 @@ body {
   }
   .footer {
     padding: 30px 20vw !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .header {
+    padding: 15px 10vw 20px 10vw !important;
   }
 }
 
@@ -3918,6 +3929,9 @@ body {
   }
   .section .booking__participant-name {
     width: 30vw !important;
+  }
+  .header {
+    padding: 15px 5vw 20px 5vw !important;
   }
 }
 
@@ -4251,29 +4265,41 @@ body {
 }
 
 .news-preview__list {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  display: -ms-grid;
+  display: grid;
+  grid-auto-rows: 250px;
+  grid-gap: 0.5em;
+}
+
+@media (max-width: 576px) {
+  .news-preview__list {
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .news-preview__list {
+    -ms-grid-columns: (1fr)[2];
+        grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .news-preview__list {
+    -ms-grid-columns: (1fr)[3];
+        grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .news-preview__item {
-  height: 250px;
-  -webkit-box-flex: 0;
-      -ms-flex: 0 1 350px;
-          flex: 0 1 350px;
-  position: relative;
-  margin: 10px;
   background-color: #38244f;
   border-radius: 5px;
   padding: 15px 20px;
   border: 1px solid #dfa261;
   font-size: 1.3em;
   text-indent: 0;
+  position: relative;
 }
 
 .news-preview__item-title {
@@ -4304,8 +4330,8 @@ body {
 .news-preview__read-more {
   position: absolute;
   bottom: 20px;
-  width: 88%;
   font-size: 0.7em;
+  width: 90%;
 }
 
 .news-preview__read-more-link {

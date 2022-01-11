@@ -9,8 +9,17 @@ $data = [
     'weekId' => (int) $_POST['weekId'],
     'dayId' => (int) $_POST['dayId'],
     'game' => trim($_POST['game']),
-    'time' => $_POST['day_time']
+    'mods' => [],
+    'time' => $_POST['day_time'],
+
 ];
+
+if (isset($_POST['mods-fans'])) {
+    $data['mods'][] = 'fans';
+}
+if (isset($_POST['mods-tournament'])) {
+    $data['mods'][] = 'tournament';
+}
 
 if (isset($_POST['participant'])) {
     $data['participants'] = [];
