@@ -50,7 +50,8 @@ if (!isset($userData['id'])) {
             $requestData['date'] = $value;
         }
     }
-
+    $output['message'] = json_encode($requestData, JSON_UNESCAPED_UNICODE);
+    /* 
     if ($requestData['method'] === '-') {
         $output['message'] = $evenings->eveningsParticipantUnbookedByTelegram($command, $userData);
     } else {
@@ -59,5 +60,5 @@ if (!isset($userData['id'])) {
             $userData['arrive'] = $requestData['time'];
         $userData['duration'] = 0;
         $output['message'] = $evenings->eveningsParticipantBookedByTelegram($command, $userData);
-    }
+    } */
 }
