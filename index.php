@@ -1,4 +1,5 @@
 <?php
+
 require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/autoload.php';
 
 if (isset($_SESSION['id']) && ($_SESSION['expire'] < $_SERVER['REQUEST_TIME'] || !$users->checkToken())) {
@@ -106,4 +107,5 @@ if (isset($_SESSION['id']) && $_SESSION['status'] === 'admin' && $users->checkTo
 }
 
 $outputHtml = str_replace(array_keys($output), array_values($output), $template);
+var_dump($_SERVER);
 echo $outputHtml;
