@@ -100,7 +100,6 @@ class Weeks
 	}
 	public function dayUserRegistrationByTelegram($data)
 	{
-
 		$weekData = $this->getDataByTime();
 
 		if (!isset($weekData['data'][$data['dayNum']]))
@@ -130,7 +129,7 @@ class Weeks
 			'duration'	=> 	$data['duration']
 		];
 
-		return json_encode($newData, JSON_UNESCAPED_UNICODE);
+		return print_r($weekData, true) . json_encode($newData, JSON_UNESCAPED_UNICODE);
 
 		$result = $this->daySetApproved($newData);
 
@@ -147,5 +146,8 @@ class Weeks
 		// 	return "Вечер игры в $game, пока - не запланирован!\r\nДождитесь начала регистрации!";
 		// if (!$this->playerRemoveFromEvening($eveningData[0]['id'], $userData['id']))
 		// 	return "Игрок $userData[name] отписался с ближайшего вечера игры в $game :(";
+	}
+	public function dayResetData($requestData)
+	{
 	}
 }
