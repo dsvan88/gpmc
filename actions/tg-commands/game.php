@@ -15,9 +15,9 @@ if (!isset($userData['id'])) {
 } elseif ($userData['name'] === 'tmp_telegram_user') {
     $output['message'] = "Извините! Не узнаю вас в гриме :(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш_псевдоним";
 } else {
-    // require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.evenings.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.weeks.php';
 
-    // $evenings = new Evenings;
+    $weeks = new Weeks;
 
     $requestData = [
         'method' => '+',
@@ -52,15 +52,23 @@ if (!isset($userData['id'])) {
             $requestData['date'] = $value;
         }
     }
-    $output['message'] = json_encode($requestData, JSON_UNESCAPED_UNICODE);
-    /* 
-    if ($requestData['method'] === '-') {
-        $output['message'] = $evenings->eveningsParticipantUnbookedByTelegram($command, $userData);
+
+    $currentDay = getdate()['wday']--;
+
+    if ($currentDay === -1)
+        $currentDay = 6;
+
+    if ($currentDay > $requestData['dayNum']) {
+        $output['message'] = 'Не могу записать Вас на уже прошедший день! Sowwy:(';
     } else {
-        $userData['arrive'] = '';
-        if ($requestData['time'] !== '')
-            $userData['arrive'] = $requestData['time'];
-        $userData['duration'] = 0;
-        $output['message'] = $evenings->eveningsParticipantBookedByTelegram($command, $userData);
-    } */
+        if ($requestData['method'] === '-') {
+            // $output['message'] = $weeks->dayUserUnregistrationByTelegram($requestData);
+        } else {
+            $userData['arrive'] = '';
+            if ($requestData['time'] !== '')
+                $userData['arrive'] = $requestData['time'];
+            $userData['duration'] = 0;
+            // $output['message'] = $weeks->dayUserRegistrationByTelegram($requestData);
+        }
+    }
 }
