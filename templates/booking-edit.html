@@ -11,11 +11,11 @@
 				<option value="cash" {DAY_GAME_CASH}>Кеш-покер</option>
 			</select>
 			<span class="checkbox-styled">
-				<input type="checkbox" name="mods-tournament" id="game-fans-checkbox" value="fans" class="checkbox-styled-checkbox" />
+				<input type="checkbox" name="mods-fans" id="game-fans-checkbox" value="fans" class="checkbox-styled-checkbox" {DAY_GAME_MODS_FANS} />
 				<label for="game-fans-checkbox" class="checkbox-styled__label"> Фановая </label>
 			</span>
 			<span class="checkbox-styled">
-				<input type="checkbox" name="mods-fans" id="game-tournament-checkbox" value="tournament" class="checkbox-styled-checkbox" />
+				<input type="checkbox" name="mods-tournament" id="game-tournament-checkbox" value="tournament" class="checkbox-styled-checkbox" {DAY_GAME_MODS_TOURNAMENT} />
 				<label for="game-tournament-checkbox" class="checkbox-styled__label"> Турнир </label>
 			</span>
 		</div>

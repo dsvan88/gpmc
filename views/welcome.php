@@ -3,6 +3,7 @@ $output['{SCRIPTS}'] .= '';
 $output['{MAIN_CONTENT}'] = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/templates/welcome.html');
 
 $output['{ABOUT_GAME}'] =  $settingsArray['txt']['about-game']['value'];
+
 if (isset($_SESSION['id']) && $_SESSION['status'] === 'admin' && $users->checkToken()) {
 	$output['{ABOUT_GAME}'] = '
 		<div class="setting-text-dashboard">

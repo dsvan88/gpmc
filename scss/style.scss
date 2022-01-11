@@ -48,7 +48,7 @@ body {
 		height: 12vh;
 		min-height: 60px;
 		max-height: 80px;
-		padding: 10px 3vw 20px 5vw;
+		padding: 15px 20vw 20px 20vw;
 		display: flex;
 		align-items: center;
 		box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.5);
@@ -84,7 +84,8 @@ body {
 				}
 			}
 			&-caret {
-				margin-left: 5px;
+				margin-left: 10px;
+				font-size: 1.3em !important;
 				cursor: pointer;
 			}
 			&-checkbox {
@@ -380,7 +381,9 @@ body {
 	body {
 		font-size: 1.05em;
 	}
-	.header,
+	.header {
+		padding: 15px 20vw 20px 20vw;
+	}
 	.section:not(.news-preview) {
 		padding: 40px 15vw !important;
 	}
@@ -395,7 +398,9 @@ body {
 	body {
 		font-size: 1.1em;
 	}
-	.header,
+	.header {
+		padding: 15px 30vw 20px 30vw !important;
+	}
 	.section:not(.news-preview) {
 		padding: 40px 20vw !important;
 	}
@@ -404,6 +409,11 @@ body {
 	}
 	.footer {
 		padding: 30px 20vw !important;
+	}
+}
+@include md {
+	.header {
+		padding: 15px 10vw 20px 10vw !important;
 	}
 }
 @include sm {
@@ -424,6 +434,9 @@ body {
 				}
 			}
 		}
+	}
+	.header {
+		padding: 15px 5vw 20px 5vw !important;
 	}
 }
 

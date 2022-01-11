@@ -5,9 +5,17 @@
 		<input type="hidden" name="id" value="{SETTING_INDEX}" />
 		<input type="hidden" name="short_name" value="{SETTING_SHORTNAME}" />
 	</div>
-	<div class="common-form__row">
-		<textarea class="common-form__textarea news" name="html" placeholder="Значення налаштування">{SETTING_VALUE}</textarea>
+	<div class="common-form__row"></div>
+		<div class="editor-block">
+			<div class="toolbar-container"></div>
+			<div class="content-container">
+				<div class="editor">{SETTING_VALUE}</div>
+			</div>
+		</div>
 	</div>
+<!-- 	<div class="common-form__row">
+		<textarea class="common-form__textarea news" name="html" placeholder="Значення налаштування">{SETTING_VALUE}</textarea>
+	</div> -->
 	<div class="modal-buttons">
 		<button type="submit" class="positive">Зберегти</button>
 		<button type="button" class="modal-close negative">Відміна</button>
