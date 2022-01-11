@@ -16,13 +16,17 @@ body {
 	font-size: $font-size-main;
 	color: $color-text-main;
 	overflow-x: hidden;
+	@include sm {
+		font-size: $font-size-main-sm;
+	}
 	@include md {
-		padding: 0;
 		font-size: $font-size-main-md;
 	}
-	@include sm {
-		padding: 0;
-		font-size: $font-size-main-sm;
+	@include lg {
+		font-size: $font-size-main-lg;
+	}
+	@include xl {
+		font-size: $font-size-main-xl;
 	}
 }
 .header-for-auto-scroll {
@@ -376,6 +380,23 @@ body {
 		width: 80vw;
 	}
 }
+@include xl {
+	body {
+		font-size: 1.1em;
+	}
+	.header {
+		padding: 15px 30vw 20px 30vw !important;
+	}
+	.section:not(.news-preview) {
+		padding: 40px 20vw !important;
+	}
+	.setting-text-dashboard {
+		width: 60vw !important;
+	}
+	.footer {
+		padding: 30px 20vw !important;
+	}
+}
 
 @include lg {
 	body {
@@ -394,28 +415,13 @@ body {
 		padding: 20px 15vw !important;
 	}
 }
-@include xl {
-	body {
-		font-size: 1.1em;
-	}
-	.header {
-		padding: 15px 30vw 20px 30vw !important;
-	}
-	.section:not(.news-preview) {
-		padding: 40px 20vw !important;
-	}
-	.setting-text-dashboard {
-		width: 60vw !important;
-	}
-	.footer {
-		padding: 30px 20vw !important;
-	}
-}
+
 @include md {
 	.header {
 		padding: 15px 10vw 20px 10vw !important;
 	}
 }
+
 @include sm {
 	.section {
 		padding: 20px 10px;
@@ -439,7 +445,6 @@ body {
 		padding: 15px 5vw 20px 5vw !important;
 	}
 }
-
 @import "modals";
 
 .modal {

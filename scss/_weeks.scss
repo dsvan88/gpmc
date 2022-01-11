@@ -20,6 +20,9 @@
 			@include lg {
 				grid-template-columns: repeat(3, 1fr);
 			}
+			@include xl {
+				grid-template-columns: repeat(3, 1fr);
+			}
 		}
 		&__item {
 			background-color: $bg-color-light-odd;
@@ -33,6 +36,7 @@
 			&:nth-child(2n) {
 				background-color: $bg-color-light;
 			}
+
 			@include md {
 				&:last-of-type {
 					grid-column: 1 / 3;
@@ -41,6 +45,13 @@
 				}
 			}
 			@include lg {
+				&:last-of-type {
+					grid-column: 2 / 3;
+					place-self: auto auto;
+					width: max-content;
+				}
+			}
+			@include xl {
 				&:last-of-type {
 					grid-column: 2 / 3;
 					place-self: auto auto;
@@ -76,13 +87,10 @@
 			&-content {
 				font-size: 0.7em;
 			}
-			.day-participants {
-				&__list {
-					&-item {
-						margin: 0.8em;
-						font-size: 1.2em;
-					}
-				}
+			.day-participants__list-item {
+				margin: 0 0.5em;
+				font-size: 1.2em;
+				line-height: 1.3em;
 			}
 		}
 		&__read-more {
