@@ -47,15 +47,15 @@
 			@include lg {
 				&:last-of-type {
 					grid-column: 2 / 3;
-					place-self: auto auto;
-					width: max-content;
+					justify-self: center;
+					width: 100%;
 				}
 			}
 			@include xl {
 				&:last-of-type {
 					grid-column: 2 / 3;
-					place-self: auto auto;
-					width: max-content;
+					justify-self: center;
+					width: 100%;
 				}
 			}
 
