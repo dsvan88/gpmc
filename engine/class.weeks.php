@@ -98,7 +98,7 @@ class Weeks
 			return false;
 		}
 	}
-	public function dayUserUnregistrationByTelegram($data)
+	public function dayUserRegistrationByTelegram($data)
 	{
 
 		$weekData = $this->getDataByTime();
@@ -137,7 +137,7 @@ class Weeks
 		}
 		return 'Вы успешно зарегистрированны на игру в ' . ($data['dayNum'] + 1) . ' день недели.';
 	}
-	public function dayUserRegistrationByTelegram($requestData)
+	public function dayUserUnregistrationByTelegram($requestData)
 	{
 		// $eveningData = $this->eveningsGetBooked($game);
 

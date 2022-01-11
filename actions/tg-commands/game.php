@@ -62,6 +62,7 @@ if (!isset($userData['id'])) {
 
     if ($currentDay === -1)
         $currentDay = 6;
+
     $output['message'] = json_encode($requestData, JSON_UNESCAPED_UNICODE);
     if ($currentDay > $requestData['dayNum']) {
         $output['message'] = 'Не могу записать Вас на уже прошедший день! Sowwy:(';
