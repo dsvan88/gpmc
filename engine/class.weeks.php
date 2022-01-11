@@ -117,7 +117,7 @@ class Weeks
 			return 'Вы уже зарегистрированны за этот день!';
 
 		$freeSlot = -1;
-		while (isset($weekData['data'][$data['dayNum']]['participants'][$freeSlot++])) {
+		while (isset($weekData['data'][$data['dayNum']]['participants'][++$freeSlot])) {
 		}
 
 		$weekData['data'][$data['dayNum']]['participants'][$freeSlot] = [
