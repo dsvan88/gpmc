@@ -116,14 +116,9 @@ class Weeks
 		if ($id !== -1)
 			return 'Вы уже зарегистрированны за этот день!';
 
-		$newData = [
-			'weekId' => $weekData['weekId'],
-			'dayId' => $data['dayNum'],
-			'game' => $weekData['data'][$data['dayNum']]['game'],
-			'mods' => $weekData['data'][$data['dayNum']]['mods'],
-			'time' => $weekData['data'][$data['dayNum']]['time'],
-			'participants' => $weekData['data'][$data['dayNum']]['participants']
-		];
+		$newData = $weekData['data'][$data['dayNum']];
+		$newData['weekId'] = $weekData['weekId'];
+		$newData['dayId'] = $data['dayNum'];
 
 		$freeSlot = -1;
 		while (isset($newData['participants'][++$freeSlot])) {
