@@ -80,7 +80,7 @@ if (isset($_SESSION['id'])) {
 } else
 	$output['{PROFILE_BUTTON}'] = '<a class="header__profile-button" data-action="user-singin-form">Вхід</a>';
 
-$output['{HEADER_LOGO}'] = "<a href='http://$_SERVER[SERVER_NAME]/'>" . $images->inputImage($settingsArray['img']['MainLogo']['value'], ['title' => $settingsArray['img']['MainLogo']['name']]) . '</a>';
+$output['{HEADER_LOGO}'] = "<a href='$_SERVER[HTTP_X_FORWARDED_PROTO]://$_SERVER[SERVER_NAME]/'>" . $images->inputImage($settingsArray['img']['MainLogo']['value'], ['title' => $settingsArray['img']['MainLogo']['name']]) . '</a>';
 
 if (isset($_GET['gid'])) {
 	require "$_SERVER[DOCUMENT_ROOT]/views/game.php";
@@ -107,5 +107,4 @@ if (isset($_SESSION['id']) && $_SESSION['status'] === 'admin' && $users->checkTo
 }
 
 $outputHtml = str_replace(array_keys($output), array_values($output), $template);
-var_dump($_SERVER);
 echo $outputHtml;
