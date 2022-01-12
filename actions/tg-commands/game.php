@@ -7,7 +7,7 @@ $telegram = isset($_POST['message']['from']['username']) ? $_POST['message']['fr
 
 $telegramId = $_POST['message']['from']['id'];
 
-$userData = $users->usersGetData(['id', 'name', 'telegram'], ['telegramid' => $telegramId]);
+$userData = $users->usersGetData(['id', 'name', 'telegram', 'status'], ['telegramid' => $telegramId]);
 
 if (!isset($userData['id'])) {
     $output['message'] = "Извините! Не узнаю вас в гриме:(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш_псевдоним";
@@ -26,7 +26,8 @@ if (!isset($userData['id'])) {
         'duration' => '',
         'dayNum' => -1,
         'userId' => $userData['id'],
-        'userName' => $userData['name']
+        'userName' => $userData['name'],
+        'userStatus' => $userData['status']
     ];
     foreach ($matches[0] as $value) {
         if (preg_match('/^(\+|-)/', $value)) {

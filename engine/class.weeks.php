@@ -101,17 +101,25 @@ class Weeks
 	public function dayUserRegistrationByTelegram($data)
 	{
 		$weekData = $this->getDataByTime();
-
-		if (!isset($weekData['data'][$data['dayNum']]))
-			return 'Игр на указанный день, пока не запланировано! Попробуйте позднее!';
-
 		$id = -1;
-		foreach ($weekData['data'][$data['dayNum']]['participants'] as $index => $userData) {
-			if ($userData['id'] === $data['userId']) {
-				$id = $index;
-				break;
+		if (!isset($weekData['data'][$data['dayNum']])) {
+			if (!in_array($data['userStatus'], ['admin', 'manager']))
+				return 'Игр на указанный день, пока не запланировано!';
+			else {
+				$defaultData = $this->getDataDefault();
+				$weekData['data'][$data['dayNum']] = $defaultData['data'][$data['dayNum']];
+				$weekData['data'][$data['dayNum']]['time'] = $data['arrive'];
+				$data['arrive'] = '';
+			}
+		} else {
+			foreach ($weekData['data'][$data['dayNum']]['participants'] as $index => $userData) {
+				if ($userData['id'] === $data['userId']) {
+					$id = $index;
+					break;
+				}
 			}
 		}
+
 		if ($id !== -1)
 			return 'Вы уже зарегистрированны за этот день!';
 
@@ -148,8 +156,9 @@ class Weeks
 	{
 		$weekData = $this->getDataByTime();
 
-		if (!isset($weekData['data'][$data['dayNum']]))
+		if (!isset($weekData['data'][$data['dayNum']])) {
 			return 'Игр на указанный день, пока не запланировано!';
+		}
 
 		$id = -1;
 		foreach ($weekData['data'][$data['dayNum']]['participants'] as $index => $userData) {
