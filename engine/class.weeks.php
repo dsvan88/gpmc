@@ -159,7 +159,7 @@ class Weeks
 				break;
 			}
 		}
-		if ($id !== -1)
+		if ($id === -1)
 			return 'Вы не были записаны на этот день!';
 
 		$newData = $weekData['data'][$data['dayNum']];
