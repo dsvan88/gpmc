@@ -55,6 +55,7 @@ if ($output['message'] !== '') {
     try {
         $result = $bot->sendToTelegramBot($_POST['message']['chat']['id']);
 
+        // if ($_POST['message']['chat']['type'] !== 'private') {
         $chatId = $result[0]['result']['chat']['id'];
         $messageId = $result[0]['result']['message_id'];
 
@@ -64,6 +65,7 @@ if ($output['message'] !== '') {
             require_once "$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/near.php";
             $result = $bot->editPinnedMessage($chatId, $output['message']);
         }
+        // }
     } catch (Exception $e) {
         file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-error.txt', print_r($_POST, true));
     }
