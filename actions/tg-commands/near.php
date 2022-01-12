@@ -42,7 +42,7 @@ if ($weekData) {
             $modsData = '';
             if ($weekData['data'][$i]['participants'][$x]['arrive'] !== '') {
                 $modsData .= $weekData['data'][$i]['participants'][$x]['arrive'];
-                if ($weekData['data'][$i]['participants'][$x]['duration'] !== 0) {
+                if ($weekData['data'][$i]['participants'][$x]['duration'] != 0) {
                     $modsData .= ', ';
                 }
             }
