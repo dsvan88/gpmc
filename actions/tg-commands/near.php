@@ -46,7 +46,7 @@ if ($weekData) {
                     $modsData .= ', ';
                 }
             }
-            if ($weekData['data'][$i]['participants'][$x]['duration'] !== 0) {
+            if ($weekData['data'][$i]['participants'][$x]['duration'] != 0) {
                 $modsData .= "на {$durations[$weekData['data'][$i]['participants'][$x]['duration']]} игры";
             }
             if ($modsData !== '')
