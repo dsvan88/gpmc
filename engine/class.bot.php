@@ -115,6 +115,29 @@ class MessageBot
             return true;
         return false;
     }
+    public function unpinTelegramBotMessage($chatId, $messageId)
+    {
+        $botToken = $this->botToken;
+        $params = array(
+            'chat_id' => $chatId, // id чата
+            'message_id' => $messageId
+        );
+
+        $curl = curl_init();
+        $options = array(
+            CURLOPT_URL => "https://api.telegram.org/bot$botToken/unpinChatMessage", // адрес api телеграмм-бота
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,       // отправка данных методом POST
+            CURLOPT_TIMEOUT => 10,      // максимальное время выполнения запроса
+            CURLOPT_POSTFIELDS => $params,   // параметры запроса
+        );
+
+        curl_setopt_array($curl, $options);
+        $result = json_decode(curl_exec($curl), true);
+        if ($result['ok'])
+            return true;
+        return false;
+    }
     public function pinTelegramBotMessageAndSaveItsData($chatId, $messageId)
     {
         $this->pinTelegramBotMessage($chatId, $messageId);
@@ -127,6 +150,7 @@ class MessageBot
                 $chatData[$i]['value'] = explode(':', $chatData[$i]['value']);
                 if ($chatData[$i]['value'][0] == $chatId) {
                     if ($chatData[$i]['value'][1] != $messageId) {
+                        $this->unpinTelegramBotMessage($chatId, $chatData[$i]['value'][1]);
                         $this->settings->settingsSet(['value' => "$chatId:$messageId"], $chatData[$i]['id']);
                     }
                     $i = false;
