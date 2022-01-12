@@ -66,7 +66,7 @@ if ($output['message'] !== '') {
             $chatData = $settings->settingsGet(['id', 'value'], 'tg-pinned');
             $i = -1;
 
-            /* if (isset($chatData[0]['value'])) {
+            if (isset($chatData[0]['value'])) {
                 while (isset($chatData[++$i])) {
                     $chatData[$i]['value'] = explode(':', $chatData[$i]['value']);
                     if ($chatData[$i]['value'][0] == $chatId) {
@@ -77,23 +77,16 @@ if ($output['message'] !== '') {
                         break;
                     }
                 }
-            } */
+            }
 
-            // if (!isset($chatData[0]['value']) || is_numeric($i)) {
-            /* $settings->settingsSet([
+            if (!isset($chatData[0]['value']) || is_numeric($i)) {
+                $settings->settingsSet([
                     'type' => 'tg-pinned',
                     'short_name' => 'telegram_pinned-message',
                     'name' => 'Закреплённое сообщение в чате',
                     'value' => "$chatId:$messageId"
-                ]); */
-            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-error.txt', print_r([
-                'type' => 'tg-pinned',
-                'short_name' => 'telegram_pinned-message',
-                'name' => 'Закреплённое сообщение в чате',
-                'value' => "$chatId:$messageId"
-            ], true));
-            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-error1.txt', print_r($chatData, true));
-            // }
+                ]);
+            }
             // }
         }
     } catch (Exception $e) {

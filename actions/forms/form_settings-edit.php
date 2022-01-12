@@ -11,7 +11,7 @@ $i = -1;
 while (isset($setting[++$i])) {
     $replace .= "
     <div class='common-form__row'>
-		<input class='common-form__input' type='text' name='{$setting[$i]['type']}' placeholder='{$setting[$i]['name']}' value='{$setting[0]['value']} ' />
+		<input class='common-form__input' type='text' name='{$setting[$i]['type']}' placeholder='{$setting[$i]['name']}' value='{$setting[$i]['value']} ' />
 	</div>";
 }
 
