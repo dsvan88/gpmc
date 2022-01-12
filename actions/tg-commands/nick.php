@@ -29,10 +29,10 @@ if (isset($userData['name']) && $userData['name'] !== 'tmp_telegram_user') {
             }
         } else {
             $users->userUpdateData(['telegram' => $telegram, 'telegramid' => $telegramId], ['id' => $userExistsData['id']]);
-            if (isset($userData['id'])) {
-                $users->userDelete($userData['id']);
-            }
             $output['message'] = "Я запомнил Вас под именем <b>$username</b>!\r\nЕсли это не Ваш псевдоним - обратитесь к администраторам!";
+        }
+        if (isset($userData['id'])) {
+            $users->userDelete($userData['id']);
         }
     } else {
         if (isset($userData['id'])) {

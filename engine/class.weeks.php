@@ -135,18 +135,48 @@ class Weeks
 		if (!$result) {
 			return json_encode($newData, JSON_UNESCAPED_UNICODE);
 		}
-		return 'Вы успешно зарегистрированны на игру в ' . ($data['dayNum'] + 1) . ' день недели.';
-	}
-	public function dayUserUnregistrationByTelegram($requestData)
-	{
-		// $eveningData = $this->eveningsGetBooked($game);
 
-		// if (!$eveningData)
-		// 	return "Вечер игры в $game, пока - не запланирован!\r\nДождитесь начала регистрации!";
-		// if (!$this->playerRemoveFromEvening($eveningData[0]['id'], $userData['id']))
-		// 	return "Игрок $userData[name] отписался с ближайшего вечера игры в $game :(";
+		$dayNames = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+		$gameNames = [
+			'mafia' => 'Мафия',
+			'poker' => 'Покер',
+			'cash' => 'Кеш-покер'
+		];
+		return "Вы успешно зарегистрированны на игру <b>'{$gameNames[$weekData['data'][$data['dayNum']]['game']]}'</b> в <b>{$dayNames[$data['dayNum']]}</b>.";
 	}
-	public function dayResetData($requestData)
+	public function dayUserUnregistrationByTelegram($data)
 	{
+		$weekData = $this->getDataByTime();
+
+		if (!isset($weekData['data'][$data['dayNum']]))
+			return 'Игр на указанный день, пока не запланировано!';
+
+		$id = -1;
+		foreach ($weekData['data'][$data['dayNum']]['participants'] as $index => $userData) {
+			if ($userData['id'] === $data['userId']) {
+				$id = $index;
+				unset($weekData['data'][$data['dayNum']]['participants'][$index]);
+				break;
+			}
+		}
+		if ($id !== -1)
+			return 'Вы не были записаны на этот день!';
+
+		$newData = $weekData['data'][$data['dayNum']];
+		$newData['weekId'] = $weekData['id'];
+		$newData['dayId'] = $data['dayNum'];
+
+		$result = $this->daySetApproved($newData);
+
+		if (!$result) {
+			return json_encode($newData, JSON_UNESCAPED_UNICODE);
+		}
+		$dayNames = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+		$gameNames = [
+			'mafia' => 'Мафия',
+			'poker' => 'Покер',
+			'cash' => 'Кеш-покер'
+		];
+		return "Вы успешно отписались от игры <b>'{$gameNames[$weekData['data'][$data['dayNum']]['game']]}'</b> в <b>{$dayNames[$data['dayNum']]}</b>.";
 	}
 }
