@@ -59,20 +59,20 @@ if (!isset($userData['id'])) {
             $requestData['duration'] = substr($value, 0, 1);
         }
     }
+    $output['message'] = json_encode($requestData, JSON_UNESCAPED_UNICODE) . ' ' . $dayName . ' ' . $withoutMethod;
+    // $currentDay = getdate()['wday'] - 1;
 
-    $currentDay = getdate()['wday'] - 1;
+    // if ($currentDay === -1)
+    //     $currentDay = 6;
 
-    if ($currentDay === -1)
-        $currentDay = 6;
-
-    $output['message'] = json_encode($requestData, JSON_UNESCAPED_UNICODE);
-    if ($currentDay > $requestData['dayNum']) {
-        $output['message'] = 'Не могу записать Вас на уже прошедший день! Sowwy:(';
-    } else {
-        if ($requestData['method'] === '-') {
-            $output['message'] = $weeks->dayUserUnregistrationByTelegram($requestData);
-        } else {
-            $output['message'] = $weeks->dayUserRegistrationByTelegram($requestData);
-        }
-    }
+    // $output['message'] = json_encode($requestData, JSON_UNESCAPED_UNICODE);
+    // if ($currentDay > $requestData['dayNum']) {
+    //     $output['message'] = 'Не могу записать Вас на уже прошедший день! Sowwy:(';
+    // } else {
+    //     if ($requestData['method'] === '-') {
+    //         $output['message'] = $weeks->dayUserUnregistrationByTelegram($requestData);
+    //     } else {
+    //         $output['message'] = $weeks->dayUserRegistrationByTelegram($requestData);
+    //     }
+    // }
 }
