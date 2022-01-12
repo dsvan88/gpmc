@@ -60,8 +60,6 @@ if ($output['message'] !== '') {
 
         if ($command === 'near') {
             $bot->pinTelegramBotMessageAndSaveItsData($chatId, $messageId);
-            $bot->prepMessage('messageId: ' . $messageId);
-            $result = $bot->sendToTelegramBot($_POST['message']['chat']['id']);
         } else if ($command === 'booking') {
             require_once "$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/near.php";
             $result = $bot->editPinnedMessage($chatId, $output['message']);

@@ -126,7 +126,7 @@ class MessageBot
             while (isset($chatData[++$i])) {
                 $chatData[$i]['value'] = explode(':', $chatData[$i]['value']);
                 if ($chatData[$i]['value'][0] == $chatId) {
-                    if ($chatData[$i]['value'][0] != $messageId) {
+                    if ($chatData[$i]['value'][1] != $messageId) {
                         $this->settings->settingsSet(['value' => "$chatId:$messageId", 'value'], $chatData[$i]['id']);
                     }
                     $i = false;
