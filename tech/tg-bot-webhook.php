@@ -12,9 +12,12 @@ if (strpos($contentType, 'application/json') !==  false) {
 }
 
 require $_SERVER['DOCUMENT_ROOT'] . '/engine/class.action.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/engine/class.settings.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/engine/class.bot.php';
+
 $GLOBALS['CommonActionObject'] = new Action;
 $bot = new MessageBot();
+$settings = new Settings();
 
 $_POST['message']['text'] = trim($_POST['message']['text']);
 
@@ -52,9 +55,40 @@ if ($output['message'] !== '') {
     try {
         $result = $bot->sendToTelegramBot($_POST['message']['chat']['id']);
         if ($command === 'near') {
-            $result = $bot->pinTelegramBotMessage($result[0]['result']['chat']['id'], $result[0]['result']['message_id']);
+
+            $chatId = $result[0]['result']['chat']['id'];
+            $messageId = $result[0]['result']['message_id'];
+
+            $result = $bot->pinTelegramBotMessage($chatId, $messageId);
+
+            // if ($result[0]['result']['chat']['type'] !== 'private') {
+
+            $chatData = $settings->settingsGet(['id', 'value'], 'tg-pinned');
+            $i = -1;
+
+            if (isset($chatData[0]['value'])) {
+                while (isset($chatData[++$i])) {
+                    $chatData[$i]['value'] = explode(':', $chatData[$i]['value']);
+                    if ($chatData[$i]['value'][0] == $chatId) {
+                        if ($chatData[$i]['value'][0] != $messageId) {
+                            $settings->settingsSet(['value' => "$chatId:$messageId", 'value'], $chatData[$i]['id']);
+                        }
+                        $i = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!isset($chatData[0]['value']) || is_numeric($i)) {
+                $settings->settingsSet([
+                    'type' => 'tg-pinned',
+                    'short_name' => 'telegram_pinned-message',
+                    'name' => 'Закреплённое сообщение в чате',
+                    'value' => "$chatId:$messageId"
+                ]);
+            }
+            // }
         }
-        // file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-message.txt', print_r($result, true));
     } catch (Exception $e) {
         file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-error.txt', print_r($_POST, true));
     }
