@@ -9,9 +9,9 @@ $replace = '';
 
 $i = -1;
 while (isset($setting[++$i])) {
-    $replace .= "
+  $replace .= "
     <div class='common-form__row'>
-		<input class='common-form__input' type='text' name='{$setting[$i]['type']}' placeholder='{$setting[$i]['name']}' value='{$setting[$i]['value']} ' />
+		<input class='common-form__input' type='text' name='{$setting[$i]['type']}' placeholder='{$setting[$i]['name']}' value='{$setting[$i]['value']}' />
 	</div>";
 }
 

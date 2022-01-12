@@ -61,12 +61,6 @@ class MessageBot
             CURLOPT_URL => "https://api.telegram.org/bot$botToken/deleteWebhook", // адрес api телеграмм-бота
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 10,      // максимальное время выполнения запроса
-            // CURLOPT_NOBODY => true,  // true для исключения тела ответа из вывода.
-            // CURLOPT_FOLLOWLOCATION => 1,
-            // CURLOPT_CAINFO => $certs,
-            // CURLOPT_CAPATH => $certs,
-            // CURLOPT_SSL_VERIFYHOST => 0,			# Если сертификаты не подошли.
-            // CURLOPT_SSL_VERIFYPEER => 0,
         );
         curl_setopt_array($curl, $options);
         $result = json_decode(curl_exec($curl), true);
@@ -97,7 +91,7 @@ class MessageBot
         $params = array(
             'chat_id' => $chatId, // id чата
             'message_id' => $messageId, // id закрепляемого сообщения
-            'disable_notification' => true, // "Тихий" метод закрепления, без оповещения в чате об этом
+            'disable_notification' => true, // "Тихий" метод закрепления, без оповещения
         );
 
         $curl = curl_init();
@@ -143,14 +137,15 @@ class MessageBot
         $this->pinTelegramBotMessage($chatId, $messageId);
 
         $chatData = $this->settings->settingsGet(['id', 'value'], 'tg-pinned');
+
         $i = -1;
 
         if (isset($chatData[0]['value'])) {
             while (isset($chatData[++$i])) {
-                $chatData[$i]['value'] = explode(':', $chatData[$i]['value']);
-                if ($chatData[$i]['value'][0] == $chatId) {
-                    if ($chatData[$i]['value'][1] != $messageId) {
-                        $this->unpinTelegramBotMessage($chatId, $chatData[$i]['value'][1]);
+                [$savedChatId, $savedMessageId] =  explode(':', $chatData[$i]['value']);
+                if ($savedChatId == $chatId) {
+                    if ($savedMessageId != $messageId) {
+                        $this->unpinTelegramBotMessage($chatId, $savedMessageId);
                         $this->settings->settingsSet(['value' => "$chatId:$messageId"], $chatData[$i]['id']);
                     }
                     $i = false;
@@ -171,13 +166,13 @@ class MessageBot
     public function editPinnedMessage($chatId, $message)
     {
         $chatData = $this->settings->settingsGet(['id', 'value'], 'tg-pinned');
-        $i = -1;
 
         if (isset($chatData[0]['value'])) {
+            $i = -1;
             while (isset($chatData[++$i])) {
-                $chatData[$i]['value'] = explode(':', $chatData[$i]['value']);
-                if ($chatData[$i]['value'][0] == $chatId) {
-                    return $this->editMessage($chatId, $chatData[$i]['value'][1], $message);
+                [$savedChatId, $savedMessageId] = explode(':', $chatData[$i]['value']);
+                if ($savedChatId == $chatId) {
+                    return $this->editMessage($chatId, $savedMessageId, $message);
                 }
             }
         }
@@ -194,19 +189,15 @@ class MessageBot
         );
 
         $curl = curl_init();
+
         $options = array(
             CURLOPT_URL => "https://api.telegram.org/bot$botToken/editMessageText", // адрес api телеграмм-бота
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => true,       // отправка данных методом POST
             CURLOPT_TIMEOUT => 10,      // максимальное время выполнения запроса
             CURLOPT_POSTFIELDS => $params,   // параметры запроса
-            // CURLOPT_NOBODY => true,  // true для исключения тела ответа из вывода.
-            // CURLOPT_FOLLOWLOCATION => 1,
-            // CURLOPT_CAINFO => $certs,
-            // CURLOPT_CAPATH => $certs,
-            // CURLOPT_SSL_VERIFYHOST => 0,			# Если сертификаты не подошли.
-            // CURLOPT_SSL_VERIFYPEER => 0,
         );
+
         curl_setopt_array($curl, $options);
         $result = json_decode(curl_exec($curl), true);
         return $result;
