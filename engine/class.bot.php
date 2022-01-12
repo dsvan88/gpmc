@@ -1,13 +1,16 @@
 <?php
-class MessageBot{
-
+class MessageBot
+{
     public $message = '';
-    public function prepMessage($message){
+    private $botToken = '';
+    public function prepMessage($message)
+    {
         $this->message = $message;
+        $this->botToken = $this->getAuthData();
     }
-	function sendToTelegramBot($userId)
-	{
-        $botToken = $this->getAuthData();
+    public function sendToTelegramBot($userId)
+    {
+        $botToken = $this->botToken;
         $params = array(
             'chat_id' => is_array($userId) ? $userId[0] : $userId, // id получателя сообщения
             'text' => $this->message, // текст сообщения
@@ -16,79 +19,110 @@ class MessageBot{
         $result = [];
         $curl = curl_init();
         $options = array(
-			CURLOPT_URL => "https://api.telegram.org/bot$botToken/sendMessage", // адрес api телеграмм-бота
-			CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_URL => "https://api.telegram.org/bot$botToken/sendMessage", // адрес api телеграмм-бота
+            CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => true,       // отправка данных методом POST
             CURLOPT_TIMEOUT => 10,      // максимальное время выполнения запроса
             CURLOPT_POSTFIELDS => $params,   // параметры запроса
             // CURLOPT_NOBODY => true,  // true для исключения тела ответа из вывода.
-			// CURLOPT_FOLLOWLOCATION => 1,
-			// CURLOPT_CAINFO => $certs,
-			// CURLOPT_CAPATH => $certs,
-			// CURLOPT_SSL_VERIFYHOST => 0,			# Если сертификаты не подошли.
-			// CURLOPT_SSL_VERIFYPEER => 0,
-		);
-		curl_setopt_array($curl , $options);
+            // CURLOPT_FOLLOWLOCATION => 1,
+            // CURLOPT_CAINFO => $certs,
+            // CURLOPT_CAPATH => $certs,
+            // CURLOPT_SSL_VERIFYHOST => 0,			# Если сертификаты не подошли.
+            // CURLOPT_SSL_VERIFYPEER => 0,
+        );
+        curl_setopt_array($curl, $options);
         // $result = json_decode(curl_exec($curl), true);
-        
-        if (is_array($userId) && isset($userId[1])){
+
+        if (is_array($userId) && isset($userId[1])) {
             $newParams = $params;
-            for($x=1; $x<count($userId); $x++){
+            for ($x = 1; $x < count($userId); $x++) {
                 usleep(750000);
                 $newParams['chat_id'] = $userId[$x];
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $newParams);
                 $result[] = json_decode(curl_exec($curl), true);
             }
             return $result;
-        }
-        else 
+        } else
             return [json_decode(curl_exec($curl), true)];
-
-	}
-    private function getAuthData(){
-        require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.settings.php';
+    }
+    private function getAuthData()
+    {
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.settings.php';
 
         $settings = new Settings();
 
-        return $settings->settingsGet(['value'],'tg-bot')[0]['value'];
+        return $settings->settingsGet(['value'], 'tg-bot')[0]['value'];
     }
-    public function webhookDelete($botToken){
+    public function webhookDelete($botToken)
+    {
         $curl = curl_init();
         $options = array(
-			CURLOPT_URL => "https://api.telegram.org/bot$botToken/deleteWebhook", // адрес api телеграмм-бота
-			CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_URL => "https://api.telegram.org/bot$botToken/deleteWebhook", // адрес api телеграмм-бота
+            CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 10,      // максимальное время выполнения запроса
             // CURLOPT_NOBODY => true,  // true для исключения тела ответа из вывода.
-			// CURLOPT_FOLLOWLOCATION => 1,
-			// CURLOPT_CAINFO => $certs,
-			// CURLOPT_CAPATH => $certs,
-			// CURLOPT_SSL_VERIFYHOST => 0,			# Если сертификаты не подошли.
-			// CURLOPT_SSL_VERIFYPEER => 0,
-		);
-		curl_setopt_array($curl , $options);
-        $result = json_decode(curl_exec($curl),true);
+            // CURLOPT_FOLLOWLOCATION => 1,
+            // CURLOPT_CAINFO => $certs,
+            // CURLOPT_CAPATH => $certs,
+            // CURLOPT_SSL_VERIFYHOST => 0,			# Если сертификаты не подошли.
+            // CURLOPT_SSL_VERIFYPEER => 0,
+        );
+        curl_setopt_array($curl, $options);
+        $result = json_decode(curl_exec($curl), true);
         if ($result['ok'])
             return true;
         return false;
     }
-    public function webhookSet($botToken){
+    public function webhookSet($botToken)
+    {
         if (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) !== 'https')
             return false;
         $curl = curl_init();
 
         $options = array(
-			CURLOPT_URL => "https://api.telegram.org/bot$botToken/setWebhook?url=https://$_SERVER[HTTP_HOST]/tech/tg-bot-webhook.php", // адрес api телеграмм-бота
-			CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_URL => "https://api.telegram.org/bot$botToken/setWebhook?url=https://$_SERVER[HTTP_HOST]/tech/tg-bot-webhook.php", // адрес api телеграмм-бота
+            CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 10,      // максимальное время выполнения запроса
-              // CURLOPT_NOBODY => true,  // true для исключения тела ответа из вывода.
-			// CURLOPT_FOLLOWLOCATION => 1,
-			// CURLOPT_CAINFO => $certs,
-			// CURLOPT_CAPATH => $certs,
-			// CURLOPT_SSL_VERIFYHOST => 0,			# Если сертификаты не подошли.
-			// CURLOPT_SSL_VERIFYPEER => 0,
-		);
-		curl_setopt_array($curl , $options);
-        $result = json_decode(curl_exec($curl),true);
+            // CURLOPT_NOBODY => true,  // true для исключения тела ответа из вывода.
+            // CURLOPT_FOLLOWLOCATION => 1,
+            // CURLOPT_CAINFO => $certs,
+            // CURLOPT_CAPATH => $certs,
+            // CURLOPT_SSL_VERIFYHOST => 0,			# Если сертификаты не подошли.
+            // CURLOPT_SSL_VERIFYPEER => 0,
+        );
+        curl_setopt_array($curl, $options);
+        $result = json_decode(curl_exec($curl), true);
+        if ($result['ok'])
+            return true;
+        return false;
+    }
+    public function pinTelegramBotMessage($chatId, $messageId)
+    {
+        $botToken = $this->botToken;
+        $params = array(
+            'chat_id' => $chatId, // id чата
+            'message_id' => $messageId, // id закрепляемого сообщения
+            'disable_notification' => true, // "Тихий" метод закрепления, без оповещения в чате об этом
+        );
+
+        $curl = curl_init();
+        $options = array(
+            CURLOPT_URL => "https://api.telegram.org/bot$botToken/pinChatMessage", // адрес api телеграмм-бота
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,       // отправка данных методом POST
+            CURLOPT_TIMEOUT => 10,      // максимальное время выполнения запроса
+            CURLOPT_POSTFIELDS => $params,   // параметры запроса
+            // CURLOPT_NOBODY => true,  // true для исключения тела ответа из вывода.
+            // CURLOPT_FOLLOWLOCATION => 1,
+            // CURLOPT_CAINFO => $certs,
+            // CURLOPT_CAPATH => $certs,
+            // CURLOPT_SSL_VERIFYHOST => 0,			# Если сертификаты не подошли.
+            // CURLOPT_SSL_VERIFYPEER => 0,
+        );
+
+        curl_setopt_array($curl, $options);
+        $result = json_decode(curl_exec($curl), true);
         if ($result['ok'])
             return true;
         return false;
