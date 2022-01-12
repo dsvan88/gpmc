@@ -22,7 +22,7 @@ actionHandler.newsCreateNewFormSubmit = function (event) {
             if (result["error"] == 0) {
                 window.location = window.location.href;
             } else {
-                alert(result["text"]);
+                alert(result["message"]);
             }
         },
     });
@@ -44,7 +44,7 @@ actionHandler.newsEditFormSubmit = function (event) {
             if (result["error"] == 0) {
                 window.location = window.location.href;
             } else {
-                alert(result["text"]);
+                alert(result["message"]);
             }
         },
     });

@@ -19,11 +19,11 @@ if ($_POST['type'] === 'tg-info') {
         }
     }
     $result = $telegramBot->sendToTelegramBot($chatsId);
-    $output['text'] = 'Телеграм-сповіщення успішно надіслані!';
+    $output['message'] = 'Телеграм-сповіщення успішно надіслані!';
     for ($i = 0; $i < count($result); $i++) {
         if (!$result[$i]['ok']) {
             $output['error'] = 1;
-            $output['text'] = $result[$i]['description'];
+            $output['message'] = $result[$i]['description'];
             break;
         }
     }
@@ -44,5 +44,5 @@ if ($_POST['type'] === 'tg-info') {
         $array['logo'] = $newFilename;
     }
     $result = $news->newsCreate($array);
-    $output['text'] = 'Новина успішно зафіксована';
+    $output['message'] = 'Новина успішно зафіксована';
 }
