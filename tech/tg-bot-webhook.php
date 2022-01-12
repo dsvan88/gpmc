@@ -18,6 +18,8 @@ $bot = new MessageBot();
 
 $_POST['message']['text'] = trim($_POST['message']['text']);
 
+$output['message'] = '';
+
 if (preg_match('/^(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос)/', mb_strtolower($_POST['message']['text'], 'UTF-8')) === 1) {
     preg_match_all('/(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})|(\d{1}\-\d{1})/i', mb_substr(mb_strtolower($_POST['message']['text'], 'UTF-8'), mb_strlen($command), NULL, 'UTF-8'), $matches);
     require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/game.php';
@@ -44,10 +46,12 @@ if (preg_match('/^(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|с
     }
 }
 
-$bot->prepMessage($output['message']);
-try {
-    $bot->sendToTelegramBot($_POST['message']['chat']['id']);
-    file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-message.txt', print_r($_POST, true));
-} catch (Exception $e) {
-    file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-error.txt', print_r($_POST, true));
+if ($output['message'] !== '') {
+    $bot->prepMessage($output['message']);
+    try {
+        $result = $bot->sendToTelegramBot($_POST['message']['chat']['id']);
+        file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-message.txt', print_r($result, true));
+    } catch (Exception $e) {
+        file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-error.txt', print_r($_POST, true));
+    }
 }
