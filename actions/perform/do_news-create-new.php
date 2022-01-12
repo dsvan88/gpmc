@@ -7,7 +7,7 @@ if ($_POST['type'] === 'tg-info') {
     $telegramBot = new MessageBot;
 
     $message = "<u><strong>$_POST[title]</strong></u>\r\n<em>$_POST[subtitle]</em>\r\n\r\n";
-    $message .= preg_replace('/(<((?!b|u|s|strong|em|i|\/b|\/u|\/s|\/strong|\/em|\/i)[^>]+)>)/i', '', str_replace(['<br />', '<br/>', '<br>'], "\r\n", trim($_POST['html'])));
+    $message .= preg_replace('/(<((?!b|u|s|strong|em|i|\/b|\/u|\/s|\/strong|\/em|\/i)[^>]+)>)/i', '', str_replace(['<br />', '<br/>', '<br>', '</p>'], "\r\n", trim($_POST['html'])));
 
     $telegramBot->prepMessage($message);
 
