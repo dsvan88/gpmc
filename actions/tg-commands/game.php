@@ -59,7 +59,7 @@ if (!isset($userData['id'])) {
             $requestData['duration'] = substr($value, 0, 1);
         }
     }
-    $output['message'] = json_encode($requestData, JSON_UNESCAPED_UNICODE) . ' ' . $dayName . ' ' . $withoutMethod;
+    $output['message'] = json_encode($requestData, JSON_UNESCAPED_UNICODE) . ' "' . $dayName . '" "' . $withoutMethod . '"';
     // $currentDay = getdate()['wday'] - 1;
 
     // if ($currentDay === -1)
