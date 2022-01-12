@@ -168,7 +168,7 @@ class MessageBot
             'text' => $message, // текст сообщения
             'parse_mode' => 'HTML', // режим отображения сообщения, не обязательный параметр
         );
-        $result = [];
+
         $curl = curl_init();
         $options = array(
             CURLOPT_URL => "https://api.telegram.org/bot$botToken/editMessageText", // адрес api телеграмм-бота

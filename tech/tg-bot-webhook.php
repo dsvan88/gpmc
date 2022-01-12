@@ -60,11 +60,11 @@ if ($output['message'] !== '') {
 
         if ($command === 'near') {
             $bot->pinTelegramBotMessageAndSaveItsData($chatId, $messageId);
+            $bot->prepMessage('messageId: ' . $messageId);
+            $result = $bot->sendToTelegramBot($_POST['message']['chat']['id']);
         } else if ($command === 'booking') {
             require_once "$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/near.php";
             $result = $bot->editPinnedMessage($chatId, $output['message']);
-            $bot->prepMessage(json_encode($result, JSON_UNESCAPED_UNICODE));
-            $result = $bot->sendToTelegramBot($_POST['message']['chat']['id']);
         }
     } catch (Exception $e) {
         file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-error.txt', print_r($_POST, true));
