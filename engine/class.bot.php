@@ -153,7 +153,7 @@ class MessageBot
             while (isset($chatData[++$i])) {
                 $chatData[$i]['value'] = explode(':', $chatData[$i]['value']);
                 if ($chatData[$i]['value'][0] == $chatId) {
-                    $this->editMessage($chatId, $chatData[$i]['value'][1], $message);
+                    return $this->editMessage($chatId, $chatData[$i]['value'][1], $message);
                 }
             }
         }
@@ -185,6 +185,6 @@ class MessageBot
         );
         curl_setopt_array($curl, $options);
         $result = json_decode(curl_exec($curl), true);
-        return (bool) $result['ok'];
+        return $result;
     }
 }
