@@ -19,7 +19,7 @@ $bot = new MessageBot();
 $_POST['message']['text'] = trim($_POST['message']['text']);
 
 if (preg_match('/^(\+|-)[^\s]/', $_POST['message']['text']) === 1) {
-    preg_match_all('/(\+|-)(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})|(\d{1}\-\d{1})/i', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
+    preg_match_all('/(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})|(\d{1}\-\d{1})/i', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
     require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/game.php';
 } elseif (strpos($_POST['message']['text'], '/') === 0) {
     $command = mb_substr($_POST['message']['text'], 1, NULL, 'UTF-8');
@@ -29,10 +29,11 @@ if (preg_match('/^(\+|-)[^\s]/', $_POST['message']['text']) === 1) {
         $command = mb_substr($command, 0, $spacePos, 'UTF-8');
     }
 
-    if (in_array($command, ['mafia', 'poker', 'cash'])) {
+    /*  if (in_array($command, ['mafia', 'poker', 'cash'])) {
         preg_match_all('/\s(\+|-)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})/', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
         require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/game.php';
-    } elseif (in_array($command, ['?', 'help'])) {
+    } else */
+    if (in_array($command, ['?', 'help'])) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/help.php';
     } elseif (file_exists("$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/$command.php")) {
         preg_match_all('/([a-zA-Zа-яА-ЯрРсСтТуУфФчЧхХШшЩщЪъЫыЬьЭэЮюЄєІіЇїҐґ]+)/', mb_substr($_POST['message']['text'], mb_strlen($command) + 1, NULL, 'UTF-8'), $matches);

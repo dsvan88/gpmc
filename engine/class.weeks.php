@@ -108,7 +108,8 @@ class Weeks
 			else {
 				$defaultData = $this->getDataDefault();
 				$weekData['data'][$data['dayNum']] = $defaultData['data'][$data['dayNum']];
-				$weekData['data'][$data['dayNum']]['time'] = $data['arrive'];
+				if ($data['arrive'] !== '')
+					$weekData['data'][$data['dayNum']]['time'] = $data['arrive'];
 				$data['arrive'] = '';
 			}
 		} else {

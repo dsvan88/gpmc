@@ -32,7 +32,8 @@ if (!isset($userData['id'])) {
     foreach ($matches[0] as $value) {
         if (preg_match('/^(\+|-)/', $value)) {
             $requestData['method'] = $value[0];
-            $dayName = mb_strtolower(mb_substr($value, 1, 3, 'UTF-8'));
+            $withoutMethod = trim(mb_substr($value, 1, 6, 'UTF-8'));
+            $dayName = mb_strtolower(mb_substr($withoutMethod, 0, 3, 'UTF-8'));
 
             $daysArray = [
                 ['пн', 'пон'],
