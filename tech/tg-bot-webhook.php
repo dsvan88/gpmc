@@ -61,33 +61,33 @@ if ($output['message'] !== '') {
 
             $result = $bot->pinTelegramBotMessage($chatId, $messageId);
 
-            // if ($result[0]['result']['chat']['type'] !== 'private') {
+            if ($result[0]['result']['chat']['type'] !== 'private') {
 
-            $chatData = $settings->settingsGet(['id', 'value'], 'tg-pinned');
-            $i = -1;
+                $chatData = $settings->settingsGet(['id', 'value'], 'tg-pinned');
+                $i = -1;
 
-            if (isset($chatData[0]['value'])) {
-                while (isset($chatData[++$i])) {
-                    $chatData[$i]['value'] = explode(':', $chatData[$i]['value']);
-                    if ($chatData[$i]['value'][0] == $chatId) {
-                        if ($chatData[$i]['value'][0] != $messageId) {
-                            $settings->settingsSet(['value' => "$chatId:$messageId", 'value'], $chatData[$i]['id']);
+                if (isset($chatData[0]['value'])) {
+                    while (isset($chatData[++$i])) {
+                        $chatData[$i]['value'] = explode(':', $chatData[$i]['value']);
+                        if ($chatData[$i]['value'][0] == $chatId) {
+                            if ($chatData[$i]['value'][0] != $messageId) {
+                                $settings->settingsSet(['value' => "$chatId:$messageId", 'value'], $chatData[$i]['id']);
+                            }
+                            $i = false;
+                            break;
                         }
-                        $i = false;
-                        break;
                     }
                 }
-            }
 
-            if (!isset($chatData[0]['value']) || is_numeric($i)) {
-                $settings->settingsSet([
-                    'type' => 'tg-pinned',
-                    'short_name' => 'telegram_pinned-message',
-                    'name' => 'Закреплённое сообщение в чате',
-                    'value' => "$chatId:$messageId"
-                ]);
+                if (!isset($chatData[0]['value']) || is_numeric($i)) {
+                    $settings->settingsSet([
+                        'type' => 'tg-pinned',
+                        'short_name' => 'telegram_pinned-message',
+                        'name' => 'Закреплённое сообщение в чате',
+                        'value' => "$chatId:$messageId"
+                    ]);
+                }
             }
-            // }
         }
     } catch (Exception $e) {
         file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-error.txt', print_r($_POST, true));
