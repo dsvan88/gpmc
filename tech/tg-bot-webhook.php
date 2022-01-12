@@ -18,7 +18,7 @@ $bot = new MessageBot();
 
 $_POST['message']['text'] = trim($_POST['message']['text']);
 
-if (preg_match('/^(\+|-)[^\s]/', $_POST['message']['text']) === 1) {
+if (preg_match('/^(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос)/', $_POST['message']['text']) === 1) {
     preg_match_all('/(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})|(\d{1}\-\d{1})/i', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
     require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/game.php';
 } elseif (strpos($_POST['message']['text'], '/') === 0) {
