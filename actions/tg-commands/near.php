@@ -46,9 +46,9 @@ if ($weekData) {
         $output['message'] .= "$date - {$gameNames[$weekData['data'][$i]['game']]} ({$costs[$weekData['data'][$i]['game']]})\r\n";
 
         if (in_array('fans', $weekData['data'][$i]['mods'], true))
-            $output['message'] .= "*ФАНОВАЯ! Хорошо проведите время и повеселитесь!";
+            $output['message'] .= "*ФАНОВАЯ! Хорошо проведите время и повеселитесь!\r\n\r\n";
         if (in_array('tournament', $weekData['data'][$i]['mods'], true))
-            $output['message'] .= "ТУРНИР! Станьте чемпионом в равой борьбе!";
+            $output['message'] .= "ТУРНИР! Станьте чемпионом в равой борьбе!\r\n\r\n";
 
         for ($x = 0; $x < count($weekData['data'][$i]['participants']); $x++) {
             $modsData = '';
