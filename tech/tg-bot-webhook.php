@@ -62,7 +62,7 @@ if ($output['message'] !== '') {
             $bot->pinTelegramBotMessageAndSaveItsData($chatId, $messageId);
         } else if ($command === 'booking') {
             require_once "$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/near.php";
-            $bot->pinTelegramBotMessageAndSaveItsData($chatId, $messageId, $output['message']);
+            $bot->editPinnedMessage($chatId, $messageId, $output['message']);
         }
     } catch (Exception $e) {
         file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-error.txt', print_r($_POST, true));
