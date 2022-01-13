@@ -20,15 +20,24 @@ $modal-color: $modal-hd-start;
 	transition: all $animation-fast ease-in;
 	pointer-events: none;
 }
-.input-with-non-delete-text {
-	@extend %nonDeleteTextForInput;
-	flex: 1 1 auto;
-}
 
 .modal {
+	&-overlay {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		top: 0px;
+		left: 0px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: $modal-overlay-bg-color;
+	}
+
 	box-shadow: -1px 1px 10px 3px #b1c0fb;
 	transition: all $animation-fast ease-in;
 	border-radius: 5px;
+
 	button,
 	a.anchor-button {
 		@extend %buttonStyle;
@@ -40,61 +49,37 @@ $modal-color: $modal-hd-start;
 	.text-accent {
 		color: $modal-hd-end !important;
 	}
-	&-overlay {
-		position: fixed; /* чтoбы oкнo былo в видимoй зoне в любoм месте */
-		width: 100vw;
-		height: 100vh;
-		top: 0px;
-		left: 0px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		background-color: $modal-overlay-bg-color;
-	}
+
 	&__header {
 		background: linear-gradient(to right, $modal-hd-start 20%, $modal-hd-end 90%);
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding-right: 5px;
-		@include sm {
-			font-size: 1.3rem;
-		}
+		padding: 1px 1px;
+		font-size: 1.2rem;
 	}
 	&-buttons {
+		margin-top: 0.8em;
+		margin-bottom: 0.5em;
 		display: flex;
 		justify-content: space-around;
+	}
+	&-links {
+		margin-top: 0.5em;
+		margin-bottom: 0.3em;
+		display: flex;
+		justify-content: space-between;
 	}
 	&-container {
 		position: relative;
 		background: linear-gradient(#c3ecff 40%, #f3f0ce 90%);
-		border-radius: 0px 0px 5px 5px;
-		padding: 10px 20px;
+		border-radius: 0px 0px 3px 3px;
+		padding: 1em 2em;
 		color: $modal-color;
-		& > i.fa {
-			position: absolute;
-			top: 5px;
-			right: 5px;
-			font-size: 20px;
-			cursor: pointer;
-			transition: color 0.3s ease-in;
-			&:hover {
-				color: #a72222;
-			}
-		}
-		h1 {
-			margin: 10px auto;
-			text-align: center;
-		}
-		h2,
-		h3,
-		h4 {
-			margin: 5px auto;
-			text-align: center;
-		}
 	}
 
 	.editor-block {
+		display: none;
 		max-width: 1024px;
 		margin: 0 auto;
 
@@ -139,6 +124,66 @@ $modal-color: $modal-hd-start;
 				margin: 0 auto;
 				box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.05);
 			}
+		}
+	}
+	*[data-action] {
+		cursor: pointer;
+	}
+}
+.common-form {
+	padding: 1em 2em;
+	&__title {
+		margin: 1em;
+		text-align: center;
+	}
+	&__row {
+		margin-bottom: 1em;
+		&-title {
+			text-align: center;
+			margin-top: 1em;
+			margin-bottom: 0.5em;
+		}
+		&.big-list {
+			max-height: 55vh;
+			overflow-y: scroll;
+			scrollbar-width: thin;
+		}
+	}
+	&__input {
+		width: 100%;
+		border: 0;
+		outline: none;
+		border-bottom: 1px solid grey;
+		background-color: transparent;
+		text-align: center;
+		font-size: 1.5em;
+		color: $color-text-blur;
+	}
+	&__select {
+		width: 100%;
+		border: 0;
+		outline: none;
+		border-bottom: 1px solid grey;
+		background-color: transparent;
+		text-align: center;
+		font-size: 1.5em;
+		color: $color-text-blur;
+	}
+	&__divided-block {
+		display: flex;
+	}
+	&__column {
+		max-width: 35vw;
+		margin-left: 1em;
+	}
+	.profile__avatar-place {
+		display: inline-block;
+		width: 12vw;
+		padding: 5px;
+		border: 1px solid #221740;
+		border-radius: 5px;
+		img {
+			width: 100%;
 		}
 	}
 }
