@@ -30,26 +30,36 @@ if (!isset($userData['id'])) {
         'userStatus' => $userData['status']
     ];
     foreach ($matches[0] as $value) {
+
+        $currentDay = getdate()['wday'] - 1;
+
+        if ($currentDay === -1)
+            $currentDay = 6;
+
         if (preg_match('/^(\+|-)/', $value)) {
 
             $requestData['method'] = $value[0];
             $withoutMethod = trim(mb_substr($value, 1, 6, 'UTF-8'));
             $dayName = mb_strtolower(mb_substr($withoutMethod, 0, 3, 'UTF-8'));
 
-            $daysArray = [
-                ['пн', 'пон'],
-                ['вт', 'вто'],
-                ['ср', 'сре'],
-                ['чт', 'чет'],
-                ['пт', 'пят'],
-                ['сб', 'суб'],
-                ['вс', 'вос']
-            ];
+            if (in_array($dayName, ['сг', 'сег'], true)) {
+                $requestData['dayNum'] = $currentDay;
+            } else {
+                $daysArray = [
+                    ['пн', 'пон'],
+                    ['вт', 'вто'],
+                    ['ср', 'сре'],
+                    ['чт', 'чет'],
+                    ['пт', 'пят'],
+                    ['сб', 'суб'],
+                    ['вс', 'вос']
+                ];
 
-            foreach ($daysArray as $num => $daysNames) {
-                if (in_array($dayName, $daysNames, true)) {
-                    $requestData['dayNum'] = $num;
-                    break;
+                foreach ($daysArray as $num => $daysNames) {
+                    if (in_array($dayName, $daysNames, true)) {
+                        $requestData['dayNum'] = $num;
+                        break;
+                    }
                 }
             }
         } elseif (strpos($value, ':') !== false) {
@@ -60,10 +70,6 @@ if (!isset($userData['id'])) {
             $requestData['duration'] = substr($value, 0, 1);
         }
     }
-    $currentDay = getdate()['wday'] - 1;
-
-    if ($currentDay === -1)
-        $currentDay = 6;
 
     $output['message'] = json_encode($requestData, JSON_UNESCAPED_UNICODE);
     if ($currentDay > $requestData['dayNum']) {

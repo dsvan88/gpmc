@@ -23,9 +23,9 @@ $_POST['message']['text'] = trim($_POST['message']['text']);
 
 $output['message'] = '';
 
-if (preg_match('/^(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос)/', mb_strtolower($_POST['message']['text'], 'UTF-8')) === 1) {
+if (preg_match('/^(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос|сг|сег)/', mb_strtolower(str_replace('на ', '', $_POST['message']['text']), 'UTF-8')) === 1) {
     $command = 'booking';
-    preg_match_all('/(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})|(\d{1}\-\d{1})/i', mb_strtolower($_POST['message']['text'], 'UTF-8'), $matches);
+    preg_match_all('/(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос|сг|сег)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})|(\d{1}\-\d{1})/i', mb_strtolower(str_replace('на ', '', $_POST['message']['text']), 'UTF-8'), $matches);
     require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/game.php';
 } elseif (strpos($_POST['message']['text'], '/') === 0) {
     $command = mb_substr($_POST['message']['text'], 1, NULL, 'UTF-8');
