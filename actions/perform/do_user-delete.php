@@ -2,6 +2,10 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.users.php';
 $user = new Users();
 
+if ($_SESSION['status'] !== 'admin') {
+    die('{"error":1,"text":"Ви не можете видаляти користувачів!"}');
+}
+
 $userId = (int) $_POST['uid'];
 
 $result = false;
