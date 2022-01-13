@@ -14,6 +14,7 @@ $monday = strtotime('last monday', strtotime('next sunday'));
 $gameNames = [
 	'mafia' => 'Мафия',
 	'poker' => 'Покер',
+	'board' => 'Настолки',
 	'cash' => 'Кеш-покер'
 ];
 

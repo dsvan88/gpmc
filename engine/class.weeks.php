@@ -149,6 +149,7 @@ class Weeks
 		$gameNames = [
 			'mafia' => 'Мафия',
 			'poker' => 'Покер',
+			'board' => 'Настолки',
 			'cash' => 'Кеш-покер'
 		];
 		return "Вы успешно зарегистрированны на игру <b>'{$gameNames[$weekData['data'][$data['dayNum']]['game']]}'</b> в <b>{$dayNames[$data['dayNum']]}</b>.";
@@ -185,6 +186,7 @@ class Weeks
 		$gameNames = [
 			'mafia' => 'Мафия',
 			'poker' => 'Покер',
+			'board' => 'Настолки',
 			'cash' => 'Кеш-покер'
 		];
 		return "Вы успешно отписались от игры <b>'{$gameNames[$weekData['data'][$data['dayNum']]['game']]}'</b> в <b>{$dayNames[$data['dayNum']]}</b>.";

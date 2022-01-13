@@ -19,6 +19,7 @@ $dayHtmlData = [
 	'{WEEK_INDEX}' => $weekId,
 	'{DAY_GAME_MAFIA}' => '',
 	'{DAY_GAME_POKER}' => '',
+	'{DAY_GAME_BOARD}' => '',
 	'{DAY_GAME_CASH}' => '',
 	'{DAY_GAME_MODS_FANS}' => '',
 	'{DAY_GAME_MODS_TOURNAMENT}' => ''
@@ -39,9 +40,8 @@ if (count($dayData['participants']) === 0 && !(isset($_SESSION['status']) && in_
 		];
 	}
 	$dayHtmlData['{DAY_INDEX}'] = $dayId;
-	$dayHtmlData['{DAY_GAME_MAFIA}'] = $dayData['game'] === 'mafia' ? 'selected' : '';
-	$dayHtmlData['{DAY_GAME_POKER}'] = $dayData['game'] === 'poker' ? 'selected' : '';
-	$dayHtmlData['{DAY_GAME_CASH}'] = $dayData['game'] === 'cash' ? 'selected' : '';
+
+	$dayHtmlData['{DAY_GAME_' . strtoupper($dayData['game']) . '}'] = 'selected';
 
 	$dayHtmlData['{DAY_GAME_MODS_FANS}'] = in_array('fans', $dayData['mods']) ? 'checked' : '';
 	$dayHtmlData['{DAY_GAME_MODS_TOURNAMENT}'] = in_array('tournament', $dayData['mods']) ? 'checked' : '';

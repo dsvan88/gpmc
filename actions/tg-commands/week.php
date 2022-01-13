@@ -9,6 +9,7 @@ $weekData = $weeks->getDataByTime();
 $gameNames = [
     'mafia' => 'Мафия',
     'poker' => 'Покер',
+    'board' => 'Настолки',
     'cash' => 'Кеш-покер'
 ];
 
@@ -22,6 +23,7 @@ $durations = [
 $costs = [
     'mafia' => 90,
     'poker' => 70,
+    'board' => 70,
     'cash' => 400
 ];
 

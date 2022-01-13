@@ -35,7 +35,7 @@ if (preg_match('/^(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|с
         $command = mb_substr($command, 0, $spacePos, 'UTF-8');
     }
 
-    /*  if (in_array($command, ['mafia', 'poker', 'cash'])) {
+    /*  if (in_array($command, ['mafia', 'poker', 'board', 'cash'])) {
         preg_match_all('/\s(\+|-)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})/', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
         require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/game.php';
     } else */
