@@ -10,14 +10,14 @@ document.body.querySelectorAll('input[data-action-change]').forEach(element =>
 );
 
 let menuCheckbox = document.body.querySelector('#profile-menu-checkbox');
-if (menuCheckbox){
-	document.body.addEventListener('mousemove', (event) => {
-
+if (menuCheckbox) {
+	let menu = document.body.querySelector('div.header__profile-options');
+	document.body.addEventListener('click', (event) => {
 		if (!menuCheckbox.checked) {
 			return false;
 		};
-		if (document.documentElement.clientWidth - event.clientX > document.documentElement.clientWidth / 3
-			|| document.documentElement.clientHeight - event.clientY < document.documentElement.clientHeight / 2.5){
+
+		if (!(event.target == menu || menu.contains(event.target))) {
 			menuCheckbox.checked = false;
 		}
 	});

@@ -43,7 +43,7 @@ if (isset($_SESSION['id'])) {
 	<a class='header__profile-button' data-action='user-profile-form'>
 		$profileImage
 	</a>
-	<div class='header__profile'>
+	<div class='header__profile-options'>
 		<label for='profile-menu-checkbox' class='header__profile-caret'>
 			<i class='fa fa-caret-down' id='drop-menu'></i>
 		</label>
