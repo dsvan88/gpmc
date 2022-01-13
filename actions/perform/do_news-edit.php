@@ -5,20 +5,21 @@ if ($_POST['type'] === 'tg-info') {
 
     $settings = new Settings;
     $telegramBot = new MessageBot;
+
     $message = "<u><strong>$_POST[title]</strong></u>\r\n<em>$_POST[subtitle]</em>\r\n\r\n";
-    $message .= preg_replace('/(<((?!b|u|s|strong|em|i|\/b|\/u|\/s|\/strong|\/em|\/i)[^>]+)>)/i', '', str_replace(['<br />', '<br/>', '<br>'], "\r\n", trim($_POST['html'])));
+    $message .= preg_replace('/(<((?!b|u|s|strong|em|i|\/b|\/u|\/s|\/strong|\/em|\/i)[^>]+)>)/i', '', str_replace(['<br />', '<br/>', '<br>', '</p>'], "\r\n", trim($_POST['html'])));
 
     $telegramBot->prepMessage($message);
 
-    $chatsData = $settings->settingsGet(['id', 'value'], ['tg-chat']);
-    $chatsIds = ['-626874720']; // default test chat
+    $chatsData = $settings->settingsGet(['id', 'value'], 'tg-pinned');
     if ($chatsData) {
         for ($i = 0; $i < count($chatsData); $i++) {
-            $chatsIds[] = $chatsData[$i]['value'];
+            if ($chatsData[$i]['value'][0] !== '-') continue;
+            $chatsId[] = substr($chatsData[$i]['value'], 0, strpos($chatsData[$i]['value'], ':'));
         }
     }
-    $result = $telegramBot->sendToTelegramBot($chatsIds);
-    $output['message'] = 'Телеграм-сповіщення успішно надіслане!';
+    $result = $telegramBot->sendToTelegramBot($chatsId);
+    $output['message'] = 'Телеграм-сповіщення успішно надіслані!';
     for ($i = 0; $i < count($result); $i++) {
         if (!$result[$i]['ok']) {
             $output['error'] = 1;
@@ -26,6 +27,7 @@ if ($_POST['type'] === 'tg-info') {
             break;
         }
     }
+    file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/telegram_results.txt', print_r($result, false));
 } else {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.news.php';
 

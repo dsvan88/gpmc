@@ -12,7 +12,8 @@ $replace = [
     '{NEWS_HTML}' => $newsData['html'],
     '{NEWS_TYPE_NEWS}' => $newsData['type'] === 'news' ? ' selected ' : '',
     '{NEWS_TYPE_ATTENTION}' => $newsData['type'] === 'attention' ? ' selected ' : '',
-    '{NEWS_TYPE_TG_INFO}' => $newsData['type'] === 'tg-info' ? ' selected ' : ''
+    '{NEWS_TYPE_TG_INFO}' => $newsData['type'] === 'tg-info' ? ' selected ' : '',
+    '{NEWS_TYPE_PROMO}' => $newsData['type'] === 'promo' ? ' selected ' : ''
 ];
 
 $output['html'] = str_replace(array_keys($replace), array_values($replace), file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/templates/forms/form_news-edit.html'));

@@ -20,6 +20,7 @@ actionHandler.newsCreateNewFormSubmit = function (event) {
         data: formData,
         successFunc: function (result) {
             if (result["error"] == 0) {
+                alert(result["message"]);
                 window.location = window.location.href;
             } else {
                 alert(result["message"]);
@@ -42,6 +43,7 @@ actionHandler.newsEditFormSubmit = function (event) {
         data: formData,
         successFunc: function (result) {
             if (result["error"] == 0) {
+                alert(result["message"]);
                 window.location = window.location.href;
             } else {
                 alert(result["message"]);
