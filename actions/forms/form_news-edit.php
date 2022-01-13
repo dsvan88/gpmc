@@ -1,5 +1,5 @@
 <?php
-    require_once $_SERVER['DOCUMENT_ROOT'].'/engine/class.news.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.news.php';
 
 $news = new News();
 
@@ -15,4 +15,4 @@ $replace = [
     '{NEWS_TYPE_TG_INFO}' => $newsData['type'] === 'tg-info' ? ' selected ' : ''
 ];
 
-$output['html'] = str_replace(array_keys($replace),array_values($replace), file_get_contents($_SERVER['DOCUMENT_ROOT'].'/templates/forms/form_news-edit.html'));
+$output['html'] = str_replace(array_keys($replace), array_values($replace), file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/templates/forms/form_news-edit.html'));
