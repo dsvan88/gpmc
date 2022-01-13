@@ -252,6 +252,8 @@ actionHandler = {
 		});
 	},
 	userDelete: function ({ target }) { 
+		if (!confirm('Вы уверены, что хотите удалить игрока?')) return false;
+		if (!confirm('Это так же удалит всю его историю игр. Опять таки... вы уверены?')) return false;
 		postAjax({
 			data: `{"need":"do_user-delete","uid":"${target.dataset.userId}"}`,
 			successFunc: function (result) {
