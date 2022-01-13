@@ -9,8 +9,6 @@ if (!$weekData) {
 	$weekData = $weeks->getDataDefault();
 }
 
-// var_dump($weekData);
-
 $monday = strtotime('last monday', strtotime('next sunday'));
 
 $gameNames = [
