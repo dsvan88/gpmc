@@ -18,12 +18,13 @@ if (isset($userData['name']) && $userData['name'] !== 'tmp_telegram_user') {
 
     $output['message'] = "Я уже запомнил Вас под именем <b>$userData[name]</b>!\r\nЕсли это не Вы - обратитесь к администраторам!";
 } else {
+
     $username = '';
     foreach ($args as $string) {
         $username .= mb_ucfirst($string) . ' ';
     }
     $username = mb_substr($username, 0, -1, 'UTF-8');
-    // $output['message'] = $username;
+
     if (preg_match('/([^а-яА-ЯрРсСтТуУфФчЧхХШшЩщЪъЫыЬьЭэЮюЄєІіЇїҐґ ])/', $username) === 1) {
         $output['message'] = "Не верный формат псевдонима!\r\nПожалуйста, используйте только <b>кириллицу</b> и <b>пробелы</b> в Вашем псевдониме!";
     } elseif (mb_strlen(trim($username), 'UTF-8') < 2) {
