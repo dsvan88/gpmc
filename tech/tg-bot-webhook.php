@@ -50,13 +50,6 @@ if (preg_match('/^(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|с
     }
 }
 
-if ($command === 'near') {
-    $promoData = $settings->settingsGet('value', 'tg-promo');
-    if ($promoData) {
-        $output['message'] .= "___________\r\n\r\n{$promoData[0]['value']}";
-    }
-}
-
 if ($output['message'] !== '') {
     $bot->prepMessage($output['message']);
     try {

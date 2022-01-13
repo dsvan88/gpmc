@@ -1,6 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.weeks.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.places.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.places.php';
 
 $weeks = new Weeks;
 
@@ -71,4 +71,9 @@ if ($weekData) {
     }
 } else {
     $output['message'] = "Пока вечера игр не запланированны!\r\nПопробуйте позднее";
+}
+
+$promoData = $settings->settingsGet('value', 'tg-promo');
+if ($promoData) {
+    $output['message'] .= "___________\r\n\r\n{$promoData[0]['value']}";
 }
