@@ -26,7 +26,7 @@ $output = [
 	',
 	'{HEADER_CONTENT}' => file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/templates/header-content.html'),
 	'{WEBSITE_TITLE}' => 'Mafia Game v' . SCRIPT_VERSION,
-	'{WEBSITE_DESCRIPTION}' => 'Kriviy Rih Mafia Club основан людьми, для людей. Приходите к нам поиграть в класическую, салоную игру "Мафия!"',
+	'{WEBSITE_DESCRIPTION}' => 'Kriviy Rih Mafia Club основан людьми, для людей. Приходите к нам поиграть в класическую, салоную игру Мафия!',
 	'{MAIN_CONTENT}' => '',
 	'{FOOTER_CONTENT}' => isset($settingsArray['txt']['footer-text']['value']) ? $settingsArray['txt']['footer-text']['value'] : 'Нет значения',
 	'{CLUB_NAME}' => MAFCLUB_NAME,
