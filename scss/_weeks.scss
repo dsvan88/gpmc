@@ -58,10 +58,29 @@
 					width: 100%;
 				}
 			}
-
+			&.day {
+				&-expire {
+					filter: brightness(60%) blur(1px);
+				}
+				&-current {
+					filter: brightness(150%) hue-rotate(360deg);
+					animation: currentDayAnimation 2s infinite;
+				}
+				&-future {
+					filter: brightness(90%);
+				}
+			}
 			&:hover {
 				border-color: $color-item-border-hover;
 				transform: translateY(-0.3em);
+				&.day {
+					&-expire {
+						filter: none;
+					}
+					&-future {
+						filter: brightness(120%);
+					}
+				}
 			}
 			&-date {
 				white-space: nowrap;
@@ -143,5 +162,14 @@
 				}
 			}
 		}
+	}
+}
+
+@keyframes currentDayAnimation {
+	50% {
+		filter: brightness(90%) hue-rotate(300deg);
+	}
+	100% {
+		filter: brightness(150%) hue-rotate(360deg);
 	}
 }

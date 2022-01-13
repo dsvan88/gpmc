@@ -18,17 +18,34 @@ $gameNames = [
 	'cash' => 'Кеш-покер'
 ];
 
+$currentDay = getdate()['wday'] - 1;
+
+if ($currentDay === -1)
+	$currentDay = 6;
+
 for ($i = 0; $i < 7; $i++) {
 	if (!isset($weekData['data'][$i])) {
 		$weekData['data'][$i] = $weeks->getDayDataDefault();
 	}
 
-	$replace['{DAY_DATE}'] = str_replace(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], ['<b>Понедельник</b>', '<b>Вторник</b>', '<b>Среда</b>', '<b>Четверг</b>', '<b>Пятница</b>', '<b>Суббота</b>', '<b>Воскресенье</b>'], date('d.m.Y (l)', $monday + 86400 * $i)) . ' ' . $weekData['data'][$i]['time'];
-	$replace['{DAY_GAME}'] = $gameNames[$weekData['data'][$i]['game']];
-	$replace['{WEEK_INDEX}'] = $weekData['id'];
-	$replace['{DAY_INDEX}'] = $i;
+	$replace = [
+		'{DAY_DATE}' => str_replace(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], ['<b>Понедельник</b>', '<b>Вторник</b>', '<b>Среда</b>', '<b>Четверг</b>', '<b>Пятница</b>', '<b>Суббота</b>', '<b>Воскресенье</b>'], date('d.m.Y (l)', $monday + 86400 * $i)) . ' ' . $weekData['data'][$i]['time'],
+		'{DAY_GAME}' => $gameNames[$weekData['data'][$i]['game']],
+		'{WEEK_INDEX}' => $weekData['id'],
+		'{DAY_INDEX}' => $i,
+		'{DAY_PARTICIPANTS}' => '<ol class="day-participants__list">',
+		'{DAY_ITEM_CLASS}' => ''
+	];
 
-	$replace['{DAY_PARTICIPANTS}'] = '<ol class="day-participants__list">';
+	if ($currentDay > $i)
+		$replace['{DAY_ITEM_CLASS}'] = 'day-expire';
+
+	elseif ($currentDay === $i)
+		$replace['{DAY_ITEM_CLASS}'] = 'day-current';
+
+	else
+		$replace['{DAY_ITEM_CLASS}'] = 'day-future';
+
 	for ($x = 0; $x < 4; $x++) {
 		$replace['{DAY_PARTICIPANTS}'] .= '<li class="day-participants__list-item">' . (isset($weekData['data'][$i]['participants'][$x]) ? $weekData['data'][$i]['participants'][$x]['name'] : '') . '</li>';
 	}
