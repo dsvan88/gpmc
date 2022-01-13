@@ -10,10 +10,10 @@ $telegramId = $_POST['message']['from']['id'];
 $userData = $users->usersGetData(['id', 'name', 'telegram', 'status'], ['telegramid' => $telegramId]);
 
 if (!isset($userData['id'])) {
-    $output['message'] = "Извините! Не узнаю вас в гриме:(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш псевдоним";
-    $users->usersSaveUnknowTelegram(['telegram' => $telegram, 'telegramid' => $telegramId]);
+    $output['message'] = "Извините! Не узнаю вас в гриме:(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш псевдоним (кириллицей)";
+    // $users->usersSaveUnknowTelegram(['telegram' => $telegram, 'telegramid' => $telegramId]);
 } elseif ($userData['name'] === 'tmp_telegram_user') {
-    $output['message'] = "Извините! Не узнаю вас в гриме :(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш псевдоним";
+    $output['message'] = "Извините! Не узнаю вас в гриме :(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш псевдоним (кириллицей)";
 } else {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.weeks.php';
 
