@@ -1,4 +1,5 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/functions.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.users.php';
 
 $users = new Users;
@@ -17,7 +18,6 @@ if (isset($userData['name']) && $userData['name'] !== 'tmp_telegram_user') {
 
     $output['message'] = "Я уже запомнил Вас под именем <b>$userData[name]</b>!\r\nЕсли это не Вы - обратитесь к администраторам!";
 } else {
-
     $username = '';
     foreach ($args as $string) {
         $username .= mb_ucfirst($string) . ' ';
