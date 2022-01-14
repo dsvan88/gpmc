@@ -85,7 +85,6 @@ $modal-color: $modal-hd-start;
 
 	.editor-block {
 		max-width: 1024px;
-		// width: 80vw;
 		margin: 0 auto;
 
 		background: #fff;
@@ -123,10 +122,9 @@ $modal-color: $modal-hd-start;
 			.editor {
 				border-top-left-radius: 0;
 				border-top-right-radius: 0;
-				// width: 15.8cm;
 				width: 50vw;
 				min-height: 200px;
-				padding: 1cm 1cm 2cm;
+				padding: 1em 1em 2em;
 				margin: 0 auto;
 				box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.05);
 			}
