@@ -64,7 +64,7 @@
 				}
 				&-current {
 					filter: brightness(150%) hue-rotate(360deg);
-					animation: currentDayAnimation 2s infinite;
+					animation: currentDayAnimation $animation-very-slow infinite;
 				}
 				&-future {
 					filter: brightness(90%);

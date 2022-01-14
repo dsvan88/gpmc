@@ -21,6 +21,9 @@ $bg-color-dark: #221740;
 $bg-color-input: #0000004a;
 
 $animation-fast: 0.3s;
+$animation-normal: 0.8s;
+$animation-slow: 1.5s;
+$animation-very-slow: 3s;
 
 %nonDeleteTextForInput {
 	position: relative;
