@@ -44,6 +44,10 @@ $modal-color: $modal-hd-start;
 	}
 	.modal-close {
 		cursor: pointer;
+		transition: color $animation-fast ease-in;
+		&:hover {
+			color: #ff1010;
+		}
 	}
 	.text-accent {
 		color: $modal-hd-end !important;
