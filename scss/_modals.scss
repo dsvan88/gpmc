@@ -79,8 +79,8 @@ $modal-color: $modal-hd-start;
 	}
 
 	.editor-block {
-		display: none;
 		max-width: 1024px;
+		// width: 80vw;
 		margin: 0 auto;
 
 		background: #fff;
@@ -90,13 +90,12 @@ $modal-color: $modal-hd-start;
 		border-right-color: #cdd0d2;
 
 		.ck.ck-content {
-			max-height: 300px;
+			height: 800px;
 			background: #fff;
 			box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
 			font-size: 1em;
 			line-height: 1.6em;
 			margin-bottom: 0.8em;
-			min-height: 200px;
 			padding: 1.5em 2em;
 		}
 		.toolbar-container {
@@ -114,11 +113,13 @@ $modal-color: $modal-hd-start;
 		.content-container {
 			padding: 2em;
 			background: #eee;
-			overflow-y: scroll;
+			max-height: 250px;
+			overflow-y: auto;
 			.editor {
 				border-top-left-radius: 0;
 				border-top-right-radius: 0;
-				width: 15.8cm;
+				// width: 15.8cm;
+				width: 50vw;
 				min-height: 200px;
 				padding: 1cm 1cm 2cm;
 				margin: 0 auto;
@@ -133,7 +134,7 @@ $modal-color: $modal-hd-start;
 .common-form {
 	padding: 1em 2em;
 	&__title {
-		margin: 1em;
+		margin: 0.2em 1em 0.5em 1em;
 		text-align: center;
 	}
 	&__row {
@@ -145,8 +146,9 @@ $modal-color: $modal-hd-start;
 		}
 		&.big-list {
 			max-height: 55vh;
-			overflow-y: scroll;
+			overflow-y: auto;
 			scrollbar-width: thin;
+			font-size: 1.2em;
 		}
 	}
 	&__input {
@@ -156,8 +158,23 @@ $modal-color: $modal-hd-start;
 		border-bottom: 1px solid grey;
 		background-color: transparent;
 		text-align: center;
-		font-size: 1.5em;
+		font-size: 1.2em;
+		line-height: 1.3em;
 		color: $color-text-blur;
+		&:focus {
+			border-bottom-color: $color-text-dark;
+		}
+		&[type="file"] {
+			display: none;
+		}
+	}
+	&__label {
+		&-file {
+			display: block;
+			text-align: center;
+			font-size: 1.2em;
+			line-height: 1.3em;
+		}
 	}
 	&__select {
 		width: 100%;
@@ -166,19 +183,32 @@ $modal-color: $modal-hd-start;
 		border-bottom: 1px solid grey;
 		background-color: transparent;
 		text-align: center;
-		font-size: 1.5em;
+		font-size: 1.2em;
 		color: $color-text-blur;
 	}
 	&__divided-block {
 		display: flex;
+		border: 1px solid $color-text-blur;
+		padding: 1em 2em;
+		border-radius: 3px;
 	}
 	&__column {
-		max-width: 35vw;
-		margin-left: 1em;
+		flex: 1 1 20vw;
+		margin-right: 1em;
+		max-width: 40vw;
+		&:last-of-type {
+			margin-right: 0;
+		}
+		&.shrinked {
+			flex: 0 1 20vw;
+		}
+		&.growed {
+			flex: 1 0 20vw;
+		}
 	}
 	.profile__avatar-place {
 		display: inline-block;
-		width: 12vw;
+		width: 18vw;
 		padding: 5px;
 		border: 1px solid #221740;
 		border-radius: 5px;
