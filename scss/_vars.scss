@@ -40,12 +40,12 @@ $animation-fast: 0.3s;
 %buttonStyle {
 	background: #00abff;
 	font-weight: bold;
-	font-size: 15px;
-	line-height: 18px;
+	font-size: 1em;
+	line-height: 1.2em;
 	letter-spacing: 0.05em;
 	text-transform: uppercase;
 	color: #04316a;
-	padding: 10px 25px;
+	padding: 0.8em 1.3em;
 	outline: none;
 	border: 1px solid $color-text-main;
 	cursor: pointer;
@@ -95,18 +95,7 @@ $animation-fast: 0.3s;
 		}
 	}
 }
-/* #cke_21,
-#cke_28,
-#cke_31,
-#cke_36,
-#cke_68,
-#cke_72,
-#cke_75,
-#cke_81,
-#cke_90 {
-	display: none;
-}
- */
+
 .checkbox-styled {
 	text-align: center;
 	color: $color-text-blur;

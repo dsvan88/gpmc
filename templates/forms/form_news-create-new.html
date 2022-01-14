@@ -8,10 +8,10 @@
 		<div class="common-form__column">
 			<div class="common-form__row">
 				<select name="type" id="news-type" class="common-form__select">
-					<option value="news">Новина (У блоці новин та має окрему сторінку)</option>
-					<option value="attention">Сповіщення (для користувачів при їх аторизації)</option>
-					<option value="tg-info">Телеграм сповіщення (не зберігається у системі)</option>
-					<option value="tg-promo">Промо (Додається до телеграм повідомлень)</option>
+					<option value="news">Новина</option>
+					<!-- <option value="attention">Сповіщення (для користувачів при їх аторизації)</option> -->
+					<option value="tg-info">Телеграм сповіщення</option>
+					<option value="tg-promo">Промо</option>
 				</select>
 			</div>
 			<div class="common-form__row">
@@ -20,7 +20,8 @@
 		</div>
 		<div class="common-form__column">
 			<div class="common-form__row">
-				<input class="common-form__input" type="file" name="logo" placeholder="Logo" />
+				<label class="common-form__label-file" for="news-logo-input-file">Основна картинка для новости</label>
+				<input class="common-form__input" type="file" name="logo" placeholder="Logo" id="news-logo-input-file"/>
 			</div>
 			<div class="common-form__row">
 				<input class="common-form__input" type="text" name="subtitle" placeholder="Підзаголовок" />
