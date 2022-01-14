@@ -37,7 +37,6 @@ $modal-color: $modal-hd-start;
 	box-shadow: -1px 1px 10px 3px #b1c0fb;
 	transition: all $animation-fast ease-in;
 	border-radius: 5px;
-
 	button,
 	a.anchor-button {
 		@extend %buttonStyle;
@@ -76,6 +75,12 @@ $modal-color: $modal-hd-start;
 		border-radius: 0px 0px 3px 3px;
 		padding: 1em 2em;
 		color: $modal-color;
+		@include sm {
+			width: 85vw;
+			height: 85vh;
+			display: grid;
+			place-items: center;
+		}
 	}
 
 	.editor-block {
