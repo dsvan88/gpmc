@@ -1,12 +1,14 @@
 $devidedInputsWidth: 150px;
 
-$modal-hd-start: #5734ff;
-$modal-hd-end: #9731dd;
-$modal-bg: #ddd3f2;
+$modal-hd-start: #0d0101;
+$modal-hd-end: #380707;
+$modal-bg-start: #ffedf7;
+$modal-bg-end: #ddcef3;
 $modal-border: 1px solid #979df9;
 $modal-overlay-bg-color: #00000036;
 
-$modal-color: $modal-hd-start;
+// $modal-color: $modal-hd-start;
+$modal-color: #4b9aff;
 
 #overlay {
 	z-index: 3; /* пoдлoжкa дoлжнa быть выше слoев элементoв сaйтa, нo ниже слoя мoдaльнoгo oкнa */
@@ -54,7 +56,7 @@ $modal-color: $modal-hd-start;
 	}
 
 	&__header {
-		background: linear-gradient(to right, $modal-hd-start 20%, $modal-hd-end 90%);
+		background: linear-gradient($modal-hd-start 20%, $modal-hd-end 90%);
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -75,7 +77,10 @@ $modal-color: $modal-hd-start;
 	}
 	&-container {
 		position: relative;
-		background: linear-gradient(#c3ecff 40%, #f3f0ce 90%);
+		// background: linear-gradient(#c3ecff 40%, #f3f0ce 90%);
+		background: url("/css/images/blood-sprite.png"), linear-gradient($modal-bg-start 40%, $modal-bg-end 90%);
+		background-size: contain, auto;
+		background-repeat: no-repeat, repeat;
 		border-radius: 0px 0px 3px 3px;
 		padding: 1em 2em;
 		color: $modal-color;
@@ -156,6 +161,7 @@ $modal-color: $modal-hd-start;
 			overflow-y: auto;
 			scrollbar-width: thin;
 			font-size: 1.2em;
+			padding-right: 10px;
 		}
 	}
 	&__input {
@@ -181,6 +187,7 @@ $modal-color: $modal-hd-start;
 			text-align: center;
 			font-size: 1.2em;
 			line-height: 1.3em;
+			cursor: pointer;
 		}
 	}
 	&__select {
