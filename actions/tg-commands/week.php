@@ -68,7 +68,7 @@ if ($weekData) {
             }
             if ($modsData !== '')
                 $modsData = "(<i>$modsData</i>)";
-            $output['message'] .= ($x + 1) . ". <b>{$weekData['data'][$i]['participants'][$x]['name']}</b> {$modsData}\r\n";
+            $output['message'] .= ($x + 1) . ".\t<b>{$weekData['data'][$i]['participants'][$x]['name']}</b> {$modsData}\r\n";
         }
         $output['message'] .= "____\r\n";
     }
