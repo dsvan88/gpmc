@@ -34,15 +34,21 @@ if (preg_match('/^(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|с
     if ($spacePos !== false) {
         $command = mb_substr($command, 0, $spacePos, 'UTF-8');
     }
+    $commandLen = mb_strlen($command);
+    $atPos = mb_strpos($command, '@', 0, 'UTF-8'); // at = @ in English context
+    if ($atPos !== false) {
+        $command = mb_substr($command, 0, $atPos, 'UTF-8');
+        $commandLen = $atPos;
+    }
 
     if (in_array($command, ['?', 'help'])) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/help.php';
     } elseif ($command === 'reg') {
-        $text = mb_substr($_POST['message']['text'], mb_strlen($command) + 1, NULL, 'UTF-8');
+        $text = mb_substr($_POST['message']['text'], $commandLen + 1, NULL, 'UTF-8');
         $args = explode(',', mb_strtolower(str_replace('на ', '', $text)));
         require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/reg.php';
     } elseif (file_exists("$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/$command.php")) {
-        preg_match_all('/([a-zA-Zа-яА-ЯрРсСтТуУфФчЧхХШшЩщЪъЫыЬьЭэЮюЄєІіЇїҐґ]+)/', mb_substr($_POST['message']['text'], mb_strlen($command) + 1, NULL, 'UTF-8'), $matches);
+        preg_match_all('/([a-zA-Zа-яА-ЯрРсСтТуУфФчЧхХШшЩщЪъЫыЬьЭэЮюЄєІіЇїҐґ]+)/', mb_substr($_POST['message']['text'], $commandLen + 1, NULL, 'UTF-8'), $matches);
         $args = $matches[0];
         require_once "$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/$command.php";
     } else {
