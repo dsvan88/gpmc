@@ -34,7 +34,7 @@ if (!isset($userData['id'])) {
     ];
 
 
-    foreach ($matches[0] as $value) {
+    foreach ($args as $value) {
 
         $value = trim($value);
 
