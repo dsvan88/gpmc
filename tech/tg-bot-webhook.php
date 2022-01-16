@@ -48,7 +48,7 @@ if (preg_match('/^(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|с
         $args = explode(',', mb_strtolower(str_replace('на ', '', $text)));
         require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/reg.php';
     } elseif (file_exists("$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/$command.php")) {
-        preg_match_all('/([a-zA-Zа-яА-ЯрРсСтТуУфФчЧхХШшЩщЪъЫыЬьЭэЮюЄєІіЇїҐґ]+)/', mb_substr($_POST['message']['text'], $commandLen + 1, NULL, 'UTF-8'), $matches);
+        preg_match_all('/([a-zA-Zа-яА-ЯрРсСтТуУфФчЧхХШшЩщЪъЫыЬьЭэЮюЄєІіЇїҐґ.]+)/', mb_substr($_POST['message']['text'], $commandLen + 1, NULL, 'UTF-8'), $matches);
         $args = $matches[0];
         require_once "$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/$command.php";
     } else {
