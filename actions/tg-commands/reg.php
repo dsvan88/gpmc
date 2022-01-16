@@ -28,8 +28,8 @@ if (!isset($userData['id'])) {
         'date' => '',
         'duration' => '',
         'dayNum' => -1,
-        'userId' => $userRegData['id'],
-        'userName' => $userRegData['name'],
+        /*         'userId' => $userRegData['id'],
+        'userName' => $userRegData['name'], */
         'userStatus' => $userData['status']
     ];
 
@@ -79,17 +79,26 @@ if (!isset($userData['id'])) {
             $requestData['date'] = $value;
         } elseif (strpos($value, '-') !== false) {
             $requestData['duration'] = substr($value, 0, 1);
+        } else {
+            $userRegData = $users->usersGetData(['id', 'name'], ['id' => $users->userGetId($value)]);
+            if (!$userRegData) {
+                $requestData['userId'] = $userRegData['id'];
+                $requestData['userName'] = $userRegData['name'];
+            }
         }
     }
 
-    $output['message'] = json_encode($requestData, JSON_UNESCAPED_UNICODE);
-    /* if ($currentDay > $requestData['dayNum']) {
-        $output['message'] = 'Не могу записать Вас на уже прошедший день! Sowwy:(';
+    if ($requestData['userId'] < 2) {
+        $output['message'] = 'Я не нашёл такого пользователя:(';
     } else {
-        if ($requestData['method'] === '-') {
-            $output['message'] = $weeks->dayUserUnregistrationByTelegram($requestData);
+        if ($currentDay > $requestData['dayNum']) {
+            $output['message'] = 'Не могу записать Вас на уже прошедший день! Sowwy:(';
         } else {
-            $output['message'] = $weeks->dayUserRegistrationByTelegram($requestData);
+            if ($requestData['method'] === '-') {
+                $output['message'] = $weeks->dayUserUnregistrationByTelegram($requestData);
+            } else {
+                $output['message'] = $weeks->dayUserRegistrationByTelegram($requestData);
+            }
         }
-    } */
+    }
 }
