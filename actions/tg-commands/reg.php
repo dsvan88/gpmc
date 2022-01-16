@@ -28,8 +28,8 @@ if (!isset($userData['id'])) {
         'date' => '',
         'duration' => '',
         'dayNum' => -1,
-        /*         'userId' => $userRegData['id'],
-        'userName' => $userRegData['name'], */
+        'userId' => 0,
+        // 'userName' => $userRegData['name'],
         'userStatus' => $userData['status']
     ];
 
@@ -79,7 +79,7 @@ if (!isset($userData['id'])) {
             $requestData['date'] = $value;
         } elseif (strpos($value, '-') !== false) {
             $requestData['duration'] = substr($value, 0, 1);
-        } else {
+        } elseif ($requestData['userId'] < 2) {
             $userRegData = $users->usersGetData(['id', 'name'], ['id' => $users->userGetId($value)]);
             if (!$userRegData) {
                 $requestData['userId'] = $userRegData['id'];
