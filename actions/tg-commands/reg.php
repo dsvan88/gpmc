@@ -20,8 +20,6 @@ if (!isset($userData['id'])) {
 
     $weeks = new Weeks;
 
-    $userRegData = $users->usersGetData(['id', 'name'], ['id' => $users->userGetId($name)]);
-
     $requestData = [
         'method' => '+',
         'arrive' => '',
@@ -80,9 +78,8 @@ if (!isset($userData['id'])) {
         } elseif (strpos($value, '-') !== false) {
             $requestData['duration'] = substr($value, 0, 1);
         } elseif ($requestData['userId'] < 2) {
-            $output['message'] .= "$value\r\n";
             $userRegData = $users->usersGetData(['id', 'name'], ['id' => $users->userGetId($value)]);
-            if (!$userRegData) {
+            if ($userRegData) {
                 $requestData['userId'] = $userRegData['id'];
                 $requestData['userName'] = $userRegData['name'];
             }
