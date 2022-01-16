@@ -37,6 +37,7 @@ if ($weekData) {
         $format = "d.m.Y {$weekData['data'][$i]['time']}";
         $dayDate = strtotime(date($format, $weekData['start'] + 86400 * $i));
         if ($_SERVER['REQUEST_TIME'] > $dayDate) {
+            $output['message'] .= $dayDate . "\r\n";
             continue;
         }
 
