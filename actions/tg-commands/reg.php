@@ -82,7 +82,8 @@ if (!isset($userData['id'])) {
         }
     }
 
-    if ($currentDay > $requestData['dayNum']) {
+    $output['message'] = json_encode($requestData, JSON_UNESCAPED_UNICODE);
+    /* if ($currentDay > $requestData['dayNum']) {
         $output['message'] = 'Не могу записать Вас на уже прошедший день! Sowwy:(';
     } else {
         if ($requestData['method'] === '-') {
@@ -90,5 +91,5 @@ if (!isset($userData['id'])) {
         } else {
             $output['message'] = $weeks->dayUserRegistrationByTelegram($requestData);
         }
-    }
+    } */
 }
