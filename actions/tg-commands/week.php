@@ -67,8 +67,8 @@ if ($weekData) {
                 $modsData .= "на {$durations[$weekData['data'][$i]['participants'][$x]['duration']]} игры";
             }
             if ($modsData !== '')
-                $modsData = "(<i>$modsData</i>)";
-            $output['message'] .= ($x + 1) . ".\t<b>{$weekData['data'][$i]['participants'][$x]['name']}</b> {$modsData}\r\n";
+                $modsData = "\t(<i>$modsData</i>)";
+            $output['message'] .= ($x + 1) . ".\t<b>{$weekData['data'][$i]['participants'][$x]['name']}</b>{$modsData}\r\n";
         }
         $output['message'] .= "____\r\n";
     }
