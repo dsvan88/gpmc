@@ -31,12 +31,15 @@ if ($weekData) {
     $output['message'] = '';
     for ($i = 0; $i < 7; $i++) {
 
-        $output['message'] .= json_encode($weekData['data'][$i], true) . "\r\n";
         if (!isset($weekData['data'][$i])) {
             continue;
         }
         $format = "d.m.Y {$weekData['data'][$i]['time']}";
         $dayDate = strtotime(date($format, $weekData['start'] + 86400 * $i));
+
+        $output['message'] .= "$_SERVER[REQUEST_TIME] > $dayDate \r\n";
+        $output['message'] .= date('d.m.Y', $_SERVER['REQUEST_TIME']) . ' > ' . date('d.m.Y', $dayDate) . "\r\n\r\n";
+
         if ($_SERVER['REQUEST_TIME'] > $dayDate) {
             continue;
         }
