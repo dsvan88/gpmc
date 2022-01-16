@@ -38,7 +38,7 @@ if ($weekData) {
         $dayDate = strtotime(date($format, $weekData['start'] + 86400 * $i));
 
         $output['message'] .= "$_SERVER[REQUEST_TIME] > $dayDate \r\n";
-        $output['message'] .= date('d.m.Y', $_SERVER['REQUEST_TIME']) . ' > ' . date('d.m.Y', $dayDate) . "\r\n\r\n";
+        $output['message'] .= date('d.m.Y H:i', $_SERVER['REQUEST_TIME']) . ' > ' . date('d.m.Y H:i', $dayDate) . "\r\n\r\n";
 
         if ($_SERVER['REQUEST_TIME'] > $dayDate) {
             continue;
