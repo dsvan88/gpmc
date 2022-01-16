@@ -29,7 +29,12 @@ if (isset($_POST['participant'])) {
 
         if ($userName === '') continue;
 
-        $userId = $users->userGetId($userName);
+
+        if ($userName !== '+1')
+            $userId = $users->userGetId($userName);
+        else {
+            $userId = -1;
+        }
 
         if ($userId === 0) {
             $userId = $users->userAdd($userName);
