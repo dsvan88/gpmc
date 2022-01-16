@@ -6,8 +6,10 @@ $output['{NEWS_PREVIEW}'] = '
 $page = 0;
 if (isset($_GET['news-list-page']))
 	$page = (int) $_GET['news-list-page'];
+
 $newsCount = $news->newsGetCount();
 $newsAll = $news->newsGetPerPage($page);
+
 $replace = [
 	'{NEWS_ITEM_DASHBOARD}' => ''
 ];

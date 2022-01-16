@@ -89,10 +89,8 @@ $output['{HEADER_LOGO}'] = "<a href='$_SERVER[HTTP_X_FORWARDED_PROTO]://$_SERVER
 if (isset($_GET['gid'])) {
 	require "$_SERVER[DOCUMENT_ROOT]/views/game.php";
 }
-if (isset($_GET['wid'])) {
-	if (isset($_GET['did'])) {
-		require "$_SERVER[DOCUMENT_ROOT]/views/day-edit.php";
-	}
+if (isset($_GET['wid']) && isset($_GET['did'])) {
+	require "$_SERVER[DOCUMENT_ROOT]/views/day-edit.php";
 } elseif (isset($_GET['news'])) {
 	require "$_SERVER[DOCUMENT_ROOT]/views/news.php";
 } else {
@@ -111,4 +109,5 @@ if (isset($_SESSION['id']) && $_SESSION['status'] === 'admin' && $users->checkTo
 }
 
 $outputHtml = str_replace(array_keys($output), array_values($output), $template);
-echo $outputHtml;
+
+print $outputHtml;

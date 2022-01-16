@@ -191,4 +191,8 @@ class Weeks
 		];
 		return "Вы успешно отписались от игры <b>'{$gameNames[$weekData['data'][$data['dayNum']]['game']]}'</b> {$dayNames[$data['dayNum']]}.";
 	}
+	public function getCount()
+	{
+		return $this->action->getColumn($this->action->query('SELECT count(id) FROM ' . SQL_TBLWEEKS));
+	}
 }

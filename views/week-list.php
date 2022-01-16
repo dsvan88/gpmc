@@ -7,6 +7,8 @@ if (!$weekData) {
 	$weekData = $weeks->getDataDefault();
 }
 
+$weeksCount = $weeks->getCount();
+
 $monday = strtotime('last monday', strtotime('next sunday'));
 
 $gameNames = [
@@ -48,3 +50,32 @@ for ($i = 0; $i < 7; $i++) {
 }
 $output['{WEEK_LIST}'] .= '
 	</div>';
+/* 
+if ($weeksCount > 0) {
+	$page = $weekId;
+	$pagesLinks = '';
+	$pagesCount = $weeksCount;
+	for ($x = 0; $x < $pagesCount; $x++) {
+		$pagesLinks .= "<a href='/?wid=$x'" . ($x == $page ? ' class="active"' : '') . '>' . ($x + 1) . '</a>';
+	}
+	if ($page > 0) {
+		$pagesLinks = '<a href="/?wid=' . ($page - 1) . '"><i class="fa fa-angle-left"></i></a>' . $pagesLinks;
+	} else {
+		$pagesLinks = '<a><i class="fa fa-angle-left"></i></a>' . $pagesLinks;
+	}
+	if ($page > 5) {
+		$pagesLinks = '<a href="/?wid=1"><i class="fa fa-angle-double-left"></i></a>' . $pagesLinks;
+	}
+
+
+	if ($page != ($pagesCount - 1)) {
+		$pagesLinks .= '<a href="/?wid=' . ($page + 1) . '"><i class="fa fa-angle-right"></i></a>';
+	} else {
+		$pagesLinks .= '<a><i class="fa fa-angle-right"></i></a>';
+	}
+	if ($pagesCount - 1 - $page > 5) {
+		$pagesLinks .= '<a href="/?wid=' . ($pagesCount - 1) . '"><i class="fa fa-angle-double-right"></i></a>';
+	}
+	$output['{NEWS_PREVIEW}'] .= "<div class='news-preview__links'>$pagesLinks</div>";
+}
+ */
