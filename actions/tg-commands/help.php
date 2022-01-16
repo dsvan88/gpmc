@@ -20,7 +20,7 @@ if ($_POST['message']['chat']['type'] === 'private') {
 
     $userData = $users->usersGetData(['id', 'status'], ['telegramid' => $telegramId]);
     if (in_array($userData['status'], ['admin', 'manager'])) {
-        $output['message'] = "\r\nКоманды админа:
+        $output['message'] .= "\r\nКоманды админа:
     /reg +вс, Псевдоним, 18:00, 1-2 игры
 ";
     }
