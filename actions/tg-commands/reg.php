@@ -89,7 +89,7 @@ if (!isset($userData['id'])) {
     }
 
     if ($requestData['userId'] < 2) {
-        $output['message'] = 'Я не нашёл такого пользователя:(' . json_encode($requestData, true);
+        $output['message'] = 'Я не нашёл такого пользователя:( ' . json_encode($requestData, true) . ' ' . json_encode($args, true);
     } else {
         if ($currentDay > $requestData['dayNum']) {
             $output['message'] = 'Не могу записать Вас на уже прошедший день! Sowwy:(';
