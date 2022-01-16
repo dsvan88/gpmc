@@ -23,7 +23,7 @@ $durations = [
 $costs = [
     'mafia' => 90,
     'poker' => 70,
-    'board' => 70,
+    'board' => 50,
     'cash' => 400
 ];
 
@@ -56,7 +56,7 @@ if ($weekData) {
 
         for ($x = 0; $x < count($weekData['data'][$i]['participants']); $x++) {
             $modsData = '';
-            if ($weekData['data'][$i]['participants'][$x]['arrive'] !== '') {
+            if ($weekData['data'][$i]['participants'][$x]['arrive'] !== '' && $weekData['data'][$i]['participants'][$x]['arrive'] !== $weekData['data'][$i]['time']) {
                 $modsData .= $weekData['data'][$i]['participants'][$x]['arrive'];
                 if ($weekData['data'][$i]['participants'][$x]['duration'] != 0) {
                     $modsData .= ', ';

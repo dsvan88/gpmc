@@ -11,13 +11,16 @@ $userData = $users->usersGetData(['id', 'name', 'telegram', 'status'], ['telegra
 
 if (!isset($userData['id'])) {
     $output['message'] = "Извините! Не узнаю вас в гриме:(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш псевдоним (кириллицей)";
-    // $users->usersSaveUnknowTelegram(['telegram' => $telegram, 'telegramid' => $telegramId]);
 } elseif ($userData['name'] === 'tmp_telegram_user') {
     $output['message'] = "Извините! Не узнаю вас в гриме :(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш псевдоним (кириллицей)";
+} elseif (!in_array($userData['status'], ['manager', 'admin'], true)) {
+    $output['message'] = "Команда не знайдена";
 } else {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.weeks.php';
 
     $weeks = new Weeks;
+
+    $userRegData = $users->usersGetData(['id', 'name'], ['id' => $users->userGetId($name)]);
 
     $requestData = [
         'method' => '+',
@@ -25,11 +28,15 @@ if (!isset($userData['id'])) {
         'date' => '',
         'duration' => '',
         'dayNum' => -1,
-        'userId' => $userData['id'],
-        'userName' => $userData['name'],
+        'userId' => $userRegData['id'],
+        'userName' => $userRegData['name'],
         'userStatus' => $userData['status']
     ];
+
+
     foreach ($matches[0] as $value) {
+
+        $value = trim($value);
 
         $currentDay = getdate()['wday'] - 1;
 

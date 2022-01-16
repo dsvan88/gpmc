@@ -145,14 +145,14 @@ class Weeks
 			return json_encode($newData, JSON_UNESCAPED_UNICODE);
 		}
 
-		$dayNames = ['Понедельник', 'Вторник', 'Среду', 'Четверг', 'Пятницу', 'Субботу', 'Воскресенье'];
+		$dayNames = ['в <b>Понедельник</b>', 'во <b>Вторник</b>', 'в <b>Среду</b>', 'в <b>Четверг</b>', 'в <b>Пятницу</b>', 'в <b>Субботу</b>', 'в <b>Воскресенье</b>'];
 		$gameNames = [
 			'mafia' => 'Мафия',
 			'poker' => 'Покер',
 			'board' => 'Настолки',
 			'cash' => 'Кеш-покер'
 		];
-		return "Вы успешно зарегистрированны на игру <b>'{$gameNames[$weekData['data'][$data['dayNum']]['game']]}'</b> в <b>{$dayNames[$data['dayNum']]}</b>.";
+		return "Вы успешно зарегистрированны на игру <b>'{$gameNames[$weekData['data'][$data['dayNum']]['game']]}'</b> {$dayNames[$data['dayNum']]}.";
 	}
 	public function dayUserUnregistrationByTelegram($data)
 	{
@@ -182,13 +182,13 @@ class Weeks
 		if (!$result) {
 			return json_encode($newData, JSON_UNESCAPED_UNICODE);
 		}
-		$dayNames = ['Понедельник', 'Вторник', 'Среду', 'Четверг', 'Пятницу', 'Субботу', 'Воскресенье'];
+		$dayNames = ['в <b>Понедельник</b>', 'во <b>Вторник</b>', 'в <b>Среду</b>', 'в <b>Четверг</b>', 'в <b>Пятницу</b>', 'в <b>Субботу</b>', 'в <b>Воскресенье</b>'];
 		$gameNames = [
 			'mafia' => 'Мафия',
 			'poker' => 'Покер',
 			'board' => 'Настолки',
 			'cash' => 'Кеш-покер'
 		];
-		return "Вы успешно отписались от игры <b>'{$gameNames[$weekData['data'][$data['dayNum']]['game']]}'</b> в <b>{$dayNames[$data['dayNum']]}</b>.";
+		return "Вы успешно отписались от игры <b>'{$gameNames[$weekData['data'][$data['dayNum']]['game']]}'</b> {$dayNames[$data['dayNum']]}.";
 	}
 }

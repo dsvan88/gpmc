@@ -23,9 +23,9 @@ $_POST['message']['text'] = trim($_POST['message']['text']);
 
 $output['message'] = '';
 
-if (preg_match('/^(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос|сг|сег)/', mb_strtolower(str_replace('на ', '', $_POST['message']['text']), 'UTF-8')) === 1) {
+if (preg_match('/^(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос|сг|сег|зв|зав)/', mb_strtolower(str_replace('на ', '', $_POST['message']['text']), 'UTF-8')) === 1) {
     $command = 'booking';
-    preg_match_all('/(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос|сг|сег)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})|(\d{1}\-\d{1})/i', mb_strtolower(str_replace('на ', '', $_POST['message']['text']), 'UTF-8'), $matches);
+    preg_match_all('/(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос|сг|сег|зв|зав)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})|(\d{1}\-\d{1})/i', mb_strtolower(str_replace('на ', '', $_POST['message']['text']), 'UTF-8'), $matches);
     require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/game.php';
 } elseif (strpos($_POST['message']['text'], '/') === 0) {
     $command = mb_substr($_POST['message']['text'], 1, NULL, 'UTF-8');
@@ -35,12 +35,12 @@ if (preg_match('/^(\+|-)\s{0,3}(пн|пон|вт|ср|чт|чет|пт|пят|с
         $command = mb_substr($command, 0, $spacePos, 'UTF-8');
     }
 
-    /*  if (in_array($command, ['mafia', 'poker', 'board', 'cash'])) {
-        preg_match_all('/\s(\+|-)|(\d{2}\:\d{2})|(\d{1,2}\.\d{1,2})/', mb_substr($_POST['message']['text'], mb_strlen($command), NULL, 'UTF-8'), $matches);
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/game.php';
-    } else */
     if (in_array($command, ['?', 'help'])) {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/help.php';
+    } elseif ($command === 'reg') {
+        $text = mb_substr($_POST['message']['text'], mb_strlen($command) + 1, NULL, 'UTF-8');
+        $args = explode(',', mb_strtolower(str_replace('на ', '', $text)));
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/actions/tg-commands/reg.php';
     } elseif (file_exists("$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/$command.php")) {
         preg_match_all('/([a-zA-Zа-яА-ЯрРсСтТуУфФчЧхХШшЩщЪъЫыЬьЭэЮюЄєІіЇїҐґ]+)/', mb_substr($_POST['message']['text'], mb_strlen($command) + 1, NULL, 'UTF-8'), $matches);
         $args = $matches[0];
