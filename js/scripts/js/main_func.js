@@ -146,8 +146,7 @@ actionHandler = {
 					console.log(action);
 				};
 				actionHandler.commonFormEventEnd({ modal, data, formSubmitAction: action + 'Submit' });
-				
-				// actionHandler.CommonFormReady({ modal, data, action });
+
 				if (actionHandler[action + "FormReady"]) {
 					actionHandler[action + "FormReady"]({ modal, data });
 				}
@@ -165,7 +164,6 @@ actionHandler = {
 		}else{
 			modalWindow = modal.fillModalContent({ html: data['html'], title: 'Error!', buttons: [{ 'text': 'Okay', 'className': 'modal-close positive' }] });
 		};
-		// modalWindow.querySelectorAll('*[data-action]').forEach(block => block.addEventListener('click', actionHandler.clickCommonHandler));
 
 		if (data["jsFile"]) {
 			addScriptFile(data["jsFile"]);
@@ -185,28 +183,6 @@ actionHandler = {
 			if (!addScriptFile('/js/ckeditor.js', () => CKEditorApply(editors))) {
 				CKEditorApply(editors);
 			}
-			/* let applyCKeditor = setInterval(() => {
-				if (!CKEDITOR){
-					return;
-				}
-				let textareas = modalWindow.querySelectorAll("textarea");
-				textareas.forEach((textarea) => {
-					textarea.id = Math.random(321123);
-					CKEDITOR.replace(textarea, {
-						height: 300,
-						filebrowserImageBrowseUrl: "js/kcfinder/browse.php?type=images",
-						filebrowserImageUploadUrl: "js/kcfinder/upload.php?type=images",
-					});
-					CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;
-				
-					if (textarea.classList.contains('news')) {
-						CKEDITOR.on("instanceReady", function (event) {
-							textarea.nextElementSibling.querySelector("a.cke_button__save").onclick = actionHandler.currentFormSubmit;
-						});
-					}
-				});
-				clearInterval(applyCKeditor);
-			}, 100) */
 		}
 
 		let autoCompleteInputs = modalWindow.querySelectorAll("*[data-autocomplete]");
@@ -301,7 +277,7 @@ actionHandler = {
 
 		let participantsList = [];
 		target.closest('form').querySelectorAll("input[name='participant[]']").forEach(item => item.value !== '' && item !== target ? participantsList.push(item.value) : false);
-		if (participantsList.includes(newName)) {
+		if (newName !== '+1' && participantsList.includes(newName)) {
 			alert('Гравець з таким іменем - вже зареєстрований на поточний вечір!');
 			target.value = '';
 		}
