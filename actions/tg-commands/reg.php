@@ -33,7 +33,7 @@ if (!isset($userData['id'])) {
         'userStatus' => $userData['status']
     ];
 
-
+    $output['message'] = '';
     foreach ($args as $value) {
 
         $value = trim($value);
@@ -80,6 +80,7 @@ if (!isset($userData['id'])) {
         } elseif (strpos($value, '-') !== false) {
             $requestData['duration'] = substr($value, 0, 1);
         } elseif ($requestData['userId'] < 2) {
+            $output['message'] .= "$value\r\n";
             $userRegData = $users->usersGetData(['id', 'name'], ['id' => $users->userGetId($value)]);
             if (!$userRegData) {
                 $requestData['userId'] = $userRegData['id'];
@@ -89,7 +90,7 @@ if (!isset($userData['id'])) {
     }
 
     if ($requestData['userId'] < 2) {
-        $output['message'] = 'Я не нашёл такого пользователя:( ' . json_encode($requestData, true) . ' ' . json_encode($args, true);
+        $output['message'] .= 'Я не нашёл такого пользователя:( ' . json_encode($requestData, true) . ' ' . json_encode($args, true);
     } else {
         if ($currentDay > $requestData['dayNum']) {
             $output['message'] = 'Не могу записать Вас на уже прошедший день! Sowwy:(';
