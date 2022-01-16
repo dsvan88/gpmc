@@ -31,16 +31,16 @@ if ($weekData) {
     $output['message'] = '';
     for ($i = 0; $i < 7; $i++) {
 
+        $output['message'] .= json_encode($weekData['data'][$i], true) . "\r\n";
         if (!isset($weekData['data'][$i])) {
             continue;
         }
         $format = "d.m.Y {$weekData['data'][$i]['time']}";
         $dayDate = strtotime(date($format, $weekData['start'] + 86400 * $i));
         if ($_SERVER['REQUEST_TIME'] > $dayDate) {
-            $output['message'] .= $dayDate . "\r\n";
             continue;
         }
-        $output['message'] .= $dayDate . "\r\n";
+
         $date = str_replace(
             ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
             ['<b>Понедельник</b>', '<b>Вторник</b>', '<b>Среда</b>', '<b>Четверг</b>', '<b>Пятница</b>', '<b>Суббота</b>', '<b>Воскресенье</b>'],
