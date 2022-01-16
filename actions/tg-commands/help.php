@@ -11,7 +11,7 @@ $output['message'] = "<i>Инструкция к боту</i>.\r\n
     <u>/nick Ваш псевдоним</u> (кириллицей) <i>// Зарегистрировать свой псевдоним</i>
     <u>/?</u> или <u>/help</u> <i>// Это меню</i>
 ";
-if ($_POST['message']['chat']['type'] !== 'private') {
+if ($_POST['message']['chat']['type'] === 'private') {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.users.php';
 
     $users = new Users;
