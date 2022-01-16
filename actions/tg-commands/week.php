@@ -40,7 +40,7 @@ if ($weekData) {
             $output['message'] .= $dayDate . "\r\n";
             continue;
         }
-
+        $output['message'] .= $dayDate . "\r\n";
         $date = str_replace(
             ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
             ['<b>Понедельник</b>', '<b>Вторник</b>', '<b>Среда</b>', '<b>Четверг</b>', '<b>Пятница</b>', '<b>Суббота</b>', '<b>Воскресенье</b>'],
