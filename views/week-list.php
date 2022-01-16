@@ -3,8 +3,6 @@ $output['{WEEK_LIST}'] = '
 	<h2 class="week-preview__title section__title">Тижневий розклад ігор</h2>
 	<div class="week-preview__list">';
 
-$weekData = $weeks->getDataByTime();
-
 if (!$weekData) {
 	$weekData = $weeks->getDataDefault();
 }
@@ -17,11 +15,6 @@ $gameNames = [
 	'board' => 'Настолки',
 	'cash' => 'Кеш-покер'
 ];
-
-$currentDay = getdate()['wday'] - 1;
-
-if ($currentDay === -1)
-	$currentDay = 6;
 
 for ($i = 0; $i < 7; $i++) {
 	if (!isset($weekData['data'][$i])) {

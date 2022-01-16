@@ -25,6 +25,7 @@ $output = [
     	<script defer type="text/javascript" src="js/get_script.php/?js=main"></script>
 	',
 	'{HEADER_CONTENT}' => file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/templates/header-content.html'),
+	'{HEADER_ADD_MENU_ITEMS}' => '',
 	'{WEBSITE_TITLE}' => 'Mafia Game v' . SCRIPT_VERSION,
 	'{WEBSITE_DESCRIPTION}' => 'Kriviy Rih Mafia Club основан людьми, для людей. Приходите к нам поиграть в класическую, салоную игру Мафия!',
 	'{MAIN_CONTENT}' => '',
@@ -34,10 +35,11 @@ $output = [
 ];
 
 if (isset($_SESSION['id'])) {
-	if ($_SESSION['avatar'] == '')
+	if ($_SESSION['avatar'] == '') {
 		$profileImage = $_SESSION['gender'] === '' ? $settingsArray['img']['profile']['value'] : $settingsArray['img'][$_SESSION['gender']]['value'];
-	else
+	} else {
 		$profileImage = FILE_USRGALL . $_SESSION['id'] . '/' . $_SESSION['avatar'];
+	}
 	$profileImage = $images->inputImage($profileImage, ['title' => $_SESSION['name']]);
 	$output['{PROFILE_BUTTON}'] = "
 	<a class='header__profile-button' data-action='user-profile-form'>

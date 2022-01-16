@@ -15,3 +15,13 @@ $gendersImages = [
 	'female' => $settingsArray['img']['female']['value'],
 	'unknow' => $settingsArray['img']['profile']['value']
 ];
+
+$currentDay = getdate()['wday'] - 1;
+
+if ($currentDay === -1)
+	$currentDay = 6;
+
+$weekData = $weeks->getDataByTime();
+
+if ($weekData)
+	$dayData = $weekData[$currentDay];
