@@ -61,7 +61,7 @@ if ($output['message'] !== '') {
 
         if ($command === 'week') {
             $bot->pinTelegramBotMessageAndSaveItsData($chatId, $messageId);
-        } else if ($command === 'booking') {
+        } else if (in_array($command, ['booking', 'reg'])) {
             require_once "$_SERVER[DOCUMENT_ROOT]/actions/tg-commands/week.php";
             $result = $bot->editPinnedMessage($chatId, $output['message']);
         }
