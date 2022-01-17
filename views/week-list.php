@@ -18,11 +18,17 @@ $gameNames = [
 	'cash' => 'Кеш-покер'
 ];
 
+$defaultDayData = $weeks->getDayDataDefault();
+
 for ($i = 0; $i < 7; $i++) {
 	if (!isset($weekData['data'][$i])) {
 		$weekData['data'][$i] = $weeks->getDayDataDefault();
+	} else {
+		foreach ($defaultDayData as $key => $value) {
+			if (!isset($weekData['data'][$i][$key]))
+				$weekData['data'][$i][$key] = $value;
+		}
 	}
-
 	$replace = [
 		'{DAY_DATE}' => str_replace(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], ['<b>Понедельник</b>', '<b>Вторник</b>', '<b>Среда</b>', '<b>Четверг</b>', '<b>Пятница</b>', '<b>Суббота</b>', '<b>Воскресенье</b>'], date('d.m.Y (l)', $monday + 86400 * $i)) . ' ' . $weekData['data'][$i]['time'],
 		'{DAY_GAME}' => $gameNames[$weekData['data'][$i]['game']],
