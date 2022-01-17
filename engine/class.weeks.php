@@ -37,7 +37,6 @@ class Weeks
 		$time = $_SERVER['REQUEST_TIME'] - 604800;
 		$result = $this->getDataByTime($time);
 		if ($result) {
-			var_dump($result);
 			$weekData = $result;
 			if (is_string($weekData['data'])) {
 				$weekData['data'] = json_decode($weekData['data'], true);
