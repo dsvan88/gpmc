@@ -37,8 +37,11 @@ class Weeks
 		$time = $_SERVER['REQUEST_TIME'] - 604800;
 		$result = $this->getDataByTime($time);
 		if ($result) {
+			var_dump($result);
 			$weekData = $result;
-			$weekData['data'] = json_decode($weekData['data'], true);
+			if (is_string($weekData['data'])) {
+				$weekData['data'] = json_decode($weekData['data'], true);
+			}
 			for ($i = 0; $i < 7; $i++) {
 				$weekData['data']['participants'] = [];
 			}
