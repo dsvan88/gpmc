@@ -7,6 +7,7 @@ if (!$weekData) {
 	$weekData = $weeks->getDataDefault();
 }
 
+$weekId = $weekData['id'];
 $weeksCount = $weeks->getCount();
 
 $monday = strtotime('last monday', strtotime('next sunday'));
@@ -32,7 +33,7 @@ for ($i = 0; $i < 7; $i++) {
 	$replace = [
 		'{DAY_DATE}' => str_replace(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], ['<b>Понедельник</b>', '<b>Вторник</b>', '<b>Среда</b>', '<b>Четверг</b>', '<b>Пятница</b>', '<b>Суббота</b>', '<b>Воскресенье</b>'], date('d.m.Y (l)', $monday + 86400 * $i)) . ' ' . $weekData['data'][$i]['time'],
 		'{DAY_GAME}' => $gameNames[$weekData['data'][$i]['game']],
-		'{WEEK_INDEX}' => $weekData['id'],
+		'{WEEK_INDEX}' => $weekId,
 		'{DAY_INDEX}' => $i,
 		'{DAY_PARTICIPANTS}' => '<ol class="day-participants__list">',
 		'{DAY_ITEM_CLASS}' => ''
@@ -56,32 +57,34 @@ for ($i = 0; $i < 7; $i++) {
 }
 $output['{WEEK_LIST}'] .= '
 	</div>';
-/* 
+
+$weeksIds = $weeks->getIds();
+
 if ($weeksCount > 0) {
-	$page = $weekId;
+
+	$currentWeekId = array_search($weekId, $weeksIds);
+
 	$pagesLinks = '';
 	$pagesCount = $weeksCount;
-	for ($x = 0; $x < $pagesCount; $x++) {
-		$pagesLinks .= "<a href='/?wid=$x'" . ($x == $page ? ' class="active"' : '') . '>' . ($x + 1) . '</a>';
+	foreach ($weeksIds as $index => $wId) {
+		$pagesLinks .= "<a href='/?weekid=$wId'" . ($wId == $weekId ? ' class="active"' : '') . ">$wId</a>";
 	}
-	if ($page > 0) {
-		$pagesLinks = '<a href="/?wid=' . ($page - 1) . '"><i class="fa fa-angle-left"></i></a>' . $pagesLinks;
+	if ($currentWeekId > 1) {
+		$pagesLinks = '<a href="/?weekid=' . $weeksIds[$currentWeekId - 1] . '"><i class="fa fa-angle-left"></i></a>' . $pagesLinks;
 	} else {
 		$pagesLinks = '<a><i class="fa fa-angle-left"></i></a>' . $pagesLinks;
 	}
-	if ($page > 5) {
-		$pagesLinks = '<a href="/?wid=1"><i class="fa fa-angle-double-left"></i></a>' . $pagesLinks;
+	if ($currentWeekId > 5) {
+		$pagesLinks = '<a href="/?weekid=1"><i class="fa fa-angle-double-left"></i></a>' . $pagesLinks;
 	}
 
-
-	if ($page != ($pagesCount - 1)) {
-		$pagesLinks .= '<a href="/?wid=' . ($page + 1) . '"><i class="fa fa-angle-right"></i></a>';
+	if (isset($weeksIds[$currentWeekId + 1])) {
+		$pagesLinks .= '<a href="/?weekid=' . $weeksIds[$currentWeekId + 1] . '"><i class="fa fa-angle-right"></i></a>';
 	} else {
 		$pagesLinks .= '<a><i class="fa fa-angle-right"></i></a>';
 	}
-	if ($pagesCount - 1 - $page > 5) {
-		$pagesLinks .= '<a href="/?wid=' . ($pagesCount - 1) . '"><i class="fa fa-angle-double-right"></i></a>';
+	if ($weeksCount - 1 - $currentWeekId > 5) {
+		$pagesLinks .= '<a href="/?weekid=' . ($weeksCount - 1) . '"><i class="fa fa-angle-double-right"></i></a>';
 	}
-	$output['{NEWS_PREVIEW}'] .= "<div class='news-preview__links'>$pagesLinks</div>";
+	$output['{WEEK_LIST}'] .= "<div class='news-preview__links'>$pagesLinks</div>";
 }
- */

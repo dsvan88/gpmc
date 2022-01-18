@@ -206,7 +206,7 @@ actionHandler = {
 		);
 	},
 	weekDayEdit: function ({ target }) {
-		window.location = `/?wid=${target.dataset.week}&did=${target.dataset.day}`;
+		window.location = `/?weekid=${target.dataset.week}&dayid=${target.dataset.day}`;
 	},
 	dayApprove: function ({ target }) {
 		const form = target.closest('form');
@@ -220,7 +220,7 @@ actionHandler = {
 				if (result["error"] == 0) {
 					alert(result["message"]);
 					if (form.dataset.wid != result['weekId'])
-						window.location = `${window.location.origin}/?wid=${result['weekId']}&did=${form.dataset.did}`;
+						window.location = `${window.location.origin}/?weekid=${result['weekId']}&dayid=${form.dataset.did}`;
 				} else {
 					alert(result["message"]);
 				}

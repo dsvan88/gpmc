@@ -13,7 +13,7 @@ class Weeks
 	{
 		if ($time === 0)
 			$time = $_SERVER['REQUEST_TIME'];
-		$result = $this->action->getAssocArray($this->action->prepQuery('SELECT id,data,start FROM ' . SQL_TBLWEEKS . ' WHERE start < :time AND finish > :time LIMIT 1', ['time' => $time]));
+		$result = $this->action->getAssocArray($this->action->prepQuery('SELECT id,data,start,finish FROM ' . SQL_TBLWEEKS . ' WHERE start < :start AND finish > :finish LIMIT 1', ['start' => $time, 'finish' => $time,]));
 		if ($result !== []) {
 			$result = $result[0];
 			$result['data'] = json_decode($result['data'], true);
@@ -38,6 +38,7 @@ class Weeks
 		$result = $this->getDataByTime($time);
 		if ($result) {
 			$weekData = $result;
+			$weekData['id'] = 0;
 			if (is_string($weekData['data'])) {
 				$weekData['data'] = json_decode($weekData['data'], true);
 			}
@@ -196,5 +197,9 @@ class Weeks
 	public function getCount()
 	{
 		return $this->action->getColumn($this->action->query('SELECT count(id) FROM ' . SQL_TBLWEEKS));
+	}
+	public function getIds()
+	{
+		return $this->action->getRawArray($this->action->query('SELECT id FROM ' . SQL_TBLWEEKS . ' ORDER BY id'));
 	}
 }
