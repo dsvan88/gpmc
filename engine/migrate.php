@@ -2,7 +2,7 @@
 require __DIR__ . '/class.action.php';
 
 $action = new Action();
-
+/* 
 $action->query(
     str_replace(
         '{SQL_TBLUSERS}',
@@ -11,4 +11,5 @@ $action->query(
 			ADD COLUMN telegramId CHARACTER VARYING(50) NOT NULL DEFAULT ''
     "
     )
-);
+); */
+$action->rowDelete(3, SQL_TBLWEEKS);
