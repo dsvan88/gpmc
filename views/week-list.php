@@ -80,11 +80,12 @@ if ($weeksCount > 0) {
 
 	if (isset($weeksIds[$currentWeekId + 1])) {
 		$pagesLinks .= '<a href="/?weekid=' . $weeksIds[$currentWeekId + 1] . '"><i class="fa fa-angle-right"></i></a>';
-	} else {
+	} elseif ($weekId > 0) {
 		$pagesLinks .= '<a><i class="fa fa-angle-right"></i></a>';
 	}
 	if ($weeksCount - 1 - $currentWeekId > 5) {
 		$pagesLinks .= '<a href="/?weekid=' . ($weeksCount - 1) . '"><i class="fa fa-angle-double-right"></i></a>';
 	}
+	$pagesLinks .= '<a href="/?weekid=-1"' . ($weekId < 1 ? ' class="active"' : '') . '>Нова неділя</a>';
 	$output['{WEEK_LIST}'] .= "<div class='news-preview__links'>$pagesLinks</div>";
 }

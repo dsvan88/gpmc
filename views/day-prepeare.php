@@ -14,7 +14,7 @@ if (isset($weekData['data'][$dayId]))
 else $dayData = $weeks->getDayDataDefault();
 
 $dayHtmlData = [
-	'{DAY_TIME}' => $dayData['time'],
+	'{DAY_TIME}' => isset($dayData['time']) ? $dayData['time'] : '18:00',
 	'{DAY_INDEX}' => $dayId,
 	'{WEEK_INDEX}' => $weekId,
 	'{DAY_GAME_MAFIA}' => '',
