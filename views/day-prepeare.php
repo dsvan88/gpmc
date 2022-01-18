@@ -1,7 +1,7 @@
 <?php
 
-$weekId = (int) $_GET['wid'];
-$dayId = (int) $_GET['did'];
+$weekId = (int) $_GET['weekid'];
+$dayId = (int) $_GET['dayid'];
 
 $weekData = $weeks->getDataById($weekId);
 

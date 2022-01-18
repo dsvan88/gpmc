@@ -89,7 +89,7 @@ $output['{HEADER_LOGO}'] = "<a href='$_SERVER[HTTP_X_FORWARDED_PROTO]://$_SERVER
 if (isset($_GET['gid'])) {
 	require "$_SERVER[DOCUMENT_ROOT]/views/game.php";
 }
-if (isset($_GET['wid']) && isset($_GET['did'])) {
+if (isset($_GET['weekid']) && isset($_GET['dayid'])) {
 	require "$_SERVER[DOCUMENT_ROOT]/views/day-edit.php";
 } elseif (isset($_GET['news'])) {
 	require "$_SERVER[DOCUMENT_ROOT]/views/news.php";

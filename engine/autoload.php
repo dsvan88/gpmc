@@ -21,8 +21,8 @@ $currentDay = getdate()['wday'] - 1;
 if ($currentDay === -1)
 	$currentDay = 6;
 
-if (isset($_GET['wid'])) {
-	$weekId = (int) $_GET['wid'];
+if (isset($_GET['weekid'])) {
+	$weekId = (int) $_GET['weekid'];
 	$weekData = $weeks->getDataById($weekId);
 } else {
 	$weekData = $weeks->getDataByTime();
