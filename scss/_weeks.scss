@@ -106,10 +106,16 @@
 			&-content {
 				font-size: 0.7em;
 			}
-			.day-participants__list-item {
-				margin: 0 0.5em;
-				font-size: 1.2em;
-				line-height: 1.3em;
+			.day-participants {
+				&__list {
+					display: grid;
+					grid-template-columns: 1fr 1fr;
+					&-item {
+						margin: 0 0.5em;
+						font-size: 1.2em;
+						line-height: 1.3em;
+					}
+				}
 			}
 		}
 		&__read-more {

@@ -35,7 +35,9 @@ for ($i = 0; $i < 7; $i++) {
 		'{DAY_GAME}' => $gameNames[$weekData['data'][$i]['game']],
 		'{WEEK_INDEX}' => $weekId,
 		'{DAY_INDEX}' => $i,
-		'{DAY_PARTICIPANTS}' => '<ol class="day-participants__list">',
+		'{DAY_PARTICIPANTS}' => '
+		<ol class="day-participants__list">
+			<div class="day-participants__list-column">',
 		'{DAY_ITEM_CLASS}' => ''
 	];
 
@@ -48,10 +50,17 @@ for ($i = 0; $i < 7; $i++) {
 	else
 		$replace['{DAY_ITEM_CLASS}'] = 'day-future';
 
-	for ($x = 0; $x < 4; $x++) {
+	$maxParticipantsCount = min(count($weekData['data'][$i]['participants']), 10);
+
+	for ($x = 0; $x < $maxParticipantsCount; $x++) {
+		if ($x !== 0 && $x % 5 === 0) {
+			$replace['{DAY_PARTICIPANTS}'] .= '
+			</div>
+			<div class="day-participants__list-column">';
+		}
 		$replace['{DAY_PARTICIPANTS}'] .= '<li class="day-participants__list-item">' . (isset($weekData['data'][$i]['participants'][$x]) ? $weekData['data'][$i]['participants'][$x]['name'] : '') . '</li>';
 	}
-	$replace['{DAY_PARTICIPANTS}'] .= '</ol>';
+	$replace['{DAY_PARTICIPANTS}'] .= '</div></ol>';
 
 	$output['{WEEK_LIST}'] .= str_replace(array_keys($replace), array_values($replace), file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/templates/layouts/item-day.html'));
 }
@@ -80,12 +89,11 @@ if ($weeksCount > 0) {
 
 	if (isset($weeksIds[$currentWeekId + 1])) {
 		$pagesLinks .= '<a href="/?weekid=' . $weeksIds[$currentWeekId + 1] . '"><i class="fa fa-angle-right"></i></a>';
-	} elseif ($weekId > 0) {
+	} else {
 		$pagesLinks .= '<a><i class="fa fa-angle-right"></i></a>';
 	}
 	if ($weeksCount - 1 - $currentWeekId > 5) {
 		$pagesLinks .= '<a href="/?weekid=' . ($weeksCount - 1) . '"><i class="fa fa-angle-double-right"></i></a>';
 	}
-	$pagesLinks .= '<a href="/?weekid=-1"' . ($weekId < 1 ? ' class="active"' : '') . '>Нова неділя</a>';
 	$output['{WEEK_LIST}'] .= "<div class='news-preview__links'>$pagesLinks</div>";
 }
