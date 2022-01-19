@@ -99,6 +99,6 @@ if ($weeksCount > 0) {
 	if ($weeksCount - 1 - $currentWeekId > 5) {
 		$pagesLinks .= '<a href="/?weekid=' . ($weeksCount - 1) . '"><i class="fa fa-angle-double-right"></i></a>';
 	}
-	$pagesLinks .= '<a href="/?weekid=-1"' . ($weekId < 1 ? ' class="active"' : '') . '>Нова неділя</a>';
+	$pagesLinks .= '<a href="/?weekid=-1"' . ($weekId < 1 ? ' class="active"' : '') . '><i class="fa fa-plus"></i></a>';
 	$output['{WEEK_LIST}'] .= "<div class='week-preview__links'>$pagesLinks</div>";
 }
