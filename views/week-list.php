@@ -93,7 +93,7 @@ if ($weeksCount > 0) {
 		$pagesLinks = '<a href="/?weekid=1"><i class="fa fa-angle-double-left"></i></a>' . $pagesLinks;
 	}
 
-	if (isset($weeksIds[$currentWeekId + 1])) {
+	if (isset($weeksIds[$currentWeekId + 1]) && $weekId !== -1) {
 		$pagesLinks .= '<a href="/?weekid=' . $weeksIds[$currentWeekId + 1] . '"><i class="fa fa-angle-right"></i></a>';
 	}
 	if ($weeksCount - 1 - $currentWeekId > 5) {
