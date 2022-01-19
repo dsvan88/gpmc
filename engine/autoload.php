@@ -18,14 +18,31 @@ $gendersImages = [
 
 $currentDay = getdate()['wday'] - 1;
 
-if ($currentDay === -1)
+if ($currentDay === -1) {
 	$currentDay = 6;
+}
 
 if (isset($_GET['weekid'])) {
 	$weekId = (int) $_GET['weekid'];
-	$weekData = $weeks->getDataById($weekId);
+	if ($weekId > 0) {
+		$weekData = $weeks->getDataById($weekId);
+	} else {
+		if ($weekId === 0 || !$weeks->checkByTime()) {
+			$weekData = $weeks->getDataDefault();
+		} else {
+			$sunday = strtotime('next sunday') + 604800;
+			$weekData = $weeks->getDataDefault($sunday);
+			$weekId = -1;
+		}
+	}
 } else {
-	$weekData = $weeks->getDataByTime();
+	if (!$weeks->checkByTime()) {
+		$weekData = $weeks->getDataDefault();
+		$weekId = 0;
+	} else {
+		$weekData = $weeks->getDataByTime();
+		$weekId = $weekData['id'];
+	}
 }
 
 if ($weekData && isset($weekData[$currentDay]))

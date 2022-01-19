@@ -13,7 +13,7 @@ class Weeks
 	{
 		if ($time === 0)
 			$time = $_SERVER['REQUEST_TIME'];
-		$result = $this->action->getAssocArray($this->action->prepQuery('SELECT id,data,start,finish FROM ' . SQL_TBLWEEKS . ' WHERE start < :start AND finish > :finish LIMIT 1', ['start' => $time, 'finish' => $time,]));
+		$result = $this->action->getAssocArray($this->action->prepQuery('SELECT id,data,start,finish FROM ' . SQL_TBLWEEKS . ' WHERE start < :time AND finish > :time LIMIT 1', ['time' => $time]));
 		if ($result !== []) {
 			$result = $result[0];
 			$result['data'] = json_decode($result['data'], true);
@@ -32,9 +32,14 @@ class Weeks
 		}
 		return false;
 	}
-	public function getDataDefault()
+	public function getDataDefault($sunday = 0)
 	{
-		$time = $_SERVER['REQUEST_TIME'] - 604800;
+		if ($sunday === 0)
+			$time = $_SERVER['REQUEST_TIME'] - 604800;
+		else {
+			$time = $sunday - 604800;
+		}
+
 		$result = $this->getDataByTime($time);
 		if ($result) {
 			$weekData = $result;
@@ -74,13 +79,13 @@ class Weeks
 
 		$weekData = false;
 
-		if ($weekId !== 0) {
+		if ($weekId > 0) {
 			$weekData = $this->getDataById($weekId);
 			if ($weekData !== false)
 				$weekId = $weekData['id'];
 		}
 
-		if ($weekId !== 0) {
+		if ($weekId > 0) {
 			$weekData['data'][$dayId] = $data;
 			$result = $this->action->rowUpdate(['data' => json_encode($weekData['data'])], ['id' => $weekId], SQL_TBLWEEKS);
 			if ($result)
@@ -89,6 +94,10 @@ class Weeks
 		} else {
 			$sunday = strtotime('next sunday 23:00:00');
 			$monday = strtotime('last monday 12:00:00', $sunday);
+			if ($weekId === -1) {
+				$sunday += 604800;
+				$monday += 604800;
+			}
 			$weekData = [
 				'start' => $monday,
 				'finish' => $sunday,
@@ -201,5 +210,18 @@ class Weeks
 	public function getIds()
 	{
 		return $this->action->getRawArray($this->action->query('SELECT id FROM ' . SQL_TBLWEEKS . ' ORDER BY id'));
+	}
+	public function checkByTime($time = 0)
+	{
+		if ($time === 0)
+			$time = $_SERVER['REQUEST_TIME'];
+		$result = $this->action->getColumn($this->action->prepQuery('SELECT id FROM ' . SQL_TBLWEEKS . ' WHERE start < :time AND finish > :time LIMIT 1', ['time' => $time]));
+		return $result > 0 ? true : false;
+	}
+	public function getCurrentId()
+	{
+		$time = $_SERVER['REQUEST_TIME'];
+		$result = $this->action->getColumn($this->action->prepQuery('SELECT id FROM ' . SQL_TBLWEEKS . ' WHERE start < :time AND finish > :time LIMIT 1', ['time' => $time]));
+		return $result;
 	}
 }
