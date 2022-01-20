@@ -36,10 +36,10 @@ if (!isset($userData['id'])) {
 
         $value = trim($value);
 
-        $currentDay = getdate()['wday'] - 1;
+        $dayCurrentId = getdate()['wday'] - 1;
 
-        if ($currentDay === -1)
-            $currentDay = 6;
+        if ($dayCurrentId === -1)
+            $dayCurrentId = 6;
 
         if (preg_match('/^(\+|-)/', $value)) {
 
@@ -48,9 +48,9 @@ if (!isset($userData['id'])) {
             $dayName = mb_strtolower(mb_substr($withoutMethod, 0, 3, 'UTF-8'));
 
             if (in_array($dayName, ['сг', 'сег'], true)) {
-                $requestData['dayNum'] = $currentDay;
+                $requestData['dayNum'] = $dayCurrentId;
             } elseif ($dayName === 'зав') {
-                $requestData['dayNum'] = $currentDay + 1;
+                $requestData['dayNum'] = $dayCurrentId + 1;
                 if ($requestData['dayNum'] === 7)
                     $requestData['dayNum'] = 0;
             } else {
@@ -89,7 +89,7 @@ if (!isset($userData['id'])) {
     if ($requestData['userId'] < 2) {
         $output['message'] .= 'Я не нашёл такого пользователя:( ';
     } else {
-        if ($currentDay > $requestData['dayNum']) {
+        if ($dayCurrentId > $requestData['dayNum']) {
             $output['message'] = 'Не могу записать Вас на уже прошедший день! Sowwy:(';
         } else {
             if ($requestData['method'] === '-') {

@@ -16,34 +16,21 @@ $gendersImages = [
 	'unknow' => $settingsArray['img']['profile']['value']
 ];
 
-$currentDay = getdate()['wday'] - 1;
-
-if ($currentDay === -1) {
-	$currentDay = 6;
-}
-
+$weekId = 0;
 if (isset($_GET['weekid'])) {
 	$weekId = (int) $_GET['weekid'];
-	if ($weekId > 0) {
-		$weekData = $weeks->getDataById($weekId);
-	} else {
-		if ($weekId === 0 || !$weeks->checkByTime()) {
-			$weekData = $weeks->getDataDefault();
-		} else {
-			$sunday = strtotime('next sunday') + 604800;
-			$weekData = $weeks->getDataDefault($sunday);
-			$weekId = -1;
-		}
-	}
-} else {
-	if (!$weeks->checkByTime()) {
-		$weekData = $weeks->getDataDefault();
-		$weekId = 0;
-	} else {
-		$weekData = $weeks->getDataByTime();
-		$weekId = $weekData['id'];
-	}
 }
 
-if ($weekData && isset($weekData[$currentDay]))
-	$dayData = $weekData[$currentDay];
+[$weekCurrentId, $weeksIds, $weekCurrentIndexInList, $weekData] = $weeks->autoloadWeekData($weekId);
+
+$dayCurrentId = getdate()['wday'] - 1;
+
+if ($dayCurrentId === -1) {
+	$dayCurrentId = 6;
+}
+
+if ($weekData && isset($weekData[$dayCurrentId]['game'])) {
+	$dayData = $weekData[$dayCurrentId];
+} else {
+	$dayData = $weeks->getDayDataDefault();
+}

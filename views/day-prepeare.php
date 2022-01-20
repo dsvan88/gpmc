@@ -3,16 +3,6 @@
 $weekId = (int) $_GET['weekid'];
 $dayId = (int) $_GET['dayid'];
 
-$weekData = $weeks->getDataById($weekId);
-
-if (!$weekData) {
-	$weekData = $weeks->getDataDefault();
-}
-
-if (isset($weekData['data'][$dayId]))
-	$dayData = $weekData['data'][$dayId];
-else $dayData = $weeks->getDayDataDefault();
-
 $dayHtmlData = [
 	'{DAY_TIME}' => isset($dayData['time']) ? $dayData['time'] : '18:00',
 	'{DAY_INDEX}' => $dayId,

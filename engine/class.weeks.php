@@ -24,7 +24,7 @@ class Weeks
 	// Получить настройки недели по id недели
 	public function getDataById($id)
 	{
-		$result = $this->action->getAssocArray($this->action->prepQuery('SELECT id,data FROM ' . SQL_TBLWEEKS . ' WHERE id = ? LIMIT 1', [$id]));
+		$result = $this->action->getAssocArray($this->action->prepQuery('SELECT id,data,start FROM ' . SQL_TBLWEEKS . ' WHERE id = ? LIMIT 1', [$id]));
 		if ($result !== []) {
 			$result = $result[0];
 			$result['data'] = json_decode($result['data'], true);
@@ -223,5 +223,30 @@ class Weeks
 		$time = $_SERVER['REQUEST_TIME'];
 		$result = $this->action->getColumn($this->action->prepQuery('SELECT id FROM ' . SQL_TBLWEEKS . ' WHERE start < :time AND finish > :time LIMIT 1', ['time' => $time]));
 		return $result;
+	}
+	public function autoloadWeekData($weekId)
+	{
+		$cId = $this->getCurrentId();
+		$wIds = $this->getIds();
+		$wIdsInList = -1;
+		if ($cId)
+			$wIdsInList = array_search($cId, $wIds);
+
+		if ($weekId > 0) {
+			return [$cId, $wIds, $wIdsInList, $this->getDataById($weekId)];
+		}
+		if ($weekId === 0) {
+			if ($cId) {
+				return [$cId, $wIds, $wIdsInList, $this->getDataById($cId)];
+			}
+			return [$cId, $wIds, $wIdsInList, $this->getDataDefault()];
+		}
+		if ($weekId === -1) {
+			if ($cId) {
+				$sunday = strtotime('next sunday') + 604800;
+				return [$cId, $wIds, $wIdsInList, $this->getDataDefault($sunday)];
+			}
+			return [$cId, $wIds, $wIdsInList, $this->getDataDefault()];
+		}
 	}
 }
