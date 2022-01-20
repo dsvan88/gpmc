@@ -3,17 +3,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.users.php';
 
 $users = new Users;
 
-$telegram = isset($_POST['message']['from']['username']) ? $_POST['message']['from']['username'] : '';
-
 $telegramId = $_POST['message']['from']['id'];
 
 $userData = $users->usersGetData(['id', 'name', 'telegram', 'status'], ['telegramid' => $telegramId]);
 
 if (!isset($userData['id'])) {
     $output['message'] = "Извините! Не узнаю вас в гриме:(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш псевдоним (кириллицей)";
-    // $users->usersSaveUnknowTelegram(['telegram' => $telegram, 'telegramid' => $telegramId]);
-} elseif ($userData['name'] === 'tmp_telegram_user') {
-    $output['message'] = "Извините! Не узнаю вас в гриме :(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш псевдоним (кириллицей)";
 } else {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.weeks.php';
 
@@ -31,10 +26,10 @@ if (!isset($userData['id'])) {
     ];
     foreach ($matches[0] as $value) {
 
-        $dayCurrentId = getdate()['wday'] - 1;
+        $currentDay = getdate()['wday'] - 1;
 
-        if ($dayCurrentId === -1)
-            $dayCurrentId = 6;
+        if ($currentDay === -1)
+            $currentDay = 6;
 
         if (preg_match('/^(\+|-)/', $value)) {
 
@@ -43,9 +38,9 @@ if (!isset($userData['id'])) {
             $dayName = mb_strtolower(mb_substr($withoutMethod, 0, 3, 'UTF-8'));
 
             if (in_array($dayName, ['сг', 'сег'], true)) {
-                $requestData['dayNum'] = $dayCurrentId;
+                $requestData['dayNum'] = $currentDay;
             } elseif ($dayName === 'зав') {
-                $requestData['dayNum'] = $dayCurrentId + 1;
+                $requestData['dayNum'] = $currentDay + 1;
                 if ($requestData['dayNum'] === 7)
                     $requestData['dayNum'] = 0;
             } else {
@@ -75,7 +70,7 @@ if (!isset($userData['id'])) {
         }
     }
 
-    if ($dayCurrentId > $requestData['dayNum']) {
+    if ($currentDay > $requestData['dayNum']) {
         $output['message'] = 'Не могу записать Вас на уже прошедший день! Sowwy:(';
     } else {
         if ($requestData['method'] === '-') {
