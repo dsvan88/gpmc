@@ -12,13 +12,6 @@ if (isset($weekData['start'])) {
 	}
 }
 
-$weeksCount = count($weeksIds);
-
-if ($weekId > 0) {
-	$selectedWeekIndex = array_search($weekId, $weeksIds);
-} else {
-	$selectedWeekIndex = $weekCurrentIndexInList;
-}
 $gameNames = [
 	'mafia' => 'Мафия',
 	'poker' => 'Покер',

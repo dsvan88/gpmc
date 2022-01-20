@@ -23,6 +23,14 @@ if (isset($_GET['weekid'])) {
 
 [$weekCurrentId, $weeksIds, $weekCurrentIndexInList, $weekData] = $weeks->autoloadWeekData($weekId);
 
+$weeksCount = count($weeksIds);
+
+if ($weekId > 0) {
+	$selectedWeekIndex = array_search($weekId, $weeksIds);
+} else {
+	$selectedWeekIndex = $weekCurrentIndexInList;
+}
+
 $dayCurrentId = getdate()['wday'] - 1;
 
 if ($dayCurrentId === -1) {
