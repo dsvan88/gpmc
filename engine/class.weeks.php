@@ -32,15 +32,26 @@ class Weeks
 		}
 		return false;
 	}
+	// Получить настройки последней зарегистрированной недели
+	public function getLastWeekData()
+	{
+		$result = $this->action->getAssocArray($this->action->query('SELECT id,data FROM ' . SQL_TBLWEEKS . ' ORDER BY id DESC LIMIT 1'));
+		if ($result !== []) {
+			$result = $result[0];
+			$result['data'] = json_decode($result['data'], true);
+			return $result;
+		}
+		return false;
+	}
 	public function getDataDefault($sunday = 0)
 	{
-		if ($sunday === 0)
-			$time = $_SERVER['REQUEST_TIME'] - 604800;
-		else {
+		if ($sunday === 0) {
+			$result = $this->getLastWeekData();
+		} else {
 			$time = $sunday - 604800;
+			$result = $this->getDataByTime($time);
 		}
 
-		$result = $this->getDataByTime($time);
 		if ($result) {
 			$weekData = $result;
 			$weekData['id'] = 0;
@@ -242,10 +253,10 @@ class Weeks
 			return [$cId, $wIds, $wIdsInList, $this->getDataDefault()];
 		}
 		if ($weekId === -1) {
-			if ($cId) {
+			/* 			if ($cId) {
 				$sunday = strtotime('next sunday') + 604800;
 				return [$cId, $wIds, $wIdsInList, $this->getDataDefault($sunday)];
-			}
+			} */
 			return [$cId, $wIds, $wIdsInList, $this->getDataDefault()];
 		}
 	}

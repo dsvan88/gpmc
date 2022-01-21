@@ -21,6 +21,7 @@ if (isset($_GET['weekid'])) {
 	$weekId = (int) $_GET['weekid'];
 }
 
+
 [$weekCurrentId, $weeksIds, $weekCurrentIndexInList, $weekData] = $weeks->autoloadWeekData($weekId);
 
 $weeksCount = count($weeksIds);
@@ -37,8 +38,13 @@ if ($dayCurrentId === -1) {
 	$dayCurrentId = 6;
 }
 
-if ($weekData && isset($weekData[$dayCurrentId]['game'])) {
-	$dayData = $weekData[$dayCurrentId];
+$dayId = $dayCurrentId;
+if (isset($_GET['dayid'])) {
+	$dayId = (int) $_GET['dayid'];
+}
+
+if ($weekData && isset($weekData['data'][$dayId]['game'])) {
+	$dayData = $weekData['data'][$dayId];
 } else {
 	$dayData = $weeks->getDayDataDefault();
 }
