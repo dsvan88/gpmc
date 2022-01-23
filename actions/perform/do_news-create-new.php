@@ -28,28 +28,7 @@ if ($_POST['type'] === 'tg-info') {
         }
     }
     file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/telegram_results.txt', print_r($result, false));
-} /* elseif ($_POST['type'] === 'tg-promo') {
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.settings.php';
-
-    $settings = new Settings;
-
-    $message = "<u><b>$_POST[title]</b></u>\r\n<i>$_POST[subtitle]</i>\r\n\r\n";
-    $message .= preg_replace('/(<((?!b|u|s|strong|em|i|\/b|\/u|\/s|\/strong|\/em|\/i)[^>]+)>)/i', '', str_replace(['<br />', '<br/>', '<br>', '</p>'], "\r\n", trim($_POST['html'])));
-
-    $promoData = $settings->settingsGet(['id', 'value'], 'tg-promo');
-    if ($promoData) {
-        $settings->settingsSet(['value' => $message], $promoData[0]['id']);
-    } else {
-        $settings->settingsSet([
-            'type' => 'tg-promo',
-            'short_name' => 'telegram_promo-message',
-            'name' => 'Промо сообщение в чате',
-            'value' => "$message",
-            'by_default' => "Тут могла быть Ваша реклама ;)"
-        ]);
-    }
-    $output['message'] = 'Промо-сповіщення успішно збережно!';
-} */ else {
+} else {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.news.php';
 
     $news = new News();
