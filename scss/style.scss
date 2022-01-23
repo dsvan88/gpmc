@@ -273,6 +273,7 @@ body {
 							&.two-elements {
 								grid-template-columns: repeat(2, 1fr);
 								font-size: 1.2em;
+								letter-spacing: 0.03em;
 							}
 						}
 					}
