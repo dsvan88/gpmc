@@ -11,9 +11,10 @@ if (!isset($_POST['message'])) {
     $settings = new Settings();
 }
 require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.weeks.php';
-
+require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.news.php';
 
 $weeks = new Weeks;
+$news = new News;
 
 $weeksData = $weeks->getNearWeeksDataByTime();
 
@@ -92,9 +93,12 @@ if ($output['message'] === '') {
     $output['message'] = "В ближайшее время, игры не запланированны!\r\nОбратитесь к нам позднее.\r\n";
 }
 
-$promoData = $settings->settingsGet('value', 'tg-promo');
+$promoData = $news->newsGetAllByType('tg-promo');
 if ($promoData) {
-    $output['message'] .= "___________\r\n\r\n{$promoData[0]['value']}";
+    $promoData = $promoData[0];
+    $message = "<u><b>$promoData[title]</b></u>\r\n<i>$promoData[subtitle]</i>\r\n\r\n";
+    $message .= preg_replace('/(<((?!b|u|s|strong|em|i|\/b|\/u|\/s|\/strong|\/em|\/i)[^>]+)>)/i', '', str_replace(['<br />', '<br/>', '<br>', '</p>'], "\r\n", trim($promoData['html'])));
+    $output['message'] .= "___________\r\n\r\n$message";
 }
 
 if (!isset($_POST['message'])) {

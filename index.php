@@ -56,7 +56,7 @@ if (isset($_SESSION['id'])) {
 				<div class='header__profile-menu-bar'></div>
 			</li>
 			<li class='header__profile-menu-item'>
-				<span data-action='news-create-new-form'>Змінити Промо</span>
+				<span data-action='news-edit-form' data-news-type='tg-promo'>Змінити Промо</span>
 				<div class='header__profile-menu-bar'></div>
 			</li>
 			<li class='header__profile-menu-item'>

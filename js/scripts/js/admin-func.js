@@ -35,7 +35,6 @@ actionHandler.newsEditFormSubmit = function (event) {
         form = form.closest('form');
     };
     let formData = new FormData(form);
-    // let newHTML = CKEDITOR.instances[form.querySelector("textarea").id].getData();
     let newHTML = CKEDITOR.instances[form.querySelector("div.editor-block").id].getData();
     formData.append('html', newHTML);
     formData.append("need", "do_news-edit");
@@ -58,7 +57,6 @@ actionHandler.settingTextEditFormSubmit = function (event) {
         form = form.closest('form');
     }
     let formData = new FormData(form);
-    // let newHTML = CKEDITOR.instances[form.querySelector("textarea").id].getData();
     let newHTML = CKEDITOR.instances[form.querySelector("div.editor-block").id].getData();
     formData.append('html', newHTML);
     formData.append("need", "do_setting-text-edit");

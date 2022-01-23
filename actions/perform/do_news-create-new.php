@@ -28,7 +28,7 @@ if ($_POST['type'] === 'tg-info') {
         }
     }
     file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/telegram_results.txt', print_r($result, false));
-} elseif ($_POST['type'] === 'tg-promo') {
+} /* elseif ($_POST['type'] === 'tg-promo') {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.settings.php';
 
     $settings = new Settings;
@@ -49,7 +49,7 @@ if ($_POST['type'] === 'tg-info') {
         ]);
     }
     $output['message'] = 'Промо-сповіщення успішно збережно!';
-} else {
+} */ else {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.news.php';
 
     $news = new News();

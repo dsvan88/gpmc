@@ -1,12 +1,28 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.news.php';
 
-$news = new News();
-
-$newsData = $news->newsGetData($_POST['newsId']);
-
+if (isset($_POST['newsType'])) {
+    $news = new News();
+    $newsData = $news->newsGetAllByType($_POST['newsType']);
+    if ($newsData) {
+        $newsData = $newsData[0];
+        $newsId = (int) $newsData['id'];
+    } else {
+        $newsData = [
+            'title' => '',
+            'subtitle' => '',
+            'html' => '',
+            'type' => 'promo'
+        ];
+        $newsId = -1;
+    }
+} else {
+    $newsId = (int) $_POST['newsId'];
+    $news = new News();
+    $newsData = $news->newsGetData($newsId);
+}
 $replace = [
-    '{NEWS_ID}' => $_POST['newsId'],
+    '{NEWS_ID}' => $newsId,
     '{NEWS_TITLE}' => $newsData['title'],
     '{NEWS_SUBTITLE}' => $newsData['subtitle'],
     '{NEWS_HTML}' => $newsData['html'],

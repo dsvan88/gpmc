@@ -27,8 +27,8 @@ if ($_POST['type'] === 'tg-info') {
             break;
         }
     }
-    file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/telegram_results.txt', print_r($result, false));
-} elseif ($_POST['type'] === 'tg-promo') {
+    // file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/telegram_results.txt', print_r($result, false));
+} /* elseif ($_POST['type'] === 'tg-promo') {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.settings.php';
 
     $settings = new Settings;
@@ -49,7 +49,7 @@ if ($_POST['type'] === 'tg-info') {
         ]);
     }
     $output['message'] = 'Промо-сповіщення успішно збережно!';
-} else {
+} */ else {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.news.php';
 
     $news = new News();
@@ -64,6 +64,9 @@ if ($_POST['type'] === 'tg-info') {
         copy($_FILES['logo']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $newFilename);
         $array['logo'] = $newFilename;
     }
-    $result = $news->newsUpdate($array, $_POST['id']);
+    if ($_POST['id'] > 0)
+        $result = $news->newsUpdate($array, $_POST['id']);
+    else
+        $result = $news->newsCreate($array);
     $output['message'] = 'Новина успішно зафіксована';
 }
