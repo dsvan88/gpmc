@@ -1,8 +1,9 @@
 <form class="booking" data-wid="{WEEK_INDEX}" data-did="{DAY_INDEX}">
 	<h3 class="booking__title">Налаштування вечора гри</h3>
 	<div class="booking__settings">
-		<div class="booking__settings-row">
-			<input class="timepicker" type="text" name="day_time" value="{DAY_TIME}" placeholder="Час початку першої гри" />
+		<div class="booking__settings-row two-elements">
+			<label for="game-day-time" class="booking__label-centered"> {DAY_DATE} </label>
+			<input class="timepicker" type="text" name="day_time" value="{DAY_TIME}" placeholder="Час початку першої гри" id="game-day-time" />
 		</div>
 		<div class="booking__settings-row multiple-elements">
 			<select name="game">
@@ -19,6 +20,9 @@
 				<input type="checkbox" name="mods-tournament" id="game-tournament-checkbox" value="tournament" class="checkbox-styled-checkbox" {DAY_GAME_MODS_TOURNAMENT} />
 				<label for="game-tournament-checkbox" class="checkbox-styled__label"> Турнир </label>
 			</span>
+		</div>
+		<div class="booking__settings-row">
+			<input type="text" name="prim" value="{DAY_PRIM}" placeholder="Примітка" />
 		</div>
 	</div>
 	<div class="booking__participants">

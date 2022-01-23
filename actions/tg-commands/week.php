@@ -52,6 +52,8 @@ if ($weekData) {
             $output['message'] .= "*<b>ФАНОВАЯ</b>! Хорошо проведите время и повеселитесь!\r\n";
         if (in_array('tournament', $weekData['data'][$i]['mods'], true))
             $output['message'] .= "<b>ТУРНИР</b>! Станьте чемпионом в равной борьбе!\r\n";
+        if (isset($weekData['data'][$i]['prim']) && $weekData['data'][$i]['prim'] !== '')
+            $output['message'] .= "<u>{$weekData['data'][$i]['prim']}</u>\r\n";
 
         $output['message'] .= "\r\n";
 

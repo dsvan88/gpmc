@@ -8,6 +8,7 @@ $users = new Users;
 $data = [
     'weekId' => (int) $_POST['weekId'],
     'dayId' => (int) $_POST['dayId'],
+    'prim' => $_POST['prim'],
     'game' => trim($_POST['game']),
     'mods' => [],
     'time' => $_POST['day_time'],
@@ -28,7 +29,6 @@ if (isset($_POST['participant'])) {
         $userName = trim($_POST['participant'][$i]);
 
         if ($userName === '') continue;
-
 
         if ($userName !== '+1')
             $userId = $users->userGetId($userName);

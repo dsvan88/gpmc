@@ -270,19 +270,14 @@ body {
 							&.multiple-elements {
 								grid-template-columns: 2fr repeat(2, 1fr);
 							}
-						}
-						/* &-label {
-							width: 15vw;
-							max-width: 300px;
-						}
-						input,
-						select {
-							width: 40vw;
-							border-radius: 5px;
-							&:focus-visible {
-								outline: none !important;
+							&.two-elements {
+								grid-template-columns: repeat(2, 1fr);
+								font-size: 1.2em;
 							}
-						} */
+						}
+					}
+					&__label-centered {
+						text-align: center;
 					}
 					&__participant {
 						display: flex;

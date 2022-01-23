@@ -3,9 +3,17 @@
 $weekId = (int) $_GET['weekid'];
 $dayId = (int) $_GET['dayid'];
 
+$dayDate = str_replace(
+	['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+	['<b>Понедельник</b>', '<b>Вторник</b>', '<b>Среда</b>', '<b>Четверг</b>', '<b>Пятница</b>', '<b>Суббота</b>', '<b>Воскресенье</b>'],
+	date('d.m.Y (l)', $weekData['start'] + 86400 * $dayId)
+);
+
 $dayHtmlData = [
 	'{DAY_TIME}' => isset($dayData['time']) ? $dayData['time'] : '18:00',
 	'{DAY_INDEX}' => $dayId,
+	'{DAY_DATE}' => $dayDate,
+	'{DAY_PRIM}' => isset($dayData['prim']) ? $dayData['prim'] : '',
 	'{WEEK_INDEX}' => $weekId,
 	'{DAY_GAME_MAFIA}' => '',
 	'{DAY_GAME_POKER}' => '',
