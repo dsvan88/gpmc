@@ -56,6 +56,10 @@ if (isset($_SESSION['id'])) {
 				<div class='header__profile-menu-bar'></div>
 			</li>
 			<li class='header__profile-menu-item'>
+				<span data-action='news-create-new-form'>Змінити Промо</span>
+				<div class='header__profile-menu-bar'></div>
+			</li>
+			<li class='header__profile-menu-item'>
 				<span data-action='settings-edit-form'>Налаштування</span>
 				<div class='header__profile-menu-bar'></div>
 			</li>

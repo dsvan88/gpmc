@@ -43,6 +43,19 @@ class Weeks
 		}
 		return false;
 	}
+	// Получить настройки будущих зарегистрированных недель
+	public function getNearWeeksDataByTime()
+	{
+		$time = $_SERVER['REQUEST_TIME'];
+		$result = $this->action->getAssocArray($this->action->prepQuery('SELECT id,data,start FROM ' . SQL_TBLWEEKS . ' WHERE finish > ? ORDER BY id ASC', [$time]));
+		if ($result !== []) {
+			for ($i = 0; $i < count($result); $i++) {
+				$result[$i]['data'] = json_decode($result[$i]['data'], true);
+			}
+			return $result;
+		}
+		return false;
+	}
 	public function getDataDefault($sunday = 0)
 	{
 		if ($sunday === 0) {

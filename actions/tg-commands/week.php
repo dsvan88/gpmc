@@ -1,10 +1,21 @@
 <?php
+if (!isset($_POST['message'])) {
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.action.php';
+    require $_SERVER['DOCUMENT_ROOT'] . '/engine/class.settings.php';
+
+    $GLOBALS['CommonActionObject'] = new Action;
+
+    // require $_SERVER['DOCUMENT_ROOT'] . '/engine/class.bot.php';
+
+    $GLOBALS['CommonActionObject'] = new Action;
+    $settings = new Settings();
+}
 require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.weeks.php';
-// require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.places.php';
+
 
 $weeks = new Weeks;
 
-$weekData = $weeks->getDataByTime();
+$weeksData = $weeks->getNearWeeksDataByTime();
 
 $gameNames = [
     'mafia' => 'Мафия',
@@ -26,9 +37,9 @@ $costs = [
     'board' => 50,
     'cash' => 400
 ];
+$output['message'] = '';
+foreach ($weeksData as $weekData) {
 
-if ($weekData) {
-    $output['message'] = '';
     for ($i = 0; $i < 7; $i++) {
 
         if (!isset($weekData['data'][$i])) {
@@ -46,7 +57,8 @@ if ($weekData) {
             ['<b>Понедельник</b>', '<b>Вторник</b>', '<b>Среда</b>', '<b>Четверг</b>', '<b>Пятница</b>', '<b>Суббота</b>', '<b>Воскресенье</b>'],
             date('d.m.Y (l) H:i', $dayDate)
         );
-        $output['message'] .= "$date - {$gameNames[$weekData['data'][$i]['game']]} ({$costs[$weekData['data'][$i]['game']]})\r\n";
+        // $output['message'] .= "$date - {$gameNames[$weekData['data'][$i]['game']]} ({$costs[$weekData['data'][$i]['game']]})\r\n";
+        $output['message'] .= "$date - {$gameNames[$weekData['data'][$i]['game']]}\r\n";
 
         if (in_array('fans', $weekData['data'][$i]['mods'], true))
             $output['message'] .= "*<b>ФАНОВАЯ</b>! Хорошо проведите время и повеселитесь!\r\n";
@@ -74,11 +86,17 @@ if ($weekData) {
         }
         $output['message'] .= "____\r\n";
     }
-} else {
-    $output['message'] = "Пока вечера игр не запланированны!\r\nПопробуйте позднее";
+}
+
+if ($output['message'] === '') {
+    $output['message'] = "В ближайшее время, игры не запланированны!\r\nОбратитесь к нам позднее.\r\n";
 }
 
 $promoData = $settings->settingsGet('value', 'tg-promo');
 if ($promoData) {
     $output['message'] .= "___________\r\n\r\n{$promoData[0]['value']}";
+}
+
+if (!isset($_POST['message'])) {
+    print_r($output);
 }
