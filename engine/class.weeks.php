@@ -47,7 +47,7 @@ class Weeks
 	public function getNearWeeksDataByTime()
 	{
 		$time = $_SERVER['REQUEST_TIME'];
-		$result = $this->action->getAssocArray($this->action->prepQuery('SELECT id,data,start FROM ' . SQL_TBLWEEKS . ' WHERE finish > ? ORDER BY id ASC', [$time]));
+		$result = $this->action->getAssocArray($this->action->prepQuery('SELECT id,data,start,finish FROM ' . SQL_TBLWEEKS . ' WHERE finish > ? ORDER BY id ASC', [$time]));
 		if ($result !== []) {
 			for ($i = 0; $i < count($result); $i++) {
 				$result[$i]['data'] = json_decode($result[$i]['data'], true);
@@ -254,11 +254,23 @@ class Weeks
 		$result = $this->action->getColumn($this->action->prepQuery('SELECT id FROM ' . SQL_TBLWEEKS . ' WHERE start < :time AND finish > :time LIMIT 1', ['time' => $time]));
 		return $result;
 	}
+	public function getAllWeeksData()
+	{
+		$result = $this->action->getAssocArray($this->action->query('SELECT id,data,start,finish FROM ' . SQL_TBLWEEKS));
+		return $result;
+	}
 	public function autoloadWeekData($weekId)
 	{
 		$cId = $this->getCurrentId();
 		var_dump($cId);
 		var_dump($_SERVER['REQUEST_TIME']);
+		echo '</br>';
+		$weeksData = $this->getAllWeeksData();
+		foreach ($weeksData as $index => $weekdData) {
+			var_dump($weekdData['start']);
+			var_dump($weekdData['finish']);
+			echo '</br>';
+		}
 		$wIds = $this->getIds();
 		$wIdsInList = -1;
 		if ($cId)
