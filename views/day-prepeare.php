@@ -6,7 +6,7 @@ $dayId = (int) $_GET['dayid'];
 $dayDate = str_replace(
 	['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
 	['<b>Понедельник</b>', '<b>Вторник</b>', '<b>Среда</b>', '<b>Четверг</b>', '<b>Пятница</b>', '<b>Суббота</b>', '<b>Воскресенье</b>'],
-	date('d.m.Y (l)', $weekData['start'] + 86400 * $dayId)
+	date('d.m.Y (l)', $weekData['start'] + TIMESTAMP_DAY * $dayId)
 );
 
 $dayHtmlData = [

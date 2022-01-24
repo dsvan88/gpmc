@@ -8,7 +8,7 @@ if (isset($weekData['start'])) {
 } else {
 	$monday = strtotime('last monday', strtotime('next sunday'));
 	if ($weekId === -1) {
-		$monday += 604800;
+		$monday += TIMESTAMP_WEEK;
 	}
 }
 
@@ -32,7 +32,7 @@ for ($i = 0; $i < 7; $i++) {
 		}
 	}
 	$replace = [
-		'{DAY_DATE}' => str_replace(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], ['<b>Понедельник</b>', '<b>Вторник</b>', '<b>Среда</b>', '<b>Четверг</b>', '<b>Пятница</b>', '<b>Суббота</b>', '<b>Воскресенье</b>'], date('d.m.Y (l)', $monday + 86400 * $i)) . ' ' . $weekData['data'][$i]['time'],
+		'{DAY_DATE}' => str_replace(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], ['<b>Понедельник</b>', '<b>Вторник</b>', '<b>Среда</b>', '<b>Четверг</b>', '<b>Пятница</b>', '<b>Суббота</b>', '<b>Воскресенье</b>'], date('d.m.Y (l)', $monday + TIMESTAMP_DAY * $i)) . ' ' . $weekData['data'][$i]['time'],
 		'{DAY_GAME}' => $gameNames[$weekData['data'][$i]['game']],
 		'{WEEK_INDEX}' => isset($_GET['weekid']) ? $weekId : $weekCurrentId,
 		'{DAY_INDEX}' => $i,

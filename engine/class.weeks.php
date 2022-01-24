@@ -61,7 +61,7 @@ class Weeks
 		if ($sunday === 0) {
 			$result = $this->getLastWeekData();
 		} else {
-			$time = $sunday - 604800;
+			$time = $sunday - TIMESTAMP_WEEK;
 			$result = $this->getDataByTime($time);
 		}
 
@@ -119,8 +119,8 @@ class Weeks
 			$sunday = strtotime('next sunday 23:59:59');
 			$monday = strtotime('last monday 00:00:01', $sunday);
 			if ($weekId === -1) {
-				$sunday += 604800;
-				$monday += 604800;
+				$sunday += TIMESTAMP_WEEK;
+				$monday += TIMESTAMP_WEEK;
 			}
 			$weekData = [
 				'start' => $monday,
@@ -136,13 +136,22 @@ class Weeks
 	}
 	public function dayUserRegistrationByTelegram($data)
 	{
-		/*$weeksData = $this->getNearWeeksDataByTime();
-		$id = -1;
-		 foreach($weeksData as $index=>$weekData){
-			if (!isset($weekData['data'][$data['dayNum']]) || )
-		} */
+		$weekData = false;
+		if ($data['currentDay'] > $data['dayNum']) {
+			$weeksData = $this->getNearWeeksDataByTime();
+			$id = -1;
+			foreach ($weeksData as $index => $tempWeekData) {
+				$dayTime = $tempWeekData['start'] + TIMESTAMP_DAY * $data['dayNum'];
+				if ($dayTime > $_SERVER['REQUEST_TIME']) {
+					$weekData = $tempWeekData;
+					break;
+				}
+			}
+		}
 
-		$weekData = $this->getDataByTime();
+		if (!$weekData)
+			$weekData = $this->getDataByTime();
+
 		$id = -1;
 		if (!isset($weekData['data'][$data['dayNum']])) {
 			if (!in_array($data['userStatus'], ['admin', 'manager']))
@@ -198,7 +207,21 @@ class Weeks
 	}
 	public function dayUserUnregistrationByTelegram($data)
 	{
-		$weekData = $this->getDataByTime();
+		$weekData = false;
+		if ($data['currentDay'] > $data['dayNum']) {
+			$weeksData = $this->getNearWeeksDataByTime();
+			$id = -1;
+			foreach ($weeksData as $index => $tempWeekData) {
+				$dayTime = $tempWeekData['start'] + TIMESTAMP_DAY * $data['dayNum'];
+				if ($dayTime > $_SERVER['REQUEST_TIME']) {
+					$weekData = $tempWeekData;
+					break;
+				}
+			}
+		}
+
+		if (!$weekData)
+			$weekData = $this->getDataByTime();
 
 		if (!isset($weekData['data'][$data['dayNum']])) {
 			return 'Игр на указанный день, пока не запланировано!';
@@ -278,7 +301,7 @@ class Weeks
 		}
 		if ($weekId === -1) {
 			/* 			if ($cId) {
-				$sunday = strtotime('next sunday') + 604800;
+				$sunday = strtotime('next sunday') + TIMESTAMP_WEEK;
 				return [$cId, $wIds, $wIdsInList, $this->getDataDefault($sunday)];
 			} */
 			return [$cId, $wIds, $wIdsInList, $this->getDataDefault()];

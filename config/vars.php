@@ -31,10 +31,11 @@ if (!defined('SQL_HOST')) {
 
 	define('DATE_MARGE', 36000); //36000 = +10 часов к длительности вечера
 	define('TIME_MARGE', 1800); //1800 = за полчаса до официально старта - открывает регистрация игроков на первую игру
-
+	define('TIMESTAMP_DAY', 86400);
+	define('TIMESTAMP_WEEK', 604800);
 	define('CFG_DEBUG', true);
 	define('CFG_NEWS_PER_PAGE', 6);
-	define('CFG_MAX_SESSION_AGE', 604800); // 60*60*24*7 == 1 week
+	define('CFG_MAX_SESSION_AGE', TIMESTAMP_WEEK); // 60*60*24*7 == 1 week
 	define('LOG_PREFIX', 'LogFile_');
 	define('SCRIPT_VERSION', '0.19');
 	define('MAFCLUB_NAME', 'Kriviy Rih Mafia Club');

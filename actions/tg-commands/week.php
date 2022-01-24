@@ -47,7 +47,7 @@ foreach ($weeksData as $weekData) {
             continue;
         }
         $format = "d.m.Y {$weekData['data'][$i]['time']}";
-        $dayDate = strtotime(date($format, $weekData['start'] + 86400 * $i));
+        $dayDate = strtotime(date($format, $weekData['start'] + TIMESTAMP_DAY * $i));
 
         if ($_SERVER['REQUEST_TIME'] > $dayDate + DATE_MARGE) {
             continue;
