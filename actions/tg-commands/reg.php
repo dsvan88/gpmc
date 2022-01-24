@@ -85,7 +85,7 @@ if (!isset($userData['id'])) {
             }
         }
     }
-
+    $output['message'] .= json_encode($requestData, JSON_UNESCAPED_UNICODE);
     if ($requestData['userId'] < 2) {
         $output['message'] .= 'Я не нашёл такого пользователя:( ';
     } else {
