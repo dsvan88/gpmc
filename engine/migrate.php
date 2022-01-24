@@ -26,6 +26,9 @@ $weeksData = $action->getAssocArray(
 foreach ($weeksData as $index => $data) {
     echo "<br> $index:  ";
     print_r($data);
+    echo date('d.m.Y H:i', $data['start']);
+    echo "<br>";
+    echo date('d.m.Y H:i', $data['finish']);
 }
 
 /* 
