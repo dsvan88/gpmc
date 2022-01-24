@@ -13,3 +13,39 @@ $action->query(
     )
 ); */
 // $action->rowDelete(3, SQL_TBLWEEKS);
+
+$weeksData = $action->getAssocArray(
+    $action->query(
+        str_replace(
+            '{SQL_TBLWEEKS}',
+            SQL_TBLWEEKS,
+            "SELECT data,start,finish FROM {SQL_TBLWEEKS} ORDER BY id"
+        )
+    )
+);
+foreach ($weeksData as $index => $data) {
+    echo "<br> $index:  ";
+    print_r($data);
+}
+
+/* 
+$action->query(
+    str_replace(
+        '{SQL_TBLWEEKS}',
+        SQL_TBLWEEKS,
+        "TRUNCATE {SQL_TBLWEEKS} RESTART IDENTITY"
+    )
+);
+$action->rowInsert($weeksData, SQL_TBLWEEKS);
+
+$weeksData = $action->getAssocArray(
+    $action->query(
+        str_replace(
+            '{SQL_TBLWEEKS}',
+            SQL_TBLWEEKS,
+            "SELECT data,start,finish FROM {SQL_TBLWEEKS} ORDER BY id"
+        )
+    )
+);
+print_r($weeksData);
+ */
