@@ -11,8 +11,6 @@ $userData = $users->usersGetData(['id', 'name', 'telegram', 'status'], ['telegra
 
 if (!isset($userData['id'])) {
     $output['message'] = "Извините! Не узнаю вас в гриме:(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш псевдоним (кириллицей)";
-} elseif ($userData['name'] === 'tmp_telegram_user') {
-    $output['message'] = "Извините! Не узнаю вас в гриме :(\r\nСкажите Ваш псевдоним в игре, что бы я вас запомнил! Напишите: /nick Ваш псевдоним (кириллицей)";
 } elseif (!in_array($userData['status'], ['manager', 'admin'], true)) {
     $output['message'] = "Команда не знайдена";
 } else {
@@ -85,6 +83,7 @@ if (!isset($userData['id'])) {
             }
         }
     }
+    $output['message'] .= json_encode($args, JSON_UNESCAPED_UNICODE);
     $output['message'] .= json_encode($requestData, JSON_UNESCAPED_UNICODE);
     if ($requestData['userId'] < 2) {
         $output['message'] .= 'Я не нашёл такого пользователя:( ';
