@@ -136,6 +136,12 @@ class Weeks
 	}
 	public function dayUserRegistrationByTelegram($data)
 	{
+		/*$weeksData = $this->getNearWeeksDataByTime();
+		$id = -1;
+		 foreach($weeksData as $index=>$weekData){
+			if (!isset($weekData['data'][$data['dayNum']]) || )
+		} */
+
 		$weekData = $this->getDataByTime();
 		$id = -1;
 		if (!isset($weekData['data'][$data['dayNum']])) {
@@ -251,6 +257,8 @@ class Weeks
 	public function autoloadWeekData($weekId)
 	{
 		$cId = $this->getCurrentId();
+		var_dump($cId);
+		var_dump($_SERVER['REQUEST_TIME']);
 		$wIds = $this->getIds();
 		$wIdsInList = -1;
 		if ($cId)

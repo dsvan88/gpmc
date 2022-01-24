@@ -26,10 +26,10 @@ if (!isset($userData['id'])) {
     ];
     foreach ($matches[0] as $value) {
 
-        $currentDay = getdate()['wday'] - 1;
+        $requestData['currentDay'] = getdate()['wday'] - 1;
 
-        if ($currentDay === -1)
-            $currentDay = 6;
+        if ($requestData['currentDay'] === -1)
+            $requestData['currentDay'] = 6;
 
         if (preg_match('/^(\+|-)/', $value)) {
 
@@ -38,9 +38,9 @@ if (!isset($userData['id'])) {
             $dayName = mb_strtolower(mb_substr($withoutMethod, 0, 3, 'UTF-8'));
 
             if (in_array($dayName, ['сг', 'сег'], true)) {
-                $requestData['dayNum'] = $currentDay;
+                $requestData['dayNum'] = $requestData['currentDay'];
             } elseif ($dayName === 'зав') {
-                $requestData['dayNum'] = $currentDay + 1;
+                $requestData['dayNum'] = $requestData['currentDay'] + 1;
                 if ($requestData['dayNum'] === 7)
                     $requestData['dayNum'] = 0;
             } else {
@@ -70,7 +70,7 @@ if (!isset($userData['id'])) {
         }
     }
 
-    if ($currentDay > $requestData['dayNum']) {
+    if ($requestData['currentDay'] > $requestData['dayNum']) {
         $output['message'] = 'Не могу записать Вас на уже прошедший день! Sowwy:(';
     } else {
         if ($requestData['method'] === '-') {
