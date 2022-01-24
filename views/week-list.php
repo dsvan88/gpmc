@@ -78,7 +78,10 @@ $output['{WEEK_LIST}'] .= '
 if ($weeksCount > 0) {
 	$pagesLinks = '';
 	foreach ($weeksIds as $index => $wId) {
-		$pagesLinks .= "<a href='/?weekid=$wId'" . ($wId == $weeksIds[$selectedWeekIndex] ? ' class="active"' : '') . '>' . ($index + 1) . '</a>';
+		$active = false;
+		if ($selectedWeekIndex !== -1 && $wId == $weeksIds[$selectedWeekIndex])
+			$active = true;
+		$pagesLinks .= "<a href='/?weekid=$wId'" . ($active ? ' class="active"' : '') . '>' . ($index + 1) . '</a>';
 	}
 	if ($selectedWeekIndex > 0) {
 		$pagesLinks = '<a href="/?weekid=' . $weeksIds[$selectedWeekIndex - 1] . '"><i class="fa fa-angle-left"></i></a>' . $pagesLinks;

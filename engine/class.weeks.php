@@ -116,8 +116,8 @@ class Weeks
 				return $weekId;
 			return false;
 		} else {
-			$sunday = strtotime('next sunday 23:00:00');
-			$monday = strtotime('last monday 12:00:00', $sunday);
+			$sunday = strtotime('next sunday 23:59:59');
+			$monday = strtotime('last monday 00:00:01', $sunday);
 			if ($weekId === -1) {
 				$sunday += 604800;
 				$monday += 604800;
@@ -262,15 +262,6 @@ class Weeks
 	public function autoloadWeekData($weekId)
 	{
 		$cId = $this->getCurrentId();
-		var_dump($cId);
-		var_dump($_SERVER['REQUEST_TIME']);
-		echo '</br>';
-		$weeksData = $this->getAllWeeksData();
-		foreach ($weeksData as $index => $weekdData) {
-			var_dump($weekdData['start']);
-			var_dump($weekdData['finish']);
-			echo '</br>';
-		}
 		$wIds = $this->getIds();
 		$wIdsInList = -1;
 		if ($cId)
