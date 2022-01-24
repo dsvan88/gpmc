@@ -264,6 +264,7 @@ class Weeks
 		$cId = $this->getCurrentId();
 		$wIds = $this->getIds();
 		$wIdsInList = -1;
+		echo date('d.m.Y H:i:s', $_SERVER['REQUEST_TIME']);
 		if ($cId)
 			$wIdsInList = array_search($cId, $wIds);
 
