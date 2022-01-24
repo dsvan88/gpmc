@@ -19,7 +19,7 @@ $weeksData = $action->getAssocArray(
         str_replace(
             '{SQL_TBLWEEKS}',
             SQL_TBLWEEKS,
-            "SELECT data,start,finish FROM {SQL_TBLWEEKS} ORDER BY id"
+            "SELECT id,data,start,finish FROM {SQL_TBLWEEKS} ORDER BY id"
         )
     )
 );
