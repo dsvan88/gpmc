@@ -12,26 +12,18 @@ $action->query(
     "
     )
 ); */
-// $action->rowDelete(3, SQL_TBLWEEKS);
+$action->rowDelete(5, SQL_TBLWEEKS);
 
 $weeksData = $action->getAssocArray(
     $action->query(
         str_replace(
             '{SQL_TBLWEEKS}',
             SQL_TBLWEEKS,
-            "SELECT id,data,start,finish FROM {SQL_TBLWEEKS} ORDER BY id"
+            "SELECT data,start,finish FROM {SQL_TBLWEEKS} ORDER BY id"
         )
     )
 );
-foreach ($weeksData as $index => $data) {
-    echo "<br> $index:  ";
-    print_r($data);
-    echo date('d.m.Y H:i', $data['start']);
-    echo "<br>";
-    echo date('d.m.Y H:i', $data['finish']);
-}
 
-/* 
 $action->query(
     str_replace(
         '{SQL_TBLWEEKS}',
@@ -51,4 +43,3 @@ $weeksData = $action->getAssocArray(
     )
 );
 print_r($weeksData);
- */
