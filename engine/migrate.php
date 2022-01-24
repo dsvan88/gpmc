@@ -46,7 +46,7 @@ $weeksData = $action->getAssocArray(
 );
  */
 
-$weeksData = $action->getAssocArray(
+/* $weeksData = $action->getAssocArray(
     $action->query(
         str_replace(
             '{SQL_TBLWEEKS}',
@@ -62,3 +62,4 @@ foreach ($weeksData as $index => $data) {
         $action->rowUpdate(['start' => $mondayStart], ['id' => $data['id']], SQL_TBLWEEKS);
     }
 }
+ */
