@@ -13,8 +13,8 @@ $action->query(
     )
 ); */
 
-/* 
-$action->rowDelete(5, SQL_TBLWEEKS);
+
+$action->rowDelete(3, SQL_TBLWEEKS);
 
 $weeksData = $action->getAssocArray(
     $action->query(
@@ -44,7 +44,7 @@ $weeksData = $action->getAssocArray(
         )
     )
 );
- */
+
 
 /* $weeksData = $action->getAssocArray(
     $action->query(
