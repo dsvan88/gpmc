@@ -14,8 +14,8 @@ $action->query(
 ); */
 
 // Удалить неделю и сбросить идентификаторы недель
-/* 
-$action->rowDelete(3, SQL_TBLWEEKS);
+
+$action->rowDelete(4, SQL_TBLWEEKS);
 
 $weeksData = $action->getAssocArray(
     $action->query(
@@ -45,7 +45,7 @@ $weeksData = $action->getAssocArray(
         )
     )
 );
- */
+
 
 /* $weeksData = $action->getAssocArray(
     $action->query(
