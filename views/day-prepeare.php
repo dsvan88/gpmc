@@ -23,6 +23,8 @@ $dayHtmlData = [
 	'{DAY_GAME_MODS_TOURNAMENT}' => ''
 ];
 
+var_dump($dayDate);
+
 if (count($dayData['participants']) === 0 && !(isset($_SESSION['status']) && in_array($_SESSION['status'], ['admin', 'manager', 'founder']))) {
 	$dayHtml = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/templates/booking-none.html');
 } else {
