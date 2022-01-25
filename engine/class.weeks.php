@@ -292,6 +292,8 @@ class Weeks
 		$wIdsInList = -1;
 		if ($cId)
 			$wIdsInList = array_search($cId, $wIds);
+		else
+			$cId = 0;
 
 		if ($weekId > 0) {
 			return [$cId, $wIds, $wIdsInList, $this->getDataById($weekId)];
@@ -303,10 +305,6 @@ class Weeks
 			return [$cId, $wIds, $wIdsInList, $this->getDataDefault()];
 		}
 		if ($weekId === -1) {
-			/* 			if ($cId) {
-				$sunday = strtotime('next sunday') + TIMESTAMP_WEEK;
-				return [$cId, $wIds, $wIdsInList, $this->getDataDefault($sunday)];
-			} */
 			return [$cId, $wIds, $wIdsInList, $this->getDataDefault()];
 		}
 	}
