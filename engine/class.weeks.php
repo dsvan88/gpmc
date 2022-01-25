@@ -189,12 +189,12 @@ class Weeks
 			'arrive'	=>	$data['arrive'],
 			'duration'	=> 	(int) $data['duration']
 		];
-
-		$result = $this->daySetApproved($newData);
+		return json_encode($newData, JSON_UNESCAPED_UNICODE);
+		/* $result = $this->daySetApproved($newData);
 
 		if (!$result) {
 			return json_encode($newData, JSON_UNESCAPED_UNICODE);
-		}
+		} */
 
 		$dayNames = ['в <b>Понедельник</b>', 'во <b>Вторник</b>', 'в <b>Среду</b>', 'в <b>Четверг</b>', 'в <b>Пятницу</b>', 'в <b>Субботу</b>', 'в <b>Воскресенье</b>'];
 		$gameNames = [
