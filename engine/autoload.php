@@ -43,6 +43,7 @@ if (isset($_GET['dayid'])) {
 	$dayId = (int) $_GET['dayid'];
 }
 
+var_dump($weekData['data'][$dayId]);
 if ($weekData && isset($weekData['data'][$dayId]['game'])) {
 	$dayData = $weekData['data'][$dayId];
 } else {
