@@ -192,7 +192,7 @@ class Weeks
 			'arrive'	=>	$data['arrive'],
 			'duration'	=> 	(int) $data['duration']
 		];
-		return json_encode($newData, JSON_UNESCAPED_UNICODE);
+
 		$result = $this->daySetApproved($newData);
 
 		if (!$result) {
