@@ -171,9 +171,9 @@ class Weeks
 				}
 			}
 		}
-
+		/* 
 		if ($id !== -1)
-			return 'Вы уже зарегистрированны на этот день!';
+			return 'Вы уже зарегистрированны на этот день!'; */
 
 		$newData = $weekData['data'][$data['dayNum']];
 		$newData['weekId'] = $weekData['id'];
