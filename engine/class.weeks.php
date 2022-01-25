@@ -139,7 +139,6 @@ class Weeks
 		$weekData = false;
 		if ($data['currentDay'] > $data['dayNum']) {
 			$weeksData = $this->getNearWeeksDataByTime();
-			$id = -1;
 			foreach ($weeksData as $index => $tempWeekData) {
 				$dayTime = $tempWeekData['start'] + TIMESTAMP_DAY * $data['dayNum'];
 				if ($dayTime > $_SERVER['REQUEST_TIME']) {
@@ -159,6 +158,10 @@ class Weeks
 			else {
 				$defaultData = $this->getDataDefault();
 				$weekData['data'][$data['dayNum']] = $defaultData['data'][$data['dayNum']];
+
+				if (!isset($weekData['data'][$data['dayNum']]['game']))
+					$weekData['data'][$data['dayNum']] = $this->getDayDataDefault();
+
 				if ($data['arrive'] !== '')
 					$weekData['data'][$data['dayNum']]['time'] = $data['arrive'];
 				$data['arrive'] = '';
@@ -171,9 +174,9 @@ class Weeks
 				}
 			}
 		}
-		/* 
+
 		if ($id !== -1)
-			return 'Вы уже зарегистрированны на этот день!'; */
+			return 'Вы уже зарегистрированны на этот день!';
 
 		$newData = $weekData['data'][$data['dayNum']];
 		$newData['weekId'] = $weekData['id'];
@@ -190,11 +193,11 @@ class Weeks
 			'duration'	=> 	(int) $data['duration']
 		];
 		return json_encode($newData, JSON_UNESCAPED_UNICODE);
-		/* $result = $this->daySetApproved($newData);
+		$result = $this->daySetApproved($newData);
 
 		if (!$result) {
 			return json_encode($newData, JSON_UNESCAPED_UNICODE);
-		} */
+		}
 
 		$dayNames = ['в <b>Понедельник</b>', 'во <b>Вторник</b>', 'в <b>Среду</b>', 'в <b>Четверг</b>', 'в <b>Пятницу</b>', 'в <b>Субботу</b>', 'в <b>Воскресенье</b>'];
 		$gameNames = [
