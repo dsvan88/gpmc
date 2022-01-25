@@ -3,11 +3,15 @@
 $weekId = (int) $_GET['weekid'];
 $dayId = (int) $_GET['dayid'];
 
-$dayDate = str_replace(
-	['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-	['<b>Понедельник</b>', '<b>Вторник</b>', '<b>Среда</b>', '<b>Четверг</b>', '<b>Пятница</b>', '<b>Суббота</b>', '<b>Воскресенье</b>'],
-	date('d.m.Y (l)', $weekData['start'] + TIMESTAMP_DAY * $dayId)
-);
+if (isset($weekData['start'])) {
+	$dayDate = str_replace(
+		['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+		['<b>Понедельник</b>', '<b>Вторник</b>', '<b>Среда</b>', '<b>Четверг</b>', '<b>Пятница</b>', '<b>Суббота</b>', '<b>Воскресенье</b>'],
+		date('d.m.Y (l)', $weekData['start'] + TIMESTAMP_DAY * $dayId)
+	);
+} else {
+	$dayDate = '<Нет данных> (Новая неделя)';
+}
 
 $dayHtmlData = [
 	'{DAY_TIME}' => isset($dayData['time']) ? $dayData['time'] : '18:00',
