@@ -14,7 +14,7 @@ if (isset($_POST['message']['entities'])) {
         if ($_POST['message']['entities'][$i]['type'] === 'bot_command') continue;
 
 
-        $adjustOffset = substr_count($_POST['message']['text'], '\n', 0, $_POST['message']['entities'][$i]['offset']);
+        $adjustOffset = substr_count($_POST['message']['text'], '\\n', 0, $_POST['message']['entities'][$i]['offset']);
 
         $output['message'] .= $offset . ' - ' . $adjustOffset . "\r\n";
 
