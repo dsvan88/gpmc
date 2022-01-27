@@ -1,6 +1,6 @@
 <?
 $promoText = trim(mb_substr($_POST['message']['text'], $commandLen + 1, NULL, 'UTF-8'));
-$output['message'] = json_encode($_POST['message'], JSON_UNESCAPED_UNICODE);
+
 if (isset($_POST['message']['entities'])) {
 
     $newString = '';
@@ -35,7 +35,8 @@ $array = [
     'type' => 'tg-promo'
 ];
 
-$output['message'] .= '\r\n';
+$output['message'] = json_encode($_POST, JSON_UNESCAPED_UNICODE);
+$output['message'] .= "\r\n";
 $output['message'] .= json_encode($array, JSON_UNESCAPED_UNICODE);
 
 /* 
