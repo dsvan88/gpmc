@@ -4,6 +4,7 @@ preg_match('/(.*?)\n(.*?)\n([^`]*)/', $promoText, $matches);
 
 $entities = [];
 if (isset($_POST['message']['entities'])) {
+
     $newString = '';
     $offset = 0;
     $formattings = [
@@ -12,10 +13,10 @@ if (isset($_POST['message']['entities'])) {
     ];
     for ($i = 0; $i < count($_POST['message']['entities']); $i++) {
         if ($_POST['message']['entities'][$i]['type'] === 'bot_command') continue;
-        $output['message'] .= $formattings[$_POST['message']['entities'][$i]['type']] . "\r\n";
-        $newString .= mb_substr($_POST['message']['text'], $offset, $_POST['message']['entities'][$i]['offset'], 'UTF-8');
-        $newString .= "<{$formattings[$_POST['message']['entities'][$i]['type']]}>" . mb_substr($_POST['message']['text'], $_POST['message']['entities'][$i]['offset'], $_POST['message']['entities'][$i]['length'], 'UTF-8') . "</{$formattings[$_POST['message']['entities'][$i]['type']]}>";
-        $offset = $_POST['message']['entities'][$i]['offset'] + $_POST['message']['entities'][$i]['length'];
+        $adjustOffset = substr_count($_POST['message']['text'], "\n", 0, $_POST['message']['entities'][$i]['offset']);
+        $newString .= mb_substr($_POST['message']['text'], $offset + $adjustOffset, $_POST['message']['entities'][$i]['offset'], 'UTF-8');
+        $newString .= "<{$formattings[$_POST['message']['entities'][$i]['type']]}>" . mb_substr($_POST['message']['text'], $_POST['message']['entities'][$i]['offset'] + $adjustOffset, $_POST['message']['entities'][$i]['length'], 'UTF-8') . "</{$formattings[$_POST['message']['entities'][$i]['type']]}>";
+        $offset = $_POST['message']['entities'][$i]['offset'] + $adjustOffset + $_POST['message']['entities'][$i]['length'];
     }
     if ($newString !== '')
         $output['message'] .= $newString;
