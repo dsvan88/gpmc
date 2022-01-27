@@ -25,7 +25,6 @@ if (!isset($userData['id'])) {
         'duration' => '',
         'dayNum' => -1,
         'userId' => 0,
-        // 'userName' => $userRegData['name'],
         'userStatus' => $userData['status']
     ];
 
