@@ -28,6 +28,6 @@ if (isset($_POST['message']['entities'])) {
 $output['message'] .= "\r\n";
 $output['message'] .= json_encode($matches, JSON_UNESCAPED_UNICODE);
 $output['message'] .= "\r\n";
-$output['message'] .= $_POST['message']['text'];
-$output['message'] .= "\r\n";
 $output['message'] .= json_encode($_POST, JSON_UNESCAPED_UNICODE);
+$output['message'] .= "\r\n";
+$output['message'] .= $_POST['message']['text'];
