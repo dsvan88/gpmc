@@ -1,5 +1,6 @@
 <?
 $promoText = trim(mb_substr($_POST['message']['text'], $commandLen + 1, NULL, 'UTF-8'));
+$output['message'] = json_encode($_POST['message'], JSON_UNESCAPED_UNICODE);
 if (isset($_POST['message']['entities'])) {
 
     $newString = '';
@@ -26,6 +27,7 @@ if (isset($_POST['message']['entities'])) {
 }
 preg_match('/(.*?)\n(.*?)\n([^`]*)/', $promoText, $matches);
 
+
 $array = [
     'title' => isset($matches[1]) ? $matches[1] : '',
     'subtitle' => isset($matches[2]) ? $matches[2] : '',
@@ -33,6 +35,10 @@ $array = [
     'type' => 'tg-promo'
 ];
 
+$output['message'] .= '\r\n';
+$output['message'] .= json_encode($array, JSON_UNESCAPED_UNICODE);
+
+/* 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.news.php';
 $news = new News();
 
@@ -41,6 +47,6 @@ if ($newsData) {
     $result = $news->newsUpdate($array, (int) $newsData[0]['id']);
 } else {
     $result = $news->newsCreate($array);
-}
+} */
 
-$output['message'] = 'Промо-блок, успішно збережений!';
+// $output['message'] = 'Промо-блок, успішно збережений!';
