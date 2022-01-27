@@ -18,13 +18,11 @@ if (isset($_POST['message']['entities'])) {
     for ($i = 0; $i < count($_POST['message']['entities']); $i++) {
         if ($_POST['message']['entities'][$i]['type'] === 'bot_command') continue;
 
+        $tempString = mb_substr($_POST['message']['text'], 0, $_POST['message']['entities'][$i]['offset'], 'UTF-8');
 
-        $adjustOffset = substr_count($_POST['message']['text'], "\n", 0, $_POST['message']['entities'][$i]['offset']);
-
-        $output['message'] .= substr($_POST['message']['text'], 0, $_POST['message']['entities'][$i]['offset']);
+        $adjustOffset = mb_substr_count($_POST['message']['text'], "\n", 'UTF-8');
 
         $output['message'] .= $offset . ' - ' . $adjustOffset . "\r\n";
-
 
         $newString .= mb_substr($_POST['message']['text'], $offset + $adjustOffset, $_POST['message']['entities'][$i]['offset'], 'UTF-8');
         $newString .= "<{$formattings[$_POST['message']['entities'][$i]['type']]}>" . mb_substr($_POST['message']['text'], $_POST['message']['entities'][$i]['offset'] + $adjustOffset, $_POST['message']['entities'][$i]['length'], 'UTF-8') . "</{$formattings[$_POST['message']['entities'][$i]['type']]}>";
@@ -34,9 +32,9 @@ if (isset($_POST['message']['entities'])) {
         $output['message'] .= $newString;
 }
 
-if (!$test) {
-    print_r($output);
-}
+// if (!$test) {
+print_r($output);
+// }
 
 /* $output['message'] .= "\r\n";
 $output['message'] .= json_encode($matches, JSON_UNESCAPED_UNICODE);
