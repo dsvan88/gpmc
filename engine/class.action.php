@@ -382,7 +382,7 @@ class Action
 			}
 			$this->rowInsert($array, SQL_TBLSETTINGS);
 		}
-		if ($this->getColumn($this->query('SELECT COUNT (id) FROM ' . SQL_TBLNEWS)) < 1) {
+		if ($this->getColumn($this->query('SELECT COUNT (id) FROM ' . SQL_TBLNEWS . ' WHERE type = tg-promo')) < 1) {
 			$news = ['title' => 'Promo-block', 'subtitle' => 'Рекламное оповещение', 'html' => 'Тут могла быть ваша реклама;)', 'type' => 'tg-promo'];
 			$this->rowInsert($news, SQL_TBLNEWS);
 		}
