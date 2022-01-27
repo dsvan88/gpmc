@@ -12,6 +12,7 @@ if (isset($_POST['message']['entities'])) {
     ];
     for ($i = 0; $i < count($_POST['message']['entities']); $i++) {
         if ($_POST['message']['entities'][$i]['type'] === 'bot_command') continue;
+        $output['message'] .= $formattings[$_POST['message']['entities'][$i]['type']] . "\r\n";
         $newstring .= mb_substr($_POST['message']['text'], $offset, $_POST['message']['entities'][$i]['offset'], 'UTF-8');
         $newstring .= "<{$formattings[$_POST['message']['entities'][$i]['type']]}>" . mb_substr($_POST['message']['text'], $_POST['message']['entities'][$i]['offset'], $_POST['message']['entities'][$i]['length'], 'UTF-8') . "</{$formattings[$_POST['message']['entities'][$i]['type']]}>";
         $offset = $_POST['message']['entities'][$i]['offset'] + $_POST['message']['entities'][$i]['length'];
