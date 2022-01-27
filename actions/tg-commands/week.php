@@ -85,7 +85,7 @@ foreach ($weeksData as $weekData) {
                 $modsData = " (<i>$modsData</i>)";
             $output['message'] .= ($x + 1) . ". <b>{$weekData['data'][$i]['participants'][$x]['name']}</b>{$modsData}\r\n";
         }
-        $output['message'] .= "____\r\n";
+        $output['message'] .= "___________________________\r\n\r\n";
     }
 }
 
@@ -95,10 +95,12 @@ if ($output['message'] === '') {
 
 $promoData = $news->newsGetAllByType('tg-promo');
 if ($promoData) {
-    $promoData = $promoData[0];
-    $message = "<u><b>$promoData[title]</b></u>\r\n<i>$promoData[subtitle]</i>\r\n\r\n";
-    $message .= preg_replace('/(<((?!b|u|s|strong|em|i|\/b|\/u|\/s|\/strong|\/em|\/i)[^>]+)>)/i', '', str_replace(['<br />', '<br/>', '<br>', '</p>'], "\r\n", trim($promoData['html'])));
-    $output['message'] .= "___________\r\n\r\n$message";
+    if ($promoData[0]['title'] !== '') {
+        $promoData = $promoData[0];
+        $message = "<u><b>$promoData[title]</b></u>\r\n<i>$promoData[subtitle]</i>\r\n\r\n";
+        $message .= preg_replace('/(<((?!b|u|s|strong|em|i|\/b|\/u|\/s|\/strong|\/em|\/i)[^>]+)>)/i', '', str_replace(['<br />', '<br/>', '<br>', '</p>'], "\r\n", trim($promoData['html'])));
+        $output['message'] .= "\r\n$message";
+    }
 }
 
 if (!isset($_POST['message'])) {
