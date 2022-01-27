@@ -85,7 +85,7 @@ foreach ($weeksData as $weekData) {
                 $modsData = " (<i>$modsData</i>)";
             $output['message'] .= ($x + 1) . ". <b>{$weekData['data'][$i]['participants'][$x]['name']}</b>{$modsData}\r\n";
         }
-        $output['message'] .= "___________________________\r\n\r\n";
+        $output['message'] .= "___________________________\r\n";
     }
 }
 
