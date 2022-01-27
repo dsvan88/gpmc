@@ -52,6 +52,7 @@ $array = [
 
 if ($test) {
     var_dump($output);
+    file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-message.txt', print_r($_POST['message'], true));
     file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-error.txt', print_r($array, true));
 }
 /* 
