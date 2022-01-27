@@ -3,13 +3,21 @@ $promoText = trim(mb_substr($_POST['message']['text'], $commandLen + 1, NULL, 'U
 preg_match('/(.*?)\n(.*?)\n([^`]*)/', $promoText, $matches);
 
 $entities = [];
-for ($i = 0; $i < count($_POST['message']['entities']); $i++) {
-    if ($_POST['message']['entities'][$i]['type'] === 'bot_command') continue;
-    $entities[$_POST['message']['entities'][$i]['type']] = [
-        'offset' => $_POST['message']['entities'][$i]['offset'],
-        'length' => $_POST['message']['entities'][$i]['length'],
-        'text' => mb_substr($_POST['message']['text'], $_POST['message']['entities'][$i]['offset'], $_POST['message']['entities'][$i]['length'])
+if (isset($_POST['message']['entities'])) {
+    $newString = '';
+    $offset = 0;
+    $formattings = [
+        'bold' => 'b',
+        'italic' => 'i',
     ];
+    for ($i = 0; $i < count($_POST['message']['entities']); $i++) {
+        if ($_POST['message']['entities'][$i]['type'] === 'bot_command') continue;
+        $newstring .= mb_substr($_POST['message']['text'], $offset, $_POST['message']['entities'][$i]['offset'], 'UTF-8');
+        $newstring .= "<{$formattings[$_POST['message']['entities'][$i]['type']]}>" . mb_substr($_POST['message']['text'], $_POST['message']['entities'][$i]['offset'], $_POST['message']['entities'][$i]['length'], 'UTF-8') . "</{$formattings[$_POST['message']['entities'][$i]['type']]}>";
+        $offset = $_POST['message']['entities'][$i]['offset'] + $_POST['message']['entities'][$i]['length'];
+    }
+    if ($newString !== '')
+        $output['message'] .= $newString;
 }
 
 $output['message'] .= json_encode($entities, JSON_UNESCAPED_UNICODE);
