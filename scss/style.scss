@@ -58,12 +58,12 @@ body {
 		align-items: center;
 		box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.5);
 		font-size: 1.3em;
-		z-index: 2;
+		z-index: 1;
 		&__logo {
 			margin-right: 5vw;
 			height: 100%;
 			// filter: drop-shadow(10px -5px 1rem #ecb0b0);
-			filter: drop-shadow(10px -5px 1rem #d90000);
+			filter: drop-shadow(10px -5px 5px #d90000);
 			img {
 				height: 100%;
 			}
@@ -182,8 +182,8 @@ body {
 			font-size: 2em;
 			&.menu-hide {
 				position: absolute;
-				top: 20px;
-				left: 15px;
+				top: 1em;
+				left: 1em;
 			}
 			&.menu-show {
 				margin: 0px 15px;
@@ -213,6 +213,8 @@ body {
 				top: 0;
 				left: -100%;
 				background-color: $bg-color-dark;
+				z-index: 1;
+				transition: left $animation-fast ease-in-out;
 				&-item {
 					margin: 5px 20px;
 					font-size: 1.5em;
