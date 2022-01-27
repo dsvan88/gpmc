@@ -14,7 +14,7 @@ if (isset($_POST['message']['entities'])) {
             continue;
         }
         $newString .= mb_substr($_POST['message']['text'], $offset, $_POST['message']['entities'][$i]['offset'] - $offset, 'UTF-8');
-        $newString .= "<{$formattings[$_POST['message']['entities'][$i]['type']]}>" . mb_substr($_POST['message']['text'], $_POST['message']['entities'][$i]['offset'], $_POST['message']['entities'][$i]['length'], 'UTF-8') . "</{$formattings[$_POST['message']['entities'][$i]['type']]}>";
+        $newString .= "<{$formattings[$_POST['message']['entities'][$i]['type']]}>" . trim(mb_substr($_POST['message']['text'], $_POST['message']['entities'][$i]['offset'], $_POST['message']['entities'][$i]['length'], 'UTF-8')) . "</{$formattings[$_POST['message']['entities'][$i]['type']]}>";
         $offset = $_POST['message']['entities'][$i]['offset'] + $_POST['message']['entities'][$i]['length'];
     }
     $newString .= mb_substr($_POST['message']['text'], $offset, null, 'UTF-8');
