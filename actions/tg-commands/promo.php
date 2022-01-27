@@ -8,6 +8,7 @@ if (isset($_POST['message']['entities'])) {
     $formattings = [
         'bold' => 'b',
         'italic' => 'i',
+        'strikethrough' => 's',
     ];
     for ($i = 0; $i < count($_POST['message']['entities']); $i++) {
         if ($_POST['message']['entities'][$i]['type'] === 'bot_command') {
@@ -37,7 +38,7 @@ $array = [
 
 $output['message'] = json_encode($_POST, JSON_UNESCAPED_UNICODE);
 $output['message'] .= "\r\n";
-// $output['message'] .= json_encode($array, JSON_UNESCAPED_UNICODE);
+$output['message'] .= json_encode($array, JSON_UNESCAPED_UNICODE);
 
 /* 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.news.php';
