@@ -29,7 +29,7 @@ preg_match('/(.*?)\n(.*?)\n([^`]*)/', $promoText, $matches);
 $array = [
     'title' => isset($matches[1]) ? $matches[1] : '',
     'subtitle' => isset($matches[2]) ? $matches[2] : '',
-    'html' => isset($matches[3]) ? $matches[3] : '',
+    'html' => isset($matches[3]) ? str_replace("\n", '</br>', $matches[3]) : '',
     'type' => 'tg-promo'
 ];
 
