@@ -1,0 +1,7 @@
+Array
+(
+    [title] =>  тест <b>тайтл</b>
+    [subtitle] => тест <i>субтайтл</i>
+    [html] => Тест <b>текста</b>, <i>строка</i> 1</br>Text test, string 2</br>Тест текста, <s>строка</s> 3
+    [type] => tg-promo
+)
