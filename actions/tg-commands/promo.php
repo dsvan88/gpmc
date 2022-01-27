@@ -1,12 +1,5 @@
 <?
-if (!isset($_POST['message'])) {
-    $_POST = json_decode('{"update_id":314931246,"message":{"message_id":626,"from":{"id":900669168,"is_bot":false,"first_name":"Dmytro","last_name":"Vankevych","username":"dsvan88","language_code":"ru"},"chat":{"id":900669168,"first_name":"Dmytro","last_name":"Vankevych","username":"dsvan88","type":"private"},"date":1643312770,"text":"\/promo тест тайтл\nтест субтайтл\nТест текста, строка 1\nText test, string 2\nТест текста, строка 3","entities":[{"offset":0,"length":6,"type":"bot_command"},{"offset":12,"length":5,"type":"bold"},{"offset":23,"length":8,"type":"italic"},{"offset":37,"length":6,"type":"bold"},{"offset":45,"length":6,"type":"italic"}]}}', true);
-    $test = true;
-}
-
 $promoText = trim(mb_substr($_POST['message']['text'], $commandLen + 1, NULL, 'UTF-8'));
-preg_match('/(.*?)\n(.*?)\n([^`]*)/', $promoText, $matches);
-
 if (isset($_POST['message']['entities'])) {
 
     $newString = '';
@@ -16,29 +9,38 @@ if (isset($_POST['message']['entities'])) {
         'italic' => 'i',
     ];
     for ($i = 0; $i < count($_POST['message']['entities']); $i++) {
-        if ($_POST['message']['entities'][$i]['type'] === 'bot_command') continue;
-
-        $tempString = mb_substr($_POST['message']['text'], 0, $_POST['message']['entities'][$i]['offset'], 'UTF-8');
-
-        $adjustOffset = mb_substr_count($_POST['message']['text'], "\n", 'UTF-8');
-
-        $output['message'] .= $offset . ' - ' . $adjustOffset . "\r\n";
-
-        $newString .= mb_substr($_POST['message']['text'], $offset + $adjustOffset, $_POST['message']['entities'][$i]['offset'], 'UTF-8');
-        $newString .= "<{$formattings[$_POST['message']['entities'][$i]['type']]}>" . mb_substr($_POST['message']['text'], $_POST['message']['entities'][$i]['offset'] + $adjustOffset, $_POST['message']['entities'][$i]['length'], 'UTF-8') . "</{$formattings[$_POST['message']['entities'][$i]['type']]}>";
-        $offset = $_POST['message']['entities'][$i]['offset'] + $adjustOffset + $_POST['message']['entities'][$i]['length'];
+        if ($_POST['message']['entities'][$i]['type'] === 'bot_command') {
+            $offset = $_POST['message']['entities'][$i]['offset'] + $_POST['message']['entities'][$i]['length'];
+            continue;
+        }
+        $newString .= mb_substr($_POST['message']['text'], $offset, $_POST['message']['entities'][$i]['offset'] - $offset, 'UTF-8');
+        $newString .= "<{$formattings[$_POST['message']['entities'][$i]['type']]}>" . mb_substr($_POST['message']['text'], $_POST['message']['entities'][$i]['offset'], $_POST['message']['entities'][$i]['length'], 'UTF-8') . "</{$formattings[$_POST['message']['entities'][$i]['type']]}>";
+        $offset = $_POST['message']['entities'][$i]['offset'] + $_POST['message']['entities'][$i]['length'];
     }
+    $newString .= mb_substr($_POST['message']['text'], $offset, null, 'UTF-8');
+
+    $newString = preg_replace(['/\-\-(.*)\-\-/', '/\~\~(.*)\~\~/'], ['<s>$1</s>', '<u>$1</u>'], $newString);
+
     if ($newString !== '')
-        $output['message'] .= $newString;
+        $promoText = $newString;
+}
+preg_match('/(.*?)\n(.*?)\n([^`]*)/', $promoText, $matches);
+
+$array = [
+    'title' => isset($matches[1]) ? $matches[1] : '',
+    'subtitle' => isset($matches[2]) ? $matches[2] : '',
+    'html' => isset($matches[3]) ? $matches[3] : '',
+    'type' => 'tg-promo'
+];
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.news.php';
+$news = new News();
+
+$newsData = $news->newsGetAllByType('tg-promo');
+if ($newsData) {
+    $result = $news->newsUpdate($array, (int) $newsData[0]['id']);
+} else {
+    $result = $news->newsCreate($array);
 }
 
-// if (!$test) {
-print_r($output);
-// }
-
-/* $output['message'] .= "\r\n";
-$output['message'] .= json_encode($matches, JSON_UNESCAPED_UNICODE);
-$output['message'] .= "\r\n";
-$output['message'] .= json_encode($_POST, JSON_UNESCAPED_UNICODE);
-$output['message'] .= "\r\n";
-$output['message'] .= $_POST['message']['text']; */
+$output['message'] = 'Промо-блок, успішно збережений!';
