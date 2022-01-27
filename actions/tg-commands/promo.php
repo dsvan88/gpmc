@@ -37,7 +37,7 @@ $array = [
 
 $output['message'] = json_encode($_POST, JSON_UNESCAPED_UNICODE);
 $output['message'] .= "\r\n";
-$output['message'] .= json_encode($array, JSON_UNESCAPED_UNICODE);
+// $output['message'] .= json_encode($array, JSON_UNESCAPED_UNICODE);
 
 /* 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.news.php';
