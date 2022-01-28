@@ -324,7 +324,7 @@ class Weeks
 	public function dayRecall($data)
 	{
 		$weekData = $this->getDataById($data['weekId']);
-		if (!isset($weekData['data'][$data['dayNum']]) || isset($weekData['data'][$data['dayNum']]['status']) && $weekData['data'][$data['dayNum']]['status'] === 'recalled') {
+		if (!isset($weekData['data'][$data['dayNum']]) || $weekData['data'][$data['dayNum']]['status'] === 'recalled') {
 			return false;
 		}
 		$weekData['data'][$data['dayNum']]['status'] = 'recalled';

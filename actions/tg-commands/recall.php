@@ -57,6 +57,5 @@ if (!isset($userData['id'])) {
             }
         }
     }
-
     $output['message'] .= $weeks->dayRecallByTelegram($requestData);
 }
