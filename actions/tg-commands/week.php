@@ -49,7 +49,7 @@ foreach ($weeksData as $weekData) {
         $format = "d.m.Y {$weekData['data'][$i]['time']}";
         $dayDate = strtotime(date($format, $weekData['start'] + TIMESTAMP_DAY * $i));
 
-        if ($_SERVER['REQUEST_TIME'] > $dayDate + DATE_MARGE || $weekData['data'][$i]['status'] === 'recalled') {
+        if ($_SERVER['REQUEST_TIME'] > $dayDate + DATE_MARGE || isset($weekData['data'][$i]['status']) && $weekData['data'][$i]['status'] === 'recalled') {
             continue;
         }
 

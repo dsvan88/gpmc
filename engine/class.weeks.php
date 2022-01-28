@@ -91,6 +91,7 @@ class Weeks
 			'game' => 'mafia',
 			'mods' => [],
 			'time' => '18:00',
+			'status' => '',
 			'participants' => []
 		];
 	}
@@ -316,7 +317,7 @@ class Weeks
 	public function dayRecall($data)
 	{
 		$weekData = $this->getDataById($data['weekId']);
-		if (!isset($weekData['data'][$data['dayNum']])) {
+		if (!isset($weekData['data'][$data['dayNum']]) || isset($weekData['data'][$data['dayNum']]['status']) && $weekData['data'][$data['dayNum']]['status'] === 'recalled') {
 			return false;
 		}
 		$weekData['data'][$data['dayNum']]['status'] = 'recalled';
@@ -328,13 +329,13 @@ class Weeks
 		if ($data['dayNum'] >= $data['currentDay']) {
 			$result = $this->dayRecall(['weekId' => $currentWeekId, 'dayNum' => $data['dayNum']]);
 			if (!$result)
-				return 'Не знайдено відповідного дня, серед запланованих.1';
+				return 'Не знайдено відповідного дня, серед запланованих.';
 			return 'Успішно відмінено';
 		} else {
 			$weeksData = $this->getNearWeeksDataByTime();
 			$weekId = -1;
 			if (count($weeksData) < 2)
-				return 'Не знайдено відповідного дня, серед запланованих.2';
+				return 'Не знайдено відповідного дня, серед запланованих.';
 
 			for ($i = 1; $i < count($weeksData); $i++) {
 				if (isset($weeksData[$i]['data'][$data['dayNum']])) {
@@ -343,12 +344,12 @@ class Weeks
 			}
 
 			if ($weekId === -1) {
-				return 'Не знайдено відповідного дня, серед запланованих.3';
+				return 'Не знайдено відповідного дня, серед запланованих.';
 			}
 
 			$result = $this->dayRecall(['weekId' => $weekId, 'dayNum' => $data['dayNum']]);
 			if (!$result)
-				return 'Не знайдено відповідного дня, серед запланованих.4';
+				return 'Не знайдено відповідного дня, серед запланованих.';
 			return 'Успішно відмінено';
 		}
 	}
