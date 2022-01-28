@@ -25,7 +25,7 @@ $telegramId = $_POST['message']['from']['id'];
 
 $userData = $users->usersGetData(['id', 'status'], ['telegramid' => $telegramId]);
 if (in_array($userData['status'], ['admin', 'manager'])) {
-    $output['message'] .= "\r\nКоманды админа:
+    $output['message'] .= "\r\n<b><u>Команды админа</u></b>:
     <u>/reg</u> <i>// зарегистрировать игрока на указанный день, пример:</i>
 /reg +вс, Псевдоним, 18:00, 1-2 игры
     
