@@ -16,16 +16,16 @@ $output['message'] = "<i>Инструкция к боту</i>.\r\n
     <u>/nick Ваш псевдоним</u> (кириллицей) <i>// Зарегистрировать свой псевдоним</i>
     <u>/?</u> или <u>/help</u> <i>// Это меню</i>
 ";
-// if ($_POST['message']['chat']['type'] === 'private') {
-require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.users.php';
+if ($_POST['message']['chat']['type'] === 'private') {
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.users.php';
 
-$users = new Users;
+    $users = new Users;
 
-$telegramId = $_POST['message']['from']['id'];
+    $telegramId = $_POST['message']['from']['id'];
 
-$userData = $users->usersGetData(['id', 'status'], ['telegramid' => $telegramId]);
-if (in_array($userData['status'], ['admin', 'manager'])) {
-    $output['message'] .= "\r\n<b><u>Команды админа</u></b>:
+    $userData = $users->usersGetData(['id', 'status'], ['telegramid' => $telegramId]);
+    if (in_array($userData['status'], ['admin', 'manager'])) {
+        $output['message'] .= "\r\n<b><u>Команды админа</u></b>:
     <u>/reg</u> <i>// зарегистрировать игрока на указанный день, пример:</i>
 /reg +вс, Псевдоним, 18:00, 1-2 игры
     
@@ -37,5 +37,5 @@ if (in_array($userData['status'], ['admin', 'manager'])) {
 Подзголовок
 Или - тут могла быть, Ваша <b>Реклама</b><i>:)</i>
 ";
+    }
 }
-// }
