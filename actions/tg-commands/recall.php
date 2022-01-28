@@ -23,11 +23,12 @@ if (!isset($userData['id'])) {
     if ($requestData['currentDay'] === -1)
         $requestData['currentDay'] = 6;
 
-    if (count($matches[0]) > 0) {
+    if (count($args) > 0) {
 
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            if (preg_match_all('/^(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос|сг|сег|зав)/', trim(mb_strtolower(str_replace(' на ', '', $matches[0][$i])), 'UTF-8'), $daysPattern) !== 0) {
+        for ($i = 0; $i < count($args); $i++) {
+            if (preg_match_all('/^(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос|сг|сег|зав)/', trim(mb_strtolower(str_replace(' на ', '', $args[$i])), 'UTF-8'), $daysPattern) !== 0) {
                 $dayName = $daysPattern[1];
+                $output['message'] .= json_encode($daysPattern, JSON_UNESCAPED_UNICODE);
                 break;
             }
         }
@@ -57,5 +58,5 @@ if (!isset($userData['id'])) {
         }
     }
 
-    $output['message'] = json_encode($requestData, JSON_UNESCAPED_UNICODE);
+    $output['message'] .= json_encode($requestData, JSON_UNESCAPED_UNICODE);
 }
