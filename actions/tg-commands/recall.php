@@ -57,6 +57,5 @@ if (!isset($userData['id'])) {
             }
         }
     }
-
-    $output['message'] .= json_encode($requestData, JSON_UNESCAPED_UNICODE);
+    $output['message'] .= $week->dayRecallByTelegram($requestData['dayNum']);
 }

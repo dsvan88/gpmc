@@ -1,5 +1,4 @@
 <?
-
 $contentType = isset($_SERVER['CONTENT_TYPE']) ? trim($_SERVER['CONTENT_TYPE']) : '';
 if (strpos($contentType, 'application/json') !==  false) {
     $data = trim(file_get_contents('php://input'));

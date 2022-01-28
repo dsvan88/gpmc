@@ -313,4 +313,43 @@ class Weeks
 			return [$cId, $wIds, $wIdsInList, $this->getDataDefault()];
 		}
 	}
+	public function dayRecall($data)
+	{
+		$weekData = $this->getDataById($data['weekId']);
+		if (!isset($weekData['data'][$data['dayNum']])) {
+			return false;
+		}
+		$weekData['data'][$data['dayNum']]['status'] = 'recalled';
+		return $this->action->rowUpdate(['data' => json_encode($weekData['data'])], ['id' => $data['weekId']], SQL_TBLWEEKS);
+	}
+	public function dayRecallByTelegram($data)
+	{
+		$currentWeekId = $this->getCurrentId();
+		if ($data['dayNum'] > $data['currentDay']) {
+			$result = $this->dayRecall(['weekId' => $currentWeekId, 'dayNum' => $data['dayNum']]);
+			if (!$result)
+				return 'Не знайдено відповідного дня, серед запланованих.';
+			return 'Успішно відмінено';
+		} else {
+			$weeksData = $this->getNearWeeksDataByTime();
+			$weekId = -1;
+			if (count($weeksData) < 2)
+				return 'Не знайдено відповідного дня, серед запланованих.';
+
+			for ($i = 1; $i < count($weeksData); $i++) {
+				if (isset($weeksData[$i]['data'][$data['dayNum']])) {
+					$weekId = $weeksData[$i]['id'];
+				}
+			}
+
+			if ($weekId === -1) {
+				return 'Не знайдено відповідного дня, серед запланованих.';
+			}
+
+			$result = $this->dayRecall(['weekId' => $weekId, 'dayNum' => $data['dayNum']]);
+			if (!$result)
+				return 'Не знайдено відповідного дня, серед запланованих.';
+			return 'Успішно відмінено';
+		}
+	}
 }
