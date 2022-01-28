@@ -58,6 +58,6 @@ if (!isset($userData['id'])) {
         }
     }
 
-    $output['message'] .= json_encode($requestData);
+    // $output['message'] .= json_encode($requestData);
     $output['message'] .= $weeks->dayRecallByTelegram($requestData);
 }

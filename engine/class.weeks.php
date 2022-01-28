@@ -325,7 +325,7 @@ class Weeks
 	public function dayRecallByTelegram($data)
 	{
 		$currentWeekId = $this->getCurrentId();
-		if ($data['dayNum'] > $data['currentDay']) {
+		if ($data['dayNum'] >= $data['currentDay']) {
 			$result = $this->dayRecall(['weekId' => $currentWeekId, 'dayNum' => $data['dayNum']]);
 			if (!$result)
 				return 'Не знайдено відповідного дня, серед запланованих.1';
