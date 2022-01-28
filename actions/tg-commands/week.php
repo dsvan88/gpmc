@@ -1,14 +1,7 @@
 <?php
 if (!isset($_POST['message'])) {
     require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.action.php';
-    require $_SERVER['DOCUMENT_ROOT'] . '/engine/class.settings.php';
-
     $GLOBALS['CommonActionObject'] = new Action;
-
-    // require $_SERVER['DOCUMENT_ROOT'] . '/engine/class.bot.php';
-
-    $GLOBALS['CommonActionObject'] = new Action;
-    $settings = new Settings();
 }
 require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.weeks.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/engine/class.news.php';
