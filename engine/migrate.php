@@ -13,7 +13,8 @@ $action->query(
     )
 ); */
 
-$weeksData = $action->getAssocArray(
+// Обработка данных недели - добавление/удаление каких-то данных из недели
+/* $weeksData = $action->getAssocArray(
     $action->query(
         str_replace(
             '{SQL_TBLWEEKS}',
@@ -37,7 +38,7 @@ foreach ($weeksData as $weekData) {
     echo '<br>';
 
     $action->rowUpdate($weekData, ['id' => $weekId], SQL_TBLWEEKS);
-}
+} */
 
 
 // Удалить неделю и сбросить идентификаторы недель

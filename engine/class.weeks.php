@@ -112,6 +112,7 @@ class Weeks
 
 		if ($weekId > 0) {
 			$weekData['data'][$dayId] = $data;
+			$weekData['data'][$dayId]['status'] = '';
 			$result = $this->action->rowUpdate(['data' => json_encode($weekData['data'])], ['id' => $weekId], SQL_TBLWEEKS);
 			if ($result)
 				return $weekId;
@@ -171,6 +172,12 @@ class Weeks
 				$data['arrive'] = '';
 			}
 		} else {
+			if ($weekData['data'][$data['dayNum']]['status'] === 'recalled') {
+				if (!in_array($data['userStatus'], ['admin', 'manager']))
+					return 'Игр на указанный день, пока не запланировано!';
+				else
+					$weekData['data'][$data['dayNum']]['status'] = '';
+			}
 			foreach ($weekData['data'][$data['dayNum']]['participants'] as $index => $userData) {
 				if ($userData['id'] === $data['userId']) {
 					$id = $index;
