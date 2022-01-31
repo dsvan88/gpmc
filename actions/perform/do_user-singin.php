@@ -4,8 +4,9 @@ $user = new Users();
 
 $result = $user->login($_POST);
 
-if ($result !== true) {
+$output['text'] = "Вы успешно авторизованы.\r\nДобро пожаловать!";
+
+if (!$result) {
     $output['error'] = 1;
-    $output['text'] = $result;
-} else
-    $output['text'] = 'Користувач успішно авторізований!';
+    $output['text'] = 'Не верный логин или пароль! Проверьте их и попробуйте ещё раз!';
+}

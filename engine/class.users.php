@@ -10,12 +10,11 @@ class Users
 	}
 	public function login($data)
 	{
-		$data = [
-			'login' => strtolower(trim($data['login'])),
-			'password' => sha1(trim($data['password']))
-		];
-		$authData = $this->action->getAssoc($this->action->prepQuery(str_replace('{SQL_TBLUSERS}', SQL_TBLUSERS, 'SELECT * FROM {SQL_TBLUSERS} WHERE name ILIKE ? OR login = ? OR email = ? LIMIT 1'), array_fill(0, 3, $data['login'])));
-		if (password_verify($data['password'], $authData['password'])) {
+		$login = strtolower(trim($data['login']));
+		$password = sha1(trim($data['password']));
+
+		$authData = $this->action->getAssoc($this->action->prepQuery(str_replace('{SQL_TBLUSERS}', SQL_TBLUSERS, 'SELECT * FROM {SQL_TBLUSERS} WHERE name ILIKE ? OR login = ? OR email = ? LIMIT 1'), array_fill(0, 3, $login)));
+		if (password_verify($password, $authData['password'])) {
 			unset($authData['password']);
 			$_SESSION = $authData;
 			if ($_SESSION['status'] === '')
@@ -23,7 +22,7 @@ class Users
 			$this->prolongSession();
 			return true;
 		}
-		return 'Wrong login or password! Check it again!';
+		return false;
 	}
 	public function logout()
 	{
@@ -68,7 +67,6 @@ class Users
 	}
 	public function prolongSession()
 	{
-
 		$_SESSION['expire'] = $_SERVER['REQUEST_TIME'] + CFG_MAX_SESSION_AGE + (mt_rand(0, 3600) - 1800);
 		setcookie('_token', sha1(sha1($_SESSION['expire'] . $_SESSION['login'])));
 		return true;
