@@ -18,6 +18,8 @@ class Users
 		if (password_verify($data['password'], $authData['password'])) {
 			unset($authData['password']);
 			$_SESSION = $authData;
+			if ($_SESSION['status'] === '')
+				$_SESSION['status'] = 'user';
 			$this->prolongSession();
 			return true;
 		}

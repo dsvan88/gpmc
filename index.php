@@ -46,43 +46,14 @@ if (isset($_SESSION['id'])) {
 		$profileImage
 	</a>
 	<div class='header__profile-options'>
-		<label for='profile-menu-checkbox' class='header__profile-caret'>
-			<i class='fa fa-caret-down' id='drop-menu'></i>
-		</label>
-		<input type='checkbox' id='profile-menu-checkbox' class='header__profile-checkbox' autocomplete='off'>
-		<menu class='header__profile-menu'>
-			<li class='header__profile-menu-item'>
-				<span data-action='news-create-new-form'>Додати новину</span>
-				<div class='header__profile-menu-bar'></div>
-			</li>
-			<li class='header__profile-menu-item'>
-				<span data-action='news-edit-form' data-news-type='tg-promo'>Змінити Промо</span>
-				<div class='header__profile-menu-bar'></div>
-			</li>
-			<li class='header__profile-menu-item'>
-				<span data-action='settings-edit-form'>Налаштування</span>
-				<div class='header__profile-menu-bar'></div>
-			</li>
-			<li class='header__profile-menu-item'>
-				<span data-action='users-list-form'>Користувачі</span>
-				<div class='header__profile-menu-bar'></div>
-			</li>
-			<li class='header__profile-menu-item'>
-				<span data-action='user-profile-form'>Профіль</span>
-				<div class='header__profile-menu-bar'></div>
-			</li>
-			<li class='header__profile-menu-item'>
-				<a data-action='user-logout'>Вихід</a>
-				<div class='header__profile-menu-bar'></div>
-			</li>
-		</menu>
+		{PROFILE_MENU}
 	</div>";
-
+	$output['{PROFILE_MENU}'] = file_get_contents("$_SERVER[DOCUMENT_ROOT]/templates/layouts/header-profile-menu-$_SESSION[status].html");
 	/* <li class='header__profile-menu-item'>
 			<a href='/?page=near-evening'>Налаштувати вечір</a>
 			<div class='header__profile-menu-bar'></div>
 		</li> */
-	if (isset($_SESSION['id']) && $_SESSION['status'] === 'admin' && $users->checkToken()) {
+	if (isset($_SESSION['id']) && in_array($_SESSION['status'], ['admin', 'manager']) && $users->checkToken()) {
 		$output['{SCRIPTS}'] .= '<script defer type="text/javascript" src="js/get_script.php/?js=admin-func"></script>';
 	}
 } else
