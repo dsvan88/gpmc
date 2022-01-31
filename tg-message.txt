@@ -1,8 +1,0 @@
-Array
-(
-    [message] => Array
-        (
-            [text] => 
-        )
-
-)

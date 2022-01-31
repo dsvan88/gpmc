@@ -146,6 +146,9 @@ $modal-color: #4b9aff;
 	padding: 1em 2em;
 	&__title {
 		margin: 0.2em 1em 0.5em 1em;
+		background-color: #ffc85fd4;
+		border-radius: 15px;
+		padding: 0.15em;
 		text-align: center;
 	}
 	&__row {

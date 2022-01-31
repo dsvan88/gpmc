@@ -46,5 +46,3 @@ if ($newsData) {
 }
 
 $output['message'] = 'Промо-блок, успішно збережений!';
-file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-message.txt', print_r($_POST['message'], true));
-file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/tg-error.txt', print_r($array, true));
