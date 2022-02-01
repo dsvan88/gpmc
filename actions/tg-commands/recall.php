@@ -28,7 +28,6 @@ if (!isset($userData['id'])) {
         for ($i = 0; $i < count($args); $i++) {
             if (preg_match_all('/^(пн|пон|вт|ср|чт|чет|пт|пят|сб|суб|вс|вос|сг|сег|зав)/', trim(mb_strtolower(str_replace(' на ', '', $args[$i])), 'UTF-8'), $daysPattern) !== 0) {
                 $dayName = $daysPattern[1][0];
-                $output['message'] .= json_encode($daysPattern, JSON_UNESCAPED_UNICODE);
                 break;
             }
         }

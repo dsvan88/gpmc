@@ -336,13 +336,13 @@ class Weeks
 		if ($data['dayNum'] >= $data['currentDay']) {
 			$result = $this->dayRecall(['weekId' => $currentWeekId, 'dayNum' => $data['dayNum']]);
 			if (!$result)
-				return 'Не знайдено відповідного дня, серед запланованих.';
+				return 'Не знайдено відповідного дня, серед запланованих.1';
 			return 'Успішно відмінено';
 		} else {
 			$weeksData = $this->getNearWeeksDataByTime();
 			$weekId = -1;
 			if (count($weeksData) < 2)
-				return 'Не знайдено відповідного дня, серед запланованих.';
+				return 'Не знайдено відповідного дня, серед запланованих.2';
 
 			for ($i = 1; $i < count($weeksData); $i++) {
 				if (isset($weeksData[$i]['data'][$data['dayNum']])) {
@@ -356,7 +356,7 @@ class Weeks
 
 			$result = $this->dayRecall(['weekId' => $weekId, 'dayNum' => $data['dayNum']]);
 			if (!$result)
-				return 'Не знайдено відповідного дня, серед запланованих.';
+				return 'Не знайдено відповідного дня, серед запланованих.3';
 			return 'Успішно відмінено';
 		}
 	}
