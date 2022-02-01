@@ -42,7 +42,8 @@ foreach ($weeksData as $weekData) {
 
 
 // Удалить неделю и сбросить идентификаторы недель
-/* $action->rowDelete(4, SQL_TBLWEEKS);
+$action->rowDelete(4, SQL_TBLWEEKS);
+$action->rowDelete(5, SQL_TBLWEEKS);
 
 $weeksData = $action->getAssocArray(
     $action->query(
@@ -71,4 +72,4 @@ $weeksData = $action->getAssocArray(
             "SELECT data,start,finish FROM {SQL_TBLWEEKS} ORDER BY id"
         )
     )
-); */
+);
