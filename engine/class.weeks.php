@@ -156,6 +156,12 @@ class Weeks
 		if (!$weekData)
 			$weekData = $this->getDataByTime();
 
+		if ($weekData['id'] === -1) {
+			$checkId = $this->getCurrentId();
+			if (!$checkId)
+				return 'Прежде, чем планировать новую неделю - оформите что-то на этой!';
+		}
+
 		$id = -1;
 		if (!isset($weekData['data'][$data['dayNum']])) {
 			if (!in_array($data['userStatus'], ['admin', 'manager']))
