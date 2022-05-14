@@ -349,43 +349,7 @@ class Action
 		);
 
 
-		if (!$this->recordExists(['id' => 1], SQL_TBLUSERS)) {
-			$this->rowInsert([
-				'login' => 'admin',
-				'password' => '$2y$10$QXBH7fo4T152f.Tfy6zBwOZF54VdfX6uGhK7DAgm/kFXLS/gtI5zK', //admin1234
-				'status' => 'admin',
-				'admin' => '1'
-			], SQL_TBLUSERS);
-		}
-		if ($this->getColumn($this->query('SELECT COUNT (id) FROM ' . SQL_TBLSETTINGS)) < 1) {
-			$setting = [
-				['img', 'MainLogo', 'Основний логотип', '/css/images/gpmc_logo.png', '/css/images/gpmc_logo.png'],
-				['img', 'MainFullLogo', 'Логотип', '/css/images/gpmc_full_logo.png', '/css/images/gpmc_full_logo.png'],
-				['img', 'MainLogoMini', 'Основний логотип', '/css/images/gpmc_logo-mini.png', '/css/images/gpmc_logo-mini.png'],
-				['img', 'profile', 'Профиль', '/css/images/profile.png', '/css/images/profile.png'],
-				['img', 'male', 'Профиль', '/css/images/male.png', '/css/images/male.png'],
-				['img', 'female', 'Профиль', '/css/images/female.png', '/css/images/female.png'],
-				['img', 'empty_avatar', 'Нет аватара', '/css/images/empty_avatar.png', '/css/images/empty_avatar.png'],
-				['img', 'news_default', 'Новость', '/css/images/news_default.png', '/css/images/news_default.png'],
-				['point', 'win', 'Балы за победу', '1.0', '1.0'],
-				['point', 'bm', 'Лучший ход', '0.0,0.0,0.25,0.4', '0.0,0.0,0.25,0.4'],
-				['point', 'fk_sheriff', 'Отстрел шерифа первым', '0.3', '0.3'],
-				['point', 'maf_dops', 'Допы живым мафам', '0.0,0.3,0.15,0.3', '0.0,0.3,0.15,0.3'],
-				['point', 'mir_dops', 'Допы живым мирным', '0.0,0.0,0.15,0.1', '0.0,0.0,0.15,0.1'],
-				['point', 'fouls', 'Штраф за дискв. фол', '0.3', '0.3'],
-				['txt', 'about-game', 'Об игре', '<p>Клубная игра Мафия, в классическом исполнении поражает простотой и одновременной сложностью, ведь результат всегда зависит не только от личного вклада каждого отдельного игрока, но и в целом команды... а вот кто находится в твоей команде - интрига сохраняется до самого конца игры! Прокачайте свои навыки логики, дедукции, эмпатии, интуиции, да и телепатии, вместе с нами!', 'Клубная игра Мафия, в классическом исполнении поражает простотой и одновременной сложностью, ведь результат всегда зависит не только от личного вклада каждого отдельного игрока, но и в целом команды... а вот кто находится в твоей команде - интрига сохраняется до самого конца игры! Прокачайте свои навыки логики, дедукции, эмпатии, интуиции, да и телепатии, вместе с нами!</p>']
-			];
-			$array = [];
-			$keys = ['type', 'short_name',	'name',	'value', 'by_default'];
-			for ($i = 0; $i < count($setting); $i++) {
-				$array[] = array_combine($keys, $setting[$i]);
-			}
-			$this->rowInsert($array, SQL_TBLSETTINGS);
-		}
-		if ($this->getColumn($this->query('SELECT COUNT (id) FROM ' . SQL_TBLNEWS . ' WHERE type = tg-promo')) < 1) {
-			$news = ['title' => 'Promo-block', 'subtitle' => 'Рекламное оповещение', 'html' => 'Тут могла быть ваша реклама;)', 'type' => 'tg-promo'];
-			$this->rowInsert($news, SQL_TBLNEWS);
-		}
+		 
 
 		return true;
 	}

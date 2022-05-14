@@ -16,7 +16,7 @@ if (isset($userData['name']) && $userData['name'] !== 'tmp_telegram_user') {
         $users->userUpdateData(['telegram' => $telegram], ['id' => $userExistsData['id']]);
     }
 
-    $output['message'] = "Я уже запомнил Вас под именем <b>$userData[name]</b>!\r\nЕсли это не Вы - обратитесь к администраторам!";
+    $output['message'] = "Я уже запомнил Вас под именем <b>$userData[name]</b>!\r\nИсправления лишь через администраторов:(!";
 } else {
 
     $username = '';
@@ -41,7 +41,7 @@ if (isset($userData['name']) && $userData['name'] !== 'tmp_telegram_user') {
                 }
             } else {
                 $users->userUpdateData(['telegram' => $telegram, 'telegramid' => $telegramId], ['id' => $userExistsData['id']]);
-                $output['message'] = "Я запомнил Вас под именем <b>$username</b>!\r\nЕсли это не Ваш псевдоним - обратитесь к администраторам!";
+                $output['message'] = "Прятно познакомиться!\r\nМы запомнили Вас под псевдонимом <b>$username</b>!";
             }
             if (isset($userData['id'])) {
                 $users->userDelete($userData['id']);
@@ -52,7 +52,7 @@ if (isset($userData['name']) && $userData['name'] !== 'tmp_telegram_user') {
             } else {
                 $users->usersSaveNameFromTelegram(['name' => $username, 'telegram' => $telegram, 'telegramid' => $telegramId]);
             }
-            $output['message'] = "Я запомнил Вас под именем <b>$username</b>!\r\nЕсли это не Ваш псевдоним - обратитесь к администраторам!";
+            $output['message'] = "Я запомнил Вас под именем <b>$username</b>!";
         }
     }
 }

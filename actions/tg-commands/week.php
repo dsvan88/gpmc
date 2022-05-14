@@ -12,10 +12,10 @@ $news = new News;
 $weeksData = $weeks->getNearWeeksDataByTime();
 
 $gameNames = [
-    'mafia' => 'Мафия',
-    'poker' => 'Покер',
-    'board' => 'Настолки',
-    'cash' => 'Кеш-покер'
+    'mafia' => 'Мафия 🎭',
+    'poker' => 'Покер ♦️',
+    'board' => 'Настолки 🎲',
+    'cash' => 'Кеш-покер 🃏'
 ];
 
 $durations = [
